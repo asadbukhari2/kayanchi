@@ -102,84 +102,84 @@ import MySplashScreen from '../init-screens/SplashScreen';
 //   console.log("OneSignal: subscription changed to isSubscribed:", event.to.isSubscribed);
 // })
 
-// export default function Root() {
-//   //   OneSignal.addSubscriptionObserver(async (event) => {
-//   //     console.log("OneSignal: subscription changed to userId:", event.to.userId);
-//   //     if(event.to.userId){await AsyncStorage.setItem('oneSignalId', event.to.userId);}
-//   //   })
+export default function Root() {
+  //   OneSignal.addSubscriptionObserver(async (event) => {
+  //     console.log("OneSignal: subscription changed to userId:", event.to.userId);
+  //     if(event.to.userId){await AsyncStorage.setItem('oneSignalId', event.to.userId);}
+  //   })
 
-//   const [loader, setLoader] = useState(false);
-//   useEffect(() => {
-//     setTimeout(() => {
-//       setLoader(true);
-//     }, 500);
-//   }, []);
+  const [loader, setLoader] = useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoader(true);
+    }, 500);
+  }, []);
 
-//   const auth = useSelector(state => state.auth);
+  const auth = useSelector(state => state.auth);
 
-//   const accountCompleted = auth?.userDetails?.account_completed;
-//   const isArtist = auth?.userDetails?.isArtist === true;
-//   const isConsumer = auth?.userDetails?.isConsumer === true;
+  const accountCompleted = auth?.userDetails?.account_completed;
+  const isArtist = auth?.userDetails?.isArtist === true;
+  const isConsumer = auth?.userDetails?.isConsumer === true;
 
-//   // return auth?.token && accountCompleted && isArtist ? (
-//   //   <ArtistMainStack />
-//   // ) : auth?.token && accountCompleted && isConsumer ? (
-//   //   <ConsumerMainStack />
-//   // ) : !auth?.token && isArtist ? (
-//   //   <ArtistAuthStack />
-//   // ) : !auth?.token && isConsumer ? (
-//   //   <ConsumerAuthStack />
-//   // ) : (
-//   //   <InitStack />
-//   // );
-//   // return auth?.token && isArtist ? (
-//   //   <ArtistMainStack />
-//   // ) : auth?.token && isConsumer ? (
-//   //   <ConsumerMainStack />
-//   // ) : !auth?.token && isArtist ? (
-//   //   <ArtistAuthStack />
-//   // ) : !auth?.token && isConsumer ? (
-//   //   <ConsumerAuthStack />
-//   // ) : (
-//   //   <InitStack />
-//   // );
-
-//   return <MySplashScreen />;
-// }
-
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-
-import {SplashScreenAfter} from '../Screens';
-const Stack = createNativeStackNavigator();
-
-const Routes = () => {
-  return (
-    <Stack.Navigator
-      initialRouteName={'SplashScreen'}
-      screenOptions={{headerShown: false}}>
-      <Stack.Screen name={'SplashScreen'} component={MySplashScreen} />
-      <Stack.Screen
-        name="ConsumerMain"
-        component={ConsumerMainStack}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="ConsumerAuthStack"
-        component={ConsumerAuthStack}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="ArtistAuthStack"
-        component={ArtistAuthStack}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="ArtistMainStack"
-        component={ArtistMainStack}
-        options={{headerShown: false}}
-      />
-    </Stack.Navigator>
+  // return auth?.token && accountCompleted && isArtist ? (
+  //   <ArtistMainStack />
+  // ) : auth?.token && accountCompleted && isConsumer ? (
+  //   <ConsumerMainStack />
+  // ) : !auth?.token && isArtist ? (
+  //   <ArtistAuthStack />
+  // ) : !auth?.token && isConsumer ? (
+  //   <ConsumerAuthStack />
+  // ) : (
+  //   <InitStack />
+  // );
+  return auth?.token && isArtist ? (
+    <ArtistMainStack />
+  ) : auth?.token && isConsumer ? (
+    <ConsumerMainStack />
+  ) : !auth?.token && isArtist ? (
+    <ArtistAuthStack />
+  ) : !auth?.token && isConsumer ? (
+    <ConsumerAuthStack />
+  ) : (
+    <InitStack />
   );
-};
 
-export default Routes;
+  // return <MySplashScreen />;
+}
+
+// import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
+// import {SplashScreenAfter} from '../Screens';
+// const Stack = createNativeStackNavigator();
+
+// const Routes = () => {
+//   return (
+//     <Stack.Navigator
+//       initialRouteName={'SplashScreen'}
+//       screenOptions={{headerShown: false}}>
+//       <Stack.Screen name={'SplashScreen'} component={MySplashScreen} />
+//       <Stack.Screen
+//         name="ConsumerMain"
+//         component={ConsumerMainStack}
+//         options={{headerShown: false}}
+//       />
+//       <Stack.Screen
+//         name="ConsumerAuthStack"
+//         component={ConsumerAuthStack}
+//         options={{headerShown: false}}
+//       />
+//       <Stack.Screen
+//         name="ArtistAuthStack"
+//         component={ArtistAuthStack}
+//         options={{headerShown: false}}
+//       />
+//       <Stack.Screen
+//         name="ArtistMainStack"
+//         component={ArtistMainStack}
+//         options={{headerShown: false}}
+//       />
+//     </Stack.Navigator>
+//   );
+// };
+
+// export default Routes;
