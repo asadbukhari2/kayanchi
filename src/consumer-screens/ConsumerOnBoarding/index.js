@@ -1,20 +1,13 @@
-import React, {useRef} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {fonts, useTheme} from '../../utils/theme';
+import React, { useRef } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { fonts, useTheme } from '../../utils/theme';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import {Button, Header} from '../../components';
-import {height, heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {useDispatch} from 'react-redux';
-import {showMessage} from 'react-native-flash-message';
-import {saveUserData} from '../../redux/actions';
+import { Button, Header } from '../../components';
+import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { useDispatch } from 'react-redux';
+import { showMessage } from 'react-native-flash-message';
+import { saveUserData } from '../../redux/actions';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MultiButton from '../../components/MultiButton';
 import LocationTracking from '../../assets/Location_tracking.png';
@@ -60,14 +53,14 @@ const ondemand = require('../../assets/ondemand.png');
 const info = require('../../assets/information.png');
 
 const ConsumerOnBoarding = props => {
-  const {navigation, route} = props;
+  const { navigation, route } = props;
 
   // const {data} = route.params;
   const dispatch = useDispatch();
   const myFlatList = useRef(null);
 
   const addData = async () => {
-      // navigation.replace('ConsumerHomeStack');
+    // navigation.replace('ConsumerHomeStack');
     // try {
     //   // setLoading(true);
     //   dispatch(saveUserData(data));
@@ -81,40 +74,25 @@ const ConsumerOnBoarding = props => {
     // }
   };
 
-  const _renderItem = ({item, index}) => {
+  const _renderItem = ({ item, index }) => {
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <ScrollView>
-          <Header
-            title={item.heading}
-            skip
-            onSkip={() => navigation.replace('ArtistHome')}
-
-          />
+          <Header title={item.heading} skip onSkip={() => navigation.replace('ArtistHome')} />
           <Image style={styles.img} source={item.image} resizeMode="contain" />
 
           <Text style={styles.title}>{item.title}</Text>
           <Text style={styles.txt}>{item.text}</Text>
           {item.key == 1 && (
-            <View style={[styles.indicatorView, {marginVertical: 15}]}>
+            <View style={[styles.indicatorView, { marginVertical: 15 }]}>
               <View style={styles.row}>
-                <MultiButton
-                  title={'On-Demand'}
-                  btnStyle={{backgroundColor: '#a77246'}}
-                  image={ondemand}
-                  disable
-                />
-                <MultiButton
-                  title={'Booking Only'}
-                  btnStyle={{backgroundColor: '#008274'}}
-                  image={booking}
-                  disable
-                />
+                <MultiButton title={'On-Demand'} btnStyle={{ backgroundColor: '#a77246' }} image={ondemand} disable />
+                <MultiButton title={'Booking Only'} btnStyle={{ backgroundColor: '#008274' }} image={booking} disable />
               </View>
             </View>
           )}
           {item.key == 2 && (
-            <View style={[styles.indicatorView, {marginVertical: 25}]}>
+            <View style={[styles.indicatorView, { marginVertical: 25 }]}>
               <View style={styles.row}>
                 <MultiButton title={'Travel to Client'} image={car} disable />
                 <MultiButton title={'Host the client'} image={host} disable />
@@ -149,17 +127,13 @@ const ConsumerOnBoarding = props => {
     <SafeAreaView style={styles.container}>
       <AppIntroSlider
         ref={myFlatList}
-        style={{flex: 1, backgroundColor: '#FFF'}}
+        style={{ flex: 1, backgroundColor: '#FFF' }}
         renderItem={_renderItem}
-        activeDotStyle={{width: 0, height: 0}}
-        dotStyle={{height: 0, width: 0}}
+        activeDotStyle={{ width: 0, height: 0 }}
+        dotStyle={{ height: 0, width: 0 }}
         // renderNextButton={() => <Button title={'Next'} disable />}
         renderDoneButton={() => (
-          <Button
-            title={'Go to home'}
-            onPress={() => props.navigation.navigate('ConsumerHomeStack')}
-            disable
-          />
+          <Button title={'Go to home'} onPress={() => props.navigation.navigate('ConsumerHomeStack')} disable />
         )}
         data={slides}
         onDone={addData}
@@ -189,8 +163,8 @@ const styles = StyleSheet.create({
     height: 9,
     borderRadius: 9 / 2,
   },
-  indicatorView: {marginHorizontal: 24, marginTop: heightToDp(6)},
-  row: {flexDirection: 'row', alignItems: 'center'},
+  indicatorView: { marginHorizontal: 24, marginTop: heightToDp(6) },
+  row: { flexDirection: 'row', alignItems: 'center' },
   img: {
     resizeMode: 'cover',
     height: heightToDp(86.95),
@@ -211,7 +185,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginHorizontal: 24,
     fontFamily: fonts.hk_bold,
-    color: "#0F2851",
+    color: '#0F2851',
     marginTop: 23,
     lineHeight: 28.13,
   },

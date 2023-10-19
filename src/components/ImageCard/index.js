@@ -1,29 +1,26 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import {heightToDp, widthToDp} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { heightToDp, widthToDp } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
 import { Image } from 'react-native';
 const addMore = require('../../assets/addMore.png');
 const theme = useTheme();
 
 const index = props => {
-  const {name, containerStyle, imgStyle, nameStyle, onPress, isSelected, imageLink} =
-    props;
+  const { name, containerStyle, imgStyle, nameStyle, onPress, isSelected, imageLink } = props;
 
-    const [circleBackgroundColor, setCircleBackgroundColor] = useState('#E9E9E9');
+  const [circleBackgroundColor, setCircleBackgroundColor] = useState('#E9E9E9');
 
-    // Function to handle circle click
-    const handleCircleClick = () => {
-      // Toggle the background color
-      setCircleBackgroundColor(prevColor =>
-        prevColor === "#E9E9E9" ? '#FAE5FF' : "#E9E9E9"
-              );
-      // Call the onPress function if provided
-      if (onPress) {
-        onPress();
-      }
-    };
-    return (
+  // Function to handle circle click
+  const handleCircleClick = () => {
+    // Toggle the background color
+    setCircleBackgroundColor(prevColor => (prevColor === '#E9E9E9' ? '#FAE5FF' : '#E9E9E9'));
+    // Call the onPress function if provided
+    if (onPress) {
+      onPress();
+    }
+  };
+  return (
     <TouchableOpacity
       activeOpacity={0.7}
       onPress={handleCircleClick} // Use the new click handler
@@ -35,8 +32,8 @@ const index = props => {
           padding: heightToDp(0.5),
           borderRadius: 100,
         }}>
-        <View style={[styles.img, imgStyle, { backgroundColor: circleBackgroundColor }]} >
-          <Image source={imageLink} style={{width: 50, height: 50, resizeMode:"contain"}} />
+        <View style={[styles.img, imgStyle, { backgroundColor: circleBackgroundColor }]}>
+          <Image source={imageLink} style={{ width: 50, height: 50, resizeMode: 'contain' }} />
         </View>
       </View>
       <Text style={[styles.name, nameStyle]}>{name}</Text>

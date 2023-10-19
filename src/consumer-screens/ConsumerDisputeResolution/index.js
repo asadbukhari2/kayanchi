@@ -1,33 +1,24 @@
-import React, {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  TextInput,
-  Switch,
-  ScrollView,
-} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Switch, ScrollView } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Header, Button} from '../../components';
-import {height, heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {useTheme, fonts} from '../../utils/theme';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Header, Button } from '../../components';
+import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { useTheme, fonts } from '../../utils/theme';
 import back from '../../assets/back.png';
 import search from '../../assets/question.png';
 import resolution from '../../assets/resolution.png';
 import cancelation from '../../assets/cancelation.png';
 import faq from '../../assets/faq.png';
 const whatsappphone = require('../../assets/whatsappphone.png');
-import {RadioButton} from 'react-native-paper';
+import { RadioButton } from 'react-native-paper';
 
 const theme = useTheme();
 const faqData = [
-  {id: 1, question: 'The client is not reached yet'},
-  {id: 2, question: 'Client is not picking up call'},
-  {id: 3, question: 'Client is asking for discount?'},
-  {id: 4, question: 'Others'},
+  { id: 1, question: 'The client is not reached yet' },
+  { id: 2, question: 'Client is not picking up call' },
+  { id: 3, question: 'Client is asking for discount?' },
+  { id: 4, question: 'Others' },
 ];
 const ConsumerDisputeResolution = props => {
   const [name, setName] = useState('');
@@ -45,7 +36,7 @@ const ConsumerDisputeResolution = props => {
             width: widthToDp(90),
           }}>
           {/* <Image source={back} /> */}
-          <View style={{marginLeft: 0}}>
+          <View style={{ marginLeft: 0 }}>
             <Header backBtn />
           </View>
         </View>
@@ -57,9 +48,7 @@ const ConsumerDisputeResolution = props => {
           <View style={styles.faqcontainer}>
             {faqData.map(item => (
               <View key={item.id} style={styles.faqContent}>
-                <RadioButton.Group
-                  onValueChange={newValue => setSelectedQuestion(newValue)}
-                  value={selectedQuestion}>
+                <RadioButton.Group onValueChange={newValue => setSelectedQuestion(newValue)} value={selectedQuestion}>
                   <View
                     style={{
                       flexDirection: 'row',
@@ -76,7 +65,7 @@ const ConsumerDisputeResolution = props => {
         </View>
 
         {selectedQuestion !== null && (
-          <View style={{paddingHorizontal: widthToDp(4), marginTop: 10}}>
+          <View style={{ paddingHorizontal: widthToDp(4), marginTop: 10 }}>
             <TextInput
               multiline
               placeholder="Please tell us anything that you think will help the situation for us."
@@ -84,14 +73,13 @@ const ConsumerDisputeResolution = props => {
               onChangeText={setName}
               style={styles.input}
             />
-            <Text style={{color: '#29AAE2', textAlign: 'right'}}>0/200</Text>
+            <Text style={{ color: '#29AAE2', textAlign: 'right' }}>0/200</Text>
           </View>
         )}
 
         <View style={styles.refundContainer}>
           <Text style={styles.refund}>
-            *Refundsare only applicable on digital payments prior to the start
-            of your grooming.
+            *Refundsare only applicable on digital payments prior to the start of your grooming.
           </Text>
           <Text style={styles.refund}>We will try to resolve your dispute as soon as possible</Text>
         </View>
@@ -111,7 +99,7 @@ const styles = StyleSheet.create({
     color: '#0F2851',
     fontSize: 40,
     marginLeft: widthToDp(4),
-   fontFamily: fonts.hk_bold
+    fontFamily: fonts.hk_bold,
   },
   container: {
     flex: 1,
@@ -130,8 +118,8 @@ const styles = StyleSheet.create({
     marginHorizontal: widthToDp(4),
   },
 
-  image: {position: 'absolute', width: 16, height: 16, marginLeft: 8},
-  resolution: {width: 48, height: 48, resizeMode: 'contain', margin: 5},
+  image: { position: 'absolute', width: 16, height: 16, marginLeft: 8 },
+  resolution: { width: 48, height: 48, resizeMode: 'contain', margin: 5 },
   helpContainer: {
     backgroundColor: 'white',
     paddingHorizontal: widthToDp(5),
@@ -165,15 +153,15 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 10,
   },
-  refund:{color:"#ABABAB", fontSize: 12, textAlign:"center", marginVertical: 15},
-  refundContainer:{marginHorizontal: widthToDp(28)},
+  refund: { color: '#ABABAB', fontSize: 12, textAlign: 'center', marginVertical: 15 },
+  refundContainer: { marginHorizontal: widthToDp(28) },
   faqContent: {
     // flexDirection: 'row',
     // alignItems: 'center',
     // justifyContent: 'space-between',
     paddingVertical: widthToDp(2),
   },
-  faqimage: {width: 12, height: 12, resizeMode: 'contain'},
+  faqimage: { width: 12, height: 12, resizeMode: 'contain' },
   iconStyles: {
     width: 25,
     height: 25,

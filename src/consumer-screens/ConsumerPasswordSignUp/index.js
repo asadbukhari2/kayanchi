@@ -1,20 +1,13 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ActivityIndicator,
-  ScrollView,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Button, Header, TextInput, Loader} from '../../components';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Header, TextInput, Loader } from '../../components';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
 import api from '../../utils/APIservice';
-import {useDispatch} from 'react-redux';
-import {saveToken, saveUserData} from '../../redux/actions';
-import {showMessage} from 'react-native-flash-message';
+import { useDispatch } from 'react-redux';
+import { saveToken, saveUserData } from '../../redux/actions';
+import { showMessage } from 'react-native-flash-message';
 import DatePicker from 'react-native-date-picker';
 import ReactNativeModal from 'react-native-modal';
 
@@ -24,7 +17,7 @@ const ConsumerPasswordSignUp = props => {
   const {
     navigation,
     route: {
-      params: {email, phone_number},
+      params: { email, phone_number },
     },
   } = props;
 
@@ -99,30 +92,28 @@ const ConsumerPasswordSignUp = props => {
 
   return (
     <SafeAreaView style={styles.container}>
-
       <Header backBtn title={'Sign up'} />
       <ScrollView>
+        <TextInput
+          stepCount={2}
+          mainLabel={'Your full name?'}
+          subLabel={'Lets get to know each other!'}
+          placeholder={'Ali Abid'}
+          input={text => setName(text)}
+        />
+        <TextInput
+          mainLabel={'Create a password'}
+          subLabel={'Must be at least 8 characters long.'}
+          placeholder={'********'}
+          secured
+          input={text => setPassword(text)}
+        />
 
-      <TextInput
-        stepCount={2}
-        mainLabel={'Your full name?'}
-        subLabel={'Lets get to know each other!'}
-        placeholder={"Ali Abid"}
-        input={text => setName(text)}
-      />
-      <TextInput
-        mainLabel={'Create a password'}
-        subLabel={'Must be at least 8 characters long.'}
-        placeholder={"********"}
-        secured
-        input={text => setPassword(text)}
-      />
-
-      {/* <TextInput
+        {/* <TextInput
         mainLabel={'What’s your age and gender?'}
         subLabel={'Let’s find the best artist for you!'}
       /> */}
-      {/* <View
+        {/* <View
         style={{
           marginTop: heightToDp(15),
           marginVertical: 20,
@@ -139,58 +130,57 @@ const ConsumerPasswordSignUp = props => {
         />
       </View> */}
 
-      <TextInput
-        mainLabel={'What’s your age and gender?'}
-        subLabel={'Helps us find the right artist for you.'}
-        editable={false}
-        value={age ? `${age} years` : ''}
-        placeholder='DD/MM/YYYY'
-        onInputPress={toggleModal}
-      />
+        <TextInput
+          mainLabel={'What’s your age and gender?'}
+          subLabel={'Helps us find the right artist for you.'}
+          editable={false}
+          value={age ? `${age} years` : ''}
+          placeholder="DD/MM/YYYY"
+          onInputPress={toggleModal}
+        />
 
-      <ReactNativeModal isVisible={modalVisible}>
-        <View style={styles.modal}>
-          <View style={styles.pickerOuterView}>
-            <DatePicker
-              date={pickerDate}
-              mode="date"
-              maximumDate={new Date()}
-              onDateChange={date => setPickerDate(date)}
+        <ReactNativeModal isVisible={modalVisible}>
+          <View style={styles.modal}>
+            <View style={styles.pickerOuterView}>
+              <DatePicker
+                date={pickerDate}
+                mode="date"
+                maximumDate={new Date()}
+                onDateChange={date => setPickerDate(date)}
               />
-            <TouchableOpacity
-              onPress={() => {
-                setDob(pickerDate);
-                toggleModal();
-              }}
-              style={styles.pickerDone}>
-              <Text style={{color: 'white'}}>Done</Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setDob(pickerDate);
+                  toggleModal();
+                }}
+                style={styles.pickerDone}>
+                <Text style={{ color: 'white' }}>Done</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </ReactNativeModal>
+        </ReactNativeModal>
 
-      <View style={styles.genView}>
-        {Gender.map(item => {
-          return (
-            <TouchableOpacity
-            onPress={() => setGender(item.name)}
-              activeOpacity={0.7}
-              style={[
-                styles.genBtn,
-                {
-                  backgroundColor:
-                    gender === item.name ? theme.brown : theme.genderGrey,
+        <View style={styles.genView}>
+          {Gender.map(item => {
+            return (
+              <TouchableOpacity
+                onPress={() => setGender(item.name)}
+                activeOpacity={0.7}
+                style={[
+                  styles.genBtn,
+                  {
+                    backgroundColor: gender === item.name ? theme.brown : theme.genderGrey,
                   },
                 ]}>
-              <Text style={styles.genTxt}>{item.name}</Text>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
+                <Text style={styles.genTxt}>{item.name}</Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
 
-      <Button title={'Create Account'} btnStyle={styles.btn} onPress={signUp} />
-      {loading && <Loader />}
-</ScrollView>
+        <Button title={'Create Account'} btnStyle={styles.btn} onPress={signUp} />
+        {loading && <Loader />}
+      </ScrollView>
     </SafeAreaView>
   );
 };

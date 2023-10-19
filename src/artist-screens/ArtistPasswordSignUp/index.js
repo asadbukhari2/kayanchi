@@ -1,19 +1,13 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Button, Header, TextInput, Loader} from '../../components';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Header, TextInput, Loader } from '../../components';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
 import api from '../../utils/APIservice';
-import {useDispatch} from 'react-redux';
-import {saveToken, saveUserData} from '../../redux/actions';
-import {showMessage} from 'react-native-flash-message';
+import { useDispatch } from 'react-redux';
+import { saveToken, saveUserData } from '../../redux/actions';
+import { showMessage } from 'react-native-flash-message';
 import DatePicker from 'react-native-date-picker';
 import ReactNativeModal from 'react-native-modal';
 
@@ -64,7 +58,7 @@ const ArtistPasswordSignUp = props => {
 
   const signUp = async () => {
     props.navigation.navigate('ArtistKnownFor');
-    console.log('artist')
+    console.log('artist');
     try {
       const res = await api.post('/api/users/verifypassword', {
         // email,
@@ -105,14 +99,14 @@ const ArtistPasswordSignUp = props => {
         mainLabel={'Your full name?'}
         subLabel={'Lets get to know each other!'}
         input={text => setName(text)}
-        placeholder={"Black Scissors"}
+        placeholder={'Black Scissors'}
       />
       <TextInput
         mainLabel={'Create a password'}
         subLabel={'Must be at least 8 characters long.'}
         secured
         input={text => setPassword(text)}
-        placeholder={"************"}
+        placeholder={'************'}
       />
 
       {/* <TextInput
@@ -141,7 +135,7 @@ const ArtistPasswordSignUp = props => {
         subLabel={'Let’s find the best artist for you!'}
         editable={false}
         value={age ? `${age} years` : ''}
-        placeholder='DD/MM/YYYY'
+        placeholder="DD/MM/YYYY"
         onInputPress={toggleModal}
       />
 
@@ -160,7 +154,7 @@ const ArtistPasswordSignUp = props => {
                 toggleModal();
               }}
               style={styles.pickerDone}>
-              <Text style={{color: 'white'}}>Done</Text>
+              <Text style={{ color: 'white' }}>Done</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -175,8 +169,7 @@ const ArtistPasswordSignUp = props => {
               style={[
                 styles.genBtn,
                 {
-                  backgroundColor:
-                    gender === item.name ? theme.brown : theme.genderGrey,
+                  backgroundColor: gender === item.name ? theme.brown : theme.genderGrey,
                 },
               ]}>
               <Text style={styles.genTxt}>{item.name}</Text>

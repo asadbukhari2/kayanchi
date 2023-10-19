@@ -1,20 +1,12 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  Modal,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Image, StyleSheet, Modal, TouchableOpacity, ScrollView } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import Feather from 'react-native-vector-icons/Feather';
-import {widthToDp, heightToDp, width} from '../../../utils/Dimensions';
-import {Button, TextInput} from '../../../components';
+import { widthToDp, heightToDp, width } from '../../../utils/Dimensions';
+import { Button, TextInput } from '../../../components';
 import DatePicker from 'react-native-date-picker';
 import ReactNativeModal from 'react-native-modal';
-import {fonts, useTheme} from '../../../utils/theme';
+import { fonts, useTheme } from '../../../utils/theme';
 const AddMore = require('../../../assets/addMore.png');
 
 const theme = useTheme();
@@ -91,16 +83,13 @@ const ContainerWorkCertificate = ({
       <View style={styles.gigContainer}>
         <Text style={styles.heading}>{title}</Text>
         <TouchableOpacity onPress={toggleModal}>
-          <Image source={AddMore} style={{width: 20, height: 20}} />
+          <Image source={AddMore} style={{ width: 20, height: 20 }} />
         </TouchableOpacity>
       </View>
       <View style={styles.separator}></View>
       <View style={styles.DiplomaConatiner}>
-        <Image
-          source={imageSource}
-          style={{width: 50, height: 50, marginLeft: 10}}
-        />
-        <View style={{flex: 1, marginLeft: 10}}>
+        <Image source={imageSource} style={{ width: 50, height: 50, marginLeft: 10 }} />
+        <View style={{ flex: 1, marginLeft: 10 }}>
           <Text style={styles.subheading}>{subtitle}</Text>
           <Text
             style={{
@@ -120,24 +109,17 @@ const ContainerWorkCertificate = ({
           </Text>
           <Text>{country}</Text>
         </View>
-        <View style={{marginRight: widthToDp(5)}}>
-          <Feather style={{color: '#193356', fontSize: 16}} name="edit-2" />
+        <View style={{ marginRight: widthToDp(5) }}>
+          <Feather style={{ color: '#193356', fontSize: 16 }} name="edit-2" />
         </View>
       </View>
       <Modal visible={isModalVisible} animationType="slide">
         <TouchableOpacity onPress={toggleModal}>
-          <Feather
-            name="x"
-            size={24}
-            color="black"
-            style={{paddingHorizontal: widthToDp(4), paddingTop: 10}}
-          />
+          <Feather name="x" size={24} color="black" style={{ paddingHorizontal: widthToDp(4), paddingTop: 10 }} />
         </TouchableOpacity>
         <ScrollView>
-          <View style={{flex: 1, justifyContent: 'center'}}>
-            {modalHeading && (
-              <Text style={styles.headingModal}>{modalHeading}</Text>
-            )}
+          <View style={{ flex: 1, justifyContent: 'center' }}>
+            {modalHeading && <Text style={styles.headingModal}>{modalHeading}</Text>}
             {modalsubHeading && (
               <Text
                 style={[
@@ -174,7 +156,7 @@ const ContainerWorkCertificate = ({
                       fontFamily: fonts.robo_med,
                     }}>
                     {modaltitle}
-                    <Text style={{color: '#29AAE2'}}>{'*'} </Text>
+                    <Text style={{ color: '#29AAE2' }}>{'*'} </Text>
                   </Text>
                   <TextInput
                     input={text => setName(text)}
@@ -183,7 +165,7 @@ const ContainerWorkCertificate = ({
                       backgroundColor: '#ebe8ec',
                       borderBottomColor: '#ebe8ec',
                       borderRadius: 5,
-                      paddingHorizontal: 10
+                      paddingHorizontal: 10,
                     }}
                   />
                   <Text style={styles.limitText}>0/200</Text>
@@ -194,12 +176,15 @@ const ContainerWorkCertificate = ({
               {modaltitle2 && (
                 <View>
                   <Text
-                    style={{paddingHorizontal: widthToDp(4), paddingTop: 15,
+                    style={{
+                      paddingHorizontal: widthToDp(4),
+                      paddingTop: 15,
                       color: '#747474',
                       fontSize: 16,
-                      fontFamily: fonts.robo_med,}}>
+                      fontFamily: fonts.robo_med,
+                    }}>
                     {modaltitle2}
-                    <Text style={{color: '#29AAE2'}}>{'*'} </Text>
+                    <Text style={{ color: '#29AAE2' }}>{'*'} </Text>
                   </Text>
                   <TextInput
                     input={text => setName(text)}
@@ -208,7 +193,7 @@ const ContainerWorkCertificate = ({
                       backgroundColor: '#ebe8ec',
                       borderBottomColor: '#ebe8ec',
                       borderRadius: 5,
-                      paddingHorizontal: 10
+                      paddingHorizontal: 10,
                     }}
                   />
                   <Text style={styles.limitText}>0/50</Text>
@@ -216,16 +201,13 @@ const ContainerWorkCertificate = ({
               )}
             </View>
             <View style={styles.checkboxContainer}>
-              <CheckBox
-                value={isSelected}
-                onValueChange={setSelection}
-                style={styles.checkbox}
-              />
-              <Text style={{color:'#2F3A58', fontSize: 16, fontFamily: fonts.robo_reg}}>This credentials does not expire</Text>
+              <CheckBox value={isSelected} onValueChange={setSelection} style={styles.checkbox} />
+              <Text style={{ color: '#2F3A58', fontSize: 16, fontFamily: fonts.robo_reg }}>
+                This credentials does not expire
+              </Text>
             </View>
 
-
-            <View style={{marginTop: 10}}>
+            <View style={{ marginTop: 10 }}>
               <TextInput
                 subLabel="Issue date"
                 editable={false}
@@ -239,7 +221,7 @@ const ContainerWorkCertificate = ({
                   paddingHorizontal: 10,
                 }}
               />
-              <Text style={{color:"#29AAE2", fontSize: 16, position: 'absolute', top: 7, left: 80}}>*</Text>
+              <Text style={{ color: '#29AAE2', fontSize: 16, position: 'absolute', top: 7, left: 80 }}>*</Text>
               <Image
                 source={calendar}
                 style={{
@@ -257,7 +239,7 @@ const ContainerWorkCertificate = ({
               style={styles.modal}
               onSwipeComplete={() => setModalVisible(!modalVisible)}
               swipeDirection={['down']}>
-              <View style={{backgroundColor: theme.darkBlack, width: '100%'}}>
+              <View style={{ backgroundColor: theme.darkBlack, width: '100%' }}>
                 <TouchableOpacity
                   activeOpacity={0.7}
                   onPress={() => {
@@ -265,17 +247,11 @@ const ContainerWorkCertificate = ({
                     setModalVisible(false);
                   }}
                   style={styles.pickerDone}>
-                  <Text
-                    style={[
-                      styles.genTxt,
-                      {fontSize: 16, textAlign: 'center', color: 'white'},
-                    ]}>
-                    Done
-                  </Text>
+                  <Text style={[styles.genTxt, { fontSize: 16, textAlign: 'center', color: 'white' }]}>Done</Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.pickerOuterView}>
-                <View style={{backgroundColor: theme.dark}}>
+                <View style={{ backgroundColor: theme.dark }}>
                   <DatePicker
                     date={pickerDate}
                     androidVariant="nativeAndroid"
@@ -290,8 +266,7 @@ const ContainerWorkCertificate = ({
               </View>
             </ReactNativeModal>
 
-            
-            <View style={{marginTop: 10}}>
+            <View style={{ marginTop: 10 }}>
               <TextInput
                 subLabel="Expiration date"
                 editable={false}
@@ -305,7 +280,7 @@ const ContainerWorkCertificate = ({
                   paddingHorizontal: 10,
                 }}
               />
-              <Text style={{color:"#29AAE2", fontSize: 16, position: 'absolute', top: 7, left: 110}}>*</Text>
+              <Text style={{ color: '#29AAE2', fontSize: 16, position: 'absolute', top: 7, left: 110 }}>*</Text>
               <Image
                 source={calendar}
                 style={{
@@ -323,7 +298,7 @@ const ContainerWorkCertificate = ({
               style={styles.modal}
               onSwipeComplete={() => setModalVisible(!modalVisible)}
               swipeDirection={['down']}>
-              <View style={{backgroundColor: theme.darkBlack, width: '100%'}}>
+              <View style={{ backgroundColor: theme.darkBlack, width: '100%' }}>
                 <TouchableOpacity
                   activeOpacity={0.7}
                   onPress={() => {
@@ -331,17 +306,11 @@ const ContainerWorkCertificate = ({
                     setModalVisible(false);
                   }}
                   style={styles.pickerDone}>
-                  <Text
-                    style={[
-                      styles.genTxt,
-                      {fontSize: 16, textAlign: 'center', color: 'white'},
-                    ]}>
-                    Done
-                  </Text>
+                  <Text style={[styles.genTxt, { fontSize: 16, textAlign: 'center', color: 'white' }]}>Done</Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.pickerOuterView}>
-                <View style={{backgroundColor: theme.dark}}>
+                <View style={{ backgroundColor: theme.dark }}>
                   <DatePicker
                     date={pickerDate}
                     androidVariant="nativeAndroid"
@@ -357,8 +326,8 @@ const ContainerWorkCertificate = ({
             </ReactNativeModal>
 
             <View>
-              <Text style={[styles.welcomeTxt, {paddingTop: 15}]}>
-                Choose Category<Text style={{color: '#29AAE2'}}>{'*'} </Text>
+              <Text style={[styles.welcomeTxt, { paddingTop: 15 }]}>
+                Choose Category<Text style={{ color: '#29AAE2' }}>{'*'} </Text>
               </Text>
             </View>
             <View style={styles.genRow}>
@@ -369,23 +338,19 @@ const ContainerWorkCertificate = ({
                   style={[
                     styles.genBtn,
                     {
-                      backgroundColor:
-                        gender === item.name ? theme.primary : theme.genderGrey,
+                      backgroundColor: gender === item.name ? theme.primary : theme.genderGrey,
                     },
                   ]}
                   key={item.name}>
                   <View style={styles.categoryItem}>
-                    <Image
-                      source={item.imageLink}
-                      style={{height: 25, width: 25, resizeMode: 'contain'}}
-                    />
+                    <Image source={item.imageLink} style={{ height: 25, width: 25, resizeMode: 'contain' }} />
                     <Text style={styles.genTxt}>{item.name}</Text>
                   </View>
                 </TouchableOpacity>
               ))}
             </View>
 
-            <View style={[styles.genRow, {justifyContent: 'flex-start'}]}>
+            <View style={[styles.genRow, { justifyContent: 'flex-start' }]}>
               {Category.slice(3, 5).map(item => (
                 <TouchableOpacity
                   onPress={() => setGender(item.name)}
@@ -393,25 +358,21 @@ const ContainerWorkCertificate = ({
                   style={[
                     styles.genBtn,
                     {
-                      backgroundColor:
-                        gender === item.name ? theme.primary : theme.genderGrey,
+                      backgroundColor: gender === item.name ? theme.primary : theme.genderGrey,
                     },
-                    {marginRight: widthToDp(5)},
-                    {width: widthToDp(34.5)},
+                    { marginRight: widthToDp(5) },
+                    { width: widthToDp(34.5) },
                   ]}
                   key={item.name}>
                   <View style={styles.categoryItem}>
-                    <Image
-                      source={item.imageLink}
-                      style={{height: 25, width: 25, resizeMode: 'contain'}}
-                    />
+                    <Image source={item.imageLink} style={{ height: 25, width: 25, resizeMode: 'contain' }} />
                     <Text style={styles.genTxt}>{item.name}</Text>
                   </View>
                 </TouchableOpacity>
               ))}
             </View>
           </View>
-          <View style={{paddingTop: heightToDp(10), marginBottom: 10}}>
+          <View style={{ paddingTop: heightToDp(10), marginBottom: 10 }}>
             <Button title="Save" />
           </View>
         </ScrollView>
@@ -433,14 +394,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: widthToDp(3),
-    marginVertical:5
+    marginVertical: 5,
   },
   titleContent: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 10,
   },
-  input: {backgroundColor: 'red'},
+  input: { backgroundColor: 'red' },
   titleContainer: {
     marginTop: 10,
     backgroundColor: 'white',
@@ -454,7 +415,7 @@ const styles = StyleSheet.create({
     paddingRight: 15,
     fontFamily: fonts.robo_reg,
   },
-  title: {paddingLeft: 10, flex: 1},
+  title: { paddingLeft: 10, flex: 1 },
   separator: {
     height: 1,
     backgroundColor: '#EEEEEE',
@@ -496,7 +457,7 @@ const styles = StyleSheet.create({
     // paddingHorizontal: widthToDp(4),
     paddingVertical: heightToDp(3),
   },
-  subheading: {fontSize: 16, color: '#333333', fontFamily: fonts.robo_med},
+  subheading: { fontSize: 16, color: '#333333', fontFamily: fonts.robo_med },
   subheading2: {
     fontSize: 16,
     color: '#333333',
@@ -524,7 +485,7 @@ const styles = StyleSheet.create({
     marginTop: heightToDp(4.5),
     color: '#ffffff',
   },
-  genTxt: {color: '#ffffff', marginLeft: 6},
+  genTxt: { color: '#ffffff', marginLeft: 6 },
   categoryItem: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -543,7 +504,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.robo_med,
     // fontWeight: 'bold',
     paddingHorizontal: widthToDp(4),
-    color:"#747474"
+    color: '#747474',
   },
-  subheading3: {color: '#67718C', paddingHorizontal: widthToDp(4)},
+  subheading3: { color: '#67718C', paddingHorizontal: widthToDp(4) },
 });

@@ -1,34 +1,23 @@
-import React, {useState, useCallback} from 'react';
-import {StyleSheet, View, Text, FlatList, TouchableOpacity} from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { StyleSheet, View, Text, FlatList, TouchableOpacity } from 'react-native';
 import StepIndicator from 'react-native-step-indicator';
 import Feather from 'react-native-vector-icons/Feather';
-import {width, widthToDp} from '../../utils/Dimensions';
+import { width, widthToDp } from '../../utils/Dimensions';
 import CircularProgressBar from '../CircularProgressBar';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Import the icon library
 import RatingModal from '../RatingModal';
-import {fonts} from '../../utils/theme';
-export default function VerticalStepIndicator({data}) {
+import { fonts } from '../../utils/theme';
+export default function VerticalStepIndicator({ data }) {
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedRating, setSelectedRating] = useState(null);
   const handleRating = rating => {
     setSelectedRating(rating);
   };
-  const [stepsCompleted, setStepsCompleted] = useState(
-    new Array(data.length).fill(false),
-  );
+  const [stepsCompleted, setStepsCompleted] = useState(new Array(data.length).fill(false));
   console.log(currentPage);
 
-  const viewabilityConfig = {itemVisiblePercentThreshold: 0};
-  const stepColors = [
-    '#29AAE2',
-    '#84668C',
-    '#A77246',
-    '#E91E63',
-    '#29AAE2',
-    '#29AAE2',
-    '#29AAE2',
-    '#29AAE2',
-  ]; // Define colors for each step
+  const viewabilityConfig = { itemVisiblePercentThreshold: 0 };
+  const stepColors = ['#29AAE2', '#84668C', '#A77246', '#E91E63', '#29AAE2', '#29AAE2', '#29AAE2', '#29AAE2']; // Define colors for each step
 
   const stepIndicatorStyles = {
     stepIndicatorSize: 10,
@@ -50,7 +39,7 @@ export default function VerticalStepIndicator({data}) {
     currentStepLabelColor: '#fe7013',
   };
 
-  const renderPage = ({item, index}) => {
+  const renderPage = ({ item, index }) => {
     // const isTickVisible = index === 10;
     const isCircularProgressBarVisible = index === 10;
     const isCompleted = stepsCompleted[10];
@@ -78,10 +67,8 @@ export default function VerticalStepIndicator({data}) {
               />
             }
             {isCircularProgressBarVisible && !isCompleted ? (
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Text style={{color: '#A77246', marginRight: 10}}>
-                  You are late
-                </Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={{ color: '#A77246', marginRight: 10 }}>You are late</Text>
                 <CircularProgressBar
                   progress={80} // Set the progress value as needed
                   radius={25}
@@ -102,7 +89,7 @@ export default function VerticalStepIndicator({data}) {
     );
   };
 
-  const onViewableItemsChanged = useCallback(({viewableItems}) => {
+  const onViewableItemsChanged = useCallback(({ viewableItems }) => {
     const visibleItemsCount = viewableItems.length;
     if (visibleItemsCount !== 0) {
       setCurrentPage(viewableItems[visibleItemsCount - 1].index);
@@ -121,7 +108,7 @@ export default function VerticalStepIndicator({data}) {
           />
         </View>
         <FlatList
-          style={{flexGrow: 1}}
+          style={{ flexGrow: 1 }}
           data={data}
           renderItem={renderPage}
           onViewableItemsChanged={onViewableItemsChanged}
@@ -132,31 +119,16 @@ export default function VerticalStepIndicator({data}) {
       {currentPage === data.length - 1 && (
         <View style={styles.ratingModal}>
           <View style={styles.separator}></View>
-          <Text style={{color: '#67718C', fontFamily: fonts.robo_med}}>
-            Artist hygiene & cleanliness
-          </Text>
-          <RatingModal
-            selectedRating={selectedRating}
-            handleRating={setSelectedRating}
-          />
-          <Text style={{color: '#67718C', fontFamily: fonts.robo_med}}>
-            Service as described
-          </Text>
-          <RatingModal
-            selectedRating={selectedRating}
-            handleRating={setSelectedRating}
-          />
-          <Text style={{color: '#67718C', fontFamily: fonts.robo_med}}>
-            Would recommend
-          </Text>
-          <RatingModal
-            selectedRating={selectedRating}
-            handleRating={setSelectedRating}
-          />
+          <Text style={{ color: '#67718C', fontFamily: fonts.robo_med }}>Artist hygiene & cleanliness</Text>
+          <RatingModal selectedRating={selectedRating} handleRating={setSelectedRating} />
+          <Text style={{ color: '#67718C', fontFamily: fonts.robo_med }}>Service as described</Text>
+          <RatingModal selectedRating={selectedRating} handleRating={setSelectedRating} />
+          <Text style={{ color: '#67718C', fontFamily: fonts.robo_med }}>Would recommend</Text>
+          <RatingModal selectedRating={selectedRating} handleRating={setSelectedRating} />
           <View>
             <Text style={styles.textRating}>
-              We loved the service Narmeen provided, it was an absolute delight
-              to see how clean and professional her work is. Will order again!
+              We loved the service Narmeen provided, it was an absolute delight to see how clean and professional her
+              work is. Will order again!
             </Text>
           </View>
         </View>
@@ -212,5 +184,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#EEEEEE',
     marginVertical: 15,
   },
-  ratingModal: {marginHorizontal: widthToDp(10)},
+  ratingModal: { marginHorizontal: widthToDp(10) },
 });

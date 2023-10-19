@@ -1,23 +1,16 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import {AddNewBtn, Header} from '../../../components';
-import {heightToDp, widthToDp, width} from '../../../utils/Dimensions';
-import {GLOBAL_STYLES} from '../../../utils/styles';
-import {fonts, useTheme} from '../../../utils/theme';
+import { AddNewBtn, Header } from '../../../components';
+import { heightToDp, widthToDp, width } from '../../../utils/Dimensions';
+import { GLOBAL_STYLES } from '../../../utils/styles';
+import { fonts, useTheme } from '../../../utils/theme';
 import logo1 from '../../../assets/logo1.png';
 import booking from '../../../assets/booking.png';
 
 const theme = useTheme();
-const PromoCodeComponent = ({code, discount}) => {
+const PromoCodeComponent = ({ code, discount }) => {
   const [isActive, setIsActive] = useState(false);
 
   const toggleActive = () => {
@@ -35,7 +28,7 @@ const PromoCodeComponent = ({code, discount}) => {
       ]}>
       <Image
         source={isActive ? booking : logo1} // Change logo based on isActive
-        style={{width: 23, height: 33, resizeMode: 'contain'}}
+        style={{ width: 23, height: 33, resizeMode: 'contain' }}
       />
       <View>
         <Text
@@ -46,7 +39,7 @@ const PromoCodeComponent = ({code, discount}) => {
           }}>
           {code}
         </Text>
-        <Text style={{color: isActive ? 'white' : 'black'}}>{discount}</Text>
+        <Text style={{ color: isActive ? 'white' : 'black' }}>{discount}</Text>
       </View>
       <Text
         style={{

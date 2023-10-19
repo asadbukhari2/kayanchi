@@ -1,12 +1,12 @@
-import {StyleSheet, Text, View, Image} from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import React from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {height, heightToDp, width, widthToDp} from '../../../utils/Dimensions';
-import {useTheme, fonts} from '../../../utils/theme';
+import { height, heightToDp, width, widthToDp } from '../../../utils/Dimensions';
+import { useTheme, fonts } from '../../../utils/theme';
 const theme = useTheme();
 
-export default function SummarySingleCard({props}) {
+export default function SummarySingleCard({ props }) {
   return (
     <View
       style={{

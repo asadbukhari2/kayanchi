@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
-import {widthToDp, heightToDp} from '../../../utils/Dimensions';
-import {fonts} from '../../../utils/theme';
+import { View, Text, Image, StyleSheet } from 'react-native';
+import { widthToDp, heightToDp } from '../../../utils/Dimensions';
+import { fonts } from '../../../utils/theme';
 
 const impression = require('../../../assets/impressions.png');
 
@@ -26,10 +26,10 @@ const rightArrow = require('../../../assets/right.png');
 //     },
 //   ];
 
-export default function Insights({insightData}) {
+export default function Insights({ insightData }) {
   return (
     <View style={styles.insight}>
-      <View style={[styles.insightDetail, {marginVertical: 10}]}>
+      <View style={[styles.insightDetail, { marginVertical: 10 }]}>
         <View>
           <Text>Insights</Text>
         </View>
@@ -49,14 +49,10 @@ export default function Insights({insightData}) {
       {insightData.map((item, index) => (
         <View key={index} style={styles.impressionDetail}>
           <View>
-            <Text style={{color: '#0F2851', fontFamily: fonts.hk_medium}}>
-              {item.title}
-            </Text>
+            <Text style={{ color: '#0F2851', fontFamily: fonts.hk_medium }}>{item.title}</Text>
           </View>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text style={{color: '#0F2851', fontFamily: fonts.hk_medium}}>
-              {item.count}
-            </Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Text style={{ color: '#0F2851', fontFamily: fonts.hk_medium }}>{item.count}</Text>
             <Image
               source={item.imageLink}
               style={{
@@ -89,6 +85,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  arrow: {height: 12, width: 12, resizeMode: 'contain'},
-  arrowDetail: {flexDirection: 'row', alignItems: 'center'},
+  arrow: { height: 12, width: 12, resizeMode: 'contain' },
+  arrowDetail: { flexDirection: 'row', alignItems: 'center' },
 });

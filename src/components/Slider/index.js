@@ -35,27 +35,18 @@
 
 //   export default SliderComponent;
 
-import React, {useState} from 'react';
-import {View, PanResponder, Text} from 'react-native';
-import {useTheme} from '../../utils/theme';
+import React, { useState } from 'react';
+import { View, PanResponder, Text } from 'react-native';
+import { useTheme } from '../../utils/theme';
 
 const theme = useTheme();
 
-const SliderComponent = ({
-  min,
-  max,
-  value,
-  onChange,
-  colorSlider,
-  radius,
-  start,
-  end,
-}) => {
+const SliderComponent = ({ min, max, value, onChange, colorSlider, radius, start, end }) => {
   const [sliderValue, setSliderValue] = useState(value);
   const [sliderWidth, setSliderWidth] = useState(0);
 
   const handlePanResponderMove = (_, gestureState) => {
-    const {moveX} = gestureState;
+    const { moveX } = gestureState;
     const newValue = (moveX / sliderWidth) * (max - min) + min;
     const clampedValue = Math.min(max, Math.max(min, newValue));
     setSliderValue(clampedValue);
@@ -88,11 +79,9 @@ const SliderComponent = ({
           }}
         />
       </View>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         {start !== undefined ? <Text>{start}</Text> : null}
-        {end !== undefined ? (
-          <Text style={{color: theme.primary}}>{end}</Text>
-        ) : null}
+        {end !== undefined ? <Text style={{ color: theme.primary }}>{end}</Text> : null}
       </View>
     </>
   );

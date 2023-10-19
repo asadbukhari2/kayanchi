@@ -34,7 +34,7 @@ import ArtistKnownFor from './ArtistKnownFor';
 import ArtistRankUp from './ArtistRankUp';
 import ArtistGig from './ArtistGig';
 import ArtistGigInfo from './ArtistGigInfo';
-import ArtistGigDescription from "./ArtistGigDescription";
+import ArtistGigDescription from './ArtistGigDescription';
 import ArtistPublishGig from './ArtistPublishGig';
 import ArtistPromoGig1 from './ArtistPromoGig1';
 import ArtistPromoGig2 from './ArtistPromoGig2';
@@ -61,7 +61,7 @@ import ArtistBookingSlots from './ArtistBookingSlots';
 import ArtistWhyCancel from './ArtistWhyCancel';
 import ArtistUpdateProfile from './ArtistUpdateProfile';
 import ArtistOrders from './ArtistOrders';
-import ArtistConfirmOrderRequest from "./ArtistConfirmOrderRequest";
+import ArtistConfirmOrderRequest from './ArtistConfirmOrderRequest';
 import ArtistTimeline from './ArtistTimeline';
 import ArtistGrooming from './ArtistGrooming';
 import ArtistGroomingDone from './ArtistGroomingDone';
@@ -136,5 +136,5 @@ export {
   ArtistGrooming,
   ArtistGroomingDone,
   ArtistFinishedTimeline,
-  ArtistCancelledTimeline
+  ArtistCancelledTimeline,
 };

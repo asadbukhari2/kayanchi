@@ -1,24 +1,9 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import {widthToDp} from '../../utils/Dimensions';
-import {fonts} from '../../utils/theme';
-const EditableField = ({
-  label,
-  value,
-  isEditing,
-  onEditPress,
-  onChangeText,
-  placeholder,
-  onSavePress,
-  limitText,
-}) => {
+import { widthToDp } from '../../utils/Dimensions';
+import { fonts } from '../../utils/theme';
+const EditableField = ({ label, value, isEditing, onEditPress, onChangeText, placeholder, onSavePress, limitText }) => {
   return (
     <View style={styles.titleContainer}>
       <View style={styles.titleContent}>
@@ -27,22 +12,14 @@ const EditableField = ({
             fontFamily: fonts.hk_bold,
             color: '#2F3A58',
             fontSize: 18,
-            paddingHorizontal: 10
+            paddingHorizontal: 10,
           }}>
           {label}
         </Text>
         {isEditing ? (
-          <Feather
-            style={{color: '#67718C', fontSize: 18, marginLeft: 10}}
-            name="x"
-            onPress={onEditPress}
-          />
+          <Feather style={{ color: '#67718C', fontSize: 18, marginLeft: 10 }} name="x" onPress={onEditPress} />
         ) : (
-          <Feather
-            style={{color: '#193356', fontSize: 18, marginLeft: 10}}
-            name="edit-2"
-            onPress={onEditPress}
-          />
+          <Feather style={{ color: '#193356', fontSize: 18, marginLeft: 10 }} name="edit-2" onPress={onEditPress} />
         )}
       </View>
       <View style={styles.separator}></View>
@@ -62,7 +39,7 @@ const EditableField = ({
               fontSize: 16,
               fontFamily: fonts.robo_reg,
               color: '#67718C',
-              paddingHorizontal: 10
+              paddingHorizontal: 10,
             }}>
             {value}
           </Text>
@@ -88,7 +65,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 10,
   },
-  input: {backgroundColor: 'white', borderBottomColor: 'white'},
+  input: { backgroundColor: 'white', borderBottomColor: 'white' },
   titleContainer: {
     marginTop: 10,
     backgroundColor: 'white',
@@ -96,7 +73,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 10,
   },
-  title: {paddingLeft: 10, flex: 1},
+  title: { paddingLeft: 10, flex: 1 },
   separator: {
     height: 1,
     backgroundColor: '#EEEEEE',
@@ -109,8 +86,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
-  saveButtonText: {color: '#84668C', fontSize: 12},
-  limitText: {fontSize: 12, paddingRight: 15, paddingLeft: 5, color: '#29AAE2'},
+  saveButtonText: { color: '#84668C', fontSize: 12 },
+  limitText: { fontSize: 12, paddingRight: 15, paddingLeft: 5, color: '#29AAE2' },
   saveButton: {
     borderWidth: 1,
     borderColor: '#84668C',

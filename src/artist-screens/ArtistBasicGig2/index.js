@@ -1,17 +1,9 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  TextInput,
-  ScrollView,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Header, Button} from '../../components';
-import {height, heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {useTheme, fonts} from '../../utils/theme';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Header, Button } from '../../components';
+import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { useTheme, fonts } from '../../utils/theme';
 import iButton from '../../assets/ibutton.png';
 import Gallery from '../../assets/Gallery.png';
 import back from '../../assets/back.png';
@@ -25,7 +17,7 @@ const index = props => {
   const [image3, setImage3] = useState();
   const [selected, setSelected] = useState('');
 
-  const {navigation, route} = props;
+  const { navigation, route } = props;
   // const {data} = route.params;
 
   // console.log(data);
@@ -41,7 +33,7 @@ const index = props => {
             width: widthToDp(90),
           }}>
           <Image source={back}></Image>
-          <View style={{marginLeft: -20}}>
+          <View style={{ marginLeft: -20 }}>
             <Header title={'Baisc gig info'} />
           </View>
         </View>
@@ -54,15 +46,11 @@ const index = props => {
           height={140}
           style={styles.inputField}
           placeholder="Please tell use anything that may assist with the order..."></TextInput>
-        <Text style={styles.warning}>
-          {'The desc can not contain more than 200 letters.'}
-        </Text>
+        <Text style={styles.warning}>{'The desc can not contain more than 200 letters.'}</Text>
         <View style={styles.gigVersion}>
           <Text style={styles.title}>{'Service duration'}</Text>
         </View>
-        <Text style={styles.warning}>
-          {'The estimated time of the service, from start to end.'}
-        </Text>
+        <Text style={styles.warning}>{'The estimated time of the service, from start to end.'}</Text>
 
         <View
           style={{
@@ -119,9 +107,7 @@ const index = props => {
           <Text style={styles.title}>{'Service pictures '}</Text>
         </View>
         <Text style={styles.txt}>
-          {
-            'Uplod pictures of your past work for this service from your gallery. (Optional)'
-          }
+          {'Uplod pictures of your past work for this service from your gallery. (Optional)'}
         </Text>
         <View style={styles.parentUpload}>
           <TouchableOpacity
@@ -135,7 +121,7 @@ const index = props => {
             }}
             activeOpacity={0.9}>
             {image1 ? (
-              <Image source={{uri: image1.path}} style={styles.upload} />
+              <Image source={{ uri: image1.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
                 <Image source={Gallery}></Image>
@@ -154,7 +140,7 @@ const index = props => {
             }}
             activeOpacity={0.9}>
             {image2 ? (
-              <Image source={{uri: image2.path}} style={styles.upload} />
+              <Image source={{ uri: image2.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
                 <Image source={Gallery}></Image>
@@ -173,7 +159,7 @@ const index = props => {
             }}
             activeOpacity={0.9}>
             {image3 ? (
-              <Image source={{uri: image3.path}} style={styles.upload} />
+              <Image source={{ uri: image3.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
                 <Image source={Gallery}></Image>
@@ -231,7 +217,7 @@ const styles = StyleSheet.create({
   gigVersion: {
     marginTop: 30,
   },
-  
+
   warning: {
     fontSize: 14,
     marginHorizontal: 24,

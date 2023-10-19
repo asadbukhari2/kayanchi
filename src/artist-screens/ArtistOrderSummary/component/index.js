@@ -1,13 +1,13 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {fonts, useTheme} from '../../../utils/theme';
-import {Counter} from '../../../components';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { fonts, useTheme } from '../../../utils/theme';
+import { Counter } from '../../../components';
 import { heightToDp, widthToDp } from '../../../utils/Dimensions';
 
 const theme = useTheme();
 
 const index = props => {
-  const {serviceCount, serviceName, artistName} = props;
+  const { serviceCount, serviceName, artistName } = props;
 
   const [count, setCount] = useState(serviceCount);
 
@@ -27,13 +27,13 @@ const index = props => {
         <Text style={styles.artistLabel}>ARTIST</Text>
         <Text style={styles.artistName}>{artistName}</Text>
       </View>
-      <View style={{marginRight:-widthToDp(2.5)}}>
+      <View style={{ marginRight: -widthToDp(2.5) }}>
         <Counter
           count={count}
           onPressIncrement={increment}
           onPressDecrement={decrement}
-          btnStyle={{backgroundColor: undefined}}
-          iconStyle={{color: theme.counterGrey}}
+          btnStyle={{ backgroundColor: undefined }}
+          iconStyle={{ color: theme.counterGrey }}
           countStyle={styles.counterCount}
         />
       </View>
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 20,
     color: theme.greyText,
-    marginTop:heightToDp(2.2)
+    marginTop: heightToDp(2.2),
   },
   artistName: {
     fontFamily: fonts.robo_reg,

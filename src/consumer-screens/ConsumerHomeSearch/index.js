@@ -1,22 +1,13 @@
-import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Image,
-  StyleSheet,
-  FlatList,
-  Text,
-  TextInput,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Button, Header, HomeCard, SearchBox} from '../../components';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
+import React, { useState, useEffect } from 'react';
+import { View, Image, StyleSheet, FlatList, Text, TextInput, ScrollView, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Header, HomeCard, SearchBox } from '../../components';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
 import ArtistItem from '../../components/ArtistItem';
 import HorizantalStepIndicator from '../../components/HorizantalStepIndicator';
 import Feather from 'react-native-vector-icons/Feather';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 // import api from '../../utils/APIservice';
 
 const hair = require('../../assets/HairDark.png');
@@ -79,13 +70,7 @@ const DATA = [
     imageLink: Botox,
   },
 ];
-const data = [
-  'Cart',
-  'Delivery Address',
-  'Order Summary',
-  'Payment Method',
-  'Track',
-];
+const data = ['Cart', 'Delivery Address', 'Order Summary', 'Payment Method', 'Track'];
 
 const ConsumerHomeSearch = props => {
   const [searchKeyword, setSearchKeyword] = useState('');
@@ -115,7 +100,7 @@ const ConsumerHomeSearch = props => {
   //   getService();
   //   getArtist();
   // }, []);
-  const renderItem = ({item, index}) => (
+  const renderItem = ({ item, index }) => (
     <TouchableOpacity
       onPress={() => setClickedIndex(index)}
       activeOpacity={0.7}
@@ -130,10 +115,7 @@ const ConsumerHomeSearch = props => {
         borderRadius: 20,
         backgroundColor: clickedIndex === index ? '#5EAC66' : '#EEEEEE',
       }}>
-      <Image
-        source={item.imageLink}
-        style={{width: 12.5, height: 16, resizeMode: 'cover', marginRight: 5}}
-      />
+      <Image source={item.imageLink} style={{ width: 12.5, height: 16, resizeMode: 'cover', marginRight: 5 }} />
       <Text
         style={{
           color: clickedIndex === index ? 'white' : '#0F2851',
@@ -146,17 +128,13 @@ const ConsumerHomeSearch = props => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={{paddingBottom: 90}}>
+      <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 90 }}>
         <Header backBtn title="Serach" />
         <SearchBox
           value={searchKeyword}
           onChange={txt => setSearchKeyword(txt)}
           placeholder={'Haircut'}
-          onSearch={() =>
-            props.navigation.navigate('HomeStack', {screen: 'Search'})
-          }
+          onSearch={() => props.navigation.navigate('HomeStack', { screen: 'Search' })}
         />
 
         <View
@@ -178,7 +156,7 @@ const ConsumerHomeSearch = props => {
               borderColor: '#67506D',
               borderRadius: 25,
             }}>
-            <Image source={ondemandSearch} style={{height: 40, width: 36}} />
+            <Image source={ondemandSearch} style={{ height: 40, width: 36 }} />
             <Text
               style={{
                 fontSize: 15,
@@ -199,10 +177,7 @@ const ConsumerHomeSearch = props => {
               borderColor: '#84668C',
               borderRadius: 25,
             }}>
-            <Image
-              source={bookingSearch}
-              style={{height: 38, width: 29, marginRight: 10}}
-            />
+            <Image source={bookingSearch} style={{ height: 38, width: 29, marginRight: 10 }} />
             <Text
               style={{
                 color: '#0F2851',
@@ -214,13 +189,8 @@ const ConsumerHomeSearch = props => {
           </View>
         </View>
 
-        <View style={{marginLeft: widthToDp(5)}}>
-          <FlatList
-            data={DATA}
-            renderItem={renderItem}
-            keyExtractor={item => item.name}
-            horizontal
-          />
+        <View style={{ marginLeft: widthToDp(5) }}>
+          <FlatList data={DATA} renderItem={renderItem} keyExtractor={item => item.name} horizontal />
         </View>
 
         {/* <HorizantalStepIndicator data={data} /> */}
@@ -244,15 +214,10 @@ const ConsumerHomeSearch = props => {
               }}>
               Invite a friend & get 15% off right now!
             </Text>
-            <Text style={{color: '#D8B29B', fontSize: 13, paddingVertical: 10}}>
-              {'Learn more   >'}
-            </Text>
+            <Text style={{ color: '#D8B29B', fontSize: 13, paddingVertical: 10 }}>{'Learn more   >'}</Text>
           </View>
           <View>
-            <Image
-              source={People_flying}
-              style={{height: 94, width: 94, resizeMode: 'cover'}}
-            />
+            <Image source={People_flying} style={{ height: 94, width: 94, resizeMode: 'cover' }} />
           </View>
         </View>
       </ScrollView>
@@ -317,7 +282,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  explorContainer: {flexDirection: 'row', marginHorizontal: widthToDp(4)},
+  explorContainer: { flexDirection: 'row', marginHorizontal: widthToDp(4) },
   logoView: {
     flexDirection: 'row',
     height: heightToDp(24),
@@ -330,7 +295,7 @@ const styles = StyleSheet.create({
     marginLeft: widthToDp(5),
     marginVertical: 10,
   },
-  images: {width: widthToDp(33), height: heightToDp(37), resizeMode: 'cover'},
+  images: { width: widthToDp(33), height: heightToDp(37), resizeMode: 'cover' },
   text: {
     backgroundColor: '#587c5c',
     color: 'white',

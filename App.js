@@ -1,8 +1,8 @@
 // import 'react-native-gesture-handler';
 // In App.js in a new project
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 // import {oneSignalId} from './src/redux/actions';
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 // import OneSignal from 'react-native-onesignal';
 
 // //OneSignal Init Code
@@ -32,19 +32,19 @@ import {useDispatch} from 'react-redux';
 // });
 
 // react navigation
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import Root from './src/navigation/root';
 
 // splash screen
 // import BootSplash from 'react-native-bootsplash';
 
-import {Provider} from 'react-redux';
-import {PersistGate} from 'redux-persist/lib/integration/react';
-import {persistor, store} from './src/redux/reducers';
-import {LogBox} from 'react-native';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/lib/integration/react';
+import { persistor, store } from './src/redux/reducers';
+import { LogBox } from 'react-native';
 LogBox.ignoreAllLogs(); //Ignore all log notifications
 import FlashMessage from 'react-native-flash-message';
-import {StatusBar} from 'react-native';
+import { StatusBar } from 'react-native';
 function App() {
   return (
     <Provider store={store}>
@@ -54,12 +54,7 @@ function App() {
           <Root />
         </NavigationContainer>
       </PersistGate>
-      <FlashMessage
-        position="top"
-        icon="auto"
-        duration={2000}
-        style={{zIndex: 9999}}
-      />
+      <FlashMessage position="top" icon="auto" duration={2000} style={{ zIndex: 9999 }} />
     </Provider>
   );
 }

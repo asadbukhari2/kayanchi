@@ -1,18 +1,18 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Button, Header, TextInput} from '../../components';
-import {heightToDp, width} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Header, TextInput } from '../../components';
+import { heightToDp, width } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
 import api from '../../utils/APIservice';
-import {useDispatch, useSelector} from 'react-redux';
-import {saveUserData} from '../../redux/actions';
-import {showMessage} from 'react-native-flash-message';
+import { useDispatch, useSelector } from 'react-redux';
+import { saveUserData } from '../../redux/actions';
+import { showMessage } from 'react-native-flash-message';
 
 const theme = useTheme();
 
 const ConsumerOtpSignUp = props => {
-  const {navigation} = props;
+  const { navigation } = props;
   // const {number} = props.route.params;
 
   // console.log(number, 'PHONE_NUMBER');
@@ -23,24 +23,24 @@ const ConsumerOtpSignUp = props => {
   const phoneSignup = async () => {
     navigation.navigate('ConsumerPasswordSignUp');
     // try {
-      // const res = await api.post('/api/users/verifyotp', {
-      //   number: phone_number,
-      //   otp: verification_code,
-      // });
+    // const res = await api.post('/api/users/verifyotp', {
+    //   number: phone_number,
+    //   otp: verification_code,
+    // });
 
-      // if (res.status == 200) {
-        // dispatch(saveUserData(res.data));
-        // showMessage({
-        //   message: 'Logged in successfully!',
-        //   type: 'success',
-        // });
-        // navigation.navigate('ArtistPasswordSignUp', {phone_number});
-      // } else {
-      //   showMessage({
-      //     message: res.data,
-      //     type: 'danger',
-      //   });
-      // }
+    // if (res.status == 200) {
+    // dispatch(saveUserData(res.data));
+    // showMessage({
+    //   message: 'Logged in successfully!',
+    //   type: 'success',
+    // });
+    // navigation.navigate('ArtistPasswordSignUp', {phone_number});
+    // } else {
+    //   showMessage({
+    //     message: res.data,
+    //     type: 'danger',
+    //   });
+    // }
     // } catch (error) {
     //   showMessage({
     //     message: error?.message,
@@ -57,16 +57,13 @@ const ConsumerOtpSignUp = props => {
         mainLabel={'Verify Your Number'}
         subLabel={'Enter the code you have recieved'}
         input={text => setOtp(text)}
-        placeholder='1246'
+        placeholder="1246"
         keyboardType={'phone-pad'}
       />
       <View style={styles.bottomTxtView}>
-        <Text style={styles.bottomTxt}>
-          We have sent you an OTP on your device.
-        </Text>
-        <Text style={[styles.bottomTxt,{position:"absolute", right:0, top: -50}]}>
-          <Text style={{color: theme.linkTxt }}> Resend</Text>
-          
+        <Text style={styles.bottomTxt}>We have sent you an OTP on your device.</Text>
+        <Text style={[styles.bottomTxt, { position: 'absolute', right: 0, top: -50 }]}>
+          <Text style={{ color: theme.linkTxt }}> Resend</Text>
         </Text>
       </View>
       <Button title={'Continue'} btnStyle={styles.btn} onPress={phoneSignup} />
@@ -79,7 +76,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: theme.background,
     // paddingTop: heightToDp(8),
-
   },
   bottomTxt: {
     fontFamily: fonts.robo_reg,

@@ -1,36 +1,30 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {StyleSheet, Image, Text, View, ScrollView} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Button} from '../../components';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
-import {Ionicons} from 'react-native-vector-icons'; // Import the icon you want to use
+import { StyleSheet, Image, Text, View, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button } from '../../components';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
+import { Ionicons } from 'react-native-vector-icons'; // Import the icon you want to use
 
 const theme = useTheme();
 const facebook = require('../../assets/facebook.png');
 const google = require('../../assets/google.png');
 const email = require('../../assets/email.png');
+
 const ArtistWelcome = props => {
-  // console.log('props', props);
-  const {navigation} = props;
+  const { navigation } = props;
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={{flex: 1}}>
-        <Image
-          source={require('../../assets/Signup.png')}
-          style={styles.img}
-          resizeMode="contain"
-        />
+      <ScrollView style={{ flex: 1 }}>
+        <Image source={require('../../assets/Signup.png')} style={styles.img} resizeMode="contain" />
         <Text style={styles.heading}>
-          Earn with <Text style={{color: theme.primary}}>Kaynchi</Text>
+          Earn with <Text style={{ color: theme.primary }}>Kaynchi</Text>
         </Text>
-        <Text style={styles.txt}>
-          Join a community of 100+ artists and salons and make a name for
-          yourself!
-        </Text>
+        <Text style={styles.txt}>Join a community of 100+ artists and salons and make a name for yourself!</Text>
         <Button
           title={'Continue With Email'}
-          btnStyle={[styles.whiteBtn, {marginTop: heightToDp(6.8)}]}
+          btnStyle={[styles.whiteBtn, { marginTop: heightToDp(6.8) }]}
           titleStyle={styles.blackText}
           onPress={() => navigation.navigate('ArtistEmailSignUp')}
           image={email}
@@ -39,7 +33,7 @@ const ArtistWelcome = props => {
 
         <Button
           title={'Continue with google'}
-          btnStyle={[styles.whiteBtn, {marginTop: heightToDp(4.5)}]}
+          btnStyle={[styles.whiteBtn, { marginTop: heightToDp(4.5) }]}
           titleStyle={styles.blackText}
           onPress={() => navigation.navigate('GoogleSignIn')}
           image={google}
@@ -48,7 +42,7 @@ const ArtistWelcome = props => {
 
         <Button
           title={'Continue with facebook'}
-          btnStyle={[styles.whiteBtn, {marginTop: heightToDp(4.5)}]}
+          btnStyle={[styles.whiteBtn, { marginTop: heightToDp(4.5) }]}
           titleStyle={styles.blackText}
           image={facebook}
           imageStyle={styles.iconStyles}
@@ -68,10 +62,7 @@ const ArtistWelcome = props => {
           <View style={styles.seperator} />
         </View>
         <View style={styles.btnText}>
-          <Button
-            title={'Continue with mobile number'}
-            onPress={() => navigation.navigate('ArtistNumberSignUp')}
-          />
+          <Button title={'Continue with mobile number'} onPress={() => navigation.navigate('ArtistNumberSignUp')} />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -84,7 +75,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.background,
     paddingTop: heightToDp(10),
   },
-  btnText:{marginVertical: 10},
+  btnText: { marginVertical: 10 },
   img: {
     width: 299.02,
     height: 199,

@@ -1,20 +1,15 @@
 import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
 
 const theme = useTheme();
 
 const index = props => {
-  const {text, containerStyle, source, isSelected, onPress} = props;
+  const { text, containerStyle, source, isSelected, onPress } = props;
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      activeOpacity={0.7}
-      style={[styles.container, containerStyle]}>
-      <View style={styles.radioCircle}>
-        {isSelected && <View style={styles.radioDot} />}
-      </View>
+    <TouchableOpacity onPress={onPress} activeOpacity={0.7} style={[styles.container, containerStyle]}>
+      <View style={styles.radioCircle}>{isSelected && <View style={styles.radioDot} />}</View>
       <Text style={styles.txt}>{text}</Text>
       {source && <Image source={source} style={styles.image} />}
     </TouchableOpacity>

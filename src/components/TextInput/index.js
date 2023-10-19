@@ -1,13 +1,7 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  TextInput,
-  View,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
+import React, { useState } from 'react';
+import { StyleSheet, TextInput, View, Text, TouchableOpacity } from 'react-native';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
 import Feather from 'react-native-vector-icons/Feather';
 
 const theme = useTheme();
@@ -42,16 +36,10 @@ const InputText = props => {
   return (
     <View style={[styles.container, containerStyle]}>
       {stepCount && <Text style={styles.step}>STEP {stepCount} OF 2</Text>}
-      {mainLabel && (
-        <Text style={[styles.labelText, mainLabelStyle]}>{mainLabel}</Text>
-      )}
+      {mainLabel && <Text style={[styles.labelText, mainLabelStyle]}>{mainLabel}</Text>}
       {subLabel && <Text style={styles.subLabel}>{subLabel}</Text>}
       {!removeInput && (
-        <View
-          style={[
-            {flexDirection: 'row', marginTop: heightToDp(2.5)},
-            inputMarginTop,
-          ]}>
+        <View style={[{ flexDirection: 'row', marginTop: heightToDp(2.5) }, inputMarginTop]}>
           {input ? (
             <TextInput
               autoFocus={focused}
@@ -71,19 +59,13 @@ const InputText = props => {
             <TouchableOpacity
               activeOpacity={1}
               onPress={onInputPress}
-              style={[styles.inputContainer, {justifyContent: 'center'}]}>
+              style={[styles.inputContainer, { justifyContent: 'center' }]}>
               <Text style={styles.txt}>{value}</Text>
             </TouchableOpacity>
           )}
           {secured && (
-            <TouchableOpacity
-              onPress={() => setIsSecured(!isSecured)}
-              activeOpacity={0.7}
-              style={styles.iconView}>
-              <Feather
-                name={isSecured ? 'eye-off' : 'eye'}
-                style={{fontSize: 16, color: theme.backIcon}}
-              />
+            <TouchableOpacity onPress={() => setIsSecured(!isSecured)} activeOpacity={0.7} style={styles.iconView}>
+              <Feather name={isSecured ? 'eye-off' : 'eye'} style={{ fontSize: 16, color: theme.backIcon }} />
             </TouchableOpacity>
           )}
         </View>

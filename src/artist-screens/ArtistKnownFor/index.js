@@ -1,19 +1,11 @@
-import React, {useState} from 'react';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Button, Header, TextInput} from '../../components';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ActivityIndicator,
-  Image,
-  ScrollView,
-} from 'react-native';
-import {fonts, useTheme} from '../../utils/theme';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
+import React, { useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Header, TextInput } from '../../components';
+import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator, Image, ScrollView } from 'react-native';
+import { fonts, useTheme } from '../../utils/theme';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Assuming you want to use FontAwesome icons, you can change it to any other supported icon library.
-import {showMessage} from 'react-native-flash-message';
+import { showMessage } from 'react-native-flash-message';
 
 const theme = useTheme();
 
@@ -56,16 +48,12 @@ const Gender = [
   },
   {
     name: 'Treatments',
-    icons: [
-      require('../../assets/Botox.png'),
-      require('../../assets/Fillers.png'),
-      require('../../assets/Laser.png'),
-    ],
+    icons: [require('../../assets/Botox.png'), require('../../assets/Fillers.png'), require('../../assets/Laser.png')],
     message: ['Botox', 'Fillers', 'Laser'],
   },
 ];
 
-export default function ArtistKnownFor({navigation}) {
+export default function ArtistKnownFor({ navigation }) {
   const [skills, setSkills] = useState([]);
   const [name, setName] = useState('');
   const [selectedSkills, setSelectedSkills] = useState([]);
@@ -73,9 +61,7 @@ export default function ArtistKnownFor({navigation}) {
   const [loading, setLoading] = useState(false);
   const toggleSkill = skillName => {
     if (selectedSkills.includes(skillName)) {
-      setSelectedSkills(prevSkills =>
-        prevSkills.filter(skill => skill !== skillName),
-      );
+      setSelectedSkills(prevSkills => prevSkills.filter(skill => skill !== skillName));
     } else {
       setSelectedSkills(prevSkills => [...prevSkills, skillName]);
     }
@@ -137,9 +123,7 @@ export default function ArtistKnownFor({navigation}) {
         />
         <TextInput
           mainLabel={'What are you known for?'}
-          subLabel={
-            "Personalize your clients' Kaynchi experience. Select all possible categories below"
-          }
+          subLabel={"Personalize your clients' Kaynchi experience. Select all possible categories below"}
           removeInput
         />
 
@@ -153,9 +137,7 @@ export default function ArtistKnownFor({navigation}) {
                   style={[
                     styles.genBtn,
                     {
-                      backgroundColor: selectedSkills.includes(item.name)
-                        ? theme.brown
-                        : '#D5D5D5',
+                      backgroundColor: selectedSkills.includes(item.name) ? theme.brown : '#D5D5D5',
                     },
                   ]}
                   key={item.name} // Add a unique key to the TouchableOpacity
@@ -164,9 +146,7 @@ export default function ArtistKnownFor({navigation}) {
                     style={[
                       styles.genTxt,
                       {
-                        color: !selectedSkills.includes(item.name)
-                          ? '#2F3A58'
-                          : theme.background,
+                        color: !selectedSkills.includes(item.name) ? '#2F3A58' : theme.background,
                       },
                     ]}>
                     {item.name}
@@ -176,11 +156,7 @@ export default function ArtistKnownFor({navigation}) {
                 <View style={styles.iconContainer}>
                   {item.icons.map((imagePath, index) => (
                     <View key={index} style={styles.iconWrapper}>
-                      <Image
-                        source={imagePath}
-                        resizeMode="contain"
-                        style={{width: 50, height: 50}}
-                      />
+                      <Image source={imagePath} resizeMode="contain" style={{ width: 50, height: 50 }} />
                       <Text style={styles.iconText}>{item.message[index]}</Text>
                     </View>
                   ))}
@@ -190,11 +166,7 @@ export default function ArtistKnownFor({navigation}) {
           })}
         </View>
 
-        <Button
-          title={'Continue'}
-          btnStyle={[styles.btn, {marginTop: heightToDp(10)}]}
-          onPress={SkillsHandler}
-        />
+        <Button title={'Continue'} btnStyle={[styles.btn, { marginTop: heightToDp(10) }]} onPress={SkillsHandler} />
       </ScrollView>
     </SafeAreaView>
   );

@@ -1,20 +1,13 @@
-import React, {useRef, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {fonts, useTheme} from '../../utils/theme';
+import React, { useRef, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { fonts, useTheme } from '../../utils/theme';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import {Button, Header, TextInput} from '../../components';
-import {height, heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {useDispatch} from 'react-redux';
-import {showMessage} from 'react-native-flash-message';
-import {saveUserData} from '../../redux/actions';
+import { Button, Header, TextInput } from '../../components';
+import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { useDispatch } from 'react-redux';
+import { showMessage } from 'react-native-flash-message';
+import { saveUserData } from '../../redux/actions';
 import OrderConfirmCard from '../../components/OrderConfirmCard';
 import MultiButton from '../../components/MultiButton';
 import clockcolor from '../../assets/clockcolor.png';
@@ -69,7 +62,7 @@ const DATA = [
 ];
 
 const ConsumerOrderProcess = props => {
-  const {navigation} = props;
+  const { navigation } = props;
   const [selectedRating, setSelectedRating] = useState(null);
   const [selectedRating2, setSelectedRating2] = useState(null);
   const [selectedRating3, setSelectedRating3] = useState(null);
@@ -84,7 +77,7 @@ const ConsumerOrderProcess = props => {
 
   const addData = async () => {
     console.log('props.navigation.navigate', props.navigation.replace);
-    navigation.navigate('ConsumerHome', {showFeedbackModal: true});
+    navigation.navigate('ConsumerHome', { showFeedbackModal: true });
     // navigation.replace("ConsumerHomeStack", { showFeedbackModal: true })
     // try {
     //   // setLoading(true);
@@ -99,16 +92,11 @@ const ConsumerOrderProcess = props => {
     // }
   };
 
-  const _renderItem = ({item, index}) => {
+  const _renderItem = ({ item, index }) => {
     return (
       <ScrollView>
-        <View style={{flex: 1}}>
-          <Header
-            title={item.heading}
-            skip
-            backBtn
-            onSkip={() => navigation.replace('ArtistHome')}
-          />
+        <View style={{ flex: 1 }}>
+          <Header title={item.heading} skip backBtn onSkip={() => navigation.replace('ArtistHome')} />
           <Image style={styles.img} source={item.image} resizeMode="contain" />
 
           <Text style={styles.title}>{item.title}</Text>
@@ -141,7 +129,7 @@ const ConsumerOrderProcess = props => {
                 }}>
                 {DATA.map((item, index) => {
                   return (
-                    <View style={{marginTop: index > 0 ? heightToDp(6.7) : 0}}>
+                    <View style={{ marginTop: index > 0 ? heightToDp(6.7) : 0 }}>
                       <OrderConfirmCard
                         serviceName={item.serviceName}
                         artistName={item.artistName}
@@ -153,19 +141,19 @@ const ConsumerOrderProcess = props => {
                   );
                 })}
               </View>
-              <View style={[styles.indicatorView, {marginVertical: 20}]}>
+              <View style={[styles.indicatorView, { marginVertical: 20 }]}>
                 <View style={styles.row}>
                   <MultiButton
                     image={contact}
                     title={'Contact Artist'}
-                    btnStyle={{backgroundColor: '#668C6A'}}
-                    titleStyle={{fontFamily: fonts.sans_bold}}
+                    btnStyle={{ backgroundColor: '#668C6A' }}
+                    titleStyle={{ fontFamily: fonts.sans_bold }}
                   />
                   <MultiButton
                     image={panic}
                     title={'Panic'}
-                    btnStyle={{backgroundColor: '#EC615B'}}
-                    titleStyle={{fontFamily: fonts.sans_bold}}
+                    btnStyle={{ backgroundColor: '#EC615B' }}
+                    titleStyle={{ fontFamily: fonts.sans_bold }}
                   />
                 </View>
               </View>
@@ -199,7 +187,7 @@ const ConsumerOrderProcess = props => {
                 }}>
                 {DATA.map((item, index) => {
                   return (
-                    <View style={{marginTop: index > 0 ? heightToDp(6.7) : 0}}>
+                    <View style={{ marginTop: index > 0 ? heightToDp(6.7) : 0 }}>
                       <OrderConfirmCard
                         serviceName={item.serviceName}
                         artistName={item.artistName}
@@ -211,19 +199,19 @@ const ConsumerOrderProcess = props => {
                   );
                 })}
               </View>
-              <View style={[styles.indicatorView, {marginVertical: 20}]}>
+              <View style={[styles.indicatorView, { marginVertical: 20 }]}>
                 <View style={styles.row}>
                   <MultiButton
                     image={contact}
                     title={'Contact Artist'}
-                    btnStyle={{backgroundColor: '#668C6A'}}
-                    titleStyle={{fontFamily: fonts.sans_bold}}
+                    btnStyle={{ backgroundColor: '#668C6A' }}
+                    titleStyle={{ fontFamily: fonts.sans_bold }}
                   />
                   <MultiButton
                     image={panic}
                     title={'Panic'}
-                    btnStyle={{backgroundColor: '#EC615B'}}
-                    titleStyle={{fontFamily: fonts.sans_bold}}
+                    btnStyle={{ backgroundColor: '#EC615B' }}
+                    titleStyle={{ fontFamily: fonts.sans_bold }}
                   />
                 </View>
               </View>
@@ -249,9 +237,7 @@ const ConsumerOrderProcess = props => {
                         }}>
                         <View>
                           <View>
-                            <Text style={styles.headingName}>
-                              {order.orderId}
-                            </Text>
+                            <Text style={styles.headingName}>{order.orderId}</Text>
 
                             <Text
                               style={{
@@ -266,12 +252,9 @@ const ConsumerOrderProcess = props => {
                               const maxServicesToShow = 1;
 
                               if (serviceIndex < maxServicesToShow) {
-                                return (
-                                  <Text key={serviceIndex}>{service}</Text>
-                                );
+                                return <Text key={serviceIndex}>{service}</Text>;
                               } else if (serviceIndex === maxServicesToShow) {
-                                const remainingServices =
-                                  order.services.length - maxServicesToShow;
+                                const remainingServices = order.services.length - maxServicesToShow;
                                 return (
                                   <TouchableOpacity
                                     key={serviceIndex}
@@ -314,10 +297,7 @@ const ConsumerOrderProcess = props => {
                               </Text>
                             </Text>
 
-                            <Image
-                              source={order.imageLink}
-                              style={styles.OrderImage}
-                            />
+                            <Image source={order.imageLink} style={styles.OrderImage} />
                           </View>
                           <Text
                             style={{
@@ -332,10 +312,7 @@ const ConsumerOrderProcess = props => {
                               color: '#29AAE2',
                               fontFamily: fonts.robo_reg,
                             }}>
-                            3.5 kms{' '}
-                            <Text style={{color: '#0F2851'}}>
-                              away for you{' '}
-                            </Text>{' '}
+                            3.5 kms <Text style={{ color: '#0F2851' }}>away for you </Text>{' '}
                           </Text>
                           <Text
                             style={[
@@ -439,7 +416,7 @@ const ConsumerOrderProcess = props => {
                   via EasyPaisa
                 </Text>
                 <View style={styles.commonlyOffered}>
-                  <Text style={{color: '#2F3A58', fontFamily: fonts.robo_reg, marginBottom: 15}}>
+                  <Text style={{ color: '#2F3A58', fontFamily: fonts.robo_reg, marginBottom: 15 }}>
                     Commonly offered
                   </Text>
                   <View
@@ -466,39 +443,30 @@ const ConsumerOrderProcess = props => {
                   <Text
                     style={{
                       fontSize: 18,
-                      color:'#0F2851',
+                      color: '#0F2851',
                       fontFamily: fonts.hk_bold,
                       marginTop: widthToDp(5),
                       marginBottom: widthToDp(5),
                     }}>
                     Your Review
                   </Text>
-                  <View style={{marginLeft: widthToDp(3)}}>
-
-                  <Text style={{color:"#67718C", fontSize: 14, fontFamily: fonts.robo_med}}>Artist hygiene & cleanliness</Text>
-                  <RatingModal
-                    selectedRating={selectedRating}
-                    handleRating={setSelectedRating}
-                  />
-                  <Text style={{color:"#67718C", fontSize: 14, fontFamily: fonts.robo_med}}>Service as described</Text>
-                  <RatingModal
-                    selectedRating={selectedRating2}
-                    handleRating={setSelectedRating2}
-                  />
-                  <Text style={{color:"#67718C", fontSize: 14, fontFamily: fonts.robo_med}}>Would recommend</Text>
-                  <RatingModal
-                    selectedRating={selectedRating3}
-                    handleRating={setSelectedRating3}
-                  />
-                </View>
-
+                  <View style={{ marginLeft: widthToDp(3) }}>
+                    <Text style={{ color: '#67718C', fontSize: 14, fontFamily: fonts.robo_med }}>
+                      Artist hygiene & cleanliness
+                    </Text>
+                    <RatingModal selectedRating={selectedRating} handleRating={setSelectedRating} />
+                    <Text style={{ color: '#67718C', fontSize: 14, fontFamily: fonts.robo_med }}>
+                      Service as described
+                    </Text>
+                    <RatingModal selectedRating={selectedRating2} handleRating={setSelectedRating2} />
+                    <Text style={{ color: '#67718C', fontSize: 14, fontFamily: fonts.robo_med }}>Would recommend</Text>
+                    <RatingModal selectedRating={selectedRating3} handleRating={setSelectedRating3} />
                   </View>
+                </View>
                 <View>
                   <TextInput
                     input={text => setName(text)}
-                    placeholder={
-                      'Please tell us anything that may assist with the order...'
-                    }
+                    placeholder={'Please tell us anything that may assist with the order...'}
                     multiline
                     inputBoxStyle={{
                       backgroundColor: '#ffffff',
@@ -522,7 +490,7 @@ const ConsumerOrderProcess = props => {
                 </View>
               </View>
 
-              <View style={{marginVertical: 20}}>
+              <View style={{ marginVertical: 20 }}>
                 <Button
                   title={'Go to Home'}
                   onPress={() =>
@@ -547,14 +515,12 @@ const ConsumerOrderProcess = props => {
       <ScrollView>
         <AppIntroSlider
           ref={myFlatList}
-          style={{flex: 1}}
+          style={{ flex: 1 }}
           renderItem={_renderItem}
-          activeDotStyle={{width: 0, height: 0}}
-          dotStyle={{height: 0, width: 0}}
+          activeDotStyle={{ width: 0, height: 0 }}
+          dotStyle={{ height: 0, width: 0 }}
           // renderNextButton={() => <Button title={'Next'} disable />}
-          renderDoneButton={() => (
-            <Button title={'Go to home'} onPress={addData} disable />
-          )}
+          renderDoneButton={() => <Button title={'Go to home'} onPress={addData} disable />}
           data={slides}
           onDone={addData}
           onSkip={() => navigation.replace('AuthStack')}
@@ -582,7 +548,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderRadius: 10,
   },
-  commonlyOffered: {marginHorizontal: widthToDp(5), marginTop: 10},
+  commonlyOffered: { marginHorizontal: widthToDp(5), marginTop: 10 },
   orderContainer: {
     backgroundColor: 'white',
     // width: widthToDp(44),
@@ -615,9 +581,9 @@ const styles = StyleSheet.create({
     height: 9,
     borderRadius: 9 / 2,
   },
-  tipContainer: {marginHorizontal: widthToDp(5), marginTop: widthToDp(5)},
-  indicatorView: {marginHorizontal: 24, marginTop: heightToDp(2)},
-  row: {flexDirection: 'row', alignItems: 'center', justifyContent: 'center'},
+  tipContainer: { marginHorizontal: widthToDp(5), marginTop: widthToDp(5) },
+  indicatorView: { marginHorizontal: 24, marginTop: heightToDp(2) },
+  row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
   img: {
     resizeMode: 'cover',
     height: heightToDp(66.95),
@@ -625,7 +591,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: heightToDp(6.7),
   },
-  ratingModal: {marginHorizontal: widthToDp(5)},
+  ratingModal: { marginHorizontal: widthToDp(5) },
   latestbutton: {
     backgroundColor: '#a77246',
     padding: 5,

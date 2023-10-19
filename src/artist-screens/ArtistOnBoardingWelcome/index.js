@@ -1,30 +1,24 @@
 import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Header, Button} from '../../components';
-import {height, heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {useTheme, fonts} from '../../utils/theme';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Header, Button } from '../../components';
+import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { useTheme, fonts } from '../../utils/theme';
 
 const theme = useTheme();
 
 const ArtistOnBoardingWelcome = props => {
-  const {navigation, route} = props;
+  const { navigation, route } = props;
   // const {data} = route.params;
 
   // console.log(data);
   return (
     <SafeAreaView style={styles.container}>
       <Header title={'Perfecto!'} />
-      <Image
-        style={styles.img}
-        resizeMode="contain"
-        source={require('../../assets/introduction.png')}
-      />
+      <Image style={styles.img} resizeMode="contain" source={require('../../assets/introduction.png')} />
       <Text style={styles.title}>{'You made it. Yaaaay!!'}</Text>
       <Text style={styles.txt}>
-        {
-          "Let's get you started on how you can earn and become the top talent in the country"
-        }
+        {"Let's get you started on how you can earn and become the top talent in the country"}
       </Text>
       <TouchableOpacity
         activeOpacity={0.7}

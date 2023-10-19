@@ -1,33 +1,22 @@
-import React, {useState, useCallback} from 'react';
-import {StyleSheet, View, Text, FlatList, TouchableOpacity} from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { StyleSheet, View, Text, FlatList, TouchableOpacity } from 'react-native';
 import StepIndicator from 'react-native-step-indicator';
 import Feather from 'react-native-vector-icons/Feather';
-import {widthToDp} from '../../utils/Dimensions';
+import { widthToDp } from '../../utils/Dimensions';
 import CircularProgressBar from '../CircularProgressBar';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Import the icon library
 import { fonts } from '../../utils/theme';
-export default function HorizantalStepIndicator({data}) {
+export default function HorizantalStepIndicator({ data }) {
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedRating, setSelectedRating] = useState(null);
   const handleRating = rating => {
     setSelectedRating(rating);
   };
-  const [stepsCompleted, setStepsCompleted] = useState(
-    new Array(data.length).fill(false),
-  );
+  const [stepsCompleted, setStepsCompleted] = useState(new Array(data.length).fill(false));
   console.log(currentPage);
 
-  const viewabilityConfig = {itemVisiblePercentThreshold: 0};
-  const stepColors = [
-    '#29AAE2',
-    '#84668C',
-    '#A77246',
-    '#E91E63',
-    '#29AAE2',
-    '#29AAE2',
-    '#29AAE2',
-    '#29AAE2',
-  ]; // Define colors for each step
+  const viewabilityConfig = { itemVisiblePercentThreshold: 0 };
+  const stepColors = ['#29AAE2', '#84668C', '#A77246', '#E91E63', '#29AAE2', '#29AAE2', '#29AAE2', '#29AAE2']; // Define colors for each step
 
   const stepIndicatorStyles = {
     stepIndicatorSize: 10,
@@ -37,7 +26,7 @@ export default function HorizantalStepIndicator({data}) {
     separatorFinishedColor: '#aaaaaa',
     separatorUnFinishedColor: '#4CAF50',
     stepIndicatorFinishedColor: '#29AAE2',
-    stepIndicatorCurrentColor: "#F7F7F7",
+    stepIndicatorCurrentColor: '#F7F7F7',
     stepIndicatorUnFinishedColor: '#4CAF50',
     stepIndicatorLabelFontSize: 0,
     currentStepIndicatorLabelFontSize: 0,
@@ -49,8 +38,7 @@ export default function HorizantalStepIndicator({data}) {
     currentStepLabelColor: '#fe7013',
   };
 
-
-  const onViewableItemsChanged = useCallback(({viewableItems}) => {
+  const onViewableItemsChanged = useCallback(({ viewableItems }) => {
     const visibleItemsCount = viewableItems.length;
     if (visibleItemsCount !== 0) {
       setCurrentPage(viewableItems[visibleItemsCount - 1].index);
@@ -68,7 +56,6 @@ export default function HorizantalStepIndicator({data}) {
             currentPosition={currentPage}
           />
         </View>
-        
       </View>
 
       {/* {currentPage === data.length - 1 && (
@@ -124,13 +111,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#0F2851',
     paddingVertical: 6,
-    fontFamily:fonts.robo_med,
+    fontFamily: fonts.robo_med,
     // fontWeight: '500',
   },
   textRating: {
     fontSize: 14,
     color: '#67718C',
-    fontFamily:fonts.robo_reg,
+    fontFamily: fonts.robo_reg,
     backgroundColor: 'white',
     padding: 10,
     borderRadius: 10,
@@ -148,5 +135,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#EEEEEE',
     marginVertical: 15,
   },
-  ratingModal: {marginHorizontal: widthToDp(10)},
+  ratingModal: { marginHorizontal: widthToDp(10) },
 });

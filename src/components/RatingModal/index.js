@@ -9,18 +9,13 @@ const RatingModal = ({ selectedRating, handleRating }) => {
       style={{
         flexDirection: 'row',
         alignItems: 'center',
-        marginVertical: 10
-      }}
-    >
+        marginVertical: 10,
+      }}>
       {[1, 2, 3, 4, 5].map(rating => (
         <TouchableOpacity
           key={rating}
-          style={[
-            styles.ratingButton,
-            selectedRating === rating && styles.selectedRating,
-          ]}
-          onPress={() => handleRating(rating)}
-        >
+          style={[styles.ratingButton, selectedRating === rating && styles.selectedRating]}
+          onPress={() => handleRating(rating)}>
           <Icon
             name={selectedRating >= rating ? 'star' : 'star-o'}
             size={20}
@@ -35,5 +30,5 @@ const RatingModal = ({ selectedRating, handleRating }) => {
 export default RatingModal;
 
 const styles = StyleSheet.create({
-  ratingButton:{paddingRight: 10}
-})
+  ratingButton: { paddingRight: 10 },
+});

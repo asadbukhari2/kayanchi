@@ -1,13 +1,9 @@
 import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Image} from 'react-native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {images, useTheme} from '../utils/theme';
-import {
-  ArtistHomeStack,
-  ArtistProfileStack,
-  ArtistOrderStack,
-} from './Navigation';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Image } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { images, useTheme } from '../utils/theme';
+import { ArtistHomeStack, ArtistProfileStack, ArtistOrderStack } from './Navigation';
 import {
   Home,
   LocateKaynchi,
@@ -32,7 +28,7 @@ import {
   ArtistOrderSetting,
   ArtistLocateKaynchi,
 } from '../artist-screens';
-import {heightToDp, widthToDp} from '../utils/Dimensions';
+import { heightToDp, widthToDp } from '../utils/Dimensions';
 
 const Stack = createNativeStackNavigator();
 const RootStack = createNativeStackNavigator();
@@ -54,7 +50,7 @@ const MyTabs = () => {
         name="ArtistHome"
         component={ArtistHome}
         options={{
-          tabBarIcon: ({color, focused, size}) => (
+          tabBarIcon: ({ color, focused, size }) => (
             <Image
               source={images.tabHomeIcon}
               style={{
@@ -73,7 +69,7 @@ const MyTabs = () => {
         name="Home1"
         component={ArtistOrderStack}
         options={{
-          tabBarIcon: ({color, focused, size}) => (
+          tabBarIcon: ({ color, focused, size }) => (
             <Image
               source={images.tabOrderIcon}
               style={{
@@ -92,7 +88,7 @@ const MyTabs = () => {
         name="ArtistProfile"
         component={ArtistLocateKaynchi}
         options={{
-          tabBarIcon: ({color, focused, size}) => (
+          tabBarIcon: ({ color, focused, size }) => (
             <Image
               source={images.tabKaynchiIcon}
               style={{
@@ -111,7 +107,7 @@ const MyTabs = () => {
         name="ArtistProfile2"
         component={ArtistProfile}
         options={{
-          tabBarIcon: ({color, focused, size}) => (
+          tabBarIcon: ({ color, focused, size }) => (
             <Image
               source={images.tabProfileIcon}
               style={{

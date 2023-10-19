@@ -1,24 +1,23 @@
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React from 'react';
-import {fonts, useTheme} from '../../../utils/theme';
-import {heightToDp, widthToDp} from '../../../utils/Dimensions';
+import { fonts, useTheme } from '../../../utils/theme';
+import { heightToDp, widthToDp } from '../../../utils/Dimensions';
 
 const theme = useTheme();
 
 const CardComponent = props => {
-  const {makeDefault, titleData, state, number2, number, defaultCard, screen, navigation} =
-    props;
+  const { makeDefault, titleData, state, number2, number, defaultCard, screen, navigation } = props;
   const navigateToScreen = () => {
-    console.log("screen", screen);
-    console.log("props",props);
+    console.log('screen', screen);
+    console.log('props', props);
 
-    navigation.navigate("ConsumerProfileStack", {screen:screen}); 
+    navigation.navigate('ConsumerProfileStack', { screen: screen });
   };
   return (
     <View style={styles.container}>
       <View style={styles.carDetail}>
         <Text>{titleData}</Text>
-        <Text style={{color: '#1583D8'}}>{state}</Text>
+        <Text style={{ color: '#1583D8' }}>{state}</Text>
       </View>
       <View style={styles.card}>
         <View style={styles.cardNumber}>

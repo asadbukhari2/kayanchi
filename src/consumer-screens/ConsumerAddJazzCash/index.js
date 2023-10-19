@@ -8,19 +8,15 @@ import { useTheme } from '../../utils/theme';
 import easypaisa from '../../assets/jazz_cash.png';
 const theme = useTheme();
 
-const ConsumerAddJazzCash = (props) => {
+const ConsumerAddJazzCash = props => {
   const [name, setName] = useState('');
 
   return (
     <SafeAreaView style={GLOBAL_STYLES.containerHome}>
       <View style={{ flex: 1 }}>
-        <ScrollView
-          contentContainerStyle={{ flexGrow: 1, paddingBottom: heightToDp(30) }}
-        >
+        <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: heightToDp(30) }}>
           <Header backBtnGrey />
-          <Text style={GLOBAL_STYLES.title}>
-            {'Add JazzCash'}
-          </Text>
+          <Text style={GLOBAL_STYLES.title}>{'Add JazzCash'}</Text>
 
           <Text
             style={{
@@ -29,12 +25,12 @@ const ConsumerAddJazzCash = (props) => {
               marginLeft: widthToDp(6),
               marginRight: widthToDp(6),
               marginBottom: 9,
-            }}
-          >
-Add your JazzCash account details          </Text>
+            }}>
+            Add your JazzCash account details{' '}
+          </Text>
 
           <TextInput
-            input={(text) => setName(text)}
+            input={text => setName(text)}
             placeholder={'CNIC'}
             inputBoxStyle={{
               backgroundColor: '#ebe8ec',
@@ -43,7 +39,7 @@ Add your JazzCash account details          </Text>
             }}
           />
           <TextInput
-            input={(text) => setName(text)}
+            input={text => setName(text)}
             placeholder={'Jazzcash mobile accout'}
             inputBoxStyle={{
               backgroundColor: '#ebe8ec',
@@ -53,16 +49,26 @@ Add your JazzCash account details          </Text>
           />
         </ScrollView>
 
-        <View style={{ position: 'absolute', bottom: heightToDp(5), width: '100%', alignItems: 'center', justifyContent: 'center', height: 100 }}>
-  <Image source={easypaisa} style={{ width: 86, height: 34, resizeMode:"contain" }} />
-  <Text style={{ textAlign: 'center', marginVertical: 10 }}>All your information is kept safe and secure</Text>
-  <Button title="Save"             onPress={() =>
+        <View
+          style={{
+            position: 'absolute',
+            bottom: heightToDp(5),
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: 100,
+          }}>
+          <Image source={easypaisa} style={{ width: 86, height: 34, resizeMode: 'contain' }} />
+          <Text style={{ textAlign: 'center', marginVertical: 10 }}>All your information is kept safe and secure</Text>
+          <Button
+            title="Save"
+            onPress={() =>
               props.navigation.navigate('ConsumerProfileStack', {
                 screen: 'ConsumerPaymentMethods',
               })
-            }/>
-</View>
-
+            }
+          />
+        </View>
       </View>
     </SafeAreaView>
   );

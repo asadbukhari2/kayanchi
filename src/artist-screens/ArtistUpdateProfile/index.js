@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,20 +11,14 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
-import {getStatusBarHeight} from 'react-native-status-bar-height';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {fonts, useTheme} from '../../utils/theme';
-import {width, heightToDp, widthToDp, height} from '../../utils/Dimensions';
-import {
-  Button,
-  GradientRadio,
-  Header,
-  PromotionOfferCard,
-  Tabs,
-} from '../../components';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { fonts, useTheme } from '../../utils/theme';
+import { width, heightToDp, widthToDp, height } from '../../utils/Dimensions';
+import { Button, GradientRadio, Header, PromotionOfferCard, Tabs } from '../../components';
 import Modal from 'react-native-modal';
 import Feather from 'react-native-vector-icons/Feather';
-import {TextInput} from '../../components';
+import { TextInput } from '../../components';
 import EditableField from '../../components/EditableField';
 import ContainerWorkCertificate from './Components/ContainerWorkCertificate';
 import Gallery from '../../assets/Gallery.png';
@@ -163,12 +157,7 @@ const ArtistUpdateProfile = props => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar
-        animated={true}
-        backgroundColor="#000"
-        barStyle={'light-content'}
-        showHideTransition={'fade'}
-      />
+      <StatusBar animated={true} backgroundColor="#000" barStyle={'light-content'} showHideTransition={'fade'} />
       <View
         style={{
           height: getStatusBarHeight(),
@@ -178,12 +167,8 @@ const ArtistUpdateProfile = props => {
           zIndex: 100000,
         }}
       />
-      <Animated.View
-        style={[
-          styles.header,
-          {height: headerHeight, transform: [{translateY: opacity}]},
-        ]}>
-        <Animated.View style={[{transform: [{translateY: opacityHeader}]}]}>
+      <Animated.View style={[styles.header, { height: headerHeight, transform: [{ translateY: opacity }] }]}>
+        <Animated.View style={[{ transform: [{ translateY: opacityHeader }] }]}>
           {/* <Header backBtnWhite /> */}
         </Animated.View>
         <View style={styles.headerMain}>
@@ -191,17 +176,14 @@ const ArtistUpdateProfile = props => {
           <View style={styles.centerDiv}>
             <Animated.Text
               // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
-              style={[
-                styles.artistName,
-                {transform: [{translateX: translateName}, {scale: scaleName}]},
-              ]}>
+              style={[styles.artistName, { transform: [{ translateX: translateName }, { scale: scaleName }] }]}>
               {'Narmeen Iqbal'}
             </Animated.Text>
           </View>
           <View style={styles.centerDiv}>
             <Animated.View
               style={{
-                transform: [{translateY: opacity}],
+                transform: [{ translateY: opacity }],
               }}>
               <Image
                 source={beauty}
@@ -212,30 +194,20 @@ const ArtistUpdateProfile = props => {
                 }}
               />
             </Animated.View>
-            <View style={[styles.centerDiv, {paddingTop: 5}]}>
+            <View style={[styles.centerDiv, { paddingTop: 5 }]}>
               <Animated.Text
                 // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
-                style={[
-                  styles.artistLocation,
-                  {transform: [{translateY: opacity}]},
-                ]}>
+                style={[styles.artistLocation, { transform: [{ translateY: opacity }] }]}>
                 {'  Beautician '}
               </Animated.Text>
 
-              <Animated.View
-                style={[
-                  styles.dotContainer,
-                  {transform: [{translateY: opacity}]},
-                ]}>
+              <Animated.View style={[styles.dotContainer, { transform: [{ translateY: opacity }] }]}>
                 <Animated.Text
                   // onTextLayout={e => setRatingWidth(e.nativeEvent.lines[0].width)}
                   style={[
                     styles.artistRating,
                     {
-                      transform: [
-                        {translateX: translateRating},
-                        {scale: scaleRating},
-                      ],
+                      transform: [{ translateX: translateRating }, { scale: scaleRating }],
                     },
                   ]}>
                   {'.'}
@@ -243,20 +215,13 @@ const ArtistUpdateProfile = props => {
               </Animated.View>
               <Animated.Text
                 // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
-                style={[
-                  styles.artistLocation,
-                  {transform: [{translateY: opacity}]},
-                ]}>
+                style={[styles.artistLocation, { transform: [{ translateY: opacity }] }]}>
                 {' New Artist'}
               </Animated.Text>
             </View>
 
-            <Animated.View
-              style={[styles.imageShare, {transform: [{translateY: opacity}]}]}>
-              <Image
-                source={share}
-                style={{width: 20, height: 20, resizeMode: 'contain'}}
-              />
+            <Animated.View style={[styles.imageShare, { transform: [{ translateY: opacity }] }]}>
+              <Image source={share} style={{ width: 20, height: 20, resizeMode: 'contain' }} />
             </Animated.View>
           </View>
         </View>
@@ -264,13 +229,13 @@ const ArtistUpdateProfile = props => {
 
       <ScrollView
         scrollEventThrottle={10}
-        style={{height: height}}
+        style={{ height: height }}
         onScroll={e => {
           scrollY.setValue(e.nativeEvent.contentOffset.y);
         }}>
-        <View style={{marginTop: headerHeight}}>
+        <View style={{ marginTop: headerHeight }}>
           <Tabs
-            txtStyle={{width: widthToDp(37), textAlign: 'center'}}
+            txtStyle={{ width: widthToDp(37), textAlign: 'center' }}
             // selectedTab={txt => setTab(txt)}
             selectedTab={handleTabSelection}
             DATA={DATA}
@@ -377,8 +342,8 @@ const ArtistUpdateProfile = props => {
             </View>
           </View>
         </View> */}
-        <View style={{marginLeft: widthToDp(5)}}>
-          <Text style={[styles.welcomeTxt, {paddingTop: 7}]}>Portfolio</Text>
+        <View style={{ marginLeft: widthToDp(5) }}>
+          <Text style={[styles.welcomeTxt, { paddingTop: 7 }]}>Portfolio</Text>
           <Text
             style={{
               color: '#67718C',
@@ -404,7 +369,7 @@ const ArtistUpdateProfile = props => {
             }}
             activeOpacity={0.9}>
             {image1 ? (
-              <Image source={{uri: image1.path}} style={styles.upload} />
+              <Image source={{ uri: image1.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
                 <Image source={Gallery}></Image>
@@ -423,7 +388,7 @@ const ArtistUpdateProfile = props => {
             }}
             activeOpacity={0.9}>
             {image2 ? (
-              <Image source={{uri: image2.path}} style={styles.upload} />
+              <Image source={{ uri: image2.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
                 <Image source={Gallery}></Image>
@@ -442,7 +407,7 @@ const ArtistUpdateProfile = props => {
             }}
             activeOpacity={0.9}>
             {image3 ? (
-              <Image source={{uri: image3.path}} style={styles.upload} />
+              <Image source={{ uri: image3.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
                 <Image source={Gallery}></Image>
@@ -512,7 +477,7 @@ const styles = StyleSheet.create({
     marginTop: heightToDp(4.5),
     color: '#ffffff',
   },
-  genTxt: {color: '#ffffff', marginLeft: 6},
+  genTxt: { color: '#ffffff', marginLeft: 6 },
   categoryItem: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -543,8 +508,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
-  saveButtonText: {color: '#84668C', fontSize: 12},
-  limitText: {fontSize: 12, paddingRight: 15, paddingLeft: 5, color: '#29AAE2'},
+  saveButtonText: { color: '#84668C', fontSize: 12 },
+  limitText: { fontSize: 12, paddingRight: 15, paddingLeft: 5, color: '#29AAE2' },
   saveButton: {
     borderWidth: 1,
     borderColor: '#84668C',
@@ -557,7 +522,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 10,
   },
-  input: {backgroundColor: 'red'},
+  input: { backgroundColor: 'red' },
   titleContainer: {
     marginTop: 10,
     backgroundColor: 'white',
@@ -565,7 +530,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 10,
   },
-  title: {paddingLeft: 10, flex: 1},
+  title: { paddingLeft: 10, flex: 1 },
   separator: {
     height: 1,
     backgroundColor: '#EEEEEE',
@@ -591,7 +556,7 @@ const styles = StyleSheet.create({
     // paddingHorizontal: widthToDp(4),
     paddingVertical: heightToDp(3),
   },
-  subheading: {fontSize: 16, color: '#333333', fontFamily: fonts.robo_bold},
+  subheading: { fontSize: 16, color: '#333333', fontFamily: fonts.robo_bold },
   DiplomaConatiner: {
     width: width * 0.91,
     flexDirection: 'row',
@@ -663,7 +628,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: -110,
   },
-  centerDiv: {flexDirection: 'row', alignItems: 'center'},
+  centerDiv: { flexDirection: 'row', alignItems: 'center' },
 
   subHeading: {
     fontSize: 17,

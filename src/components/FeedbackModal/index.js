@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Image,StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import Modal from 'react-native-modal';
 import MultiButton from '../MultiButton';
 import { widthToDp, heightToDp, width } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
 import Feather from 'react-native-vector-icons/Feather';
-import TextInput from '../TextInput'
+import TextInput from '../TextInput';
 
 const theme = useTheme();
 const FeedBackModal = ({
@@ -21,21 +21,19 @@ const FeedBackModal = ({
   textInput,
   onNoClick,
 }) => {
-  const [text, setName] = useState('')
+  const [text, setName] = useState('');
   return (
     <Modal
       coverScreen={coverScreen}
       isVisible={isVisible}
-      style={{ flex: 1, margin: 0, justifyContent: 'flex-end', backgroundColor:"white" }}
+      style={{ flex: 1, margin: 0, justifyContent: 'flex-end', backgroundColor: 'white' }}
       onSwipeComplete={closeModal}
-      swipeDirection={swipeDirection}
-    >
+      swipeDirection={swipeDirection}>
       <View style={styles.modalMainView}>
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={closeModal}
-          style={{ padding: heightToDp(4.5), position: 'absolute', right: 0 }}
-        >
+          style={{ padding: heightToDp(4.5), position: 'absolute', right: 0 }}>
           <Feather name={'x'} style={{ fontSize: 20, color: theme.backIcon }} />
         </TouchableOpacity>
 
@@ -51,40 +49,36 @@ const FeedBackModal = ({
             fontFamily: fonts.robo_med,
             fontSize: 18,
             marginHorizontal: widthToDp(5),
-          }}
-        >
+          }}>
           {question}
         </Text>
-        { textInput&&(
-
+        {textInput && (
           <View>
-                  <TextInput
-                    input={text => setName(text)}
-                    placeholder={
-                      'Please share your response'
-                    }
-                    multiline
-                    inputBoxStyle={{
-                      backgroundColor: '#e7e7e7',
-                      borderBottomColor: '#e7e7e7',
-                      padding: 10,
+            <TextInput
+              input={text => setName(text)}
+              placeholder={'Please share your response'}
+              multiline
+              inputBoxStyle={{
+                backgroundColor: '#e7e7e7',
+                borderBottomColor: '#e7e7e7',
+                padding: 10,
 
-                      height: heightToDp(45),
-                      borderRadius: 10,
-                      textAlignVertical: 'top',
-                    }}
-                  />
-                  <Text
-                    style={{
-                      color: '#29AAE2',
-                      position: 'absolute',
-                      right: 25,
-                      bottom: 5,
-                    }}>
-                    0/100
-                  </Text>
-                </View>
-                      )}
+                height: heightToDp(45),
+                borderRadius: 10,
+                textAlignVertical: 'top',
+              }}
+            />
+            <Text
+              style={{
+                color: '#29AAE2',
+                position: 'absolute',
+                right: 25,
+                bottom: 5,
+              }}>
+              0/100
+            </Text>
+          </View>
+        )}
         <View style={styles.indicatorView}>
           <View style={styles.row}>
             <MultiButton title={'Yes'} btnStyle={{ backgroundColor: '#67506D' }} onPress={onYesClick} />
@@ -96,7 +90,7 @@ const FeedBackModal = ({
   );
 };
 
-export default  FeedBackModal;
+export default FeedBackModal;
 
 const styles = StyleSheet.create({
   container: {
@@ -108,9 +102,9 @@ const styles = StyleSheet.create({
     marginTop: heightToDp(3),
     marginBottom: 15,
   },
-  row: {flexDirection: 'row', alignItems: 'center'},
+  row: { flexDirection: 'row', alignItems: 'center' },
 
-  discover: {backgroundColor: 'white', width: width * 0.42, borderRadius: 10},
+  discover: { backgroundColor: 'white', width: width * 0.42, borderRadius: 10 },
   chart: {
     backgroundColor: 'white',
     width: width * 0.45,
@@ -119,7 +113,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     paddingLeft: 10,
   },
-  explorContainer: {flexDirection: 'row', marginHorizontal: widthToDp(4)},
+  explorContainer: { flexDirection: 'row', marginHorizontal: widthToDp(4) },
   logoView: {
     flexDirection: 'row',
     height: heightToDp(24),
@@ -177,4 +171,4 @@ const styles = StyleSheet.create({
     padding: heightToDp(4.5),
     color: theme.primary,
   },
- });
+});

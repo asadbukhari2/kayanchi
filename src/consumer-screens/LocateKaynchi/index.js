@@ -1,19 +1,12 @@
-import React, {useRef, useState} from 'react';
-import {
-  StyleSheet,
-  FlatList,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import React, { useRef, useState } from 'react';
+import { StyleSheet, FlatList, Text, View, TouchableOpacity, Image } from 'react-native';
 import MapView from 'react-native-maps';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Modalize} from 'react-native-modalize';
-import {Button, GradientRadio, SearchBox} from '../../components';
-import {height, heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
-import {DATA} from './Location';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Modalize } from 'react-native-modalize';
+import { Button, GradientRadio, SearchBox } from '../../components';
+import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
+import { DATA } from './Location';
 import Modal from 'react-native-modal';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -82,7 +75,7 @@ const LocateKaynchi = props => {
     modalizeRef.current?.open();
   };
 
-  const renderItem = ({item}) => (
+  const renderItem = ({ item }) => (
     <View
       style={{
         flexDirection: 'row',
@@ -92,10 +85,7 @@ const LocateKaynchi = props => {
         borderRadius: 20,
         backgroundColor: '#EEEEEE',
       }}>
-      <Image
-        source={item.imageLink}
-        style={{width: 20, height: 20, resizeMode: 'contain', marginRight: 10}}
-      />
+      <Image source={item.imageLink} style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 10 }} />
       <Text>{item.name}</Text>
     </View>
   );
@@ -112,7 +102,7 @@ const LocateKaynchi = props => {
   ];
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <MapView
         initialRegion={{
           latitude: 24.8607,
@@ -120,22 +110,18 @@ const LocateKaynchi = props => {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
-        style={{flex: 1}}
+        style={{ flex: 1 }}
         customMapStyle={map_style}>
         {DATA.map((item, index) => {
           return (
             <MapView.Marker
               key={index}
-              coordinate={{latitude: item.lat, longitude: item.long}}
+              coordinate={{ latitude: item.lat, longitude: item.long }}
               title={item.title}
               description={item.description}
               image={item.img}>
               <MapView.Callout tooltip onPress={() => setModalVisible(true)}>
-                <CustomCallout
-                  title={item.title}
-                  description={item.description}
-                  image={item.img}
-                />
+                <CustomCallout title={item.title} description={item.description} image={item.img} />
               </MapView.Callout>
             </MapView.Marker>
           );
@@ -189,23 +175,18 @@ const LocateKaynchi = props => {
       <Modal
         coverScreen={false}
         isVisible={modalVisible}
-        style={{flex: 1, margin: 0, justifyContent: 'flex-end'}}
+        style={{ flex: 1, margin: 0, justifyContent: 'flex-end' }}
         onSwipeComplete={() => setModalVisible(!modalVisible)}
         swipeDirection={['down']}>
         <View style={styles.modalMainView}>
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => setModalVisible(false)}
-            style={{padding: heightToDp(4.5), position: 'absolute', right: 0}}>
-            <Feather name={'x'} style={{fontSize: 20, color: theme.backIcon}} />
+            style={{ padding: heightToDp(4.5), position: 'absolute', right: 0 }}>
+            <Feather name={'x'} style={{ fontSize: 20, color: theme.backIcon }} />
           </TouchableOpacity>
           <View style={styles.line} />
-          <FlatList
-            data={DATA1}
-            renderItem={renderItem}
-            keyExtractor={item => item.name}
-            horizontal
-          />
+          <FlatList data={DATA1} renderItem={renderItem} keyExtractor={item => item.name} horizontal />
           <View
             style={{
               flexDirection: 'row',
@@ -224,13 +205,11 @@ const LocateKaynchi = props => {
             />
             <View>
               <Text style={styles.artistName}>{'Narmeen Iqbal'}</Text>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={styles.artistRating}>4.5</Text>
                 <AntDesign name={'star'} style={styles.starIcon} />
-                <Text style={{color: '#1583D8'}}>~$$</Text>
-                <Text style={styles.modalDistanceTxt}>
-                  {'3.2 kms away from you'}
-                </Text>
+                <Text style={{ color: '#1583D8' }}>~$$</Text>
+                <Text style={styles.modalDistanceTxt}>{'3.2 kms away from you'}</Text>
               </View>
             </View>
           </View>
@@ -250,16 +229,8 @@ const LocateKaynchi = props => {
                   title={item.title}
                   source={item.source}
                   onPress={() => setPreferenceStatus(item.title)}
-                  titleStyle={
-                    preferenceStatus == item.title
-                      ? null
-                      : {color: theme.lightBlack}
-                  }
-                  imgStyle={
-                    preferenceStatus == item.title
-                      ? null
-                      : {tintColor: theme.lightBlack}
-                  }
+                  titleStyle={preferenceStatus == item.title ? null : { color: theme.lightBlack }}
+                  imgStyle={preferenceStatus == item.title ? null : { tintColor: theme.lightBlack }}
                   containerStyle={
                     preferenceStatus == item.title
                       ? null
@@ -268,20 +239,13 @@ const LocateKaynchi = props => {
                           borderColor: 'rgba(132, 102, 140, 0.15)',
                         }
                   }
-                  gradients={
-                    preferenceStatus == item.title
-                      ? null
-                      : ['rgba(0,0,0,0.1)', theme.background]
-                  }
+                  gradients={preferenceStatus == item.title ? null : ['rgba(0,0,0,0.1)', theme.background]}
                 />
               );
             })}
             {/* </View> */}
           </View>
-          <Button
-            title={'Continue'}
-            btnStyle={{marginBottom: heightToDp(5.5)}}
-          />
+          <Button title={'Continue'} btnStyle={{ marginBottom: heightToDp(5.5) }} />
         </View>
       </Modal>
     </SafeAreaView>

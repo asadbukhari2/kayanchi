@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {Text, View} from 'react-native';
-import {InitScreen} from '../init-screens';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React, { Component } from 'react';
+import { Text, View } from 'react-native';
+import { InitScreen } from '../init-screens';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
 

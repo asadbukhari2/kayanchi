@@ -1,20 +1,12 @@
-import React, {useState} from 'react';
-import {
-  SafeAreaView,
-  Text,
-  StyleSheet,
-  View,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
-import {Button, Header} from '../../components';
-import {fonts, useTheme} from '../../utils/theme';
-import {heightToDp, widthToDp, height, width} from '../../utils/Dimensions';
+import React, { useState } from 'react';
+import { SafeAreaView, Text, StyleSheet, View, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { Button, Header } from '../../components';
+import { fonts, useTheme } from '../../utils/theme';
+import { heightToDp, widthToDp, height, width } from '../../utils/Dimensions';
 import Feather from 'react-native-vector-icons/Feather';
 import LinearGradient from 'react-native-linear-gradient'; // Import the LinearGradient component
 import Modal from 'react-native-modal';
-import {TextInput} from '../../components';
+import { TextInput } from '../../components';
 const AddMore = require('../../assets/addMore.png');
 const theme = useTheme();
 
@@ -29,7 +21,7 @@ const STATUS_RADIO = [
     title: "I'm travelling",
   },
 ];
-const offer = [{title: '20% off'}, {title: '30% off'}, {title: '50% off'}];
+const offer = [{ title: '20% off' }, { title: '30% off' }, { title: '50% off' }];
 
 export default function ArtistPromoMainPage(props) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -51,30 +43,22 @@ export default function ArtistPromoMainPage(props) {
       <ScrollView>
         <Header backBtn title="Create a promo" />
         <View style={styles.imageContainer}>
-          <Image source={PromoGig} style={{height: 250, width: 250}} />
+          <Image source={PromoGig} style={{ height: 250, width: 250 }} />
         </View>
 
         <View style={styles.gigContainer}>
           <Text style={styles.heading}>
             Active gigs
-            <Text
-              style={{color: theme.primary,fontFamily: fonts.robo_reg, fontSize: 20}}>
-              (3)
-            </Text>
+            <Text style={{ color: theme.primary, fontFamily: fonts.robo_reg, fontSize: 20 }}>(3)</Text>
           </Text>
         </View>
-        <Text style={styles.description}>
-          Choose the active gigs that you want to continue with this promo deal
-        </Text>
+        <Text style={styles.description}>Choose the active gigs that you want to continue with this promo deal</Text>
         <LinearGradient
           colors={['#668C6A', '#3E5F41']} // Define your gradient colors here
           style={styles.Discount}>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             <Text style={styles.text}>Add Discount</Text>
-            <Feather
-              style={{color: '#193356', fontSize: 18, marginLeft: 10}}
-              name="edit-2"
-            />
+            <Feather style={{ color: '#193356', fontSize: 18, marginLeft: 10 }} name="edit-2" />
           </View>
           <View>
             <Text style={styles.subHeading}>Hydra facial super extreme</Text>
@@ -82,12 +66,10 @@ export default function ArtistPromoMainPage(props) {
         </LinearGradient>
 
         <View style={styles.gigContainer}>
-          <Text style={[styles.heading, { paddingTop: 15}]}>Additional Services</Text>
-          <Image source={AddMore} style={{width: 20, height: 20}} />
+          <Text style={[styles.heading, { paddingTop: 15 }]}>Additional Services</Text>
+          <Image source={AddMore} style={{ width: 20, height: 20 }} />
         </View>
-        <Text style={styles.description}>
-          Choose the active gigs that you want to continue with this promo deal
-        </Text>
+        <Text style={styles.description}>Choose the active gigs that you want to continue with this promo deal</Text>
         <View style={styles.btn}>
           <Button title="Continue" onPress={handleClick} />
         </View>
@@ -108,8 +90,8 @@ const styles = StyleSheet.create({
   },
 
   btn: {
-  //   position: 'absolute',
-  //   bottom: heightToDp(5),
+    //   position: 'absolute',
+    //   bottom: heightToDp(5),
     marginVertical: widthToDp(5),
   },
   heading: {
@@ -124,7 +106,7 @@ const styles = StyleSheet.create({
     marginRight: widthToDp(18),
     color: '#67718C',
     fontSize: 16,
-    fontFamily: fonts.robo_reg
+    fontFamily: fonts.robo_reg,
   },
   gigContainer: {
     flexDirection: 'row',

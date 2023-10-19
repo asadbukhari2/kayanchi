@@ -1,10 +1,5 @@
 import React, { memo, useMemo, useCallback } from 'react';
-import {
-  createLocalWeek,
-  createWeekList,
-  screenWidth,
-  colors,
-} from '../lib';
+import { createLocalWeek, createWeekList, screenWidth, colors } from '../lib';
 import { View, Text } from 'react-native';
 import { fonts } from '../../utils/theme';
 
@@ -24,8 +19,7 @@ const Header = ({ language }) => {
         display: 'flex',
         flexDirection: 'row',
         paddingVertical: 10,
-      }}
-    >
+      }}>
       {weekList.map((w, index) => {
         return (
           <View
@@ -33,8 +27,7 @@ const Header = ({ language }) => {
             style={{
               width: screenWidth / 8,
               alignItems: 'center',
-            }}
-          >
+            }}>
             <Text
               style={{
                 // color:
@@ -45,9 +38,8 @@ const Header = ({ language }) => {
                 //     : colors.defaultWeekColor,
                 fontSize: 12,
                 fontFamily: fonts.sans_bold,
-                color:"#0F2851"
-              }}
-            >
+                color: '#0F2851',
+              }}>
               {w}
             </Text>
           </View>

@@ -1,14 +1,9 @@
 import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Image} from 'react-native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {images, useTheme} from '../utils/theme';
-import {
-  ConsumerHomeStack,
-  ConsumerOrderStack,
-  ConsumerProfileStack,
-  ConsumerRankStack,
-} from './Navigation';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Image } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { images, useTheme } from '../utils/theme';
+import { ConsumerHomeStack, ConsumerOrderStack, ConsumerProfileStack, ConsumerRankStack } from './Navigation';
 import {
   ConsumerHome,
   ConsumerLocateKaynchi,
@@ -18,7 +13,7 @@ import {
   LocateKaynchi,
   ConsumerDisocver,
 } from '../consumer-screens';
-import {heightToDp, widthToDp} from '../utils/Dimensions';
+import { heightToDp, widthToDp } from '../utils/Dimensions';
 
 const Stack = createNativeStackNavigator();
 const RootStack = createNativeStackNavigator();
@@ -40,7 +35,7 @@ const MyTabs = () => {
         name="ConsumerHome"
         component={ConsumerHome}
         options={{
-          tabBarIcon: ({color, focused, size}) => (
+          tabBarIcon: ({ color, focused, size }) => (
             <Image
               source={images.tabConsumerHomeIcon}
               style={{
@@ -58,7 +53,7 @@ const MyTabs = () => {
         name="LocateKaynchi"
         component={LocateKaynchi}
         options={{
-          tabBarIcon: ({color, focused, size}) => (
+          tabBarIcon: ({ color, focused, size }) => (
             <Image
               source={images.tabKaynchiIcon}
               style={{
@@ -76,7 +71,7 @@ const MyTabs = () => {
         name="ConsumerProfile"
         component={ConsumerProfile}
         options={{
-          tabBarIcon: ({color, focused, size}) => (
+          tabBarIcon: ({ color, focused, size }) => (
             <Image
               source={images.tabConsumerProfileIcon}
               style={{

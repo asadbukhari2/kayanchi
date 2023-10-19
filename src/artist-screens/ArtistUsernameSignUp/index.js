@@ -1,20 +1,15 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Button, Header, Loader, TextInput} from '../../components';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Header, Loader, TextInput } from '../../components';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
 import api from '../../utils/APIservice';
-import {showMessage} from 'react-native-flash-message';
-import {saveUserData} from '../../redux/actions';
-import {useDispatch} from 'react-redux';
+import { showMessage } from 'react-native-flash-message';
+import { saveUserData } from '../../redux/actions';
+import { useDispatch } from 'react-redux';
 import DatePicker from 'react-native-date-picker';
+import { useNavigation } from '@react-navigation/native';
 
 const theme = useTheme();
 const Gender = [
@@ -28,9 +23,9 @@ const Gender = [
     name: 'Non Binary',
   },
 ];
-const index = props => {
+const ArtistUsernameSignUp = props => {
   const dispatch = useDispatch();
-  const {navigation} = props;
+  const navigation = useNavigation();
 
   const [name, setName] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -72,7 +67,7 @@ const index = props => {
           mainLabel={'Your full name?'}
           subLabel={'Let’s get to know each other!'}
           input={text => setName(text)}
-          placeholder={"Black Scissors"}
+          placeholder={'Black Scissors'}
         />
         <TextInput
           mainLabel={'Create a password'}
@@ -94,22 +89,21 @@ const index = props => {
             mode="date"
             maximumDate={new Date()}
             onDateChange={date => {
-              // console.log(typeof date.toDateString());
               setDob(date);
             }}
           />
         </View>
         <View style={styles.genView}>
-          {Gender.map(item => {
+          {Gender.map((item, index) => {
             return (
               <TouchableOpacity
+                key={index}
                 onPress={() => setGender(item.name)}
                 activeOpacity={0.7}
                 style={[
                   styles.genBtn,
                   {
-                    backgroundColor:
-                      gender === item.name ? theme.brown : theme.genderGrey,
+                    backgroundColor: gender === item.name ? theme.brown : theme.genderGrey,
                   },
                 ]}>
                 <Text style={styles.genTxt}>{item.name}</Text>
@@ -174,4 +168,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default index;
+export default ArtistUsernameSignUp;

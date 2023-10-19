@@ -1,30 +1,20 @@
 import React from 'react';
-import {StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {useTheme, fonts} from '../../utils/theme';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { useTheme, fonts } from '../../utils/theme';
 
 const theme = useTheme();
 
 const index = props => {
-  const {
-    onPress,
-    containerStyle,
-    gradients,
-    source,
-    title,
-    titleStyle,
-    imgStyle,
-    gradientStart,
-    gradientEnd,
-  } = props;
+  const { onPress, containerStyle, gradients, source, title, titleStyle, imgStyle, gradientStart, gradientEnd } = props;
 
   return (
     <TouchableOpacity onPress={onPress} activeOpacity={0.7}>
       <LinearGradient
         colors={gradients ? gradients : ['#86C0E9', '#2764AE']}
-        start={gradientStart ? gradientStart : {x: 1, y: 0}}
-        end={gradientEnd ? gradientEnd : {x: 0, y: 1}}
+        start={gradientStart ? gradientStart : { x: 1, y: 0 }}
+        end={gradientEnd ? gradientEnd : { x: 0, y: 1 }}
         style={[styles.statusBox, containerStyle]}>
         {source && <Image source={source} style={[styles.img, imgStyle]} />}
         <Text style={[styles.statusTxt, titleStyle]}>{title}</Text>

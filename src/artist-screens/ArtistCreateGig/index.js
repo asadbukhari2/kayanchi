@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Header, Button} from '../../components';
-import {height, heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {useTheme, fonts} from '../../utils/theme';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Header, Button } from '../../components';
+import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { useTheme, fonts } from '../../utils/theme';
 import iButton from '../../assets/ibutton.png';
 import TravelMoodImage from '../../assets/travel.png';
 import HostMoodImage from '../../assets/host.png';
@@ -13,32 +13,23 @@ const theme = useTheme();
 
 const index = props => {
   const [selected, setSelected] = useState('basic');
-  const {navigation} = props;
+  const { navigation } = props;
   return (
     <SafeAreaView style={styles.container}>
       <Header title={'Create gig'} />
       <View style={styles.gigVersion}>
         <Text style={styles.title}>{'Greetings Farrukh!'}</Text>
       </View>
-      <Text style={styles.txt}>
-        {'Time to create your first gig and showcase your skills at Kaynchi.'}
-      </Text>
-      <Image
-        style={styles.img}
-        source={require('../../assets/onBoarding.png')}
-      />
+      <Text style={styles.txt}>{'Time to create your first gig and showcase your skills at Kaynchi.'}</Text>
+      <Image style={styles.img} source={require('../../assets/onBoarding.png')} />
 
       <View style={styles.parentMood}>
         <View style={styles.mood}>
           <View style={styles.moodIbutton}>
-            <Image style={{marginBottom: 20}} source={iButton}></Image>
+            <Image style={{ marginBottom: 20 }} source={iButton}></Image>
             <TouchableOpacity onPress={() => setSelected('basic')}>
               <LinearGradient
-                colors={
-                  selected == 'basic'
-                    ? ['#86C0E9', '#2764AE']
-                    : ['#696969', '#AEAEAE']
-                }
+                colors={selected == 'basic' ? ['#86C0E9', '#2764AE'] : ['#696969', '#AEAEAE']}
                 style={styles.childMood}>
                 <Image source={HostMoodImage}></Image>
                 <Text style={styles.childMoodHead1}>Create basic gig</Text>
@@ -46,21 +37,15 @@ const index = props => {
             </TouchableOpacity>
           </View>
           <View style={styles.moodIbutton}>
-            <Image style={{marginBottom: 20}} source={iButton}></Image>
+            <Image style={{ marginBottom: 20 }} source={iButton}></Image>
             <TouchableOpacity onPress={() => setSelected('promotion')}>
               <LinearGradient
-                colors={
-                  selected == 'promotion'
-                    ? ['#86C0E9', '#2764AE']
-                    : ['#696969', '#AEAEAE']
-                }
+                colors={selected == 'promotion' ? ['#86C0E9', '#2764AE'] : ['#696969', '#AEAEAE']}
                 style={styles.childMood}
-                start={{x: 0, y: 0.5}}
-                end={{x: 1, y: 0.5}}>
+                start={{ x: 0, y: 0.5 }}
+                end={{ x: 1, y: 0.5 }}>
                 <Image source={TravelMoodImage}></Image>
-                <Text style={styles.childMoodHead2}>
-                  Create Promotional gig
-                </Text>
+                <Text style={styles.childMoodHead2}>Create Promotional gig</Text>
               </LinearGradient>
             </TouchableOpacity>
           </View>

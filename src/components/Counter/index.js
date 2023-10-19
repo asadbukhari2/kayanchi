@@ -1,28 +1,22 @@
 import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import {heightToDp} from '../../utils/Dimensions';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { heightToDp } from '../../utils/Dimensions';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { useTheme, fonts } from '../../utils/theme';
 
-const theme = useTheme()
+const theme = useTheme();
 
 const index = props => {
-  const {count, onPressIncrement, onPressDecrement, btnStyle, countStyle, iconStyle} = props;
+  const { count, onPressIncrement, onPressDecrement, btnStyle, countStyle, iconStyle } = props;
   return (
-    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
       {count > 0 && (
-        <TouchableOpacity
-          onPress={onPressDecrement}
-          activeOpacity={0.7}
-          style={[styles.counterBtn, btnStyle]}>
+        <TouchableOpacity onPress={onPressDecrement} activeOpacity={0.7} style={[styles.counterBtn, btnStyle]}>
           <Entypo name={'minus'} style={[styles.icon, iconStyle]} />
         </TouchableOpacity>
       )}
       {count > 0 && <Text style={[styles.count, countStyle]}>{count}</Text>}
-      <TouchableOpacity
-        onPress={onPressIncrement}
-        activeOpacity={0.7}
-        style={[styles.counterBtn, btnStyle]}>
+      <TouchableOpacity onPress={onPressIncrement} activeOpacity={0.7} style={[styles.counterBtn, btnStyle]}>
         <Entypo name={'plus'} style={[styles.icon, iconStyle]} />
       </TouchableOpacity>
     </View>

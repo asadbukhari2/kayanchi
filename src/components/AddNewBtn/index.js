@@ -1,22 +1,16 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
 
 const theme = useTheme();
 
 const index = props => {
-  const {title, iconColor, titleStyle, onPress} = props;
+  const { title, iconColor, titleStyle, onPress } = props;
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      activeOpacity={0.7}
-      style={[styles.addAddress]}>
-      <AntDesign
-        name={'plus'}
-        style={[styles.icon, {color: iconColor ? iconColor : theme.lightBlack}]}
-      />
+    <TouchableOpacity onPress={onPress} activeOpacity={0.7} style={[styles.addAddress]}>
+      <AntDesign name={'plus'} style={[styles.icon, { color: iconColor ? iconColor : theme.lightBlack }]} />
       <Text style={[styles.radioTxt, titleStyle]}>{title}</Text>
     </TouchableOpacity>
   );

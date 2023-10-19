@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,11 +11,11 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
-import {getStatusBarHeight} from 'react-native-status-bar-height';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {fonts, useTheme} from '../../utils/theme';
-import {width, heightToDp, widthToDp, height} from '../../utils/Dimensions';
-import {ConsumerSubCatCard, Button, Header, Tabs} from '../../components';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { fonts, useTheme } from '../../utils/theme';
+import { width, heightToDp, widthToDp, height } from '../../utils/Dimensions';
+import { ConsumerSubCatCard, Button, Header, Tabs } from '../../components';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Modal from 'react-native-modal';
@@ -153,12 +153,7 @@ const ArtistYourProfile = props => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar
-        animated={true}
-        backgroundColor="#000"
-        barStyle={'light-content'}
-        showHideTransition={'fade'}
-      />
+      <StatusBar animated={true} backgroundColor="#000" barStyle={'light-content'} showHideTransition={'fade'} />
       <View
         style={{
           height: getStatusBarHeight(),
@@ -169,12 +164,8 @@ const ArtistYourProfile = props => {
         }}
       />
 
-      <Animated.View
-        style={[
-          styles.header,
-          {height: headerHeight, transform: [{translateY: opacity}]},
-        ]}>
-                  {/* <View
+      <Animated.View style={[styles.header, { height: headerHeight, transform: [{ translateY: opacity }] }]}>
+        {/* <View
           style={{
             width: width, // Set width to 100% to cover the entire width
             height: headerHeight, // Make sure to set the height explicitly
@@ -188,7 +179,7 @@ const ArtistYourProfile = props => {
           <Image source={require('../../assets/profile.png')} />
         </View>
          */}
-<Animated.View style={[{transform: [{translateY: opacityHeader}]}]}>
+        <Animated.View style={[{ transform: [{ translateY: opacityHeader }] }]}>
           <Header backBtnWhite />
         </Animated.View>
 
@@ -200,17 +191,14 @@ const ArtistYourProfile = props => {
           <View style={styles.centerDiv}>
             <Animated.Text
               // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
-              style={[
-                styles.artistName,
-                {transform: [{translateX: translateName}, {scale: scaleName}]},
-              ]}>
+              style={[styles.artistName, { transform: [{ translateX: translateName }, { scale: scaleName }] }]}>
               {'Rizwan Noor'}
             </Animated.Text>
           </View>
           <View style={styles.centerDiv}>
             <Animated.View
               style={{
-                transform: [{translateY: opacity}],
+                transform: [{ translateY: opacity }],
               }}>
               <Image
                 source={beauty}
@@ -221,30 +209,20 @@ const ArtistYourProfile = props => {
                 }}
               />
             </Animated.View>
-            <View style={[styles.centerDiv, {paddingTop: 5}]}>
+            <View style={[styles.centerDiv, { paddingTop: 5 }]}>
               <Animated.Text
                 // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
-                style={[
-                  styles.artistLocation,
-                  {transform: [{translateY: opacity}]},
-                ]}>
+                style={[styles.artistLocation, { transform: [{ translateY: opacity }] }]}>
                 {' Barber '}
               </Animated.Text>
 
-              <Animated.View
-                style={[
-                  styles.dotContainer,
-                  {transform: [{translateY: opacity}]},
-                ]}>
+              <Animated.View style={[styles.dotContainer, { transform: [{ translateY: opacity }] }]}>
                 <Animated.Text
                   // onTextLayout={e => setRatingWidth(e.nativeEvent.lines[0].width)}
                   style={[
                     styles.artistRating,
                     {
-                      transform: [
-                        {translateX: translateRating},
-                        {scale: scaleRating},
-                      ],
+                      transform: [{ translateX: translateRating }, { scale: scaleRating }],
                     },
                   ]}>
                   {'.'}
@@ -252,20 +230,13 @@ const ArtistYourProfile = props => {
               </Animated.View>
               <Animated.Text
                 // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
-                style={[
-                  styles.artistLocation,
-                  {transform: [{translateY: opacity}]},
-                ]}>
+                style={[styles.artistLocation, { transform: [{ translateY: opacity }] }]}>
                 {' Expert'}
               </Animated.Text>
             </View>
 
-            <Animated.View
-              style={[styles.imageShare, {transform: [{translateY: opacity}]}]}>
-              <Image
-                source={share}
-                style={{width: 20, height: 20, resizeMode: 'contain'}}
-              />
+            <Animated.View style={[styles.imageShare, { transform: [{ translateY: opacity }] }]}>
+              <Image source={share} style={{ width: 20, height: 20, resizeMode: 'contain' }} />
             </Animated.View>
           </View>
         </View>
@@ -273,12 +244,12 @@ const ArtistYourProfile = props => {
 
       <ScrollView
         scrollEventThrottle={10}
-        style={{height: height}}
+        style={{ height: height }}
         onScroll={e => {
           scrollY.setValue(e.nativeEvent.contentOffset.y);
         }}>
-        <View style={{marginTop: headerHeight}}>
-          <View style={{flexDirection: 'row'}}>
+        <View style={{ marginTop: headerHeight }}>
+          <View style={{ flexDirection: 'row' }}>
             <View>
               <View
                 style={{
@@ -287,90 +258,62 @@ const ArtistYourProfile = props => {
                   marginLeft: widthToDp(4),
                 }}>
                 <View style={styles.OrderSummaryContainer}>
-                  <View
-                    style={[
-                      styles.imageContainer,
-                      {backgroundColor: '#A77246'},
-                    ]}>
+                  <View style={[styles.imageContainer, { backgroundColor: '#A77246' }]}>
                     <Image source={ondemand} style={styles.orderSummaryImage} />
                   </View>
                   <Text style={styles.bookingCount}>Avaiability</Text>
-                  <Text style={{fontSize: 9}}>
-                    Narmeen is taking orders on-demand
-                  </Text>
+                  <Text style={{ fontSize: 9 }}>Narmeen is taking orders on-demand</Text>
                 </View>
               </View>
             </View>
 
             <View>
-              <View style={{flexDirection: 'row', margin: widthToDp(3)}}>
+              <View style={{ flexDirection: 'row', margin: widthToDp(3) }}>
                 <View style={styles.OrderSummaryContainer}>
-                  <View style={{flexDirection: 'row'}}>
-                    <View
-                      style={[
-                        styles.imageContainer,
-                        {backgroundColor: '#1583D8'},
-                      ]}>
+                  <View style={{ flexDirection: 'row' }}>
+                    <View style={[styles.imageContainer, { backgroundColor: '#1583D8' }]}>
                       <Image source={host} style={styles.orderSummaryImage} />
                     </View>
-                    <View
-                      style={[
-                        styles.imageContainer,
-                        {marginLeft: 5, backgroundColor: '#1583D8'},
-                      ]}>
-                      <Image
-                        source={carfront}
-                        style={[styles.orderSummaryImage]}
-                      />
+                    <View style={[styles.imageContainer, { marginLeft: 5, backgroundColor: '#1583D8' }]}>
+                      <Image source={carfront} style={[styles.orderSummaryImage]} />
                     </View>
                   </View>
                   <Text style={styles.bookingCount}>Mood</Text>
-                  <Text style={{fontSize: 9}}>
-                    Narmeen will either host or visit you
-                  </Text>
+                  <Text style={{ fontSize: 9 }}>Narmeen will either host or visit you</Text>
                 </View>
               </View>
             </View>
 
             <View>
-              <View style={{flexDirection: 'row', marginTop: heightToDp(3)}}>
+              <View style={{ flexDirection: 'row', marginTop: heightToDp(3) }}>
                 <View style={styles.OrderSummaryContainer}>
-                  <View style={{flexDirection: 'row'}}>
-                    <View style={{paddingRight: 9}}>
-                      <Image
-                        source={favourites}
-                        style={{width: 25, height: 25, resizeMode: 'contain'}}
-                      />
+                  <View style={{ flexDirection: 'row' }}>
+                    <View style={{ paddingRight: 9 }}>
+                      <Image source={favourites} style={{ width: 25, height: 25, resizeMode: 'contain' }} />
                     </View>
                     <View>
-                      <Text style={{fontSize: 10}}>Follower</Text>
-                      <Text style={{fontSize: 10}}>0</Text>
+                      <Text style={{ fontSize: 10 }}>Follower</Text>
+                      <Text style={{ fontSize: 10 }}>0</Text>
                     </View>
                   </View>
 
-                  <View style={{flexDirection: 'row'}}>
-                    <View style={{paddingRight: 7}}>
-                      <Image
-                        source={star}
-                        style={{width: 25, height: 25, resizeMode: 'contain'}}
-                      />
+                  <View style={{ flexDirection: 'row' }}>
+                    <View style={{ paddingRight: 7 }}>
+                      <Image source={star} style={{ width: 25, height: 25, resizeMode: 'contain' }} />
                     </View>
                     <View>
-                      <Text style={{fontSize: 10}}>Ratings</Text>
-                      <Text style={{fontSize: 10}}>0 (0)</Text>
+                      <Text style={{ fontSize: 10 }}>Ratings</Text>
+                      <Text style={{ fontSize: 10 }}>0 (0)</Text>
                     </View>
                   </View>
 
-                  <View style={{flexDirection: 'row'}}>
-                    <View style={{paddingRight: 7}}>
-                      <Image
-                        source={LocationAway}
-                        style={{width: 25, height: 25, resizeMode: 'contain'}}
-                      />
+                  <View style={{ flexDirection: 'row' }}>
+                    <View style={{ paddingRight: 7 }}>
+                      <Image source={LocationAway} style={{ width: 25, height: 25, resizeMode: 'contain' }} />
                     </View>
                     <View>
-                      <Text style={{fontSize: 10}}>0.1 kms</Text>
-                      <Text style={{fontSize: 10}}>away</Text>
+                      <Text style={{ fontSize: 10 }}>0.1 kms</Text>
+                      <Text style={{ fontSize: 10 }}>away</Text>
                     </View>
                   </View>
                 </View>
@@ -381,7 +324,7 @@ const ArtistYourProfile = props => {
           <Tabs selectedTab={txt => setSubHeading(txt)} DATA={DATA} />
         </View>
 
-        <View style={{marginTop: heightToDp(4.5)}}>
+        <View style={{ marginTop: heightToDp(4.5) }}>
           {DATA2.map((item, index) => {
             return (
               <ConsumerSubCatCard
@@ -396,7 +339,7 @@ const ArtistYourProfile = props => {
         </View>
         <Button
           title={'Continue'}
-          btnStyle={{marginBottom: heightToDp(5.5), marginTop: heightToDp(3.5)}}
+          btnStyle={{ marginBottom: heightToDp(5.5), marginTop: heightToDp(3.5) }}
           onPress={() => setModalVisible(true)}
         />
       </ScrollView>
@@ -441,11 +384,11 @@ const styles = StyleSheet.create({
     fontFamily: fonts.robo_reg,
     lineHeight: 16.41,
   },
-  promotionalContainer: {marginHorizontal: widthToDp(5)},
+  promotionalContainer: { marginHorizontal: widthToDp(5) },
   promotionHeading: {
     color: '#2F3A58',
     fontSize: 20,
-fontFamily: fonts.robo_bold,
+    fontFamily: fonts.robo_bold,
     paddingVertical: 10,
   },
   promotionalbtn: {
@@ -504,7 +447,7 @@ fontFamily: fonts.robo_bold,
     bottom: heightToDp(7.2),
   },
   header: {
-    width: width ,
+    width: width,
     backgroundColor: '#000',
     position: 'absolute',
     top: getStatusBarHeight(),
@@ -535,7 +478,7 @@ fontFamily: fonts.robo_bold,
     alignSelf: 'center',
     width: width * 0.868,
   },
-  centerDiv: {flexDirection: 'row', alignItems: 'center'},
+  centerDiv: { flexDirection: 'row', alignItems: 'center' },
   modalNormalTxt: {
     fontFamily: fonts.robo_reg,
     fontSize: 16,
@@ -576,7 +519,7 @@ fontFamily: fonts.robo_bold,
   },
   bookingCount: {
     fontSize: 14,
-  fontFamily: fonts.robo_bold
+    fontFamily: fonts.robo_bold,
   },
   radioOuterCircle: {
     marginRight: 17,

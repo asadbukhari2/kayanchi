@@ -1,16 +1,9 @@
 import React from 'react';
-import {
-  Modal,
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  StyleSheet,
-} from 'react-native';
+import { Modal, View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import MultiButton from '../MultiButton';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {fonts} from '../../utils/theme';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { fonts } from '../../utils/theme';
 const LocationAway = require('../../assets/LocationAway.png');
 const beauty_color = require('../../assets/beauty_color.png');
 
@@ -40,7 +33,7 @@ const DiscoverModal = ({
             right: 20,
             zIndex: 1,
           }}>
-          <Feather name={'x'} style={{fontSize: 20}} />
+          <Feather name={'x'} style={{ fontSize: 20 }} />
         </TouchableOpacity>
         <Image
           source={background_image}
@@ -83,12 +76,8 @@ const DiscoverModal = ({
               }}>
               {profession} •
             </Text>
-            <Text style={{color: '#67718C', fontFamily: fonts.robo_med}}>
-              {experience}
-            </Text>
-            <Text style={{color: '#1583D8', fontFamily: fonts.robo_med}}>
-              {dollars}
-            </Text>
+            <Text style={{ color: '#67718C', fontFamily: fonts.robo_med }}>{experience}</Text>
+            <Text style={{ color: '#1583D8', fontFamily: fonts.robo_med }}>{dollars}</Text>
           </View>
           <Text
             style={{
@@ -117,11 +106,8 @@ const DiscoverModal = ({
                 paddingHorizontal: widthToDp(4),
                 borderRadius: 20,
               }}>
-              <Image
-                source={item.imageLink}
-                style={{width: 50, height: 50, resizeMode: 'contain'}}
-              />
-              <Text style={{color: 'white'}}>{item.name}</Text>
+              <Image source={item.imageLink} style={{ width: 50, height: 50, resizeMode: 'contain' }} />
+              <Text style={{ color: 'white' }}>{item.name}</Text>
             </View>
           ))}
         </View>
@@ -140,13 +126,13 @@ const DiscoverModal = ({
             <MultiButton
               image={LocationAway}
               title={'1.1 Km away'}
-              btnStyle={{backgroundColor: '#E7E7E7'}}
-              titleStyle={{color: '#1583D8'}}
+              btnStyle={{ backgroundColor: '#E7E7E7' }}
+              titleStyle={{ color: '#1583D8' }}
             />
             <MultiButton
               title={'View Profile'}
-              btnStyle={{backgroundColor: '#84668C'}}
-              titleStyle={{fontFamily: fonts.robo_bold, fontSize: 16}}
+              btnStyle={{ backgroundColor: '#84668C' }}
+              titleStyle={{ fontFamily: fonts.robo_bold, fontSize: 16 }}
               onPress={() =>
                 navigation.navigate('ConsumerHomeStack', {
                   screen: 'ConsumerYourProfile',
@@ -174,7 +160,7 @@ const styles = StyleSheet.create({
     marginTop: heightToDp(3),
     marginBottom: 15,
   },
-  row: {flexDirection: 'row', alignItems: 'center'},
+  row: { flexDirection: 'row', alignItems: 'center' },
 
   discoverContainer: {
     flexDirection: 'row',

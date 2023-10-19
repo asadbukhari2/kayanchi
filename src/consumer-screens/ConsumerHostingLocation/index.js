@@ -1,22 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  Switch,
-  ScrollView,
-} from 'react-native';
-import {RadioButton} from 'react-native-paper';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Switch, ScrollView } from 'react-native';
+import { RadioButton } from 'react-native-paper';
 
 import Feather from 'react-native-vector-icons/Feather';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Header, Button, AddNewBtn, TextInput} from '../../components';
-import {height, heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {useTheme, fonts} from '../../utils/theme';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Header, Button, AddNewBtn, TextInput } from '../../components';
+import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { useTheme, fonts } from '../../utils/theme';
 import current_Location from '../../assets/current_Location.png';
-import {Calendar} from 'react-native-calendars';
+import { Calendar } from 'react-native-calendars';
 
 const theme = useTheme();
 
@@ -36,7 +28,7 @@ const ConsumerHostingLocation = props => {
             width: widthToDp(90),
           }}>
           {/* <Image source={back} /> */}
-          <View style={{marginLeft: 0}}>
+          <View style={{ marginLeft: 0 }}>
             <Header backBtn />
           </View>
         </View>
@@ -47,7 +39,7 @@ const ConsumerHostingLocation = props => {
             alignItems: 'center',
           }}>
           <Text style={styles.heading}>
-            Where are you <Text style={{color: '#84668C'}}>hosting??</Text>
+            Where are you <Text style={{ color: '#84668C' }}>hosting??</Text>
           </Text>
         </View>
         {/* <Calendar
@@ -78,10 +70,7 @@ const ConsumerHostingLocation = props => {
 
         <View style={styles.LocationContainer}>
           <View style={styles.currentLocation}>
-            <Image
-              source={current_Location}
-              style={{height: 24, width: 24, marginRight: 5}}
-            />
+            <Image source={current_Location} style={{ height: 24, width: 24, marginRight: 5 }} />
             <Text
               style={{
                 color: '#84668C',
@@ -101,11 +90,9 @@ const ConsumerHostingLocation = props => {
             Recent Location's
           </Text>
           <View style={styles.daysOfWeekContainer}>
-            <RadioButton.Group
-              onValueChange={newValue => setChecked(newValue)}
-              value={checked}>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <RadioButton value="first"/>
+            <RadioButton.Group onValueChange={newValue => setChecked(newValue)} value={checked}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <RadioButton value="first" />
                 <Text
                   style={{
                     color: '#67718C',
@@ -115,7 +102,7 @@ const ConsumerHostingLocation = props => {
                   Arbab's house
                 </Text>
               </View>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <RadioButton value="second" />
                 <Text
                   style={{
@@ -132,11 +119,11 @@ const ConsumerHostingLocation = props => {
         <AddNewBtn
           title={'Add a new address'}
           iconColor={theme.counterGrey}
-          titleStyle={{color: theme.counterGrey}}
+          titleStyle={{ color: theme.counterGrey }}
           onPress={() => props.navigation.navigate('ConsumerApplyPromoCode')}
         />
         <Text style={styles.heading}>
-          Would you like to add a <Text style={{color: '#84668C'}}>note?</Text>
+          Would you like to add a <Text style={{ color: '#84668C' }}>note?</Text>
         </Text>
 
         <Text
@@ -147,15 +134,13 @@ const ConsumerHostingLocation = props => {
             marginVertical: 10,
             marginHorizontal: widthToDp(5),
           }}>
-          BOOKING NOTES: <Text style={{fontFamily: fonts.robo_light}}>(Optional)</Text>
+          BOOKING NOTES: <Text style={{ fontFamily: fonts.robo_light }}>(Optional)</Text>
         </Text>
 
         <View>
           <TextInput
             input={text => setName(text)}
-            placeholder={
-              'Please tell us anything that may assist with the order...'
-            }
+            placeholder={'Please tell us anything that may assist with the order...'}
             multiline
             inputBoxStyle={{
               backgroundColor: '#ffffff',
@@ -177,7 +162,7 @@ const ConsumerHostingLocation = props => {
             0/100
           </Text>
         </View>
-        <View style={{marginVertical: 10}}>
+        <View style={{ marginVertical: 10 }}>
           <Button title="Place Order" />
         </View>
       </ScrollView>
@@ -206,7 +191,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     borderRadius: 10,
   },
-  btn: {marginTop: 15},
+  btn: { marginTop: 15 },
   LocationContainer: {
     backgroundColor: 'white',
     paddingHorizontal: widthToDp(2),
@@ -216,7 +201,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     borderRadius: 10,
   },
-  currentLocation: {flexDirection: 'row', marginHorizontal: widthToDp(2)},
+  currentLocation: { flexDirection: 'row', marginHorizontal: widthToDp(2) },
   daysOfWeekContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -226,8 +211,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginHorizontal: widthToDp(4),
   },
-  active: {flexDirection: 'row', alignItems: 'center'},
-  btnnew: {marginHorizontal: widthToDp(4), marginVertical: heightToDp(3)},
+  active: { flexDirection: 'row', alignItems: 'center' },
+  btnnew: { marginHorizontal: widthToDp(4), marginVertical: heightToDp(3) },
   dayOfWeekButton: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -251,7 +236,7 @@ const styles = StyleSheet.create({
   selectedDayText: {
     color: 'white',
   },
-  newSlotContainer: {flexDirection: 'row', alignItems: 'center'},
+  newSlotContainer: { flexDirection: 'row', alignItems: 'center' },
   timeSlot: {
     flexDirection: 'row',
     justifyContent: 'space-between',

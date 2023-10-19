@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {Text, View} from 'react-native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React, { Component } from 'react';
+import { Text, View } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
   ArtistHome,
   ArtistStatus,
@@ -121,7 +121,7 @@ import ConsumerVerification from '../consumer-screens/ConsumerVerification';
 const Stack = createNativeStackNavigator();
 
 // artist-main-stack screens
-const ArtistHomeStack = ({navigation}) => (
+const ArtistHomeStack = ({ navigation }) => (
   <Stack.Navigator>
     <Stack.Screen
       name="ArtistHome"
@@ -268,7 +268,7 @@ const ArtistHomeStack = ({navigation}) => (
 );
 
 // artist-main-stack screens
-const ArtistOrderStack = ({navigation}) => (
+const ArtistOrderStack = ({ navigation }) => (
   <Stack.Navigator>
     <Stack.Screen
       name="ArtistOrders"
@@ -365,7 +365,7 @@ const ArtistOrderStack = ({navigation}) => (
 );
 
 // artist-main-stack screens
-const ArtistProfileStack = ({navigation}) => (
+const ArtistProfileStack = ({ navigation }) => (
   <Stack.Navigator>
     <Stack.Screen
       name="ArtistStatus"
@@ -553,7 +553,7 @@ const ArtistProfileStack = ({navigation}) => (
 );
 
 // consumer-main-stack screens
-const ConsumerHomeStack = ({navigation}) => (
+const ConsumerHomeStack = ({ navigation }) => (
   <Stack.Navigator>
     <Stack.Screen
       name="ConsumerHome"
@@ -777,7 +777,7 @@ const ConsumerHomeStack = ({navigation}) => (
 );
 
 // consumer-main-stack screens
-const ConsumerOrderStack = ({navigation}) => (
+const ConsumerOrderStack = ({ navigation }) => (
   <Stack.Navigator>
     <Stack.Screen
       name="ConsumerHostingSpot"
@@ -834,7 +834,7 @@ const ConsumerOrderStack = ({navigation}) => (
 );
 
 // consumer-main-stack screens
-const ConsumerProfileStack = ({navigation}) => (
+const ConsumerProfileStack = ({ navigation }) => (
   <Stack.Navigator>
     <Stack.Screen
       name="ConsumerStatus"

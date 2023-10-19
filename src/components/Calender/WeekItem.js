@@ -13,16 +13,14 @@ const WeekItem = ({ date, selectedDate, onSelectDate, selectedColor }) => {
   const bgColor = selectedColor ?? colors.defaultBg;
 
   return (
-    <View
-      style={{ width: itemWidht, alignItems: 'center', paddingVertical: 5 }}
-    >
+    <View style={{ width: itemWidht, alignItems: 'center', paddingVertical: 5 }}>
       <TouchableOpacity onPress={selectDate}>
         <Text
           style={
             selectedDate
               ? {
                   ...styles.eachDay,
-                  backgroundColor: "#84668C",
+                  backgroundColor: '#84668C',
                   // borderColor: bgColor,
                   color: colors.white,
                 }
@@ -35,8 +33,7 @@ const WeekItem = ({ date, selectedDate, onSelectDate, selectedColor }) => {
                   //     ? colors.saturday
                   //     : colors.black,
                 }
-          }
-        >
+          }>
           {day}
         </Text>
       </TouchableOpacity>

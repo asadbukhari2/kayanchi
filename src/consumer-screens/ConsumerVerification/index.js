@@ -1,25 +1,22 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Header, Button} from '../../components';
-import {heightToDp, widthToDp, width} from '../../utils/Dimensions';
-import {useTheme, fonts} from '../../utils/theme';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Header, Button } from '../../components';
+import { heightToDp, widthToDp, width } from '../../utils/Dimensions';
+import { useTheme, fonts } from '../../utils/theme';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import approval from '../../assets/approval.png';
 
-import {PermissionsAndroid} from 'react-native';
+import { PermissionsAndroid } from 'react-native';
 
 async function requestCameraPermission() {
   try {
-    const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.CAMERA,
-      {
-        title: 'Camera Permission',
-        message: 'App needs access to your camera',
-        buttonPositive: 'OK',
-        buttonNegative: 'Cancel',
-      },
-    );
+    const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA, {
+      title: 'Camera Permission',
+      message: 'App needs access to your camera',
+      buttonPositive: 'OK',
+      buttonNegative: 'Cancel',
+    });
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
       console.log('Camera permission granted');
     } else {
@@ -84,9 +81,7 @@ const ConsumerVerification = props => {
       <View style={styles.gigVersion}>
         <Text style={styles.title}>{'Verify yourself to start selling.'}</Text>
       </View>
-      <Text style={styles.txt}>
-        {'Complete your verification to activate your gigs on the marketplace'}
-      </Text>
+      <Text style={styles.txt}>{'Complete your verification to activate your gigs on the marketplace'}</Text>
 
       <View style={styles.filePicker}>
         <TouchableOpacity
@@ -103,7 +98,7 @@ const ConsumerVerification = props => {
           activeOpacity={0.9}
           style={styles.parentUpload}>
           {cnic ? (
-            renderImageWithLabel({uri: cnic.path}, 'Pending Approval')
+            renderImageWithLabel({ uri: cnic.path }, 'Pending Approval')
           ) : (
             <View>
               <View style={styles.upload}>
@@ -114,12 +109,9 @@ const ConsumerVerification = props => {
         </TouchableOpacity>
       </View>
       <View style={styles.filePicker}>
-        <TouchableOpacity
-          onPress={openCamera}
-          activeOpacity={0.9}
-          style={styles.parentUpload}>
+        <TouchableOpacity onPress={openCamera} activeOpacity={0.9} style={styles.parentUpload}>
           {image ? (
-            renderImageWithLabel({uri: image.path}, 'Pending Approval')
+            renderImageWithLabel({ uri: image.path }, 'Pending Approval')
           ) : (
             <View>
               <View style={styles.upload}>
@@ -145,13 +137,11 @@ const ConsumerVerification = props => {
           activeOpacity={0.9}
           style={styles.parentUpload}>
           {nadraCard ? (
-            renderImageWithLabel({uri: nadraCard.path}, 'Pending Approval')
+            renderImageWithLabel({ uri: nadraCard.path }, 'Pending Approval')
           ) : (
             <View>
               <View style={styles.upload}>
-                <Text style={styles.fileText}>
-                  Nadra Verification Certificate
-                </Text>
+                <Text style={styles.fileText}>Nadra Verification Certificate</Text>
               </View>
             </View>
           )}

@@ -1,19 +1,11 @@
-import React, {useState} from 'react';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Button, Header, TextInput} from '../../components';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ActivityIndicator,
-  Image,
-  ScrollView,
-} from 'react-native';
-import {fonts, useTheme} from '../../utils/theme';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
+import React, { useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Header, TextInput } from '../../components';
+import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator, Image, ScrollView } from 'react-native';
+import { fonts, useTheme } from '../../utils/theme';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Assuming you want to use FontAwesome icons, you can change it to any other supported icon library.
-import {showMessage} from 'react-native-flash-message';
+import { showMessage } from 'react-native-flash-message';
 
 const theme = useTheme();
 
@@ -56,16 +48,12 @@ const Gender = [
   },
   {
     name: 'Treatments',
-    icons: [
-      require('../../assets/Botox.png'),
-      require('../../assets/Fillers.png'),
-      require('../../assets/Laser.png'),
-    ],
+    icons: [require('../../assets/Botox.png'), require('../../assets/Fillers.png'), require('../../assets/Laser.png')],
     message: ['Botox', 'Fillers', 'Laser'],
   },
 ];
 
-export default function ConsumerKnownFor({navigation}) {
+export default function ConsumerKnownFor({ navigation }) {
   const [skills, setSkills] = useState([]);
   const [name, setName] = useState('');
 
@@ -125,9 +113,7 @@ export default function ConsumerKnownFor({navigation}) {
         />
         <TextInput
           mainLabel={'What are you known for?'}
-          subLabel={
-            "Personalize your client's Kaynchi experience. Select all possible Categories below"
-          }
+          subLabel={"Personalize your client's Kaynchi experience. Select all possible Categories below"}
           removeInput
         />
 
@@ -141,8 +127,7 @@ export default function ConsumerKnownFor({navigation}) {
                   style={[
                     styles.genBtn,
                     {
-                      backgroundColor:
-                        skills === item.name ? theme.brown : theme.genderGrey,
+                      backgroundColor: skills === item.name ? theme.brown : theme.genderGrey,
                     },
                   ]}
                   key={item.name} // Add a unique key to the TouchableOpacity
@@ -153,11 +138,7 @@ export default function ConsumerKnownFor({navigation}) {
                 <View style={styles.iconContainer}>
                   {item.icons.map((imagePath, index) => (
                     <View key={index} style={styles.iconWrapper}>
-                      <Image
-                        source={imagePath}
-                        resizeMode="contain"
-                        style={{width: 50, height: 50}}
-                      />
+                      <Image source={imagePath} resizeMode="contain" style={{ width: 50, height: 50 }} />
                       <Text style={styles.iconText}>{item.message[index]}</Text>
                     </View>
                   ))}
@@ -167,11 +148,7 @@ export default function ConsumerKnownFor({navigation}) {
           })}
         </View>
 
-        <Button
-          title={'Continue'}
-          btnStyle={[styles.btn, {marginTop: heightToDp(10)}]}
-          onPress={SkillsHandler}
-        />
+        <Button title={'Continue'} btnStyle={[styles.btn, { marginTop: heightToDp(10) }]} onPress={SkillsHandler} />
       </ScrollView>
     </SafeAreaView>
   );

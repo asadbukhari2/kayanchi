@@ -1,16 +1,8 @@
-import React, {useState} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  Image,
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
-import {Button, Header, TextInput} from '../../components';
-import {useTheme, fonts} from '../../utils/theme';
-import {height, width, heightToDp, widthToDp} from '../../utils/Dimensions';
+import React, { useState } from 'react';
+import { SafeAreaView, StyleSheet, Image, Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { Button, Header, TextInput } from '../../components';
+import { useTheme, fonts } from '../../utils/theme';
+import { height, width, heightToDp, widthToDp } from '../../utils/Dimensions';
 import Gallery from '../../assets/Gallery.png';
 import back from '../../assets/back.png';
 import ImageCropPicker from 'react-native-image-crop-picker';
@@ -55,7 +47,7 @@ export default function ArtistGigDescription(props) {
   const [image3, setImage3] = useState();
   const handleClick = () => {
     console.log('clicked here');
-    props.navigation.navigate('ArtistHomeStack', {screen: 'ArtistGigMood'});
+    props.navigation.navigate('ArtistHomeStack', { screen: 'ArtistGigMood' });
   };
 
   return (
@@ -67,9 +59,7 @@ export default function ArtistGigDescription(props) {
         </View>
         <TextInput
           input={text => setName(text)}
-          placeholder={
-            'Please tell us anything that may assist with the order....'
-          }
+          placeholder={'Please tell us anything that may assist with the order....'}
           multiline
           inputBoxStyle={{
             backgroundColor: '#ffffff',
@@ -93,12 +83,8 @@ export default function ArtistGigDescription(props) {
           The desc can not conatain more than 200 letters
         </Text>
         <View>
-          <Text style={[styles.welcomeTxt, {paddingTop: heightToDp(4)}]}>
-            Service duration
-          </Text>
-          <Text style={styles.subheading}>
-            The estimated time of the service, from start to end.{' '}
-          </Text>
+          <Text style={[styles.welcomeTxt, { paddingTop: heightToDp(4) }]}>Service duration</Text>
+          <Text style={styles.subheading}>The estimated time of the service, from start to end. </Text>
         </View>
         <View style={styles.genRow}>
           {Category.slice(0, 3).map(item => (
@@ -108,8 +94,7 @@ export default function ArtistGigDescription(props) {
               style={[
                 styles.genBtn,
                 {
-                  backgroundColor:
-                    gender === item.name ? theme.primary : theme.genderGrey,
+                  backgroundColor: gender === item.name ? theme.primary : theme.genderGrey,
                 },
               ]}
               key={item.name}>
@@ -121,9 +106,7 @@ export default function ArtistGigDescription(props) {
         </View>
 
         <View>
-          <Text style={[styles.welcomeTxt, {paddingTop: heightToDp(4)}]}>
-            Service Price
-          </Text>
+          <Text style={[styles.welcomeTxt, { paddingTop: heightToDp(4) }]}>Service Price</Text>
           <Text style={styles.subheading}>Price your service.</Text>
           <TextInput
             input={text => setName(text)}
@@ -149,12 +132,9 @@ export default function ArtistGigDescription(props) {
           </Text>
         </View>
 
-        <Text style={[styles.welcomeTxt, {paddingTop: heightToDp(4)}]}>
-          Service Pictures
-        </Text>
+        <Text style={[styles.welcomeTxt, { paddingTop: heightToDp(4) }]}>Service Pictures</Text>
         <Text style={styles.subheading}>
-          Upload pictures of your past work for this service from your gallery.
-          (Optional)
+          Upload pictures of your past work for this service from your gallery. (Optional)
         </Text>
         <View style={styles.parentUpload}>
           <TouchableOpacity
@@ -168,7 +148,7 @@ export default function ArtistGigDescription(props) {
             }}
             activeOpacity={0.9}>
             {image1 ? (
-              <Image source={{uri: image1.path}} style={styles.upload} />
+              <Image source={{ uri: image1.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
                 <Image source={Gallery}></Image>
@@ -187,7 +167,7 @@ export default function ArtistGigDescription(props) {
             }}
             activeOpacity={0.9}>
             {image2 ? (
-              <Image source={{uri: image2.path}} style={styles.upload} />
+              <Image source={{ uri: image2.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
                 <Image source={Gallery}></Image>
@@ -206,7 +186,7 @@ export default function ArtistGigDescription(props) {
             }}
             activeOpacity={0.9}>
             {image3 ? (
-              <Image source={{uri: image3.path}} style={styles.upload} />
+              <Image source={{ uri: image3.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
                 <Image source={Gallery}></Image>
@@ -216,7 +196,7 @@ export default function ArtistGigDescription(props) {
           </TouchableOpacity>
         </View>
 
-        <View style={{paddingVertical: heightToDp(10)}}>
+        <View style={{ paddingVertical: heightToDp(10) }}>
           <Button title="Continue" onPress={handleClick} />
         </View>
       </ScrollView>
@@ -277,7 +257,7 @@ const styles = StyleSheet.create({
     marginTop: heightToDp(4.5),
     color: '#ffffff',
   },
-  genTxt: {color: '#ffffff', marginLeft: 6},
+  genTxt: { color: '#ffffff', marginLeft: 6 },
   categoryItem: {
     flexDirection: 'row',
     alignItems: 'center',

@@ -1,17 +1,15 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {heightToDp, width} from '../../../utils/Dimensions';
-import {fonts, useTheme} from '../../../utils/theme';
+import { heightToDp, width } from '../../../utils/Dimensions';
+import { fonts, useTheme } from '../../../utils/theme';
 
 const theme = useTheme();
 
 const ButtonWithIcon = props => {
-  const {btnStyle, titleStyle, title, onPress, disable, icon, url} = props;
+  const { btnStyle, titleStyle, title, onPress, disable, icon, url } = props;
   return (
-    <LinearGradient
-      style={[styles.container, btnStyle]}
-      colors={['#84668C', '#42275A']}>
+    <LinearGradient style={[styles.container, btnStyle]} colors={['#84668C', '#42275A']}>
       <TouchableOpacity
         disabled={disable}
         activeOpacity={0.7}

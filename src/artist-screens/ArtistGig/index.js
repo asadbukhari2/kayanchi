@@ -1,16 +1,8 @@
-import React, {useState} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  Image,
-  Text,
-  View,
-  ScrollView,
-  TouchableWithoutFeedback,
-} from 'react-native';
-import {Button, Header} from '../../components';
-import {useTheme, images, fonts} from '../../utils/theme';
-import {width, heightToDp, widthToDp, height} from '../../utils/Dimensions';
+import React, { useState } from 'react';
+import { SafeAreaView, StyleSheet, Image, Text, View, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { Button, Header } from '../../components';
+import { useTheme, images, fonts } from '../../utils/theme';
+import { width, heightToDp, widthToDp, height } from '../../utils/Dimensions';
 
 const data = ['20% Commision', '5 Gigs', '2 Promos'];
 const theme = useTheme();
@@ -25,8 +17,7 @@ const ModalData = [
   {
     id: 'promo',
     modalImageSource: images.CreatePromo,
-    modalDescription:
-      'Promotions are a mix of your gigs and any additional service you want to offer.',
+    modalDescription: 'Promotions are a mix of your gigs and any additional service you want to offer.',
     modalTitle: 'Create a Promo',
   },
 ];
@@ -64,16 +55,14 @@ export default function ArtistGig(props) {
               marginRight: widthToDp(5),
             }}>
             Time to create your menu and showcase your skills as an expert at{' '}
-            <Text style={{color: theme.primary}}>Kaynchi</Text>
+            <Text style={{ color: theme.primary }}>Kaynchi</Text>
           </Text>
         </View>
 
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             {ModalData.map((data, index) => (
-              <TouchableWithoutFeedback
-                key={index}
-                onPress={() => handleContainerClick(data.id)}>
+              <TouchableWithoutFeedback key={index} onPress={() => handleContainerClick(data.id)}>
                 <View
                   style={[
                     styles.modalElement,
@@ -102,15 +91,12 @@ export default function ArtistGig(props) {
                       },
                     ]}>
                     <Text style={styles.modalText}>{data.modalTitle}</Text>
-                    <Text style={[styles.modalDescription, { paddingTop: heightToDp(5)}]}>
+                    <Text style={[styles.modalDescription, { paddingTop: heightToDp(5) }]}>
                       {data.modalDescription}
                     </Text>
                   </View>
                   <View>
-                    <Image
-                      source={data.modalImageSource}
-                      style={styles.imageModal}
-                    />
+                    <Image source={data.modalImageSource} style={styles.imageModal} />
                   </View>
                 </View>
               </TouchableWithoutFeedback>
@@ -118,12 +104,8 @@ export default function ArtistGig(props) {
           </View>
         </View>
         <View>
-          <Text style={styles.subheading}>
-            Minimum 2 Basic gigs are required to craete a promo.
-          </Text>
-          <Text style={styles.subheading}>
-            Promo(s) are valid for 14 days only.
-          </Text>
+          <Text style={styles.subheading}>Minimum 2 Basic gigs are required to craete a promo.</Text>
+          <Text style={styles.subheading}>Promo(s) are valid for 14 days only.</Text>
         </View>
         <View style={styles.buttontext}>
           <Button title="Continue" onPress={handleContinueClick} />
@@ -156,7 +138,12 @@ const styles = StyleSheet.create({
     fontFamily: fonts.hk_bold,
     paddingVertical: heightToDp(3),
   },
-  subheading: {color: '#67718C', fontSize: 12, textAlign: 'center', fontFamily:fonts.robo_reg},
+  subheading: {
+    color: '#67718C',
+    fontSize: 12,
+    textAlign: 'center',
+    fontFamily: fonts.robo_reg,
+  },
   new: {
     paddingVertical: heightToDp(5),
     paddingHorizontal: widthToDp(4),
@@ -213,5 +200,5 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
     paddingRight: widthToDp(10),
   },
-  buttontext: {marginVertical: heightToDp(5)},
+  buttontext: { marginVertical: heightToDp(5) },
 });

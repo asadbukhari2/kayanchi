@@ -1,19 +1,12 @@
-import React, {useState} from 'react';
-import {
-  SafeAreaView,
-  Text,
-  StyleSheet,
-  View,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
-import {Button, Header} from '../../components';
-import {fonts, useTheme} from '../../utils/theme';
-import {heightToDp, widthToDp, height, width} from '../../utils/Dimensions';
+import React, { useState } from 'react';
+import { SafeAreaView, Text, StyleSheet, View, Image, TouchableOpacity } from 'react-native';
+import { Button, Header } from '../../components';
+import { fonts, useTheme } from '../../utils/theme';
+import { heightToDp, widthToDp, height, width } from '../../utils/Dimensions';
 import Feather from 'react-native-vector-icons/Feather';
 import LinearGradient from 'react-native-linear-gradient'; // Import the LinearGradient component
 import Modal from 'react-native-modal';
-import {TextInput} from '../../components';
+import { TextInput } from '../../components';
 const AddMore = require('../../assets/addMore.png');
 const theme = useTheme();
 
@@ -27,7 +20,7 @@ const STATUS_RADIO = [
     title: "I'm travelling",
   },
 ];
-const offer = [{title: '20% off'}, {title: '30% off'}, {title: '50% off'}];
+const offer = [{ title: '20% off' }, { title: '30% off' }, { title: '50% off' }];
 
 export default function ConsumerGigMainPage(props) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -44,20 +37,15 @@ export default function ConsumerGigMainPage(props) {
 
       <View style={styles.gigContainer}>
         <Text style={styles.heading}>Create a Promo</Text>
-        <Image source={AddMore} style={{width: 20, height: 20}} />
+        <Image source={AddMore} style={{ width: 20, height: 20 }} />
       </View>
-      <Text style={styles.description}>
-        Choose the active gigs that you want to continue with this promo deal
-      </Text>
+      <Text style={styles.description}>Choose the active gigs that you want to continue with this promo deal</Text>
       <LinearGradient
         colors={['#668C6A', '#3E5F41']} // Define your gradient colors here
         style={styles.Discount}>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <Text style={styles.text}>Add Discount</Text>
-          <Feather
-            style={{color: '#193356', fontSize: 18, marginLeft: 10}}
-            name="edit-2"
-          />
+          <Feather style={{ color: '#193356', fontSize: 18, marginLeft: 10 }} name="edit-2" />
         </View>
         <View>
           <Text style={styles.subHeading}>Hydra facial super extreme</Text>
@@ -66,18 +54,16 @@ export default function ConsumerGigMainPage(props) {
 
       <View style={styles.gigContainer}>
         <Text style={styles.heading}>Promos</Text>
-        <Image source={AddMore} style={{width: 20, height: 20}} />
+        <Image source={AddMore} style={{ width: 20, height: 20 }} />
       </View>
-      <Text style={styles.description}>
-        Choose the active gigs that you want to continue with this promo deal
-      </Text>
+      <Text style={styles.description}>Choose the active gigs that you want to continue with this promo deal</Text>
       <LinearGradient
         colors={['#84668C', '#67506D']} // Define your gradient colors here
         style={styles.Discount}>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <Text style={styles.text}>Add Discount</Text>
           <Feather
-            style={{color: 'white', fontSize: 18, marginLeft: 10}}
+            style={{ color: 'white', fontSize: 18, marginLeft: 10 }}
             name="edit-2"
             onPress={() => setModalVisible(true)}
           />
@@ -90,24 +76,20 @@ export default function ConsumerGigMainPage(props) {
       <Modal
         coverScreen={false}
         isVisible={modalVisible}
-        style={{flex: 1, margin: 0, justifyContent: 'flex-end'}}
+        style={{ flex: 1, margin: 0, justifyContent: 'flex-end' }}
         onSwipeComplete={() => setModalVisible(!modalVisible)}
         swipeDirection={['down']}>
         <View style={styles.modalMainView}>
-          <TouchableOpacity
-            onPress={closeModal}
-            style={styles.closeIconContainer}>
+          <TouchableOpacity onPress={closeModal} style={styles.closeIconContainer}>
             <Feather name="x" size={24} color="black" />
           </TouchableOpacity>
 
           <View style={styles.modalTxtView}>
             <Text style={styles.modalTitle}>Hydra facial super extreme</Text>
-            <Text style={styles.modalNormalTxt}>
-              Enter your discount and offer more move value to your clients.
-            </Text>
+            <Text style={styles.modalNormalTxt}>Enter your discount and offer more move value to your clients.</Text>
             <Text style={styles.modalNormalTxt2}>Commonly offered </Text>
 
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               {offer.map(item => (
                 <Text style={styles.DiscountOffer}>{item.title}</Text>
               ))}
@@ -126,7 +108,7 @@ export default function ConsumerGigMainPage(props) {
 
           <Button
             title={'Add discount'}
-            btnStyle={{position: 'absolute', bottom: heightToDp(5.5)}}
+            btnStyle={{ position: 'absolute', bottom: heightToDp(5.5) }}
             onPress={() =>
               props.navigation.navigate('ConsumerHomeStack', {
                 screen: 'ConsumerPromoMainPage',

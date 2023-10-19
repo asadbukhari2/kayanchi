@@ -1,6 +1,6 @@
-import {StyleSheet} from 'react-native';
-import {heightToDp, width} from './Dimensions';
-import {fonts, useTheme} from './theme';
+import { StyleSheet } from 'react-native';
+import { heightToDp, width } from './Dimensions';
+import { fonts, useTheme } from './theme';
 
 const theme = useTheme();
 
@@ -40,7 +40,7 @@ export const GLOBAL_STYLES = StyleSheet.create({
   },
   textShadow: {
     textShadowColor: '#000000',
-    textShadowOffset: {width: -1, height: 1},
+    textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 3,
   },
   containerWhite: {

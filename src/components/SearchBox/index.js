@@ -1,13 +1,13 @@
 import React from 'react';
-import {StyleSheet, TextInput, View, TouchableOpacity} from 'react-native';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {useTheme, fonts} from '../../utils/theme';
+import { StyleSheet, TextInput, View, TouchableOpacity } from 'react-native';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { useTheme, fonts } from '../../utils/theme';
 import Feather from 'react-native-vector-icons/Feather';
 
 const theme = useTheme();
 
 const index = props => {
-  const {onChange, value, placeholder, containerView, onSearch} = props;
+  const { onChange, value, placeholder, containerView, onSearch } = props;
   return (
     <View style={[styles.searchBar, containerView]}>
       <TouchableOpacity activeOpacity={0.7} onPress={onSearch}>

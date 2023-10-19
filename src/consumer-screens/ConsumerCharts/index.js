@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Image,
@@ -10,12 +10,12 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Button, Header, HomeCard, SearchBox} from '../../components';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Header, HomeCard, SearchBox } from '../../components';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
 import Feather from 'react-native-vector-icons/Feather';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 // import api from '../../utils/APIservice';
 
 const waxing = require('../../assets/Waxing.png');
@@ -35,58 +35,54 @@ const DATA = [
     imageLink: hair,
     image2: fire,
     text: 'Most Ordered',
-    screen:"ConsumerGigDetailHair"
+    screen: 'ConsumerGigDetailHair',
   },
   {
     name: 'Face',
     imageLink: face,
     image2: glowing_star,
     text: 'Most Rated',
-    screen:"ConsumerPromoDetailsPage"
+    screen: 'ConsumerPromoDetailsPage',
   },
   {
     name: 'Treatment',
     imageLink: TreatDark,
-    screen:"ConsumerTreatmentCharts"
+    screen: 'ConsumerTreatmentCharts',
   },
   {
     name: 'Spa',
     imageLink: Massages,
-    screen:"ConsumerGigDetailPage"
+    screen: 'ConsumerGigDetailPage',
   },
   {
     name: 'Body',
     imageLink: waxing,
-    screen:"ConsumerGigGlowMakeup"
+    screen: 'ConsumerGigGlowMakeup',
   },
 ];
 
-const ConsumerCharts = (props) => {
-  const renderItem = ({item}) => (
-    <TouchableOpacity
-    onPress={() => props.navigation.navigate('ConsumerHomeStack', { screen: item.screen })}>
-    <View style={styles.item}>
-      <Image source={item.imageLink} style={styles.image} />
-      <Text style={styles.text}>{item.name}</Text>
-      {item.image2 && item.text && (
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            backgroundColor: '#668C6A',
-            padding: 5,
-            borderRadius: 20,
-            width: widthToDp(26),
-          }}>
-          <Image
-            source={item.image2}
-            style={{height: 15, width: 13, marginRight: 5}}
-          />
-          <Text style={{color: 'white', fontSize: 9}}>{item.text}</Text>
-        </View>
-      )}
-    </View>
-     </TouchableOpacity>
+const ConsumerCharts = props => {
+  const renderItem = ({ item }) => (
+    <TouchableOpacity onPress={() => props.navigation.navigate('ConsumerHomeStack', { screen: item.screen })}>
+      <View style={styles.item}>
+        <Image source={item.imageLink} style={styles.image} />
+        <Text style={styles.text}>{item.name}</Text>
+        {item.image2 && item.text && (
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              backgroundColor: '#668C6A',
+              padding: 5,
+              borderRadius: 20,
+              width: widthToDp(26),
+            }}>
+            <Image source={item.image2} style={{ height: 15, width: 13, marginRight: 5 }} />
+            <Text style={{ color: 'white', fontSize: 9 }}>{item.text}</Text>
+          </View>
+        )}
+      </View>
+    </TouchableOpacity>
   );
   // const getService = async () => {
   //   try {
@@ -114,16 +110,14 @@ const ConsumerCharts = (props) => {
   // }, []);
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={{paddingBottom: 90}}>
+      <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 90 }}>
         <Header backBtn />
 
         <Text
           style={{
             color: '#193356',
             fontSize: 40,
-            fontFamily:fonts.hk_bold,
+            fontFamily: fonts.hk_bold,
             marginHorizontal: widthToDp(5),
           }}>
           Charts
@@ -132,18 +126,13 @@ const ConsumerCharts = (props) => {
           style={{
             color: '#67718C',
             fontSize: 16,
-            fontFamily:fonts.robo_reg,
+            fontFamily: fonts.robo_reg,
             marginLeft: widthToDp(5),
             marginRight: widthToDp(25),
           }}>
           Meet the trend setters of this week.{' '}
         </Text>
-        <FlatList
-          data={DATA}
-          renderItem={item => renderItem(item)}
-          keyExtractor={item => item.name}
-          numColumns={2}
-        />
+        <FlatList data={DATA} renderItem={item => renderItem(item)} keyExtractor={item => item.name} numColumns={2} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -159,7 +148,7 @@ const styles = StyleSheet.create({
     width: width * 0.44,
     margin: 10,
     paddingVertical: 20,
-    paddingHorizontal:10,
+    paddingHorizontal: 10,
     // paddingHorizontal: 20,
     backgroundColor: 'white',
     borderRadius: 10,
@@ -171,8 +160,8 @@ const styles = StyleSheet.create({
   },
   text: {
     marginTop: 10,
-    fontFamily:fonts.robo_med,
-    color:"#0F2851",
+    fontFamily: fonts.robo_med,
+    color: '#0F2851',
     // fontWeight: 'bold',
     fontSize: 23,
   },

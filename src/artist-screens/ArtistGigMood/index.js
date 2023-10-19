@@ -1,19 +1,10 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  TextInput,
-  Switch,
-  ScrollView,
-} from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Switch, ScrollView } from 'react-native';
 import ToggleSwitch from 'toggle-switch-react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Header, Button} from '../../components';
-import {height, heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {useTheme, fonts} from '../../utils/theme';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Header, Button } from '../../components';
+import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { useTheme, fonts } from '../../utils/theme';
 import iButton from '../../assets/ibutton.png';
 
 import back from '../../assets/back.png';
@@ -25,8 +16,8 @@ import TravelMoodImage from '../../assets/travel.png';
 import HostMoodImage from '../../assets/car-front.png';
 
 import LinearGradient from 'react-native-linear-gradient';
-import {useDispatch, useSelector} from 'react-redux';
-import {saveToken} from '../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { saveToken } from '../../redux/actions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const theme = useTheme();
@@ -38,7 +29,7 @@ const ArtistGigMood = props => {
   const handlePrivateImage = () => {
     setIsPrivate(previousState => !previousState);
   };
-  const {navigation, route} = props;
+  const { navigation, route } = props;
   // const {data} = route.params;
 
   // console.log(data);
@@ -66,44 +57,34 @@ const ArtistGigMood = props => {
             width: widthToDp(90),
           }}>
           <Image source={back}></Image>
-          <View style={{marginLeft: -20}}>
+          <View style={{ marginLeft: -20 }}>
             <Header title={'Gig mood'} />
           </View>
         </View>
-        <Text style={styles.gigVersionAsk}>
-          From this gig - would you like to
-        </Text>
+        <Text style={styles.gigVersionAsk}>From this gig - would you like to</Text>
         <View style={styles.gigVersion}>
-          <Text style={styles.title}>
-            {'Travel, host or both?'}
-          </Text>
+          <Text style={styles.title}>{'Travel, host or both?'}</Text>
         </View>
 
-        <Text style={styles.warning}>
-          {'Choose between travelling, hosting or both mood(s) for this gig.  '}
-        </Text>
-        <Text style={styles.warning2}>
-          {'Learn more about traveling and hosting moods.'}
-        </Text>
+        <Text style={styles.warning}>{'Choose between travelling, hosting or both mood(s) for this gig.  '}</Text>
+        <Text style={styles.warning2}>{'Learn more about traveling and hosting moods.'}</Text>
 
         <View style={styles.parentMood}>
           <View style={styles.mood}>
             <LinearGradient
               colors={['#84668C', '#67506D']}
               style={styles.childMood}
-              start={{x: 1, y: 0.5}}
-              end={{x: 1, y: 0.5}}>
-              <Image
-                source={HostMoodImage}
-                style={{height: 30, width: 30, resizeMode: 'contain'}}></Image>
+              start={{ x: 1, y: 0.5 }}
+              end={{ x: 1, y: 0.5 }}>
+              <Image source={HostMoodImage} style={{ height: 30, width: 30, resizeMode: 'contain' }}></Image>
               <Text style={styles.childMoodHead}>Travel</Text>
               <Text style={styles.childMoodBody}>to client’s</Text>
             </LinearGradient>
             <LinearGradient
               colors={[theme.primary, theme.primary]}
               style={styles.childMood}
-              start={{x: 1, y: 0.5}}
-              end={{x: 1, y: 0.5}}>
+              start={{ x: 1, y: 0.5 }}
+              end={{ x: 1, y: 0.5 }}>
               <Image source={TravelMoodImage}></Image>
               <Text style={styles.childMoodHead}>Host</Text>
               <Text style={styles.childMoodBody}>the client</Text>
@@ -117,9 +98,7 @@ const ArtistGigMood = props => {
         </View>
 
         <Text style={styles.warning}>
-          {
-            'Budget your travel cost within the city. Offer travel for free, to get more orders.'
-          }
+          {'Budget your travel cost within the city. Offer travel for free, to get more orders.'}
         </Text>
         <View
           style={{
@@ -131,8 +110,7 @@ const ArtistGigMood = props => {
           <View style={styles.switchContainer}>
             <ToggleSwitch
               isOn={false}
-              style={{height: 20, marginRight: 10,
-              }}
+              style={{ height: 20, marginRight: 10 }}
               value={isPrivate}
               onColor="#84668C"
               offColor="#9A9A9A"
@@ -150,21 +128,13 @@ const ArtistGigMood = props => {
         </View>
 
         <View style={styles.parentPrice}>
-          <TextInput
-            style={styles.priceField}
-            placeholder="100-1000"></TextInput>
+          <TextInput style={styles.priceField} placeholder="100-1000"></TextInput>
         </View>
 
         <View style={styles.gigVersion}>
-          <Text style={styles.title}>
-            {'Upload pictures of your hosting spot'}
-          </Text>
+          <Text style={styles.title}>{'Upload pictures of your hosting spot'}</Text>
         </View>
-        <Text style={styles.warning}>
-          {
-            'Kaynchi needs to verify your hosting spot before processing your order.'
-          }
-        </Text>
+        <Text style={styles.warning}>{'Kaynchi needs to verify your hosting spot before processing your order.'}</Text>
 
         <TouchableOpacity
           onPress={() => {
@@ -181,7 +151,7 @@ const ArtistGigMood = props => {
           style={styles.parentUpload}>
           {image ? (
             <Image
-              source={{uri: image.path}}
+              source={{ uri: image.path }}
               style={{
                 elevation: 1,
                 width: widthToDp(90),

@@ -1,19 +1,12 @@
 import React from 'react';
-import {useTheme, fonts} from '../../../utils/theme';
-import {heightToDp, width, widthToDp} from '../../../utils/Dimensions';
+import { useTheme, fonts } from '../../../utils/theme';
+import { heightToDp, width, widthToDp } from '../../../utils/Dimensions';
 
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
-import {Button} from '../../../components';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { Button } from '../../../components';
 const theme = useTheme();
 
-export default function OrderCard({onPressView}) {
+export default function OrderCard({ onPressView }) {
   return (
     <View
       style={{
@@ -102,14 +95,12 @@ export default function OrderCard({onPressView}) {
           }}>
           {'SERVICES'}
         </Text>
-        <View style={{flexDirection: 'row'}}>
-          <Text style={{color: theme.blue, fontSize: 14, paddingHorizontal: 3}}>
-            3.5 Kms
-          </Text>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={{ color: theme.blue, fontSize: 14, paddingHorizontal: 3 }}>3.5 Kms</Text>
           <Text>away from you</Text>
         </View>
       </View>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         {/* <View
           style={{
             // flexDirection: 'row',
@@ -183,11 +174,11 @@ export default function OrderCard({onPressView}) {
             {/* {'7:30 - 8:30 AM'} */}
           </Text>
         </View>
-        <View style={{width: widthToDp(40), marginTop: 10}}>
+        <View style={{ width: widthToDp(40), marginTop: 10 }}>
           <Text>HOSTING AT:</Text>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Image source={require('../../../assets/location2.png')} />
-            <Text style={{color: theme.blue}}>North Nazimabad</Text>
+            <Text style={{ color: theme.blue }}>North Nazimabad</Text>
           </View>
         </View>
 
@@ -215,7 +206,7 @@ export default function OrderCard({onPressView}) {
             height: heightToDp(10),
           }}
           title="Cancel"
-          titleStyle={{color: theme.blue, fontFamily: fonts.robo_med}}
+          titleStyle={{ color: theme.blue, fontFamily: fonts.robo_med }}
         />
       </View>
     </View>

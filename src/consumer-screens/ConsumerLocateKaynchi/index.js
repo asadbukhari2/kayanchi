@@ -1,17 +1,17 @@
-import React, {useRef, useState} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import React, { useRef, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import MapView from 'react-native-maps';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Modalize} from 'react-native-modalize';
-import {Button, GradientRadio, SearchBox} from '../../components';
-import {height, heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
-import {DATA} from './Location';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Modalize } from 'react-native-modalize';
+import { Button, GradientRadio, SearchBox } from '../../components';
+import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
+import { DATA } from './Location';
 import Modal from 'react-native-modal';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-import {TextInput} from '../../components';
+import { TextInput } from '../../components';
 import googlemap from '../../assets/googlemap.png';
 
 const theme = useTheme();
@@ -50,7 +50,7 @@ const ConsumerLocateKaynchi = props => {
   ];
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <MapView
         initialRegion={{
           latitude: 24.8607,
@@ -58,13 +58,13 @@ const ConsumerLocateKaynchi = props => {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
-        style={{flex: 1}}
+        style={{ flex: 1 }}
         customMapStyle={map_style}>
         {DATA.map((item, index) => {
           return (
             <MapView.Marker
               key={index}
-              coordinate={{latitude: item.lat, longitude: item.long}}
+              coordinate={{ latitude: item.lat, longitude: item.long }}
               title={item.title}
               description={item.description}
               image={item.img}>
@@ -97,13 +97,11 @@ const ConsumerLocateKaynchi = props => {
             }}
           />
         </View>
-                <SearchBox
+        <SearchBox
           value={searchKeyword}
           onChange={txt => setSearchKeyword(txt)}
           placeholder={'Artist, salon, or service…'}
-          onSearch={() =>
-            props.navigation.navigate('HomeStack', {screen: 'Search'})
-          }
+          onSearch={() => props.navigation.navigate('HomeStack', { screen: 'Search' })}
         />
 
         <TextInput
@@ -147,15 +145,15 @@ const ConsumerLocateKaynchi = props => {
       <Modal
         coverScreen={false}
         isVisible={modalVisible}
-        style={{flex: 1, margin: 0, justifyContent: 'flex-end'}}
+        style={{ flex: 1, margin: 0, justifyContent: 'flex-end' }}
         onSwipeComplete={() => setModalVisible(!modalVisible)}
         swipeDirection={['down']}>
         <View style={styles.modalMainView}>
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => setModalVisible(false)}
-            style={{padding: heightToDp(4.5), position: 'absolute', right: 0}}>
-            <Feather name={'x'} style={{fontSize: 20, color: theme.backIcon}} />
+            style={{ padding: heightToDp(4.5), position: 'absolute', right: 0 }}>
+            <Feather name={'x'} style={{ fontSize: 20, color: theme.backIcon }} />
           </TouchableOpacity>
           <View style={styles.line} />
           <Text style={styles.modalDistanceTxt}>{'3.2 kms away from you'}</Text>
@@ -184,16 +182,8 @@ const ConsumerLocateKaynchi = props => {
                   title={item.title}
                   source={item.source}
                   onPress={() => setPreferenceStatus(item.title)}
-                  titleStyle={
-                    preferenceStatus == item.title
-                      ? null
-                      : {color: theme.lightBlack}
-                  }
-                  imgStyle={
-                    preferenceStatus == item.title
-                      ? null
-                      : {tintColor: theme.lightBlack}
-                  }
+                  titleStyle={preferenceStatus == item.title ? null : { color: theme.lightBlack }}
+                  imgStyle={preferenceStatus == item.title ? null : { tintColor: theme.lightBlack }}
                   containerStyle={
                     preferenceStatus == item.title
                       ? null
@@ -202,25 +192,16 @@ const ConsumerLocateKaynchi = props => {
                           borderColor: 'rgba(132, 102, 140, 0.15)',
                         }
                   }
-                  gradients={
-                    preferenceStatus == item.title
-                      ? null
-                      : ['rgba(0,0,0,0.1)', theme.background]
-                  }
+                  gradients={preferenceStatus == item.title ? null : ['rgba(0,0,0,0.1)', theme.background]}
                 />
               );
             })}
             {/* </View> */}
           </View>
-          <TouchableOpacity style={{alignSelf: 'center', marginBottom: 25}}>
-            <Text style={[styles.statusTxt, {color: theme.genderGrey}]}>
-              Swipe to view profile
-            </Text>
+          <TouchableOpacity style={{ alignSelf: 'center', marginBottom: 25 }}>
+            <Text style={[styles.statusTxt, { color: theme.genderGrey }]}>Swipe to view profile</Text>
           </TouchableOpacity>
-          <Button
-            title={'Continue'}
-            btnStyle={{marginBottom: heightToDp(5.5)}}
-          />
+          <Button title={'Continue'} btnStyle={{ marginBottom: heightToDp(5.5) }} />
         </View>
       </Modal>
     </SafeAreaView>
@@ -251,7 +232,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: heightToDp(3.5),
   },
-  btn: {marginTop: 20},
+  btn: { marginTop: 20 },
   searchBox: {
     elevation: 0,
     marginTop: heightToDp(6.7),

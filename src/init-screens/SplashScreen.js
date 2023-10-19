@@ -1,10 +1,10 @@
 import * as React from 'react';
-import {useEffect} from 'react';
-import {View, Text} from 'react-native';
+import { useEffect } from 'react';
+import { View, Text } from 'react-native';
 
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 
-function MySplashScreen({navigation}) {
+function MySplashScreen({ navigation }) {
   const state = useSelector(state => state);
   const auth = useSelector(state => state.auth);
 
@@ -17,9 +17,9 @@ function MySplashScreen({navigation}) {
       // const value = await AsyncStorage.getItem('hasCompletedWelcome');
       // console.log('state?.userDetailsstate?.userDetails', state?.accessToken);
       if (auth?.token && isArtist) {
-        navigation.navigate('ArtistProfileStack', {screen: 'MyTabs'});
+        navigation.navigate('ArtistProfileStack', { screen: 'MyTabs' });
       } else if (auth?.token && isConsumer) {
-        navigation.navigate('ConsumerMain', {screen: 'MyTabs'});
+        navigation.navigate('ConsumerMain', { screen: 'MyTabs' });
       } else if (!auth?.token && isArtist) {
         navigation.navigate('ArtistAuthStack');
       } else if (!auth?.token && isConsumer) {

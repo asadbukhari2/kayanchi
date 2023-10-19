@@ -1,19 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  TextInput,
-  Switch,
-  ScrollView,
-} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Switch, ScrollView } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Header, Button} from '../../components';
-import {height, heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {useTheme, fonts} from '../../utils/theme';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Header, Button } from '../../components';
+import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { useTheme, fonts } from '../../utils/theme';
 import back from '../../assets/back.png';
 import arrowupcolor from '../../assets/arrowupcolor.png';
 import arrowdowncolor from '../../assets/arrowdowncolor.png';
@@ -42,10 +33,7 @@ const ConsumerLanguage = props => {
 
   const handleAddNewSlot = () => {
     if (newSlotStart && newSlotEnd) {
-      setSelectedTimeSlots([
-        ...selectedTimeSlots,
-        `${newSlotStart}-${newSlotEnd} ${timePeriod}`,
-      ]);
+      setSelectedTimeSlots([...selectedTimeSlots, `${newSlotStart}-${newSlotEnd} ${timePeriod}`]);
       setNewSlotStart('');
       setNewSlotEnd('');
       setShowNewSlot(false);
@@ -79,7 +67,7 @@ const ConsumerLanguage = props => {
             width: widthToDp(90),
           }}>
           {/* <Image source={back} /> */}
-          <View style={{marginLeft: 0}}>
+          <View style={{ marginLeft: 0 }}>
             <Header backBtn />
           </View>
         </View>
@@ -107,22 +95,21 @@ const ConsumerLanguage = props => {
             marginHorizontal: widthToDp(4),
             paddingVertical: 8,
             color: '#677790',
-            fontFamily: fonts.sans_reg
+            fontFamily: fonts.sans_reg,
           }}>
           Choose your prefered language{' '}
         </Text>
         <View style={styles.daysOfWeekContainer}>
-        <RadioButton.Group onValueChange={newValue => setChecked(newValue)} value={checked}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop:10 }}>
-          <RadioButton value="first" />
-          <Text>English</Text>
-        </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop:10 }}>
-          <RadioButton value="second" />
-          <Text>Urdu</Text>
-        </View>
-      
-      </RadioButton.Group>
+          <RadioButton.Group onValueChange={newValue => setChecked(newValue)} value={checked}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
+              <RadioButton value="first" />
+              <Text>English</Text>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
+              <RadioButton value="second" />
+              <Text>Urdu</Text>
+            </View>
+          </RadioButton.Group>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -136,7 +123,7 @@ const styles = StyleSheet.create({
     color: '#0F2851',
     fontSize: 40,
     marginLeft: widthToDp(4),
-    fontFamily:fonts.hk_bold
+    fontFamily: fonts.hk_bold,
   },
   container: {
     flex: 1,
@@ -150,7 +137,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     borderRadius: 10,
   },
-  btn: {marginTop: 15},
+  btn: { marginTop: 15 },
   daysOfWeekContainer: {
     backgroundColor: 'white',
     flexDirection: 'row',
@@ -167,8 +154,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginHorizontal: widthToDp(4),
   },
-  active: {flexDirection: 'row', alignItems: 'center'},
-  btnnew: {marginHorizontal: widthToDp(4), marginVertical: heightToDp(3)},
+  active: { flexDirection: 'row', alignItems: 'center' },
+  btnnew: { marginHorizontal: widthToDp(4), marginVertical: heightToDp(3) },
   dayOfWeekButton: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -192,7 +179,7 @@ const styles = StyleSheet.create({
   selectedDayText: {
     color: 'white',
   },
-  newSlotContainer: {flexDirection: 'row', alignItems: 'center'},
+  newSlotContainer: { flexDirection: 'row', alignItems: 'center' },
   timeSlot: {
     flexDirection: 'row',
     justifyContent: 'space-between',

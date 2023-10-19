@@ -1,9 +1,9 @@
-import {StyleSheet, Text, View, Image} from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import React from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {height, heightToDp, width, widthToDp} from '../../../utils/Dimensions';
-import {useTheme, fonts} from '../../../utils/theme';
+import { height, heightToDp, width, widthToDp } from '../../../utils/Dimensions';
+import { useTheme, fonts } from '../../../utils/theme';
 
 const theme = useTheme();
 
@@ -26,7 +26,7 @@ export default function LatestBookingCard() {
             alignItems: 'center',
           }}>
           <Image
-            style={{width: 32, resizeMode: 'contain', height: 29}}
+            style={{ width: 32, resizeMode: 'contain', height: 29 }}
             source={require('../../../assets/carIcon.png')}
           />
           <View
@@ -46,27 +46,21 @@ export default function LatestBookingCard() {
             </Text>
           </View>
         </View>
-        <View style={{marginVertical: 10}}>
+        <View style={{ marginVertical: 10 }}>
           <Text style={styles.title}>Amjad Ali</Text>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Text
               style={{
                 fontSize: 14,
                 fontFamily: fonts.robo_med,
                 color: theme.darkBlue,
               }}>
-              wants to{' '}
-              <Text style={{color: theme.primary, textTransform: 'uppercase'}}>
-                Travel
-              </Text>
+              wants to <Text style={{ color: theme.primary, textTransform: 'uppercase' }}>Travel</Text>
             </Text>
-            <Feather
-              style={{color: '#29AAE2', fontSize: 18, marginLeft: 10}}
-              name="info"
-            />
+            <Feather style={{ color: '#29AAE2', fontSize: 18, marginLeft: 10 }} name="info" />
           </View>
         </View>
-        <View style={{marginVertical: 10}}>
+        <View style={{ marginVertical: 10 }}>
           <Text
             style={{
               fontSize: 14,
@@ -75,7 +69,7 @@ export default function LatestBookingCard() {
             }}>
             SERVICES: Rs 30000
           </Text>
-          <View style={{marginTop: 10}}>
+          <View style={{ marginTop: 10 }}>
             <Text
               style={{
                 color: theme.counterGrey,
@@ -90,7 +84,7 @@ export default function LatestBookingCard() {
                 fontSize: 14,
                 color: theme.counterGrey,
               }}>
-              and <Text style={{color: theme.blue}}>2 more services...</Text>
+              and <Text style={{ color: theme.blue }}>2 more services...</Text>
             </Text>
           </View>
         </View>
@@ -103,11 +97,8 @@ export default function LatestBookingCard() {
             }}>
             TRAVELLING TO:
           </Text>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Entypo
-              style={{color: '#29AAE2', fontSize: 18, marginRight: 5}}
-              name="location-pin"
-            />
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Entypo style={{ color: '#29AAE2', fontSize: 18, marginRight: 5 }} name="location-pin" />
             <Text
               style={{
                 fontSize: 14,
@@ -125,7 +116,7 @@ export default function LatestBookingCard() {
           width: '100%',
           flexDirection: 'row',
         }}>
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <Text
             style={{
               fontSize: 14,

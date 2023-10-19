@@ -1,8 +1,8 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, Text, View, ScrollView} from 'react-native';
-import {Header} from '../../components';
-import {fonts, useTheme} from '../../utils/theme';
-import {heightToDp, widthToDp} from '../../utils/Dimensions';
+import { SafeAreaView, StyleSheet, Text, View, ScrollView } from 'react-native';
+import { Header } from '../../components';
+import { fonts, useTheme } from '../../utils/theme';
+import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import ListItem from '../../components/ListItem';
 import Rankup from './Components/Rankup';
 import Star_Yellow from '../../assets/star_yellow.png';
@@ -27,7 +27,7 @@ export default function ArtistRankUp(props) {
               fontSize: 16,
               marginBottom: 9,
             }}>
-            New <Text style={{fontFamily: fonts.robo_reg}}>(Current Rank)</Text>
+            New <Text style={{ fontFamily: fonts.robo_reg }}>(Current Rank)</Text>
           </Text>
           <View>
             {data.map((item, index) => (

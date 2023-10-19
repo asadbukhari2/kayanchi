@@ -1,24 +1,16 @@
-import React, {useState} from 'react';
-import {
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-} from 'react-native';
-import {heightToDp, widthToDp, width} from '../../utils/Dimensions';
-import {Header} from '../../components';
-import {TextInput} from '../../components';
-import {Button} from '../../components';
+import React, { useState } from 'react';
+import { Text, View, Image, TouchableOpacity, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import { heightToDp, widthToDp, width } from '../../utils/Dimensions';
+import { Header } from '../../components';
+import { TextInput } from '../../components';
+import { Button } from '../../components';
 const grooming = require('../../assets/grooming.png');
 const clockcolor = require('../../assets/clockcolor.png');
 const carBrown = require('../../assets/car_brown.png');
 const host_green = require('../../assets/host_green.png');
 const information = require('../../assets/information.png');
 const location = require('../../assets/Path.png');
-import {fonts} from '../../utils/theme';
+import { fonts } from '../../utils/theme';
 const orders = [
   {
     name: 'John Doe',
@@ -41,7 +33,7 @@ export default function ArtistGrooming(props) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <View style={{marginLeft: 0}}>
+        <View style={{ marginLeft: 0 }}>
           <Header
             backBtn
             title="help?"
@@ -111,8 +103,7 @@ export default function ArtistGrooming(props) {
                         if (serviceIndex < maxServicesToShow) {
                           return <Text key={serviceIndex}>{service}</Text>;
                         } else if (serviceIndex === maxServicesToShow) {
-                          const remainingServices =
-                            order.services.length - maxServicesToShow;
+                          const remainingServices = order.services.length - maxServicesToShow;
                           return (
                             <TouchableOpacity
                               key={serviceIndex}
@@ -143,26 +134,22 @@ export default function ArtistGrooming(props) {
 
                   <View>
                     <View style={styles.orderDetails}>
-                      <Text style={{fontFamily: fonts.robo_reg, }}>
+                      <Text style={{ fontFamily: fonts.robo_reg }}>
                         <Text
                           style={{
                             color: '#84668C',
                             fontFamily: fonts.robo_med,
                             fontSize: 16,
-                            marginLeft: 10
+                            marginLeft: 10,
                           }}>
                           HOSTING
                         </Text>
                       </Text>
 
-                      <Image
-                        source={order.imageLink}
-                        style={styles.OrderImage}
-                      />
+                      <Image source={order.imageLink} style={styles.OrderImage} />
                     </View>
-                    <Text style={{color: '#29AAE2'}}>
-                      3.5 kms{' '}
-                      <Text style={{color: '#0F2851'}}>away for you </Text>{' '}
+                    <Text style={{ color: '#29AAE2' }}>
+                      3.5 kms <Text style={{ color: '#0F2851' }}>away for you </Text>{' '}
                     </Text>
                     <Text
                       style={{
@@ -173,14 +160,9 @@ export default function ArtistGrooming(props) {
                       }}>
                       Hosting at:
                     </Text>
-                    <View style={{flexDirection: 'row'}}>
-                      <Image
-                        source={location}
-                        style={{height: 15, width: 15, resizeMode: 'contain'}}
-                      />
-                      <Text style={{color: '#32aee3'}}>
-                        {order.salonAddress}
-                      </Text>
+                    <View style={{ flexDirection: 'row' }}>
+                      <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
+                      <Text style={{ color: '#32aee3' }}>{order.salonAddress}</Text>
                     </View>
                   </View>
                 </View>
@@ -197,7 +179,7 @@ export default function ArtistGrooming(props) {
               borderBottomColor: '#84668C1A',
               paddingHorizontal: 20,
               borderRadius: 5,
-              height: heightToDp(15)
+              height: heightToDp(15),
             }}
           />
         </View>
@@ -207,12 +189,12 @@ export default function ArtistGrooming(props) {
             marginHorizontal: widthToDp(20),
             textAlign: 'center',
             marginVertical: 15,
-            fontFamily: fonts.robo_reg
+            fontFamily: fonts.robo_reg,
           }}>
           Amount should be equal to or more than
-          <Text style={{color: '#007AFF'}}> Rs 3400</Text>
+          <Text style={{ color: '#007AFF' }}> Rs 3400</Text>
         </Text>
-        <View style={{marginVertical: 20}}>
+        <View style={{ marginVertical: 20 }}>
           <Button title="Grooming Done" onPress={GroomingDoneHandler} />
         </View>
       </ScrollView>

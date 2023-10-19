@@ -16,8 +16,8 @@ import {
   SAVE_TOKEN,
 } from '../constants/constants';
 
-export default reducer = (state = initialState, action) => {
-  console.log(action.payload, 'reducer_token');
+const reducer = (state = initialState, action) => {
+  console.log(action, 'reducer_token');
   switch (action.type) {
     case SAVE_USER_DATA:
       return {
@@ -69,3 +69,5 @@ export default reducer = (state = initialState, action) => {
       return state;
   }
 };
+
+export default reducer;

@@ -14,7 +14,7 @@ import {
   SAVE_USER_DATA,
   SAVE_TOKEN,
 } from '../constants/constants';
-import {showMessage} from 'react-native-flash-message';
+import { showMessage } from 'react-native-flash-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../../utils/APIservice';
 
@@ -56,7 +56,7 @@ export const signup = (phone_number, email, password) => async dispatch => {
       });
       dispatch({
         type: SIGN_UP_FAILED,
-        payload: {flag: true, text: error.error},
+        payload: { flag: true, text: error.error },
       });
     });
 };
@@ -84,10 +84,10 @@ export const saveToken = payload => dispatch => {
 };
 
 export const sentOtpCode = data => async (dispatch, getState) => {
-  const {number: phone_number} = data;
+  const { number: phone_number } = data;
   console.log('phone', phone_number);
   try {
-    const {data} = await api.post('/api/users', {phone_number});
+    const { data } = await api.post('/api/users', { phone_number });
     console.log('data', data);
     dispatch({
       type: SEND_OTP_SUCCESS,
@@ -105,7 +105,7 @@ export const email_login = (email, password, oneSignalId) => async dispatch => {
   dispatch({
     type: SIGN_IN,
   });
-  const data = {password, email, oneSignalId};
+  const data = { password, email, oneSignalId };
   await api
     .request('post', 'users/login', data)
     .then(async res => {
@@ -133,11 +133,11 @@ export const email_login = (email, password, oneSignalId) => async dispatch => {
       });
       dispatch({
         type: SIGN_IN_FAILED,
-        payload: {flag: true, text: error.error},
+        payload: { flag: true, text: error.error },
       });
     });
 };
 
 export const signout = () => async dispatch => {
-  dispatch({type: 'SIGN_OUT'});
+  dispatch({ type: 'SIGN_OUT' });
 };

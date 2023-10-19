@@ -1,16 +1,8 @@
-import React, {useState} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  Image,
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
-import {Button, Header, TextInput} from '../../components';
-import {useTheme, fonts} from '../../utils/theme';
-import {height, width, heightToDp, widthToDp} from '../../utils/Dimensions';
+import React, { useState } from 'react';
+import { SafeAreaView, StyleSheet, Image, Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { Button, Header, TextInput } from '../../components';
+import { useTheme, fonts } from '../../utils/theme';
+import { height, width, heightToDp, widthToDp } from '../../utils/Dimensions';
 import Gallery from '../../assets/Gallery.png';
 import back from '../../assets/back.png';
 import ImageCropPicker from 'react-native-image-crop-picker';
@@ -54,7 +46,7 @@ export default function ConsumerGigDescription(props) {
   const [image2, setImage2] = useState();
   const [image3, setImage3] = useState();
   const handleClick = () => {
-      props.navigation.navigate('ConsumerHomeStack', {screen: 'ConsumerGigMood'});
+    props.navigation.navigate('ConsumerHomeStack', { screen: 'ConsumerGigMood' });
   };
 
   return (
@@ -66,9 +58,7 @@ export default function ConsumerGigDescription(props) {
         </View>
         <TextInput
           input={text => setName(text)}
-          placeholder={
-            'Please tell us anything that may assist with the order....'
-          }
+          placeholder={'Please tell us anything that may assist with the order....'}
           multiline
           inputBoxStyle={{
             backgroundColor: '#ffffff',
@@ -80,16 +70,10 @@ export default function ConsumerGigDescription(props) {
             textAlignVertical: 'top',
           }}
         />
-        <Text style={[styles.subheading, {paddingTop: 5}]}>
-          The desc can not conatain more than 200 letters
-        </Text>
+        <Text style={[styles.subheading, { paddingTop: 5 }]}>The desc can not conatain more than 200 letters</Text>
         <View>
-          <Text style={[styles.welcomeTxt, {paddingTop: 7}]}>
-            Service duration
-          </Text>
-          <Text style={styles.subheading}>
-            The estimated time of the service, from start to end.{' '}
-          </Text>
+          <Text style={[styles.welcomeTxt, { paddingTop: 7 }]}>Service duration</Text>
+          <Text style={styles.subheading}>The estimated time of the service, from start to end. </Text>
         </View>
         <View style={styles.genRow}>
           {Category.slice(0, 3).map(item => (
@@ -99,8 +83,7 @@ export default function ConsumerGigDescription(props) {
               style={[
                 styles.genBtn,
                 {
-                  backgroundColor:
-                    gender === item.name ? theme.primary : theme.genderGrey,
+                  backgroundColor: gender === item.name ? theme.primary : theme.genderGrey,
                 },
               ]}
               key={item.name}>
@@ -112,9 +95,7 @@ export default function ConsumerGigDescription(props) {
         </View>
 
         <View>
-          <Text style={[styles.welcomeTxt, {paddingTop: 7}]}>
-            Service Price
-          </Text>
+          <Text style={[styles.welcomeTxt, { paddingTop: 7 }]}>Service Price</Text>
           <Text style={styles.subheading}>Price your service.</Text>
           <TextInput
             input={text => setName(text)}
@@ -130,12 +111,9 @@ export default function ConsumerGigDescription(props) {
           />
         </View>
 
-        <Text style={[styles.welcomeTxt, {paddingTop: 7}]}>
-          Service Pictures
-        </Text>
+        <Text style={[styles.welcomeTxt, { paddingTop: 7 }]}>Service Pictures</Text>
         <Text style={styles.subheading}>
-          Upload pictures of your past work for this service from your gallery.
-          (Optional)
+          Upload pictures of your past work for this service from your gallery. (Optional)
         </Text>
         <View style={styles.parentUpload}>
           <TouchableOpacity
@@ -149,7 +127,7 @@ export default function ConsumerGigDescription(props) {
             }}
             activeOpacity={0.9}>
             {image1 ? (
-              <Image source={{uri: image1.path}} style={styles.upload} />
+              <Image source={{ uri: image1.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
                 <Image source={Gallery}></Image>
@@ -168,7 +146,7 @@ export default function ConsumerGigDescription(props) {
             }}
             activeOpacity={0.9}>
             {image2 ? (
-              <Image source={{uri: image2.path}} style={styles.upload} />
+              <Image source={{ uri: image2.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
                 <Image source={Gallery}></Image>
@@ -187,7 +165,7 @@ export default function ConsumerGigDescription(props) {
             }}
             activeOpacity={0.9}>
             {image3 ? (
-              <Image source={{uri: image3.path}} style={styles.upload} />
+              <Image source={{ uri: image3.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
                 <Image source={Gallery}></Image>
@@ -197,7 +175,7 @@ export default function ConsumerGigDescription(props) {
           </TouchableOpacity>
         </View>
 
-        <View style={{paddingVertical: heightToDp(10)}}>
+        <View style={{ paddingVertical: heightToDp(10) }}>
           <Button title="Continue" onPress={handleClick} />
         </View>
       </ScrollView>
@@ -258,7 +236,7 @@ const styles = StyleSheet.create({
     marginTop: heightToDp(4.5),
     color: '#ffffff',
   },
-  genTxt: {color: '#ffffff', marginLeft: 6},
+  genTxt: { color: '#ffffff', marginLeft: 6 },
   categoryItem: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -274,8 +252,8 @@ const styles = StyleSheet.create({
   },
   welcomeTxt: {
     fontSize: 30,
-fontFamily: fonts.hk_bold,
+    fontFamily: fonts.hk_bold,
     paddingHorizontal: widthToDp(7),
   },
-  subheading: {color: '#67718C', paddingHorizontal: widthToDp(7)},
+  subheading: { color: '#67718C', paddingHorizontal: widthToDp(7) },
 });

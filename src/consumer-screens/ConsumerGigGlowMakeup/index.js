@@ -1,15 +1,8 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  View,
-  Text,
-  ImageBackground,
-  StyleSheet,
-  Image,
-} from 'react-native';
-import {fonts, useTheme} from '../../utils/theme';
-import {heightToDp, widthToDp} from '../../utils/Dimensions';
-import {Button, Header} from '../../components';
+import { SafeAreaView, View, Text, ImageBackground, StyleSheet, Image } from 'react-native';
+import { fonts, useTheme } from '../../utils/theme';
+import { heightToDp, widthToDp } from '../../utils/Dimensions';
+import { Button, Header } from '../../components';
 import Feather from 'react-native-vector-icons/Feather';
 
 const clinic_image = require('../../assets/clinic_image.png');
@@ -53,11 +46,11 @@ export default function ConsumerGigGlowMakeup() {
           borderRadius: 20,
           paddingVertical: 20,
         }}>
-   <Text
+        <Text
           style={{
             color: '#333333',
             fontSize: 20,
-            fontFamily:fonts.robo_med,
+            fontFamily: fonts.robo_med,
             // fontWeight: '500',
             marginHorizontal: widthToDp(5),
           }}>
@@ -69,11 +62,8 @@ export default function ConsumerGigGlowMakeup() {
             marginHorizontal: widthToDp(5),
             marginVertical: 5,
           }}>
-          <Text style={{fontFamily:fonts.robo_reg, color:"#67718C", fontSize:16}}>Takes 2-3 hours</Text>
-          <Image
-            source={clockcolor}
-            style={{width: 23, height: 17, marginLeft: 5}}
-          />
+          <Text style={{ fontFamily: fonts.robo_reg, color: '#67718C', fontSize: 16 }}>Takes 2-3 hours</Text>
+          <Image source={clockcolor} style={{ width: 23, height: 17, marginLeft: 5 }} />
         </View>
 
         <View
@@ -102,16 +92,15 @@ export default function ConsumerGigGlowMakeup() {
                   marginRight: 5,
                 }}
               />
-              <Text style={{color: 'white', fontSize: 12}}>{item.name}</Text>
+              <Text style={{ color: 'white', fontSize: 12 }}>{item.name}</Text>
             </View>
           ))}
         </View>
         <View style={styles.separator}></View>
-        <Text style={{marginHorizontal: widthToDp(5), fontSize:14, color:"#67718C", fontFamily:fonts.robo_reg}}>
-          Unlock your radiant beauty with personalized Glow Makeup service.
-          As a skilled makeup artist, I'll accentuate your unique features,
-          giving you a captivating glow that enhances your natural charm. Get
-          ready to stand out and feel confident.
+        <Text style={{ marginHorizontal: widthToDp(5), fontSize: 14, color: '#67718C', fontFamily: fonts.robo_reg }}>
+          Unlock your radiant beauty with personalized Glow Makeup service. As a skilled makeup artist, I'll accentuate
+          your unique features, giving you a captivating glow that enhances your natural charm. Get ready to stand out
+          and feel confident.
         </Text>
         <View style={styles.separator}></View>
 
@@ -122,7 +111,7 @@ export default function ConsumerGigGlowMakeup() {
             justifyContent: 'space-between',
             marginHorizontal: widthToDp(5),
           }}>
-          <Text style={{color: '#84668C', fontSize: 24, fontFamily:fonts.hk_bold}}>Rs 5,000</Text>
+          <Text style={{ color: '#84668C', fontSize: 24, fontFamily: fonts.hk_bold }}>Rs 5,000</Text>
           <Feather
             name="plus"
             size={24}
@@ -141,8 +130,7 @@ export default function ConsumerGigGlowMakeup() {
             marginHorizontal: widthToDp(5),
             justifyContent: 'space-between',
           }}>
-                    <Text style={{width: widthToDp(60), fontFamily:fonts.robo_reg}}>
-Rizwan can only host you </Text>
+          <Text style={{ width: widthToDp(60), fontFamily: fonts.robo_reg }}>Rizwan can only host you </Text>
           <Image source={hostingBlue} style={styles.images} />
         </View>
       </View>
@@ -185,7 +173,7 @@ const styles = StyleSheet.create({
     marginTop: heightToDp(3),
     marginBottom: 15,
   },
-  row: {flexDirection: 'row', alignItems: 'center'},
+  row: { flexDirection: 'row', alignItems: 'center' },
 
   separator: {
     height: 1,

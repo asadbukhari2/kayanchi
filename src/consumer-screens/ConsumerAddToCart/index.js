@@ -1,21 +1,14 @@
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  Image,
-  View,
-  TouchableOpacity,
-} from 'react-native';
-import React, {useState} from 'react';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
-import {Button, Header, OrderServiceCard} from '../../components';
+import { ScrollView, StyleSheet, Text, Image, View, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
+import { Button, Header, OrderServiceCard } from '../../components';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Feather from 'react-native-vector-icons/Feather';
 import hostBrown from '../../assets/hostborwn.png';
 import special_braids from '../../assets/special_braids.png';
-import {Counter} from '../../components';
+import { Counter } from '../../components';
 const theme = useTheme();
 
 const DATA = [
@@ -59,11 +52,7 @@ const ConsumerAddToCart = props => {
       <ScrollView>
         <Header backBtnGrey />
         <Text style={styles.title}>{'Your Cart'}</Text>
-        <Text
-          style={[
-            styles.titleTxt,
-            {marginTop: 14,marginBottom: 6, textTransform: 'uppercase'},
-          ]}>
+        <Text style={[styles.titleTxt, { marginTop: 14, marginBottom: 6, textTransform: 'uppercase' }]}>
           {'Hosting address'}
         </Text>
         <View
@@ -81,7 +70,7 @@ const ConsumerAddToCart = props => {
             }}>
             House A9, Lane 14-C, Main Mina Bazaar Commercial, Block 6, Karachi
           </Text>
-          <Image source={hostBrown} style={{height: 38, width: 38, marginRight:10}} />
+          <Image source={hostBrown} style={{ height: 38, width: 38, marginRight: 10 }} />
         </View>
 
         <View
@@ -96,17 +85,9 @@ const ConsumerAddToCart = props => {
           }}>
           {DATA.map((item, index) => {
             return (
-              <View style={{marginTop: index > 0 ? heightToDp(6.7) : 0}}>
-                <Text
-                  style={[
-                    styles.artistLabel,
-                    {  paddingHorizontal: 15},
-                  ]}>
-                  ARTIST
-                </Text>
-                <Text style={[styles.artistName, {paddingHorizontal: 15}]}>
-                  {'Marmeen'}
-                </Text>
+              <View style={{ marginTop: index > 0 ? heightToDp(6.7) : 0 }}>
+                <Text style={[styles.artistLabel, { paddingHorizontal: 15 }]}>ARTIST</Text>
+                <Text style={[styles.artistName, { paddingHorizontal: 15 }]}>{'Marmeen'}</Text>
                 <Text
                   style={{
                     color: '#50A2E1',
@@ -114,22 +95,13 @@ const ConsumerAddToCart = props => {
                     fontFamily: fonts.robo_reg,
                     fontSize: 14,
                   }}>
-                  {'3.2 kms'}{' '}
-                  <Text style={{color: '#67718C'}}>away from you</Text>
+                  {'3.2 kms'} <Text style={{ color: '#67718C' }}>away from you</Text>
                 </Text>
-                <Text
-                  style={[
-                    styles.artistLabel,
-                    { fontSize: 18, paddingHorizontal: 15,marginTop: 15},
-                  ]}>
+                <Text style={[styles.artistLabel, { fontSize: 18, paddingHorizontal: 15, marginTop: 15 }]}>
                   Appointment Date & Time
                 </Text>
-                <Text style={[styles.artistName, {paddingHorizontal: 15, marginTop: 5}]}>
-                  {'26th, April, 2023'}
-                </Text>
-                <Text style={{color: '#67718C', paddingHorizontal: 15}}>
-                  7:30 - 8:30 PM
-                </Text>
+                <Text style={[styles.artistName, { paddingHorizontal: 15, marginTop: 5 }]}>{'26th, April, 2023'}</Text>
+                <Text style={{ color: '#67718C', paddingHorizontal: 15 }}>7:30 - 8:30 PM</Text>
                 <View style={styles.separator}></View>
                 <View
                   style={{
@@ -167,9 +139,9 @@ const ConsumerAddToCart = props => {
                     count={count}
                     onPressIncrement={increment}
                     onPressDecrement={decrement}
-                    btnStyle={{backgroundColor: '#E1E1E1'}}
-                    iconStyle={{color: 'white'}}
-                    countStyle={{color: '#84668C'}}
+                    btnStyle={{ backgroundColor: '#E1E1E1' }}
+                    iconStyle={{ color: 'white' }}
+                    countStyle={{ color: '#84668C' }}
                   />
                 </View>
                 <View style={styles.separator}></View>
@@ -209,7 +181,7 @@ const ConsumerAddToCart = props => {
               marginHorizontal: widthToDp(8),
               marginVertical: 10,
               fontFamily: fonts.robo_reg,
-              fontSize:16
+              fontSize: 16,
             }}>
             {' '}
             + Add more Services
@@ -224,13 +196,10 @@ const ConsumerAddToCart = props => {
             Narmeen is also offering
           </Text>
         </View>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           {offeringData.map(data => (
             <View style={styles.offeringContainer}>
-              <Image
-                source={data.imageLink}
-                style={{width: 127, height: 140, resizeMode: 'cover'}}
-              />
+              <Image source={data.imageLink} style={{ width: 127, height: 140, resizeMode: 'cover' }} />
               <View
                 style={{
                   width: widthToDp(35),
@@ -238,18 +207,14 @@ const ConsumerAddToCart = props => {
                   marginTop: -13,
                   padding: 5,
                 }}>
-                <Text style={{color: '#2F3A58', fontSize: 16, fontFamily: fonts.robo_reg}}>
-                  {data.title}
-                </Text>
+                <Text style={{ color: '#2F3A58', fontSize: 16, fontFamily: fonts.robo_reg }}>{data.title}</Text>
                 <View
                   style={{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                     alignItems: 'center',
                   }}>
-                  <Text style={{color: '#1583D8', fontSize: 13, fontFamily: fonts.hk_regular}}>
-                    {data.amount}
-                  </Text>
+                  <Text style={{ color: '#1583D8', fontSize: 13, fontFamily: fonts.hk_regular }}>{data.amount}</Text>
                   <TouchableOpacity>
                     <Feather
                       name="plus"
@@ -267,7 +232,7 @@ const ConsumerAddToCart = props => {
             </View>
           ))}
         </View>
-        <View style={{marginVertical: 25}}>
+        <View style={{ marginVertical: 25 }}>
           <Button
             title={'Proceed to Order'}
             btnStyle={{}}
@@ -290,7 +255,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f7f7f7',
   },
-  offeringContainer: {marginLeft: widthToDp(5)},
+  offeringContainer: { marginLeft: widthToDp(5) },
   title: {
     marginTop: heightToDp(5.5),
     width: width * 0.868,

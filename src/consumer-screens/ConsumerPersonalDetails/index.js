@@ -1,19 +1,11 @@
-import React, {useState} from 'react';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Button, Header, TextInput} from '../../components';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ActivityIndicator,
-  Image,
-  ScrollView,
-} from 'react-native';
-import {fonts, useTheme} from '../../utils/theme';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
+import React, { useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Header, TextInput } from '../../components';
+import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator, Image, ScrollView } from 'react-native';
+import { fonts, useTheme } from '../../utils/theme';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Assuming you want to use FontAwesome icons, you can change it to any other supported icon library.
-import {showMessage} from 'react-native-flash-message';
+import { showMessage } from 'react-native-flash-message';
 
 const currentlocation = require('../../assets/currentlocation.png');
 const theme = useTheme();
@@ -57,11 +49,7 @@ const Gender = [
   },
   {
     name: 'Treatments',
-    icons: [
-      require('../../assets/Botox.png'),
-      require('../../assets/Fillers.png'),
-      require('../../assets/Laser.png'),
-    ],
+    icons: [require('../../assets/Botox.png'), require('../../assets/Fillers.png'), require('../../assets/Laser.png')],
     message: ['Botox', 'Fillers', 'Laser'],
   },
 ];
@@ -129,12 +117,8 @@ export default function ConsumerPersonalDetails(props) {
         />
 
         <View style={styles.emailcontaienr}>
-          <Text style={{color: '#84668C', fontSize: 16, paddingTop: 10}}>
-            Email
-          </Text>
-          <Text style={{color: '#1583D8', paddingTop: 10, fontSize: 12}}>
-            Verify Email
-          </Text>
+          <Text style={{ color: '#84668C', fontSize: 16, paddingTop: 10 }}>Email</Text>
+          <Text style={{ color: '#1583D8', paddingTop: 10, fontSize: 12 }}>Verify Email</Text>
         </View>
         <TextInput
           input={text => setName(text)}
@@ -176,11 +160,11 @@ export default function ConsumerPersonalDetails(props) {
         />
 
         <View style={styles.emailcontaienr}>
-          <Text style={{color: '#84668C', fontSize: 16, paddingTop: 10, fontFamily:fonts.robo_bold}}>
+          <Text style={{ color: '#84668C', fontSize: 16, paddingTop: 10, fontFamily: fonts.robo_bold }}>
             Your default address
           </Text>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Image source={currentlocation} style={{width: 12, height: 12}} />
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Image source={currentlocation} style={{ width: 12, height: 12 }} />
             <Text
               style={{
                 color: '#1583D8',
@@ -216,11 +200,7 @@ export default function ConsumerPersonalDetails(props) {
           }}>
           0/200
         </Text>
-        <Button
-          title={'Save'}
-          btnStyle={[styles.btn, {marginTop: heightToDp(10)}]}
-          onPress={SkillsHandler}
-        />
+        <Button title={'Save'} btnStyle={[styles.btn, { marginTop: heightToDp(10) }]} onPress={SkillsHandler} />
       </ScrollView>
     </SafeAreaView>
   );

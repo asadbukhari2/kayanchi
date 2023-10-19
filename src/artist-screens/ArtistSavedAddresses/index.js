@@ -1,10 +1,10 @@
 import React from 'react';
-import {StyleSheet, Text, View, ScrollView} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {AddNewBtn, Header} from '../../components';
-import {heightToDp} from '../../utils/Dimensions';
-import {GLOBAL_STYLES} from '../../utils/styles';
-import {useTheme} from '../../utils/theme';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { AddNewBtn, Header } from '../../components';
+import { heightToDp } from '../../utils/Dimensions';
+import { GLOBAL_STYLES } from '../../utils/styles';
+import { useTheme } from '../../utils/theme';
 import Address from './component';
 
 const theme = useTheme();
@@ -29,16 +29,14 @@ const DATA = [
 const index = props => {
   return (
     <SafeAreaView style={GLOBAL_STYLES.containerHome}>
-      <ScrollView
-        style={{flex: 1}}
-        contentContainerStyle={{paddingBottom: heightToDp(30)}}>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: heightToDp(30) }}>
         <Header backBtnGrey />
         <Text style={GLOBAL_STYLES.title}>{'Saved addresses'}</Text>
         <AddNewBtn
           title={'Add an address'}
           iconColor={theme.counterGrey}
-          titleStyle={{color: theme.counterGrey}}
-          onPress={() => props.navigation.navigate('ArtistProfileStack', { screen :"ArtistLocateKaynchi"})}
+          titleStyle={{ color: theme.counterGrey }}
+          onPress={() => props.navigation.navigate('ArtistProfileStack', { screen: 'ArtistLocateKaynchi' })}
         />
         {DATA.map((item, index) => {
           return (

@@ -1,16 +1,9 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, ScrollView, FlatList} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {fonts, useTheme} from '../../utils/theme';
-import {
-  Button,
-  ButtonList,
-  Header,
-  ListHeader,
-  TextInput,
-  GradientRadio,
-} from '../../components';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, ScrollView, FlatList } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { fonts, useTheme } from '../../utils/theme';
+import { Button, ButtonList, Header, ListHeader, TextInput, GradientRadio } from '../../components';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import WeeklyCalendar from 'react-native-weekly-calendar';
 
 const theme = useTheme();
@@ -28,16 +21,12 @@ const DATA = [
 ];
 
 const ArtistBookingDate = props => {
-  const [timeSelected, setTimeSelected] = useState(null)
+  const [timeSelected, setTimeSelected] = useState(null);
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-        style={{flex: 1}}
-        contentContainerStyle={{paddingBottom: heightToDp(30)}}>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: heightToDp(30) }}>
         <Header backBtnGrey />
-        <Text style={styles.title}>
-          {'What’s your booking date and time ?'}
-        </Text>
+        <Text style={styles.title}>{'What’s your booking date and time ?'}</Text>
         <Text style={styles.subTitle}>{'SELECT DATE'}</Text>
         <WeeklyCalendar
           style={styles.calendarContainer}
@@ -61,19 +50,22 @@ const ArtistBookingDate = props => {
         <FlatList
           data={DATA}
           horizontal
-          keyExtractor={({item, index}) => index}
-          contentContainerStyle={{paddingRight:widthToDp(4.5)}}
-          renderItem={({item, index}) => {
+          keyExtractor={({ item, index }) => index}
+          contentContainerStyle={{ paddingRight: widthToDp(4.5) }}
+          renderItem={({ item, index }) => {
             return (
-              <GradientRadio 
+              <GradientRadio
                 onPress={() => setTimeSelected(item.name)}
-                title={item.name} 
-                containerStyle={styles.btnListContainer} 
-                titleStyle={{marginTop:0,color:timeSelected == item.name ?theme.background:theme.backIcon}} 
-                gradientEnd={{x:0,y:1}}
-                gradientStart={{x:0,y:0}}
-                gradients={timeSelected == item.name ? null : [theme.background,theme.background]}
-                />
+                title={item.name}
+                containerStyle={styles.btnListContainer}
+                titleStyle={{
+                  marginTop: 0,
+                  color: timeSelected == item.name ? theme.background : theme.backIcon,
+                }}
+                gradientEnd={{ x: 0, y: 1 }}
+                gradientStart={{ x: 0, y: 0 }}
+                gradients={timeSelected == item.name ? null : [theme.background, theme.background]}
+              />
             );
           }}
         />
@@ -84,10 +76,8 @@ const ArtistBookingDate = props => {
         <TextInput
           input={text => console.log(text)}
           multiline
-          placeholder={
-            'Please tell use anything that may assist with the order...'
-          }
-          inputMarginTop={{marginTop: heightToDp(2.5)}}
+          placeholder={'Please tell use anything that may assist with the order...'}
+          inputMarginTop={{ marginTop: heightToDp(2.5) }}
           inputBoxStyle={styles.textInput}
         />
       </ScrollView>
@@ -140,10 +130,10 @@ const styles = StyleSheet.create({
   btnListContainer: {
     marginLeft: widthToDp(4.5),
     marginTop: heightToDp(2.2),
-    height:heightToDp(13.2),
-    alignItems:'center',
-    justifyContent:'center',
-    paddingVertical:0
+    height: heightToDp(13.2),
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 0,
   },
   btnListBtn: {
     borderWidth: 0,

@@ -1,19 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  TextInput,
-  Switch,
-  ScrollView,
-} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Switch, ScrollView } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Header, Button} from '../../components';
-import {height, heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {useTheme, fonts} from '../../utils/theme';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Header, Button } from '../../components';
+import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { useTheme, fonts } from '../../utils/theme';
 import back from '../../assets/back.png';
 // import { OrderCard } from '../../components';
 import OrderCard from '../../components/OrderCard';
@@ -148,7 +139,7 @@ const ConsumerOrders = props => {
             width: widthToDp(90),
           }}>
           {/* <Image source={back} /> */}
-          <View style={{marginLeft: 0}}>
+          <View style={{ marginLeft: 0 }}>
             <Header backBtn />
           </View>
         </View>
@@ -165,58 +156,23 @@ const ConsumerOrders = props => {
           </View>
           <View>
             <TouchableOpacity>
-              <Text
-                style={[
-                  styles.button,
-                  {color: '#9A9A9A', borderColor: '#9A9A9A'},
-                ]}>
-                Booking
-              </Text>
+              <Text style={[styles.button, { color: '#9A9A9A', borderColor: '#9A9A9A' }]}>Booking</Text>
             </TouchableOpacity>
           </View>
         </View>
 
         <View style={styles.btnContainer2}>
-          <TouchableOpacity
-            onPress={() => handleTabChange('Active')}
-            style={styles.tabButton}>
-            <Text
-              style={[
-                styles.tabText,
-                activeTab === 'Active' && styles.activeTab,
-              ]}>
-              All
-            </Text>
+          <TouchableOpacity onPress={() => handleTabChange('Active')} style={styles.tabButton}>
+            <Text style={[styles.tabText, activeTab === 'Active' && styles.activeTab]}>All</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => handleTabChange('New')}
-            style={styles.tabButton}>
-            <Text
-              style={[styles.tabText, activeTab === 'New' && styles.activeTab]}>
-              Active
-            </Text>
+          <TouchableOpacity onPress={() => handleTabChange('New')} style={styles.tabButton}>
+            <Text style={[styles.tabText, activeTab === 'New' && styles.activeTab]}>Active</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => handleTabChange('Completed')}
-            style={styles.tabButton}>
-            <Text
-              style={[
-                styles.tabText,
-                activeTab === 'Completed' && styles.activeTab,
-              ]}>
-              Completed
-            </Text>
+          <TouchableOpacity onPress={() => handleTabChange('Completed')} style={styles.tabButton}>
+            <Text style={[styles.tabText, activeTab === 'Completed' && styles.activeTab]}>Completed</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => handleTabChange('Cancelled')}
-            style={styles.tabButton}>
-            <Text
-              style={[
-                styles.tabText,
-                activeTab === 'Cancelled' && styles.activeTab,
-              ]}>
-              Cancelled
-            </Text>
+          <TouchableOpacity onPress={() => handleTabChange('Cancelled')} style={styles.tabButton}>
+            <Text style={[styles.tabText, activeTab === 'Cancelled' && styles.activeTab]}>Cancelled</Text>
           </TouchableOpacity>
         </View>
         <View>
@@ -236,7 +192,7 @@ const styles = StyleSheet.create({
     color: '#0F2851',
     fontSize: 40,
     marginLeft: widthToDp(4),
-    fontFamily: fonts.hk_bold
+    fontFamily: fonts.hk_bold,
   },
   btnContainer: {
     flexDirection: 'row',

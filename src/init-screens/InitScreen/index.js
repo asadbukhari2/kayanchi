@@ -1,44 +1,41 @@
 import React from 'react';
-import {StyleSheet, Image, Text, View, ScrollView} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Button} from '../../components';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
+import { StyleSheet, Image, Text, View, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button } from '../../components';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
 
-import {useDispatch} from 'react-redux';
-import {testUpdateIsArtist} from '../../redux/actions';
+import { useDispatch } from 'react-redux';
+import { testUpdateIsArtist } from '../../redux/actions';
 const theme = useTheme();
 
 export default function InitScreen() {
   const dispatch = useDispatch();
 
   function gotoConsumer() {
-    dispatch(testUpdateIsArtist({isArtist: false, isConsumer: true}));
+    dispatch(testUpdateIsArtist({ isArtist: false, isConsumer: true }));
   }
 
   function gotoArtist() {
-    dispatch(testUpdateIsArtist({isArtist: true, isConsumer: false}));
+    dispatch(testUpdateIsArtist({ isArtist: true, isConsumer: false }));
   }
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={{flex: 1}}>
-        <Image
-          source={require('../../assets/welcome.png')}
-          style={styles.img}
-        />
+      <ScrollView style={{ flex: 1 }}>
+        <Image source={require('../../assets/welcome.png')} style={styles.img} />
         <Text style={styles.heading}>
-          Join <Text style={{color: theme.primary}}>Kaynchi</Text>
+          Join <Text style={{ color: theme.primary }}>Kaynchi</Text>
         </Text>
         <Text style={styles.txt}>lorem .</Text>
         <Button
           title={'Continue With Artist'}
-          btnStyle={[styles.whiteBtn, {marginTop: heightToDp(6.8)}]}
+          btnStyle={[styles.whiteBtn, { marginTop: heightToDp(6.8) }]}
           titleStyle={styles.blackText}
           onPress={() => gotoArtist()}
         />
         <Button
           title={'Continue with Consumer'}
-          btnStyle={[styles.whiteBtn, {marginTop: heightToDp(4.5)}]}
+          btnStyle={[styles.whiteBtn, { marginTop: heightToDp(4.5) }]}
           titleStyle={styles.blackText}
           onPress={() => gotoConsumer()}
         />
@@ -46,6 +43,7 @@ export default function InitScreen() {
     </SafeAreaView>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

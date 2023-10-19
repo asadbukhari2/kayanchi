@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Image,
@@ -10,13 +10,13 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Button, Header, HomeCard, SearchBox} from '../../components';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Header, HomeCard, SearchBox } from '../../components';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
 import ArtistItem from '../../components/ArtistItem';
 import Feather from 'react-native-vector-icons/Feather';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import MultiButton from '../../components/MultiButton';
 import DiscoverModal from '../../components/DiscoverModal';
 // import api from '../../utils/APIservice';
@@ -31,7 +31,7 @@ const beauty_color = require('../../assets/beauty_color.png');
 const favourite = require('../../assets/favourite.png');
 const theme = useTheme();
 const hair1 = require('../../assets/hair.png');
-const face1 = require("../../assets/face.png")
+const face1 = require('../../assets/face.png');
 
 const DATA = [
   {
@@ -51,7 +51,7 @@ const DATA = [
 const ConsumerDisocver = props => {
   const [artistModalVisible, setArtistModalVisible] = useState(false);
   const [studioModalVisible, setStudioModalVisible] = useState(false);
-  const [clickedIndex, setClickedIndex] = useState(null); 
+  const [clickedIndex, setClickedIndex] = useState(null);
 
   // const getService = async () => {
   //   try {
@@ -98,29 +98,26 @@ const ConsumerDisocver = props => {
     },
   ];
 
-  
   const openModal = (index, artistType) => {
     setClickedIndex(index);
     if (artistType === 'Beautician') {
       setArtistModalVisible(true);
-      setStudioModalVisible(false); 
+      setStudioModalVisible(false);
     } else {
-      setArtistModalVisible(false); 
+      setArtistModalVisible(false);
       setStudioModalVisible(true);
     }
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={{paddingBottom: 90}}>
+      <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 90 }}>
         <Header backBtn />
 
         <Text
           style={{
             color: '#193356',
-            fontFamily:fonts.hk_bold,
+            fontFamily: fonts.hk_bold,
             fontSize: 40,
             marginHorizontal: widthToDp(5),
           }}>
@@ -130,7 +127,7 @@ const ConsumerDisocver = props => {
           style={{
             color: '#67718C',
             fontSize: 16,
-            fontFamily:fonts.robo_reg,
+            fontFamily: fonts.robo_reg,
             marginLeft: widthToDp(5),
             marginRight: widthToDp(25),
           }}>
@@ -142,18 +139,18 @@ const ConsumerDisocver = props => {
             marginTop: 10,
             marginHorizontal: widthToDp(5),
           }}>
-          <TouchableOpacity >
+          <TouchableOpacity>
             <Text style={styles.artist}>Artist</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity >
+          <TouchableOpacity>
             <Text style={styles.studio}>Studio</Text>
           </TouchableOpacity>
         </View>
 
         <DiscoverModal
-        visible={artistModalVisible}
-        closeModal={() => setArtistModalVisible(false)}
+          visible={artistModalVisible}
+          closeModal={() => setArtistModalVisible(false)}
           background_image={background_image}
           name="Narmeen Iqbal"
           profession="Beautician"
@@ -163,11 +160,11 @@ const ConsumerDisocver = props => {
           // distance="1.1 Km away"
           dollars="~$$$"
           data={DATA}
-          navigation ={props.navigation}
+          navigation={props.navigation}
         />
         <DiscoverModal
-        visible={studioModalVisible}
-        closeModal={() => setStudioModalVisible(false)}
+          visible={studioModalVisible}
+          closeModal={() => setStudioModalVisible(false)}
           background_image={clinic_image}
           name="Serene Clinic"
           profession="Wellness Clinic"
@@ -180,55 +177,46 @@ const ConsumerDisocver = props => {
         />
 
         {dynamicData.map((item, index) => (
-            <TouchableOpacity
+          <TouchableOpacity
             key={index}
             onPress={() => {
-               openModal(index, item.artistType)}}
+              openModal(index, item.artistType);
+            }}>
+            <ImageBackground source={item.backImg} resizeMode="cover" style={styles.backgroundImage}>
+              <View key={index} style={styles.background_image}>
+                <View style={styles.favouriteContainer}>
+                  <Image source={favourite} style={{ width: 21, height: 20 }} />
+                </View>
+                <View style={styles.discoverContainer}>
+                  {item.imageLink.map((image, idx) => (
+                    <TouchableOpacity
+                      key={idx}
+                      onPress={() => setClickedIndex(index)}
+                      activeOpacity={0.7}
+                      style={styles.dicoverImageContainer}>
+                      <Image source={image} style={styles.dicoverImage} />
+                      <Text style={{ color: '#0F2851', fontFamily: fonts.robo_med }}>{item.imageText[idx]}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
 
-          >
-          <ImageBackground
-            source={item.backImg}
-            resizeMode="cover"
-            style={styles.backgroundImage}>
-            <View key={index} style={styles.background_image}>
-              <View style={styles.favouriteContainer}>
-                <Image source={favourite} style={{width: 21, height: 20}} />
+                <Text
+                  style={{
+                    fontSize: 34,
+                    fontFamily: fonts.hk_bold,
+                    color: 'white',
+                    marginHorizontal: widthToDp(5),
+                  }}>
+                  {item.name}
+                </Text>
+                <View style={styles.InfoContainer}>
+                  <Image source={beautician} style={{ height: 13, width: 14, resizeMode: 'contain', marginRight: 5 }} />
+                  <Text style={{ color: 'white', fontFamily: fonts.robo_med, fontSize: 14 }}>{item.artistType} •</Text>
+                  <Text style={{ color: 'white', fontFamily: fonts.robo_med, fontSize: 14 }}>{item.artistStatus}</Text>
+                  <Text style={{ color: '#1583D8', fontFamily: fonts.robo_med, fontSize: 14 }}>{item.priceRange}</Text>
+                </View>
               </View>
-              <View style={styles.discoverContainer}>
-                {item.imageLink.map((image, idx) => (
-                  <TouchableOpacity
-                    key={idx}
-                    onPress={() => setClickedIndex(index)}
-                    activeOpacity={0.7}
-                    style={styles.dicoverImageContainer}>
-                    <Image source={image} style={styles.dicoverImage} />
-                    <Text style={{color: '#0F2851', fontFamily: fonts.robo_med}}>
-                      {item.imageText[idx]}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-
-              <Text
-                style={{
-                  fontSize: 34,
-                  fontFamily:fonts.hk_bold,
-                  color: 'white',
-                  marginHorizontal: widthToDp(5),
-                }}>
-                {item.name}
-              </Text>
-              <View style={styles.InfoContainer}>
-                <Image
-                  source={beautician}
-                  style={{height: 13, width: 14, resizeMode: 'contain', marginRight: 5}}
-                />
-                <Text style={{color: 'white', fontFamily: fonts.robo_med, fontSize: 14}}>{item.artistType} •</Text>
-                <Text style={{color: 'white', fontFamily: fonts.robo_med, fontSize: 14}}>{item.artistStatus}</Text>
-                <Text style={{color: '#1583D8', fontFamily: fonts.robo_med, fontSize: 14}}>{item.priceRange}</Text>
-              </View>
-            </View>
-          </ImageBackground>
+            </ImageBackground>
           </TouchableOpacity>
         ))}
       </ScrollView>
@@ -253,7 +241,7 @@ const styles = StyleSheet.create({
     marginTop: heightToDp(3),
     marginBottom: 15,
   },
-  row: {flexDirection: 'row', alignItems: 'center'},
+  row: { flexDirection: 'row', alignItems: 'center' },
 
   discoverContainer: {
     flexDirection: 'row',
@@ -268,7 +256,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     margin: 10,
     paddingHorizontal: 10,
-    paddingVertical:5,
+    paddingVertical: 5,
     borderRadius: 20,
     backgroundColor: 'white',
   },

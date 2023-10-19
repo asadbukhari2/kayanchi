@@ -1,21 +1,14 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
+import { View, Text, Image, StyleSheet } from 'react-native';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { fonts } from '../../utils/theme';
 const star = require('../../assets/star_yellow.png');
 
-const ArtistTreatmentCard = ({
-  name,
-  rating,
-  reviews,
-  expertise,
-  orders,
-  imageSource,
-}) => {
+const ArtistTreatmentCard = ({ name, rating, reviews, expertise, orders, imageSource }) => {
   return (
     <View style={styles.artistContainer}>
       <Image source={imageSource} style={styles.artistImage} />
-      <Text style={{color:'#84668C', fontSize: 18, fontFamily: fonts.robo_bold, marginLeft: 7}}>1</Text>
+      <Text style={{ color: '#84668C', fontSize: 18, fontFamily: fonts.robo_bold, marginLeft: 7 }}>1</Text>
       <View style={styles.artistInfo}>
         <View style={styles.artistHeader}>
           <Text style={styles.artistName}>{name}</Text>
@@ -37,7 +30,7 @@ const ArtistTreatmentCard = ({
 };
 
 const styles = StyleSheet.create({
-  artistContainer: {flexDirection: 'row', marginHorizontal: widthToDp(5), marginTop: 10},
+  artistContainer: { flexDirection: 'row', marginHorizontal: widthToDp(5), marginTop: 10 },
   artistImage: {
     height: 73,
     width: 71,
@@ -54,7 +47,8 @@ const styles = StyleSheet.create({
   artistName: {
     // fontWeight: '700',
     fontFamily: fonts.robo_bold,
-    fontSize:14, color:"#2F3A58"
+    fontSize: 14,
+    color: '#2F3A58',
   },
   starIcon: {
     height: 14,
@@ -68,23 +62,23 @@ const styles = StyleSheet.create({
   },
   artistReviews: {
     color: '#9A9A9A',
-    fontSize:13, 
+    fontSize: 13,
     fontFamily: fonts.robo_reg,
-
   },
   artistExpertise: {
     fontSize: 14,
-    color:"#67718C",
+    color: '#67718C',
     marginBottom: 3,
-    fontFamily: fonts.robo_med
+    fontFamily: fonts.robo_med,
   },
   artistOrders: {
     fontSize: 12,
-    color:"#67718C",
-    fontFamily: fonts.robo_med  },
-//   viewContainer: {
-//     alignItems: 'flex-end',
-//   },
+    color: '#67718C',
+    fontFamily: fonts.robo_med,
+  },
+  //   viewContainer: {
+  //     alignItems: 'flex-end',
+  //   },
   viewStyle: {
     backgroundColor: '#84668C',
     paddingHorizontal: 10,

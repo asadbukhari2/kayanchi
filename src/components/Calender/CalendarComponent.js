@@ -1,4 +1,4 @@
-import React, {useState, useMemo, useCallback, useRef} from 'react';
+import React, { useState, useMemo, useCallback, useRef } from 'react';
 import {
   createWholeWeek,
   formatDate,
@@ -12,19 +12,12 @@ import {
   createLocalWeek,
 } from '../lib';
 // import { Header } from './header';
-import {View, FlatList, Text} from 'react-native';
-import {format} from 'date-fns';
+import { View, FlatList, Text } from 'react-native';
+import { format } from 'date-fns';
 import WeekItem from './WeekItem';
 import Header from './header';
-import {fonts} from '../../utils/theme';
-const CalendarComponent = ({
-  date,
-  language,
-  onPressDate,
-  selectedColor,
-  showMonth,
-  shadow,
-}) => {
+import { fonts } from '../../utils/theme';
+const CalendarComponent = ({ date, language, onPressDate, selectedColor, showMonth, shadow }) => {
   const showHeader = showMonth ?? true;
   const [selectedDate, setSelectedDate] = useState(date);
   const [appearDate, setAppearDate] = useState(date);
@@ -62,17 +55,16 @@ const CalendarComponent = ({
         setWeeks(w => {
           return [...b, ...w];
         });
-        flatListRef.current.scrollToIndex({animated: false, index: 14});
+        flatListRef.current.scrollToIndex({ animated: false, index: 14 });
       }
-      const currentPage =
-        widthFromStart / event.nativeEvent.layoutMeasurement.width;
+      const currentPage = widthFromStart / event.nativeEvent.layoutMeasurement.width;
       setAppearDate(weeks[currentPage * 7 + 6]);
     },
     [createPreviousTwoWeeks, weeks, setWeeks, flatListRef, setAppearDate],
   );
 
   const localMonth = useMemo(() => {
-    return format(appearDate, 'LLLL', {locale: createLocalWeek(language)});
+    return format(appearDate, 'LLLL', { locale: createLocalWeek(language) });
   }, [createLocalWeek, appearDate]);
 
   return (
@@ -93,7 +85,7 @@ const CalendarComponent = ({
             }
       }>
       {showHeader && (
-        <View style={{alignSelf: 'center', paddingVertical: 10}}>
+        <View style={{ alignSelf: 'center', paddingVertical: 10 }}>
           <Text
             style={{
               fontSize: 14,
@@ -122,7 +114,7 @@ const CalendarComponent = ({
           offset: itemWidht * index,
           index,
         })}
-        renderItem={({item}) => {
+        renderItem={({ item }) => {
           return (
             <WeekItem
               date={item}

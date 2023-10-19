@@ -1,18 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  StatusBar,
-  ScrollView,
-  Button,
-} from 'react-native';
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, SafeAreaView, StatusBar, ScrollView, Button } from 'react-native';
+import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin';
 import api from '../../utils/APIservice.js';
 
 const ConsumerGoogleSignIn = () => {
@@ -22,8 +10,7 @@ const ConsumerGoogleSignIn = () => {
   useEffect(() => {
     GoogleSignin.configure({
       scopes: ['profile'], // what API you want to access on behalf of the user, default is email and profile
-      webClientId:
-        '638236296456-6tn51vgeh4t4g5d3ve4v4j0rgdsmntv8.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
+      webClientId: '638236296456-6tn51vgeh4t4g5d3ve4v4j0rgdsmntv8.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
       offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
     });
   }, []);
@@ -74,7 +61,7 @@ const ConsumerGoogleSignIn = () => {
     <View>
       <Text>abc</Text>
       <GoogleSigninButton
-        style={{width: 192, height: 48}}
+        style={{ width: 192, height: 48 }}
         size={GoogleSigninButton.Size.Wide}
         color={GoogleSigninButton.Color.Dark}
         onPress={googleSignIn}

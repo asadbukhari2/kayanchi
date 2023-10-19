@@ -1,22 +1,14 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  Switch,
-  Text,
-  View,
-  ScrollView,
-  Image,
-  Modal,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {AddNewBtn, Button, Header, TextInput} from '../../components';
+import React, { useState } from 'react';
+import { StyleSheet, Switch, Text, View, ScrollView, Image, Modal } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { AddNewBtn, Button, Header, TextInput } from '../../components';
 import CircularProgressBar from '../../components/CircularProgressBar';
 import CircularProgress from 'react-native-circular-progress-indicator';
 
 import MultiButton from '../../components/MultiButton';
-import {heightToDp, widthToDp, width} from '../../utils/Dimensions';
-import {GLOBAL_STYLES} from '../../utils/styles';
-import {fonts, useTheme} from '../../utils/theme';
+import { heightToDp, widthToDp, width } from '../../utils/Dimensions';
+import { GLOBAL_STYLES } from '../../utils/styles';
+import { fonts, useTheme } from '../../utils/theme';
 
 const ConsumerApplyPromoCode = props => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -39,15 +31,9 @@ const ConsumerApplyPromoCode = props => {
   ];
 
   return (
-    <SafeAreaView style={[GLOBAL_STYLES.containerHome, {paddingTop: 10}]}>
+    <SafeAreaView style={[GLOBAL_STYLES.containerHome, { paddingTop: 10 }]}>
       <Header backBtnGrey title="Apply Promo code" />
-      <Text
-        style={[
-          GLOBAL_STYLES.title,
-          { fontFamily: fonts.hk_bold},
-        ]}>
-        {'Promo codes'}
-      </Text>
+      <Text style={[GLOBAL_STYLES.title, { fontFamily: fonts.hk_bold }]}>{'Promo codes'}</Text>
       <Text
         style={{
           color: '#67718C',
@@ -61,9 +47,7 @@ const ConsumerApplyPromoCode = props => {
       {PromoCodeData.map((promoCode, index) => (
         <View key={index} style={styles.inviteContent}>
           <View style={styles.inviteContainer}>
-            <Text style={{fontFamily: fonts.hk_bold, fontSize: 20, color: '#D8B29B'}}>
-              {'%'}
-            </Text>
+            <Text style={{ fontFamily: fonts.hk_bold, fontSize: 20, color: '#D8B29B' }}>{'%'}</Text>
             <View style={styles.alignRow}>
               <Text
                 style={{
@@ -117,16 +101,13 @@ const ConsumerApplyPromoCode = props => {
       <Button
         title="Apply Discount"
         onPress={() => setIsModalVisible(true)}
-        btnStyle={{position: 'absolute', bottom: heightToDp(5.5)}}
+        btnStyle={{ position: 'absolute', bottom: heightToDp(5.5) }}
       />
 
       {/* </View> */}
 
-      <Modal
-        visible={isModalVisible}
-        animationType="slide"
-        onRequestClose={closeModal}>
-        <ScrollView contentContainerStyle={{flexGrow: 1}}>
+      <Modal visible={isModalVisible} animationType="slide" onRequestClose={closeModal}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
               <Text
@@ -138,7 +119,7 @@ const ConsumerApplyPromoCode = props => {
                 }}>
                 Waiting for confirmation
               </Text>
-              <View style={{alignItems: 'center', marginVertical: 30}}>
+              <View style={{ alignItems: 'center', marginVertical: 30 }}>
                 <CircularProgressBar
                   progress={15}
                   radius={80}
@@ -150,7 +131,6 @@ const ConsumerApplyPromoCode = props => {
                     fill: '#29AAE2',
                   }}
                 />
-
               </View>
               <Text
                 style={{
@@ -171,11 +151,11 @@ const ConsumerApplyPromoCode = props => {
                 }}>
                 You may cancel your booking in 3 minutes if she does not accept.
               </Text>
-              <View style={[styles.indicatorView, {marginTop: 20}]}>
+              <View style={[styles.indicatorView, { marginTop: 20 }]}>
                 <View style={styles.row}>
                   <MultiButton
                     title={'Go Back Home'}
-                    btnStyle={{backgroundColor: '#67506D'}}
+                    btnStyle={{ backgroundColor: '#67506D' }}
                     onPress={() =>
                       props.navigation.navigate('ConsumerHomeStack', {
                         screen: 'ConsumerHome',
@@ -184,12 +164,13 @@ const ConsumerApplyPromoCode = props => {
                   />
                   <MultiButton
                     title={'Cancel Request'}
-                    btnStyle={{backgroundColor: '#F0F0F0'}}
-                    titleStyle={{color: '#67718C'}}
+                    btnStyle={{ backgroundColor: '#F0F0F0' }}
+                    titleStyle={{ color: '#67718C' }}
                     onPress={() =>
                       props.navigation.navigate('ConsumerHomeStack', {
                         screen: 'ConsumerApplyPromoCode',
-                      })}
+                      })
+                    }
                   />
                 </View>
               </View>
@@ -204,8 +185,8 @@ const ConsumerApplyPromoCode = props => {
 export default ConsumerApplyPromoCode;
 
 const styles = StyleSheet.create({
-  alignRow: {flex: 1, flexDirection: 'row', justifyContent: 'space-between'},
-  inviteContainer: {flexDirection: 'row', marginHorizontal: widthToDp(5)},
+  alignRow: { flex: 1, flexDirection: 'row', justifyContent: 'space-between' },
+  inviteContainer: { flexDirection: 'row', marginHorizontal: widthToDp(5) },
   inviteContent: {
     backgroundColor: 'white',
     paddingVertical: 10,

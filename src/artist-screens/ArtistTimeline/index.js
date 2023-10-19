@@ -1,19 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  TextInput,
-  Switch,
-  ScrollView,
-} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Switch, ScrollView } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Header, Button} from '../../components';
-import {height, heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {useTheme, fonts} from '../../utils/theme';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Header, Button } from '../../components';
+import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { useTheme, fonts } from '../../utils/theme';
 import MultiButton from '../../components/MultiButton';
 const carBrown = require('../../assets/car_brown.png');
 const location = require('../../assets/Path.png');
@@ -55,14 +46,12 @@ const orders = [
   },
 ];
 const ArtistTimeline = props => {
-  const GroomingHandler = () =>{
-    props.navigation.navigate('ArtistOrderStack', {screen: 'ArtistGrooming'});
-
-  }
-  const CancelHandler = () =>{
-    props.navigation.navigate('ArtistOrderStack', {screen: 'ArtistCancelledTimeline'});
-
-  }
+  const GroomingHandler = () => {
+    props.navigation.navigate('ArtistOrderStack', { screen: 'ArtistGrooming' });
+  };
+  const CancelHandler = () => {
+    props.navigation.navigate('ArtistOrderStack', { screen: 'ArtistCancelledTimeline' });
+  };
   const map_style = [
     {
       elementType: 'labels.icon',
@@ -85,7 +74,7 @@ const ArtistTimeline = props => {
             width: widthToDp(90),
           }}>
           {/* <Image source={back} /> */}
-          <View style={{marginLeft: 0}}>
+          <View style={{ marginLeft: 0 }}>
             <Header
               backBtn
               title="help?"
@@ -95,10 +84,10 @@ const ArtistTimeline = props => {
                 borderRadius: 20,
                 borderWidth: 1,
                 borderColor: '#84668C',
-                fontSize:14,
-                color:"#84668C",
+                fontSize: 14,
+                color: '#84668C',
                 paddingVertical: 5,
-                paddingHorizontal: 15
+                paddingHorizontal: 15,
               }}
             />
           </View>
@@ -128,15 +117,14 @@ const ArtistTimeline = props => {
                     <View>
                       <Text style={styles.headingName}>{order.name}</Text>
 
-                      <Text style={[styles.textBold,{marginVertical:5}]}>SERVICES:</Text>
+                      <Text style={[styles.textBold, { marginVertical: 5 }]}>SERVICES:</Text>
                       {order.services.map((service, serviceIndex) => {
                         const maxServicesToShow = 1;
 
                         if (serviceIndex < maxServicesToShow) {
                           return <Text key={serviceIndex}>{service}</Text>;
                         } else if (serviceIndex === maxServicesToShow) {
-                          const remainingServices =
-                            order.services.length - maxServicesToShow;
+                          const remainingServices = order.services.length - maxServicesToShow;
                           return (
                             <TouchableOpacity
                               key={serviceIndex}
@@ -153,7 +141,7 @@ const ArtistTimeline = props => {
                         }
                         return null;
                       })}
-                      <Text style={{color: '#84668C', fontFamily:fonts.hk_bold,fontSize:18}}>
+                      <Text style={{ color: '#84668C', fontFamily: fonts.hk_bold, fontSize: 18 }}>
                         Rs {order.serviceCost}
                       </Text>
                     </View>
@@ -161,25 +149,18 @@ const ArtistTimeline = props => {
 
                   <View>
                     <View style={styles.orderDetails}>
-                      <Text style={{color: '#84668C', fontFamily:fonts.robo_med}}>HOSTING</Text>
-                      <Image
-                        source={order.imageLink}
-                        style={styles.OrderImage}
-                      />
+                      <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>HOSTING</Text>
+                      <Image source={order.imageLink} style={styles.OrderImage} />
                     </View>
-                    <Text style={{color: '#29AAE2'}}>
-                      3.5 kms{' '}
-                      <Text style={{color: '#0F2851'}}>away for you </Text>{' '}
+                    <Text style={{ color: '#29AAE2' }}>
+                      3.5 kms <Text style={{ color: '#0F2851' }}>away for you </Text>{' '}
                     </Text>
-                    <Text style={[styles.textBold,{ textTransform:"uppercase", marginTop:5, marginBottom:3}]}>Hosting at:</Text>
-                    <View style={{flexDirection: 'row', alignItems:'center'}}>
-                      <Image
-                        source={location}
-                        style={{height: 15, width: 15, resizeMode: 'contain'}}
-                      />
-                      <Text style={{color: '#32aee3'}}>
-                        {order.salonAddress}
-                      </Text>
+                    <Text style={[styles.textBold, { textTransform: 'uppercase', marginTop: 5, marginBottom: 3 }]}>
+                      Hosting at:
+                    </Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
+                      <Text style={{ color: '#32aee3' }}>{order.salonAddress}</Text>
                     </View>
                   </View>
                 </View>
@@ -198,13 +179,13 @@ const ArtistTimeline = props => {
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             }}
-            style={{height: heightToDp(50)}} // Set a fixed height
+            style={{ height: heightToDp(50) }} // Set a fixed height
             customMapStyle={map_style}>
             {DATA.map((item, index) => {
               return (
                 <MapView.Marker
                   key={index}
-                  coordinate={{latitude: item.lat, longitude: item.long}}
+                  coordinate={{ latitude: item.lat, longitude: item.long }}
                   title={item.title}
                   description={item.description}
                   image={item.img}>
@@ -218,22 +199,12 @@ const ArtistTimeline = props => {
           </MapView>
         </View>
 
-        <Text style={styles.textCenter}>
-          You can start grooming once you’ve reached your client’s location.
-        </Text>
+        <Text style={styles.textCenter}>You can start grooming once you’ve reached your client’s location.</Text>
 
         <View style={styles.indicatorView}>
           <View style={styles.row}>
-            <MultiButton
-              title={'Start Grooming'}
-              btnStyle={{backgroundColor: '#84668C'}}
-              onPress={GroomingHandler}
-            />
-            <MultiButton
-              title={'Contact client'}
-              image={contact}
-              btnStyle={{backgroundColor: '#668C6A'}}
-              />
+            <MultiButton title={'Start Grooming'} btnStyle={{ backgroundColor: '#84668C' }} onPress={GroomingHandler} />
+            <MultiButton title={'Contact client'} image={contact} btnStyle={{ backgroundColor: '#668C6A' }} />
           </View>
         </View>
       </ScrollView>
@@ -248,12 +219,12 @@ const styles = StyleSheet.create({
     color: '#0F2851',
     fontSize: 40,
     marginLeft: widthToDp(4),
-    fontFamily: fonts.hk_bold
+    fontFamily: fonts.hk_bold,
   },
   textCenter: {
     color: '#67718C',
     textAlign: 'center',
-    fontFamily:fonts.robo_reg,
+    fontFamily: fonts.robo_reg,
     marginHorizontal: widthToDp(12),
     marginTop: 10,
   },
@@ -314,16 +285,16 @@ const styles = StyleSheet.create({
     marginTop: heightToDp(6),
     marginBottom: 20,
   },
-  row: {flexDirection: 'row', alignItems: 'center'},
+  row: { flexDirection: 'row', alignItems: 'center' },
 
   headingName: {
     fontSize: 20,
-    color:"#0F2851",
-    fontFamily:fonts.hk_bold
+    color: '#0F2851',
+    fontFamily: fonts.hk_bold,
   },
   textBold: {
     // fontWeight: 'bold',
-    color:"#0F2851",
-    fontFamily:fonts.robo_med
+    color: '#0F2851',
+    fontFamily: fonts.robo_med,
   },
 });

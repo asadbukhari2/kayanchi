@@ -1,19 +1,13 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Button, Header, Loader, TextInput} from '../../components';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Header, Loader, TextInput } from '../../components';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
 import api from '../../utils/APIservice';
-import {showMessage} from 'react-native-flash-message';
-import {saveUserData} from '../../redux/actions';
-import {useDispatch} from 'react-redux';
+import { showMessage } from 'react-native-flash-message';
+import { saveUserData } from '../../redux/actions';
+import { useDispatch } from 'react-redux';
 import DatePicker from 'react-native-date-picker';
 
 const theme = useTheme();
@@ -30,7 +24,7 @@ const Gender = [
 ];
 const ConsumerUsernameSignUp = props => {
   const dispatch = useDispatch();
-  const {navigation} = props;
+  const { navigation } = props;
 
   const [name, setName] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -107,8 +101,7 @@ const ConsumerUsernameSignUp = props => {
                 style={[
                   styles.genBtn,
                   {
-                    backgroundColor:
-                      gender === item.name ? theme.brown : theme.genderGrey,
+                    backgroundColor: gender === item.name ? theme.brown : theme.genderGrey,
                   },
                 ]}>
                 <Text style={styles.genTxt}>{item.name}</Text>

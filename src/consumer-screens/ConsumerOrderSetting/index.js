@@ -1,18 +1,9 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  TextInput,
-  Switch,
-  ScrollView,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Header, Button} from '../../components';
-import {height, heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {useTheme, fonts} from '../../utils/theme';
+import React, { useEffect, useRef, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Switch, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Header, Button } from '../../components';
+import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { useTheme, fonts } from '../../utils/theme';
 import iButton from '../../assets/ibutton.png';
 
 import back from '../../assets/back.png';
@@ -24,8 +15,8 @@ import TravelMoodImage from '../../assets/travel.png';
 import HostMoodImage from '../../assets/car-front.png';
 const information = require('../../assets/information.png');
 import LinearGradient from 'react-native-linear-gradient';
-import {useDispatch, useSelector} from 'react-redux';
-import {saveToken} from '../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { saveToken } from '../../redux/actions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MultiButton from '../../components/MultiButton';
 
@@ -41,7 +32,7 @@ const ConsumerOrderSetting = props => {
   const handlePrivateImage = () => {
     setIsPrivate(previousState => !previousState);
   };
-  const {navigation, route} = props;
+  const { navigation, route } = props;
   // const {data} = route.params;
 
   // console.log(data);
@@ -69,12 +60,12 @@ const ConsumerOrderSetting = props => {
             width: widthToDp(90),
           }}>
           <Image source={back}></Image>
-          <View style={{marginLeft: -20}}>
+          <View style={{ marginLeft: -20 }}>
             <Header title={'Other Settings'} />
           </View>
         </View>
 
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <Text style={styles.heading}>Avaliablity</Text>
           <Image
             source={information}
@@ -85,25 +76,14 @@ const ConsumerOrderSetting = props => {
             }}
           />
         </View>
-        <Text
-          style={{fontSize: 16, color: '#67718C', marginLeft: widthToDp(4)}}>
+        <Text style={{ fontSize: 16, color: '#67718C', marginLeft: widthToDp(4) }}>
           Select how you are taking your order
         </Text>
 
         <View style={styles.indicatorView}>
           <View style={styles.row}>
-            <MultiButton
-              title={'Booking Only'}
-              btnStyle={{backgroundColor: '#008274'}}
-              image={booking}
-              disable
-            />
-            <MultiButton
-              title={'On-Demand'}
-              btnStyle={{backgroundColor: '#9A9A9A'}}
-              image={ondemand}
-              disable
-            />
+            <MultiButton title={'Booking Only'} btnStyle={{ backgroundColor: '#008274' }} image={booking} disable />
+            <MultiButton title={'On-Demand'} btnStyle={{ backgroundColor: '#9A9A9A' }} image={ondemand} disable />
           </View>
         </View>
         <Text
@@ -115,7 +95,7 @@ const ConsumerOrderSetting = props => {
           }}>
           Manage Booking slots
         </Text>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <Text style={styles.heading}>Mood</Text>
           <Image
             source={information}
@@ -128,28 +108,24 @@ const ConsumerOrderSetting = props => {
         </View>
 
         <Text style={styles.warning}>
-          {
-            'Choose between travelling to the client or having them at your place. You can do both.'
-          }
+          {'Choose between travelling to the client or having them at your place. You can do both.'}
         </Text>
         <View style={styles.parentMood}>
           <View style={styles.mood}>
             <LinearGradient
               colors={[theme.primary, theme.primary]}
               style={styles.childMood}
-              start={{x: 1, y: 0.5}}
-              end={{x: 1, y: 0.5}}>
-              <Image
-                source={HostMoodImage}
-                style={{height: 30, width: 30, resizeMode: 'contain'}}></Image>
+              start={{ x: 1, y: 0.5 }}
+              end={{ x: 1, y: 0.5 }}>
+              <Image source={HostMoodImage} style={{ height: 30, width: 30, resizeMode: 'contain' }}></Image>
               <Text style={styles.childMoodHead}>Travel</Text>
               <Text style={styles.childMoodBody}>to client’s</Text>
             </LinearGradient>
             <LinearGradient
               colors={[theme.primary, theme.primary]}
               style={styles.childMood}
-              start={{x: 1, y: 0.5}}
-              end={{x: 1, y: 0.5}}>
+              start={{ x: 1, y: 0.5 }}
+              end={{ x: 1, y: 0.5 }}>
               <Image source={TravelMoodImage}></Image>
               <Text style={styles.childMoodHead}>Host</Text>
               <Text style={styles.childMoodBody}>the client</Text>
@@ -163,9 +139,7 @@ const ConsumerOrderSetting = props => {
         </View>
 
         <Text style={styles.warning}>
-          {
-            'Budget your travel cost within the city. Offer travel for free, to get more orders.'
-          }
+          {'Budget your travel cost within the city. Offer travel for free, to get more orders.'}
         </Text>
         <View
           style={{
@@ -180,36 +154,31 @@ const ConsumerOrderSetting = props => {
               value={isPrivate}
               onValueChange={handlePrivateImage}
               thumbColor={isPrivate ? theme.primary : '#eee'}
-              trackColor={{false: 'grey', true: 'grey'}}
+              trackColor={{ false: 'grey', true: 'grey' }}
               style={styles.switch}
             />
           </View>
         </View>
 
         <View style={styles.parentPrice}>
-          <TextInput
-            style={styles.priceField}
-            placeholder="100-1000"></TextInput>
+          <TextInput style={styles.priceField} placeholder="100-1000"></TextInput>
         </View>
         <View style={styles.serviceDuration}>
           <Text style={styles.title2}>
-            {'Minimum Order Value'}{' '}
-            <Text style={{fontWeight: '300'}}>(MOV)</Text>
+            {'Minimum Order Value'} <Text style={{ fontWeight: '300' }}>(MOV)</Text>
           </Text>
           <View style={styles.childServiceDuration}></View>
         </View>
 
-        <Text style={styles.warning}>
-          {"Set a minimum amount below which you won't accept order"}
-        </Text>
+        <Text style={styles.warning}>{"Set a minimum amount below which you won't accept order"}</Text>
 
-        <View style={[styles.parentPrice, {marginTop: 10}]}>
+        <View style={[styles.parentPrice, { marginTop: 10 }]}>
           <TextInput style={styles.priceField} placeholder="0"></TextInput>
         </View>
 
         <View style={styles.serviceDuration}>
           <Text style={styles.title2}>
-            {'Sales Service Tax'} <Text style={{fontWeight: '300'}}>(SST)</Text>
+            {'Sales Service Tax'} <Text style={{ fontWeight: '300' }}>(SST)</Text>
           </Text>
 
           <View style={styles.switchContainer}>
@@ -217,16 +186,14 @@ const ConsumerOrderSetting = props => {
               value={isPrivate}
               onValueChange={handlePrivateImage}
               thumbColor={isPrivate ? theme.primary : '#eee'}
-              trackColor={{false: 'grey', true: 'grey'}}
+              trackColor={{ false: 'grey', true: 'grey' }}
               style={styles.switch}
             />
           </View>
           <View style={styles.childServiceDuration}></View>
         </View>
 
-        <Text style={styles.warning}>
-          {'Only avaiable if your annual revenue is more than 4M pkr.'}
-        </Text>
+        <Text style={styles.warning}>{'Only avaiable if your annual revenue is more than 4M pkr.'}</Text>
         <Button
           title={'Confirm Settings'}
           btnStyle={styles.btn}
@@ -315,7 +282,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  heading: {color: '#0F2851', fontSize: 40, marginLeft: widthToDp(4)},
+  heading: { color: '#0F2851', fontSize: 40, marginLeft: widthToDp(4) },
   uploadText: {
     textAlign: 'center',
 
@@ -400,8 +367,8 @@ const styles = StyleSheet.create({
     marginTop: 8,
     lineHeight: 22,
   },
-  indicatorView: {marginHorizontal: 24, marginTop: heightToDp(6)},
-  row: {flexDirection: 'row', alignItems: 'center'},
+  indicatorView: { marginHorizontal: 24, marginTop: heightToDp(6) },
+  row: { flexDirection: 'row', alignItems: 'center' },
 
   container: {
     flex: 1,

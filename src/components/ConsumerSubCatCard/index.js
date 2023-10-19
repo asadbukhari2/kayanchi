@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
-import {width, heightToDp, widthToDp} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { width, heightToDp, widthToDp } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import Counter from '../Counter';
@@ -12,7 +12,7 @@ const car = require('../../assets/car_brown.png');
 const theme = useTheme();
 
 const ConsumerSubCatCard = props => {
-  const {price, details, cat, time} = props;
+  const { price, details, cat, time } = props;
   const [count, setCount] = useState(0);
   const [showMore, setShowMore] = useState(false);
 
@@ -30,37 +30,36 @@ const ConsumerSubCatCard = props => {
     <View style={styles.container}>
       <View style={styles.shownView}>
         <View>
-          <View style={{flexDirection: 'row', alignItems:"center",     marginLeft: widthToDp(3)}}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: widthToDp(3) }}>
             <Text style={styles.catName}>{cat}</Text>
             <Text
               style={{
                 paddingHorizontal: heightToDp(2),
-                paddingVertical: heightToDp(.5),
+                paddingVertical: heightToDp(0.5),
                 backgroundColor: '#fae5ff',
                 borderRadius: 10,
                 marginLeft: 5,
-                color:"#2F3A58",
-                fontFamily:fonts.robo_med,
-                fontSize: 12
+                color: '#2F3A58',
+                fontFamily: fonts.robo_med,
+                fontSize: 12,
               }}>
               20% off
             </Text>
           </View>
-          <View style={{flexDirection:"row", alignItems:"center",     marginLeft: widthToDp(3)}}>
-
-          <Text style={styles.priceTxt}>{price}</Text>
-          <Text
-            style={{
-              color: '#9A9A9A',
-              fontSize: 10,
-              fontFamily: fonts.hk_medium,
-              textDecorationLine: 'line-through',
-              marginTop: heightToDp(2),
-              marginLeft: 5
-            }}>
-            Rs 2,000
-          </Text>
-              </View>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: widthToDp(3) }}>
+            <Text style={styles.priceTxt}>{price}</Text>
+            <Text
+              style={{
+                color: '#9A9A9A',
+                fontSize: 10,
+                fontFamily: fonts.hk_medium,
+                textDecorationLine: 'line-through',
+                marginTop: heightToDp(2),
+                marginLeft: 5,
+              }}>
+              Rs 2,000
+            </Text>
+          </View>
         </View>
       </View>
       <View
@@ -70,21 +69,15 @@ const ConsumerSubCatCard = props => {
           justifyContent: 'space-between',
           marginTop: 16,
         }}>
-        <Text style={[styles.secondRow]}>
-          {time}
-        </Text>
+        <Text style={[styles.secondRow]}>{time}</Text>
 
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => setShowMore(!showMore)}
-          style={{flexDirection: 'row', alignItems: 'center'}}>
-            
-            <Image source={car} style={styles.iconStyle}/>
-            <Image source={host} style={styles.iconStyle} />
-          <Text style={[styles.secondRowTxt, {color: theme.linkTxt}]}>
-
-            {'View'}
-          </Text>
+          style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Image source={car} style={styles.iconStyle} />
+          <Image source={host} style={styles.iconStyle} />
+          <Text style={[styles.secondRowTxt, { color: theme.linkTxt }]}>{'View'}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -120,13 +113,12 @@ const styles = StyleSheet.create({
     lineHeight: 19.2,
     color: '#1583D8',
   },
-  
-  iconStyle:{
-    width: 17.1,
-    height:15.43,
-    resizeMode:"contain",
-    marginHorizontal:5
 
+  iconStyle: {
+    width: 17.1,
+    height: 15.43,
+    resizeMode: 'contain',
+    marginHorizontal: 5,
   },
   moreIcon: {
     fontSize: heightToDp(5),
@@ -138,14 +130,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 18.75,
     marginLeft: widthToDp(4),
-    marginRight: widthToDp(3)
+    marginRight: widthToDp(3),
   },
   secondRow: {
     fontFamily: fonts.robo_reg,
     fontSize: 16,
-    color:"#747474",
+    color: '#747474',
     lineHeight: 18.75,
-    marginLeft: widthToDp(3)
+    marginLeft: widthToDp(3),
   },
   details: {
     fontSize: 14,

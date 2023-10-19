@@ -1,17 +1,17 @@
-import React, {useRef} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {fonts, useTheme} from '../../utils/theme';
+import React, { useRef } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { fonts, useTheme } from '../../utils/theme';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import {Button, Header} from '../../components';
-import {height, heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {useDispatch} from 'react-redux';
-import {showMessage} from 'react-native-flash-message';
-import {saveUserData} from '../../redux/actions';
+import { Button, Header } from '../../components';
+import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { useDispatch } from 'react-redux';
+import { showMessage } from 'react-native-flash-message';
+import { saveUserData } from '../../redux/actions';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MultiButton from '../../components/MultiButton';
 import LinearGradient from 'react-native-linear-gradient';
-import {set} from 'react-native-reanimated';
+import { set } from 'react-native-reanimated';
 const timer = require('../../assets/CreatePromo.png');
 const CreateGig = require('../../assets/CreateGig.png');
 
@@ -55,7 +55,7 @@ const ondemand = require('../../assets/ondemand.png');
 const info = require('../../assets/information.png');
 
 const ArtistOnBoarding = props => {
-  const {navigation, route} = props;
+  const { navigation, route } = props;
   const [selectedItem, setSelectedItem] = React.useState(slides[0]);
 
   // const {data} = route.params;
@@ -77,9 +77,9 @@ const ArtistOnBoarding = props => {
     // }
   };
 
-  const _renderItem = ({item, index}) => {
+  const _renderItem = ({ item, index }) => {
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <Image style={styles.img} source={item.image} resizeMode="contain" />
       </View>
     );
@@ -87,16 +87,12 @@ const ArtistOnBoarding = props => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{flex: 1, backgroundColor: '#fff'}}>
-        <Header
-          title={selectedItem?.heading}
-          skip
-          onSkip={() => navigation.replace('ArtistHome')}
-        />
-        <View style={{height: heightToDp(100)}}>
+      <View style={{ flex: 1, backgroundColor: '#fff' }}>
+        <Header title={selectedItem?.heading} skip onSkip={() => navigation.replace('ArtistHome')} />
+        <View style={{ height: heightToDp(100) }}>
           <AppIntroSlider
             ref={myFlatList}
-            style={{backgroundColor: '#fff'}}
+            style={{ backgroundColor: '#fff' }}
             renderItem={_renderItem}
             activeDotStyle={{
               backgroundColor: theme.primary,
@@ -126,38 +122,28 @@ const ArtistOnBoarding = props => {
                     marginTop: heightToDp(4),
                   },
                 ]}>
-                <LinearGradient
-                  colors={['#668C6A', '#3E5F41']}
-                  style={{borderRadius: 25}}>
+                <LinearGradient colors={['#668C6A', '#3E5F41']} style={{ borderRadius: 25 }}>
                   <Button
                     title="Basic gigs"
-                    titleStyle={{fontFamily: fonts.robo_med}}
+                    titleStyle={{ fontFamily: fonts.robo_med }}
                     btnStyle={{
                       backgroundColor: 'transparent',
                       width: widthToDp(44),
                     }}
                     image={CreateGig}
-                    imageStyle={[
-                      styles.buttonicon,
-                      {width: 20, height: 26, marginRight: 10},
-                    ]}
+                    imageStyle={[styles.buttonicon, { width: 20, height: 26, marginRight: 10 }]}
                   />
                 </LinearGradient>
-                <LinearGradient
-                  colors={['#84668C', '#42275A']}
-                  style={{borderRadius: 25}}>
+                <LinearGradient colors={['#84668C', '#42275A']} style={{ borderRadius: 25 }}>
                   <Button
                     title="Promotions"
-                    titleStyle={{fontFamily: fonts.robo_med}}
+                    titleStyle={{ fontFamily: fonts.robo_med }}
                     btnStyle={{
                       backgroundColor: 'transparent',
                       width: widthToDp(44),
                     }}
                     image={timer}
-                    imageStyle={[
-                      styles.buttonicon,
-                      {width: 20, height: 26, marginRight: 10},
-                    ]}
+                    imageStyle={[styles.buttonicon, { width: 20, height: 26, marginRight: 10 }]}
                   />
                 </LinearGradient>
               </View>
@@ -173,15 +159,10 @@ const ArtistOnBoarding = props => {
             {selectedItem.key == 3 && (
               <View style={styles.indicatorView}>
                 <View style={styles.row}>
-                  <MultiButton
-                    title={'On-Demand'}
-                    btnStyle={{backgroundColor: '#a77246'}}
-                    image={ondemand}
-                    disable
-                  />
+                  <MultiButton title={'On-Demand'} btnStyle={{ backgroundColor: '#a77246' }} image={ondemand} disable />
                   <MultiButton
                     title={'Booking Only'}
-                    btnStyle={{backgroundColor: '#008274'}}
+                    btnStyle={{ backgroundColor: '#008274' }}
                     image={booking}
                     disable
                   />
@@ -192,7 +173,7 @@ const ArtistOnBoarding = props => {
               <Button
                 title={"Let's go"}
                 onPress={() => navigation.replace('ArtistHome')}
-                btnStyle={{marginTop: heightToDp(4)}}
+                btnStyle={{ marginTop: heightToDp(4) }}
               />
             )}
           </>
@@ -221,8 +202,8 @@ const styles = StyleSheet.create({
     height: 9,
     borderRadius: 9 / 2,
   },
-  indicatorView: {marginHorizontal: 24, marginTop: heightToDp(4)},
-  row: {flexDirection: 'row', alignItems: 'center'},
+  indicatorView: { marginHorizontal: 24, marginTop: heightToDp(4) },
+  row: { flexDirection: 'row', alignItems: 'center' },
   img: {
     resizeMode: 'cover',
     height: heightToDp(80),

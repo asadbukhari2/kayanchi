@@ -1,24 +1,14 @@
-import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Image,
-  StyleSheet,
-  FlatList,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-  Modal,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Button, Header, HomeCard, SearchBox} from '../../components';
-import {heightToDp, width, widthToDp, height} from '../../utils/Dimensions';
-import {fonts, useTheme, images} from '../../utils/theme';
+import React, { useState, useEffect } from 'react';
+import { View, Image, StyleSheet, FlatList, Text, TextInput, TouchableOpacity, ScrollView, Modal } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Header, HomeCard, SearchBox } from '../../components';
+import { heightToDp, width, widthToDp, height } from '../../utils/Dimensions';
+import { fonts, useTheme, images } from '../../utils/theme';
 import Feather from 'react-native-vector-icons/Feather';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import api from '../../utils/APIservice';
 import SliderComponent from '../../components/Slider';
-import {useNavigation} from '@react-navigation/native'; // Import the navigation hook
+import { useNavigation } from '@react-navigation/native'; // Import the navigation hook
 import Insights from './components/Insights';
 import Performance from './components/Performance';
 import ModalContent from '../../components/ModalContent';
@@ -159,15 +149,13 @@ const ModalData = [
   {
     id: 'gig',
     modalImageSource: images.CreateGig,
-    modalDescription:
-      'Basic gig allows you to offer services in snigle category only',
+    modalDescription: 'Basic gig allows you to offer services in snigle category only',
     modalTitle: 'Create a Gig',
   },
   {
     id: 'promo',
     modalImageSource: images.CreatePromo,
-    modalDescription:
-      'Promotional are mix of your gigs and any additional service you want to offer',
+    modalDescription: 'Promotional are mix of your gigs and any additional service you want to offer',
     modalTitle: 'Create a Promo',
   },
 ];
@@ -248,7 +236,7 @@ const ArtistHome = props => {
   };
   const handleButtonPress = () => {
     // setIsModalVisible(true);
-    props.navigation.navigate('ArtistHomeStack', {screen: 'ArtistGig'});
+    props.navigation.navigate('ArtistHomeStack', { screen: 'ArtistGig' });
   };
 
   const closeModal = () => {
@@ -256,7 +244,7 @@ const ArtistHome = props => {
   };
 
   const handleInfoIconPress = () => {
-    props.navigation.navigate('ArtistHomeStack', {screen: 'ArtistRankUp'});
+    props.navigation.navigate('ArtistHomeStack', { screen: 'ArtistRankUp' });
   };
 
   const user = useSelector(state => console.log(state.auth.token));
@@ -305,14 +293,9 @@ const ArtistHome = props => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={{paddingBottom: 90}}>
+      <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 90 }}>
         <View style={styles.logoView}>
-          <Image
-            source={require('../../assets/KAYNCHI.png')}
-            style={styles.logo}
-          />
+          <Image source={require('../../assets/KAYNCHI.png')} style={styles.logo} />
           <Text style={styles.text}>Get 15% off</Text>
         </View>
         {/* welcome text and icons */}
@@ -322,7 +305,7 @@ const ArtistHome = props => {
             <Text style={styles.welcomeTxt}>Narmeen!</Text>
           </View>
           <View>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               <Image
                 source={require('../../assets/Status.png')}
                 style={{
@@ -342,26 +325,14 @@ const ArtistHome = props => {
               </Text>
             </View>
             <View style={styles.icons}>
-              <View
-                style={[styles.iconConatiner, {backgroundColor: '#ebebeb'}]}>
-                <Image
-                  source={require('../../assets/host_grey.png')}
-                  style={styles.iconStyle}
-                />
+              <View style={[styles.iconConatiner, { backgroundColor: '#ebebeb' }]}>
+                <Image source={require('../../assets/host_grey.png')} style={styles.iconStyle} />
               </View>
-              <View
-                style={[styles.iconConatiner, {backgroundColor: '#1583d8'}]}>
-                <Image
-                  source={require('../../assets/car.png')}
-                  style={styles.iconStyle}
-                />
+              <View style={[styles.iconConatiner, { backgroundColor: '#1583d8' }]}>
+                <Image source={require('../../assets/car.png')} style={styles.iconStyle} />
               </View>
-              <View
-                style={[styles.iconConatiner, {backgroundColor: '#a77246'}]}>
-                <Image
-                  source={require('../../assets/ondemand.png')}
-                  style={styles.iconStyle}
-                />
+              <View style={[styles.iconConatiner, { backgroundColor: '#a77246' }]}>
+                <Image source={require('../../assets/ondemand.png')} style={styles.iconStyle} />
               </View>
             </View>
           </View>
@@ -370,9 +341,7 @@ const ArtistHome = props => {
         {/* last hosted */}
 
         <View style={styles.hosted}>
-          <Text style={styles.hostedHeading}>
-            Last hosted at North Nazimabad
-          </Text>
+          <Text style={styles.hostedHeading}>Last hosted at North Nazimabad</Text>
           <Text
             style={{
               textAlign: 'center',
@@ -395,10 +364,10 @@ const ArtistHome = props => {
         /> */}
         <LinearGradient
           colors={['#84668C', '#42275A']} // Define the gradient colors
-          style={{borderRadius: 25, marginHorizontal: widthToDp(5)}}>
+          style={{ borderRadius: 25, marginHorizontal: widthToDp(5) }}>
           <Button
             title="Create a new gig"
-            btnStyle={{backgroundColor: 'transparent'}} // Use a transparent background for the button
+            btnStyle={{ backgroundColor: 'transparent' }} // Use a transparent background for the button
             image={timer}
             imageStyle={styles.buttonicon}
             onPress={handleButtonPress}
@@ -406,16 +375,10 @@ const ArtistHome = props => {
         </LinearGradient>
 
         {/* The Modal */}
-        <Modal
-          visible={isModalVisible}
-          animationType="slide"
-          transparent={true}
-          onRequestClose={closeModal}>
+        <Modal visible={isModalVisible} animationType="slide" transparent={true} onRequestClose={closeModal}>
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
-              <TouchableOpacity
-                onPress={closeModal}
-                style={styles.closeIconContainer}>
+              <TouchableOpacity onPress={closeModal} style={styles.closeIconContainer}>
                 <Feather name="x" size={24} color="black" />
               </TouchableOpacity>
 
@@ -423,9 +386,7 @@ const ArtistHome = props => {
                 <View style={[styles.modalElement]} key={index}>
                   <View
                     style={[
-                      data.id === 'gig'
-                        ? {backgroundColor: '#416245'}
-                        : {backgroundColor: theme.primary},
+                      data.id === 'gig' ? { backgroundColor: '#416245' } : { backgroundColor: theme.primary },
                       {
                         width: widthToDp(60),
                         padding: 15,
@@ -435,15 +396,10 @@ const ArtistHome = props => {
                       },
                     ]}>
                     <Text style={styles.modalText}>{data.modalTitle}</Text>
-                    <Text style={styles.modalDescription}>
-                      {data.modalDescription}
-                    </Text>
+                    <Text style={styles.modalDescription}>{data.modalDescription}</Text>
                   </View>
                   <View>
-                    <Image
-                      source={data.modalImageSource}
-                      style={styles.imageModal}
-                    />
+                    <Image source={data.modalImageSource} style={styles.imageModal} />
                   </View>
                 </View>
               ))}
@@ -478,11 +434,11 @@ const ArtistHome = props => {
               Your latest orders
             </Text>
             <TouchableOpacity onPress={handleOrder}>
-              <Text style={{color: '#32aee3'}}>View all</Text>
+              <Text style={{ color: '#32aee3' }}>View all</Text>
             </TouchableOpacity>
           </View>
 
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             {orders.map((order, index) => (
               <View key={index} style={styles.orderContainer}>
                 <View
@@ -502,21 +458,12 @@ const ArtistHome = props => {
                   }}>
                   <View>
                     <View style={styles.orderDetails}>
-                      <Image
-                        source={order.imageLink}
-                        style={styles.OrderImage}
-                      />
+                      <Image source={order.imageLink} style={styles.OrderImage} />
                       <Text style={styles.latestbutton}>On-Demand</Text>
                     </View>
                     <View>
-                      <Text
-                        style={[
-                          styles.headingName,
-                          {marginTop: 7, marginBottom: 3},
-                        ]}>
-                        {order.name}
-                      </Text>
-                      <View style={{flexDirection: 'row'}}>
+                      <Text style={[styles.headingName, { marginTop: 7, marginBottom: 3 }]}>{order.name}</Text>
+                      <View style={{ flexDirection: 'row' }}>
                         <Text>{order.status}</Text>
                         <Image
                           source={information}
@@ -543,8 +490,7 @@ const ArtistHome = props => {
                         if (serviceIndex < maxServicesToShow) {
                           return <Text key={serviceIndex}>{service}</Text>;
                         } else if (serviceIndex === maxServicesToShow) {
-                          const remainingServices =
-                            order.services.length - maxServicesToShow;
+                          const remainingServices = order.services.length - maxServicesToShow;
                           return (
                             <TouchableOpacity
                               key={serviceIndex}
@@ -575,15 +521,9 @@ const ArtistHome = props => {
                         ]}>
                         Travelling to:
                       </Text>
-                      <View
-                        style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Image
-                          source={location}
-                          style={{height: 15, width: 15, resizeMode: 'contain'}}
-                        />
-                        <Text style={{color: '#32aee3', marginLeft: 5}}>
-                          {order.salonAddress}
-                        </Text>
+                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
+                        <Text style={{ color: '#32aee3', marginLeft: 5 }}>{order.salonAddress}</Text>
                       </View>
                       <View
                         style={{
@@ -592,25 +532,14 @@ const ArtistHome = props => {
                           alignItems: 'center',
                           paddingBottom: 10,
                         }}>
-                        <Text
-                          style={[
-                            {color: '#0F2851', fontFamily: fonts.robo_reg},
-                          ]}>
-                          Arriving in:{' '}
-                        </Text>
-                        <Text style={{color: theme.primary, fontSize: 12}}>
-                          {order.arrivalTime}
-                        </Text>
+                        <Text style={[{ color: '#0F2851', fontFamily: fonts.robo_reg }]}>Arriving in: </Text>
+                        <Text style={{ color: theme.primary, fontSize: 12 }}>{order.arrivalTime}</Text>
                       </View>
                     </View>
                   </View>
                 </View>
 
-                <View
-                  style={[
-                    styles.buttons,
-                    {width: '100%', alignSelf: 'center'},
-                  ]}>
+                <View style={[styles.buttons, { width: '100%', alignSelf: 'center' }]}>
                   <TouchableOpacity
                     style={{
                       backgroundColor: 'rgba(58, 58, 58, 0.05)',
@@ -669,10 +598,7 @@ const ArtistHome = props => {
                   }}>
                   {item.status}
                 </Text>
-                <Image
-                  source={item.imageSource}
-                  style={styles.orderSummaryImage}
-                />
+                <Image source={item.imageSource} style={styles.orderSummaryImage} />
               </View>
             ))}
           </View>
@@ -680,14 +606,11 @@ const ArtistHome = props => {
 
         {/* Rank up */}
 
-        <View style={{marginLeft: widthToDp(5), marginTop: heightToDp(5)}}>
+        <View style={{ marginLeft: widthToDp(5), marginTop: heightToDp(5) }}>
           <TouchableOpacity onPress={handleInfoIconPress}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Text style={styles.heading}>Grow your Rank</Text>
-              <Image
-                source={information}
-                style={{height: 20, width: 20, marginLeft: 8}}
-              />
+              <Image source={information} style={{ height: 20, width: 20, marginLeft: 8 }} />
             </View>
           </TouchableOpacity>
           <Text
@@ -708,9 +631,7 @@ const ArtistHome = props => {
               {' (25th Jul 2023)'}
             </Text>
           </Text>
-          <Text style={{color: '#333333', fontFamily: fonts.robo_reg}}>
-            (Approaching in 12 days)
-          </Text>
+          <Text style={{ color: '#333333', fontFamily: fonts.robo_reg }}>(Approaching in 12 days)</Text>
         </View>
         {/* slider */}
         <View
@@ -727,7 +648,7 @@ const ArtistHome = props => {
             borderRadius={20}
             borderWidth={0}
           />
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <Text
               style={{
                 fontSize: 14,
@@ -778,9 +699,7 @@ const ArtistHome = props => {
         <View>
           <View style={styles.EarningDetail}>
             <View>
-              <Text style={[styles.heading, {marginVertical: 10}]}>
-                Earnings
-              </Text>
+              <Text style={[styles.heading, { marginVertical: 10 }]}>Earnings</Text>
             </View>
             <View style={styles.arrowDetail}>
               <Image source={leftArrow} style={styles.arrow} />
@@ -803,10 +722,7 @@ const ArtistHome = props => {
             </View>
             <View style={styles.TotalEarned}>
               <Text style={styles.EarnedAmount}>Rs 48,700</Text>
-              <Text
-                style={{textAlign: 'right', color: '#677790', fontSize: 12}}>
-                Total Earned
-              </Text>
+              <Text style={{ textAlign: 'right', color: '#677790', fontSize: 12 }}>Total Earned</Text>
             </View>
           </View>
 
@@ -932,7 +848,7 @@ const styles = StyleSheet.create({
     zIndex: -1,
     paddingTop: 30,
     shadowColor: '#3A3A3A0D',
-    shadowOffset: {width: 0, height: 2},
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 2,
     elevation: 2, // For Android
@@ -957,8 +873,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  arrow: {height: 12, width: 12, resizeMode: 'contain'},
-  arrowDetail: {flexDirection: 'row', alignItems: 'center'},
+  arrow: { height: 12, width: 12, resizeMode: 'contain' },
+  arrowDetail: { flexDirection: 'row', alignItems: 'center' },
   orderSummaryImage: {
     width: 20,
     height: 20,

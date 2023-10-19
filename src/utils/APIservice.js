@@ -1,7 +1,6 @@
 import axios from 'axios';
-import {baseURL} from '../utils/constants';
-import {store} from '../redux/reducers';
-import {Platform} from 'react-native';
+import { baseURL } from '../utils/constants';
+import { store } from '../redux/reducers';
 
 let url = baseURL;
 
@@ -16,7 +15,7 @@ instance.interceptors.request.use(
     console.log(accessToken, 'accesstokens');
 
     if (accessToken) {
-      console.log(accessToken);
+      console.log({ accessToken });
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config;

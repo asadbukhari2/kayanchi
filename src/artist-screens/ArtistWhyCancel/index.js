@@ -1,27 +1,18 @@
-import React, {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  TextInput,
-  Switch,
-  ScrollView,
-} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Switch, ScrollView } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Header, Button} from '../../components';
-import {height, heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {useTheme, fonts} from '../../utils/theme';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Header, Button } from '../../components';
+import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { useTheme, fonts } from '../../utils/theme';
 import back from '../../assets/back.png';
-import {RadioButton} from 'react-native-paper';
+import { RadioButton } from 'react-native-paper';
 
 const theme = useTheme();
 const faqData = [
-  {id: 1, question: 'The client is not reached yet'},
-  {id: 3, question: 'Client is asking for discount?'},
-  {id: 4, question: 'Others'},
+  { id: 1, question: 'The client is not reached yet' },
+  { id: 3, question: 'Client is asking for discount?' },
+  { id: 4, question: 'Others' },
 ];
 const ArtistWhyCancel = props => {
   const [name, setName] = useState('');
@@ -30,64 +21,60 @@ const ArtistWhyCancel = props => {
 
   return (
     <SafeAreaView style={styles.container}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginLeft: widthToDp(5),
-            width: widthToDp(90),
-          }}>
-          {/* <Image source={back} /> */}
-          <View style={{marginLeft: 0}}>
-            <Header backBtn/>
-          </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginLeft: widthToDp(5),
+          width: widthToDp(90),
+        }}>
+        {/* <Image source={back} /> */}
+        <View style={{ marginLeft: 0 }}>
+          <Header backBtn />
         </View>
-        <View>
-          <Text style={styles.heading}>Tell us why?</Text>
-          <Text style={styles.subheading}>
-            Please make sure you tell us everthing
-          </Text>
+      </View>
+      <View>
+        <Text style={styles.heading}>Tell us why?</Text>
+        <Text style={styles.subheading}>Please make sure you tell us everthing</Text>
+      </View>
+
+      <View>
+        <View style={styles.faqcontainer}>
+          {faqData.map(item => (
+            <View key={item.id} style={styles.faqContent}>
+              <RadioButton.Group onValueChange={newValue => setSelectedQuestion(newValue)} value={selectedQuestion}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}>
+                  <Text>{item.question}</Text>
+                  <RadioButton value={item.id} />
+                </View>
+              </RadioButton.Group>
+            </View>
+          ))}
         </View>
+      </View>
 
-        <View>
-          <View style={styles.faqcontainer}>
-            {faqData.map(item => (
-              <View key={item.id} style={styles.faqContent}>
-                <RadioButton.Group
-                  onValueChange={newValue => setSelectedQuestion(newValue)}
-                  value={selectedQuestion}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}>
-                    <Text>{item.question}</Text>
-                    <RadioButton value={item.id} />
-                  </View>
-                </RadioButton.Group>
-              </View>
-            ))}
-          </View>
-        </View>
+      <View style={{ paddingHorizontal: widthToDp(4), marginTop: 10 }}>
+        <TextInput
+          multiline
+          placeholder="Please tell us anything that you think will help the situation for us."
+          value={name}
+          onChangeText={setName}
+          style={styles.input}
+        />
+      </View>
 
-          <View style={{paddingHorizontal: widthToDp(4), marginTop: 10}}>
-            <TextInput
-              multiline
-              placeholder="Please tell us anything that you think will help the situation for us."
-              value={name}
-              onChangeText={setName}
-              style={styles.input}
-            />
-          </View>
-
-         <Button
+      <Button
         title={'Confirm Cancellation'}
         btnStyle={styles.btn}
         onPress={() => {
           props.navigation.navigate('ArtistPublishGig');
         }}
-        />
+      />
     </SafeAreaView>
   );
 };
@@ -99,7 +86,7 @@ const styles = StyleSheet.create({
     color: '#0F2851',
     fontSize: 40,
     marginLeft: widthToDp(4),
-   fontFamily: fonts.hk_bold
+    fontFamily: fonts.hk_bold,
   },
   subheading: {
     marginLeft: widthToDp(4),
@@ -116,7 +103,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: heightToDp(5.5),
   },
-    inputContainer: {
+  inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
@@ -128,8 +115,8 @@ const styles = StyleSheet.create({
     marginHorizontal: widthToDp(4),
   },
 
-  image: {position: 'absolute', width: 16, height: 16, marginLeft: 8},
-  resolution: {width: 48, height: 48, resizeMode: 'contain', margin: 5},
+  image: { position: 'absolute', width: 16, height: 16, marginLeft: 8 },
+  resolution: { width: 48, height: 48, resizeMode: 'contain', margin: 5 },
   helpContainer: {
     backgroundColor: 'white',
     paddingHorizontal: widthToDp(5),
@@ -149,7 +136,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
     borderRadius: 10,
     paddingLeft: 10,
-    marginBottom: 20
+    marginBottom: 20,
   },
   centeredContainer: {
     flexDirection: 'column',
@@ -169,14 +156,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginVertical: 15,
   },
-  refundContainer: {marginHorizontal: widthToDp(28)},
+  refundContainer: { marginHorizontal: widthToDp(28) },
   faqContent: {
     // flexDirection: 'row',
     // alignItems: 'center',
     // justifyContent: 'space-between',
     paddingVertical: widthToDp(2),
   },
-  faqimage: {width: 12, height: 12, resizeMode: 'contain'},
+  faqimage: { width: 12, height: 12, resizeMode: 'contain' },
   iconStyles: {
     width: 25,
     height: 25,

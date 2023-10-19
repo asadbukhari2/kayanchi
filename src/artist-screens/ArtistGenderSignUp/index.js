@@ -1,16 +1,16 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, ScrollView} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Button, Header, Loader, TextInput} from '../../components';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Header, Loader, TextInput } from '../../components';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
 import api from '../../utils/APIservice';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import ReactNativeModal from 'react-native-modal';
-import {showMessage} from 'react-native-flash-message';
-import {useDispatch} from 'react-redux';
-import {saveUserData} from '../../redux/actions';
+import { showMessage } from 'react-native-flash-message';
+import { useDispatch } from 'react-redux';
+import { saveUserData } from '../../redux/actions';
 
 const theme = useTheme();
 
@@ -28,7 +28,7 @@ const Gender = [
 
 const index = props => {
   const dispatch = useDispatch();
-  const {navigation} = props;
+  const { navigation } = props;
 
   const [gender, setGender] = useState('');
   const [dob, setDob] = useState(new Date());
@@ -72,54 +72,48 @@ const index = props => {
       <Header backBtn title={'Sign up'} />
 
       <ScrollView>
-       
-      <TextInput
-        stepCount={4}
-        mainLabel={'What’s your age and gender?'}
-        subLabel={'Let’s find the best artist for you!'}
-        removeInput
-      />
-      <View
-        style={{
-          marginTop: heightToDp(15),
-          marginVertical: 20,
-          alignItems: 'center',
-        }}>
-        <DatePicker
-          date={dob ? dob : new Date()}
-          mode="date"
-          maximumDate={new Date()}
-          onDateChange={date => {
-            // console.log(typeof date.toDateString());
-            setDob(date);
-          }}
+        <TextInput
+          stepCount={4}
+          mainLabel={'What’s your age and gender?'}
+          subLabel={'Let’s find the best artist for you!'}
+          removeInput
         />
-      </View>
-      <View style={styles.genView}>
-        {Gender.map(item => {
-          return (
-            <TouchableOpacity
-              onPress={() => setGender(item.name)}
-              activeOpacity={0.7}
-              style={[
-                styles.genBtn,
-                {
-                  backgroundColor:
-                    gender === item.name ? theme.brown : theme.genderGrey,
-                },
-              ]}>
-              <Text style={styles.genTxt}>{item.name}</Text>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-      <Button
-        title={'Continue'}
-        btnStyle={styles.btn}
-        onPress={updateProfile}
-      />
-      {loading && <Loader />}
-      {/* <ReactNativeModal
+        <View
+          style={{
+            marginTop: heightToDp(15),
+            marginVertical: 20,
+            alignItems: 'center',
+          }}>
+          <DatePicker
+            date={dob ? dob : new Date()}
+            mode="date"
+            maximumDate={new Date()}
+            onDateChange={date => {
+              // console.log(typeof date.toDateString());
+              setDob(date);
+            }}
+          />
+        </View>
+        <View style={styles.genView}>
+          {Gender.map(item => {
+            return (
+              <TouchableOpacity
+                onPress={() => setGender(item.name)}
+                activeOpacity={0.7}
+                style={[
+                  styles.genBtn,
+                  {
+                    backgroundColor: gender === item.name ? theme.brown : theme.genderGrey,
+                  },
+                ]}>
+                <Text style={styles.genTxt}>{item.name}</Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+        <Button title={'Continue'} btnStyle={styles.btn} onPress={updateProfile} />
+        {loading && <Loader />}
+        {/* <ReactNativeModal
         coverScreen={false}
         isVisible={modalVisible}
         style={styles.modal}
@@ -151,7 +145,6 @@ const index = props => {
           </View>
         </View>
       </ReactNativeModal> */}
-    
       </ScrollView>
     </SafeAreaView>
   );

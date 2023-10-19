@@ -1,10 +1,10 @@
 import React from 'react';
-import {StyleSheet, Text, View, ScrollView, Image} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {AddNewBtn, Header} from '../../components';
-import {heightToDp, widthToDp, width} from '../../utils/Dimensions';
-import {GLOBAL_STYLES} from '../../utils/styles';
-import {fonts, useTheme} from '../../utils/theme';
+import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { AddNewBtn, Header } from '../../components';
+import { heightToDp, widthToDp, width } from '../../utils/Dimensions';
+import { GLOBAL_STYLES } from '../../utils/styles';
+import { fonts, useTheme } from '../../utils/theme';
 import Feather from 'react-native-vector-icons/Feather';
 import LinearGradient from 'react-native-linear-gradient'; // Import the LinearGradient component
 import deducted from '../../assets/deducted.png';
@@ -45,17 +45,9 @@ const payments = [
 const ArtistPaymentHistory = props => {
   return (
     <SafeAreaView style={GLOBAL_STYLES.containerHome}>
-      <ScrollView
-        style={{flex: 1}}
-        contentContainerStyle={{paddingBottom: heightToDp(30)}}>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: heightToDp(30) }}>
         <Header backBtnGrey />
-        <Text
-          style={[
-            GLOBAL_STYLES.title,
-            {fontFamily: fonts.hk_bold},
-          ]}>
-          {'Payment history'}
-        </Text>
+        <Text style={[GLOBAL_STYLES.title, { fontFamily: fonts.hk_bold }]}>{'Payment history'}</Text>
 
         <View
           style={{
@@ -63,11 +55,9 @@ const ArtistPaymentHistory = props => {
             justifyContent: 'space-between',
             marginHorizontal: widthToDp(6),
             marginBottom: 10,
-            marginTop: 15
+            marginTop: 15,
           }}>
-          <Text style={{color: '#67718C', fontFamily: fonts.robo_reg}}>
-            Avaiable Kyanchi credit
-          </Text>
+          <Text style={{ color: '#67718C', fontFamily: fonts.robo_reg }}>Avaiable Kyanchi credit</Text>
           <Text
             style={{
               color: theme.primary,
@@ -97,8 +87,8 @@ const styles = StyleSheet.create({
     paddingVertical: heightToDp(2),
     width: width * 0.45,
   },
-  reason: {marginLeft: widthToDp(5)},
-  image: {height: 36, width: 38},
+  reason: { marginLeft: widthToDp(5) },
+  image: { height: 36, width: 38 },
   separator: {
     height: 1,
     backgroundColor: '#DDDDDD',

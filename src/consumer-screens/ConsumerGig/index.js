@@ -1,16 +1,8 @@
-import React, {useState} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  Image,
-  Text,
-  View,
-  ScrollView,
-  TouchableWithoutFeedback,
-} from 'react-native';
-import {Button, Header} from '../../components';
-import {useTheme, images, fonts} from '../../utils/theme';
-import {width, heightToDp, widthToDp, height} from '../../utils/Dimensions';
+import React, { useState } from 'react';
+import { SafeAreaView, StyleSheet, Image, Text, View, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { Button, Header } from '../../components';
+import { useTheme, images, fonts } from '../../utils/theme';
+import { width, heightToDp, widthToDp, height } from '../../utils/Dimensions';
 
 const data = ['20% Commision', '5 Gigs', '2 Promos'];
 const theme = useTheme();
@@ -19,15 +11,13 @@ const ModalData = [
   {
     id: 'gig',
     modalImageSource: images.CreateGig,
-    modalDescription:
-      'Basic gig allows you to offer services in snigle category only',
+    modalDescription: 'Basic gig allows you to offer services in snigle category only',
     modalTitle: 'Create a Gig',
   },
   {
     id: 'promo',
     modalImageSource: images.CreatePromo,
-    modalDescription:
-      'Promotional are mix of your gigs and any additional service you want to offer',
+    modalDescription: 'Promotional are mix of your gigs and any additional service you want to offer',
     modalTitle: 'Create a Promo',
   },
 ];
@@ -36,19 +26,20 @@ export default function ConsumerGig(props) {
   const [selectedContainer, setSelectedContainer] = useState(null);
 
   const handleContainerClick = containerId => {
-    console.log(containerId)
+    console.log(containerId);
     setSelectedContainer(containerId);
   };
 
   const handleContinueClick = () => {
-    console.log('seelcted', selectedContainer)
+    console.log('seelcted', selectedContainer);
     if (selectedContainer === 'gig') {
       props.navigation.navigate('ConsumerHomeStack', {
         screen: 'ConsumerGigInfo',
       });
-    } else if (selectedContainer === 'promo') {  props.navigation.navigate('ConsumerHomeStack', {
-      screen: 'ConsumerPromoMainPage',
-    });
+    } else if (selectedContainer === 'promo') {
+      props.navigation.navigate('ConsumerHomeStack', {
+        screen: 'ConsumerPromoMainPage',
+      });
     }
   };
   return (
@@ -59,16 +50,14 @@ export default function ConsumerGig(props) {
           <Text style={styles.heading}>Hey Narmeen!</Text>
           <Text>
             Time to create your menu and showcase your skills as an expert at{' '}
-            <Text style={{color: theme.primary}}>Kaynchi</Text>
+            <Text style={{ color: theme.primary }}>Kaynchi</Text>
           </Text>
         </View>
 
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             {ModalData.map((data, index) => (
-              <TouchableWithoutFeedback
-                key={index}
-                onPress={() => handleContainerClick(data.id)}>
+              <TouchableWithoutFeedback key={index} onPress={() => handleContainerClick(data.id)}>
                 <View
                   style={[
                     styles.modalElement,
@@ -80,14 +69,14 @@ export default function ConsumerGig(props) {
                     style={[
                       {
                         backgroundColor:
-                        selectedContainer === data.id
-                          ? data.id === 'gig'
-                            ? '#668C6A'
-                            : theme.primary
-                          : data.id === 'promo'
-                          ? '#BAAED3'
-                          : '#A0CDA3', // Use the lighter shade here
-                        },
+                          selectedContainer === data.id
+                            ? data.id === 'gig'
+                              ? '#668C6A'
+                              : theme.primary
+                            : data.id === 'promo'
+                            ? '#BAAED3'
+                            : '#A0CDA3', // Use the lighter shade here
+                      },
                       {
                         width: widthToDp(60),
                         padding: 15,
@@ -97,15 +86,10 @@ export default function ConsumerGig(props) {
                       },
                     ]}>
                     <Text style={styles.modalText}>{data.modalTitle}</Text>
-                    <Text style={styles.modalDescription}>
-                      {data.modalDescription}
-                    </Text>
+                    <Text style={styles.modalDescription}>{data.modalDescription}</Text>
                   </View>
                   <View>
-                    <Image
-                      source={data.modalImageSource}
-                      style={styles.imageModal}
-                    />
+                    <Image source={data.modalImageSource} style={styles.imageModal} />
                   </View>
                 </View>
               </TouchableWithoutFeedback>
@@ -113,12 +97,8 @@ export default function ConsumerGig(props) {
           </View>
         </View>
         <View>
-          <Text style={styles.subheading}>
-            Minimum 2 Basic gigs are required to craete a promo.
-          </Text>
-          <Text style={styles.subheading}>
-            Promo(s) are valid for 14 days only.
-          </Text>
+          <Text style={styles.subheading}>Minimum 2 Basic gigs are required to craete a promo.</Text>
+          <Text style={styles.subheading}>Promo(s) are valid for 14 days only.</Text>
         </View>
         <View style={styles.buttontext}>
           <Button title="Continue" onPress={handleContinueClick} />
@@ -145,8 +125,8 @@ const styles = StyleSheet.create({
     height: 2,
     backgroundColor: '#DEDEDE',
   },
-  heading: {fontSize: 40, fontFamily: fonts.hk_bold, paddingVertical: heightToDp(3)},
-  subheading: {color: '#67718C', fontSize: 12, textAlign: 'center'},
+  heading: { fontSize: 40, fontFamily: fonts.hk_bold, paddingVertical: heightToDp(3) },
+  subheading: { color: '#67718C', fontSize: 12, textAlign: 'center' },
   new: {
     paddingVertical: heightToDp(5),
     paddingHorizontal: widthToDp(4),
@@ -200,5 +180,5 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
     paddingRight: widthToDp(17),
   },
-  buttontext: {marginVertical: heightToDp(5)},
+  buttontext: { marginVertical: heightToDp(5) },
 });

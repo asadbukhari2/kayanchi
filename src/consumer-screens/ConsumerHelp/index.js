@@ -1,19 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  TextInput,
-  Switch,
-  ScrollView,
-} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Switch, ScrollView } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Header, Button} from '../../components';
-import {height, heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {useTheme, fonts} from '../../utils/theme';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Header, Button } from '../../components';
+import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { useTheme, fonts } from '../../utils/theme';
 import back from '../../assets/back.png';
 import search from '../../assets/question.png';
 import resolution from '../../assets/resolution.png';
@@ -23,10 +14,10 @@ const whatsappphone = require('../../assets/whatsappphone.png');
 
 const theme = useTheme();
 const faqData = [
-  {id: 1, question: 'How to organize your profile?'},
-  {id: 2, question: 'How to attract clients?'},
-  {id: 3, question: 'How to create a best menu?'},
-  {id: 4, question: 'What is Maynchi Commision?'},
+  { id: 1, question: 'How to organize your profile?' },
+  { id: 2, question: 'How to attract clients?' },
+  { id: 3, question: 'How to create a best menu?' },
+  { id: 4, question: 'What is Maynchi Commision?' },
 ];
 const ConsumerHelp = props => {
   const [name, setName] = useState('');
@@ -42,25 +33,20 @@ const ConsumerHelp = props => {
             width: widthToDp(90),
           }}>
           {/* <Image source={back} /> */}
-          <View style={{marginLeft: 0}}>
+          <View style={{ marginLeft: 0 }}>
             <Header backBtn />
           </View>
         </View>
 
         <View>
           <Text style={styles.heading}>
-            Hey <Text style={{color: theme.primary}}>Rizwan,</Text>
+            Hey <Text style={{ color: theme.primary }}>Rizwan,</Text>
           </Text>
           <Text style={styles.heading}>how can we help?</Text>
         </View>
         <View style={styles.inputContainer}>
           <Image source={search} style={styles.image} />
-          <TextInput
-            placeholder="Type your question here"
-            value={name}
-            onChangeText={setName}
-            style={styles.input}
-          />
+          <TextInput placeholder="Type your question here" value={name} onChangeText={setName} style={styles.input} />
         </View>
         <View style={styles.containerContent}>
           <View style={styles.helpContainer}>
@@ -152,10 +138,7 @@ const ConsumerHelp = props => {
         <View>
           <Button
             title={'Whatsapp Kyanchi'}
-            btnStyle={[
-              styles.btn,
-              {marginTop: heightToDp(10), backgroundColor: '#668C6A'},
-            ]}
+            btnStyle={[styles.btn, { marginTop: heightToDp(10), backgroundColor: '#668C6A' }]}
             image={whatsappphone}
             imageStyle={styles.iconStyles}
           />
@@ -191,7 +174,7 @@ const styles = StyleSheet.create({
     marginHorizontal: widthToDp(4),
   },
 
-  image: {position: 'absolute', width: 16, height: 16, marginLeft: 8},
+  image: { position: 'absolute', width: 16, height: 16, marginLeft: 8 },
   resolution: {
     width: 48,
     height: 48,
@@ -235,7 +218,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: widthToDp(2),
   },
-  faqimage: {width: 12, height: 12, resizeMode: 'contain'},
+  faqimage: { width: 12, height: 12, resizeMode: 'contain' },
   iconStyles: {
     width: 25,
     height: 25,

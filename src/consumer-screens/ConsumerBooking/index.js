@@ -1,27 +1,19 @@
-import React, {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Header, Button, TextInput} from '../../components';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Header, Button, TextInput } from '../../components';
 import LinearGradient from 'react-native-linear-gradient';
-import {height, heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {useTheme, fonts} from '../../utils/theme';
+import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { useTheme, fonts } from '../../utils/theme';
 import CalendarComponent from '../../components/Calender/CalendarComponent';
 const theme = useTheme();
-const timeSlots = [{time: '7:30-8:30 PM'}, {time: '8:30-9:30 PM'}];
+const timeSlots = [{ time: '7:30-8:30 PM' }, { time: '8:30-9:30 PM' }];
 
 const ConsumerBooking = props => {
   const [name, setName] = useState();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isSelected, setIsSelected] = useState(false);
-  const [timeSlotSelections, setTimeSlotSelections] = useState(
-    Array(timeSlots.length).fill(false),
-  );
+  const [timeSlotSelections, setTimeSlotSelections] = useState(Array(timeSlots.length).fill(false));
 
   const handleDateSelection = date => {
     setSelectedDate(date);
@@ -42,7 +34,7 @@ const ConsumerBooking = props => {
             marginLeft: widthToDp(5),
             width: widthToDp(90),
           }}>
-          <View style={{marginLeft: 0}}>
+          <View style={{ marginLeft: 0 }}>
             <Header backBtn />
           </View>
         </View>
@@ -53,19 +45,19 @@ const ConsumerBooking = props => {
             alignItems: 'center',
           }}>
           <Text style={styles.heading}>
-            What's your booking<Text style={{color: '#84668C'}}> date</Text> and{' '}
-            <Text style={{color: '#84668C'}}> time</Text> ?
+            What's your booking<Text style={{ color: '#84668C' }}> date</Text> and{' '}
+            <Text style={{ color: '#84668C' }}> time</Text> ?
           </Text>
         </View>
 
-        <View style={{marginHorizontal: widthToDp(5)}}>
+        <View style={{ marginHorizontal: widthToDp(5) }}>
           <Text
             style={{
               fontFamily: fonts.hk_bold,
               fontSize: 14,
               color: '#67718C',
-              marginTop:15,
-              marginBottom: 8
+              marginTop: 15,
+              marginBottom: 8,
             }}>
             SELECT DATE
           </Text>
@@ -90,21 +82,16 @@ const ConsumerBooking = props => {
             Choose Time Slot
           </Text>
         </View>
-        <View style={{flexDirection: 'row', marginHorizontal: widthToDp(4)}}>
+        <View style={{ flexDirection: 'row', marginHorizontal: widthToDp(4) }}>
           {timeSlots.map((timeSlot, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[styles.timeSlotContent]}
-              onPress={() => toggleSelection(index)}>
+            <TouchableOpacity key={index} style={[styles.timeSlotContent]} onPress={() => toggleSelection(index)}>
               <Text
                 style={[
                   styles.time,
                   {
-                    backgroundColor: timeSlotSelections[index]
-                      ? '#67506D'
-                      : 'white',
+                    backgroundColor: timeSlotSelections[index] ? '#67506D' : 'white',
                   },
-                  {color: timeSlotSelections[index] ? 'white' : 'black'},
+                  { color: timeSlotSelections[index] ? 'white' : 'black' },
                 ]}>
                 {timeSlot.time}
               </Text>
@@ -114,19 +101,17 @@ const ConsumerBooking = props => {
         <Text
           style={{
             color: '#67718C',
-            marginTop:15,
+            marginTop: 15,
             fontFamily: fonts.hk_bold,
             marginHorizontal: widthToDp(5),
           }}>
-          BOOKING NOTES: <Text style={{fontFamily: fonts.robo_light}}>(Optional)</Text>
+          BOOKING NOTES: <Text style={{ fontFamily: fonts.robo_light }}>(Optional)</Text>
         </Text>
 
         <View>
           <TextInput
             input={text => setName(text)}
-            placeholder={
-              'Please tell us anything that may assist with the order...'
-            }
+            placeholder={'Please tell us anything that may assist with the order...'}
             multiline
             inputBoxStyle={{
               backgroundColor: '#ffffff',
@@ -178,7 +163,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     borderRadius: 10,
   },
-  btn: {marginVertical: 10},
+  btn: { marginVertical: 10 },
   timeSlotContent: {
     flexDirection: 'row',
     justifyContent: 'space-between',

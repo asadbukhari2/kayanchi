@@ -1,18 +1,10 @@
-import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Image,
-  StyleSheet,
-  FlatList,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Button, Header, HomeCard, SearchBox} from '../../components';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
-import {useSelector} from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { View, Image, StyleSheet, FlatList, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Header, HomeCard, SearchBox } from '../../components';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
+import { useSelector } from 'react-redux';
 // import api from '../../utils/APIservice';
 import FeedBackModal from '../../components/FeedbackModal';
 
@@ -236,7 +228,7 @@ const ConsumerHome = props => {
     }
   }, [props.route.params]);
 
-  const renderOfferingItem = ({item}) => (
+  const renderOfferingItem = ({ item }) => (
     <TouchableOpacity
       onPress={() =>
         props.navigation.navigate('ConsumerHomeStack', {
@@ -256,8 +248,8 @@ const ConsumerHome = props => {
         }}>
         <LinearGradient
           colors={['#42275A', '#84668C']}
-          start={{x: 0, y: 0}}
-          end={{x: 1, y: 0}}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
           style={{
             borderRadius: widthToDp(4),
             padding: 16,
@@ -269,10 +261,7 @@ const ConsumerHome = props => {
             }}>
             <Text
               style={{
-                color:
-                  item.preference === 'Travelling'
-                    ? theme.background
-                    : theme.darkBlack,
+                color: item.preference === 'Travelling' ? theme.background : theme.darkBlack,
                 fontFamily: fonts.robo_bold,
                 fontSize: heightToDp(5.1),
                 lineHeight: heightToDp(5.9),
@@ -292,10 +281,7 @@ const ConsumerHome = props => {
                   fontSize: 14,
                   lineHeight: heightToDp(5),
                   // marginRight: 10,
-                  color:
-                    item.preference === 'Travelling'
-                      ? theme.background
-                      : theme.darkBlack,
+                  color: item.preference === 'Travelling' ? theme.background : theme.darkBlack,
                 }}>
                 {item.preference}
               </Text>
@@ -303,10 +289,9 @@ const ConsumerHome = props => {
                 source={item.icon}
                 style={{
                   width: 16,
-                  
+
                   height: 18,
-                  tintColor:
-                    item.preference === 'Travelling' ? 'white' : 'black',
+                  tintColor: item.preference === 'Travelling' ? 'white' : 'black',
                 }}
               />
             </View>
@@ -323,10 +308,7 @@ const ConsumerHome = props => {
                 fontSize: 14,
                 marginTop: 10,
                 lineHeight: heightToDp(4.3),
-                color:
-                  item.preference === 'Travelling'
-                    ? theme.background
-                    : theme.darkBlack,
+                color: item.preference === 'Travelling' ? theme.background : theme.darkBlack,
               }}>
               {item.address}
             </Text>
@@ -343,10 +325,7 @@ const ConsumerHome = props => {
                 fontFamily: fonts.hk_medium,
                 fontSize: 14,
                 lineHeight: heightToDp(5),
-                color:
-                  item.preference === 'Travelling'
-                    ? theme.background
-                    : theme.darkBlack,
+                color: item.preference === 'Travelling' ? theme.background : theme.darkBlack,
               }}>
               {item.date}
             </Text>
@@ -355,10 +334,7 @@ const ConsumerHome = props => {
                 fontFamily: fonts.hk_medium,
                 fontSize: 14,
                 lineHeight: heightToDp(5),
-                color:
-                  item.preference === 'Travelling'
-                    ? theme.background
-                    : theme.darkBlack,
+                color: item.preference === 'Travelling' ? theme.background : theme.darkBlack,
               }}>
               {'7:30 - 8:30 AM'}
             </Text>
@@ -368,7 +344,7 @@ const ConsumerHome = props => {
     </TouchableOpacity>
   );
 
-  const renderItem = ({item}) => (
+  const renderItem = ({ item }) => (
     <View
       style={{
         flexDirection: 'row',
@@ -378,28 +354,18 @@ const ConsumerHome = props => {
         borderRadius: 20,
         backgroundColor: '#EEEEEE',
       }}>
-      <Image
-        source={item.imageLink}
-        style={{width: 20, height: 20, resizeMode: 'contain', marginRight: 10}}
-      />
+      <Image source={item.imageLink} style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 10 }} />
       <TouchableOpacity>
-        <Text style={{color: '#0F2851', fontFamily: fonts.robo_med}}>
-          {item.name}
-        </Text>
+        <Text style={{ color: '#0F2851', fontFamily: fonts.robo_med }}>{item.name}</Text>
       </TouchableOpacity>
     </View>
   );
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={{paddingBottom: 90}}>
+      <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 90 }}>
         <View style={styles.logoView}>
-          <Image
-            source={require('../../assets/KAYNCHI.png')}
-            style={styles.logo}
-          />
+          <Image source={require('../../assets/KAYNCHI.png')} style={styles.logo} />
           <Text style={styles.text}>Get 15% off</Text>
         </View>
         <View
@@ -412,7 +378,7 @@ const ConsumerHome = props => {
           <Text style={[styles.title]}>Your active orders</Text>
           <View>
             <TouchableOpacity>
-              <Text style={{color: '#32aee3'}}>View all</Text>
+              <Text style={{ color: '#32aee3' }}>View all</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -434,19 +400,11 @@ const ConsumerHome = props => {
             })
           }
         />
-        <FlatList
-          data={DATA}
-          renderItem={renderItem}
-          keyExtractor={item => item.name}
-          horizontal
-        />
+        <FlatList data={DATA} renderItem={renderItem} keyExtractor={item => item.name} horizontal />
         <Text style={styles.buzzTxt}>Explore what's Buzzing</Text>
         <View style={styles.explorContainer}>
           <View style={styles.discover}>
-            <Image
-              source={dummyHome}
-              style={{height: 150, width: 150, resizeMode: 'contain'}}
-            />
+            <Image source={dummyHome} style={{ height: 150, width: 150, resizeMode: 'contain' }} />
             <TouchableOpacity
               onPress={() =>
                 props.navigation.navigate('ConsumerHomeStack', {
@@ -467,7 +425,7 @@ const ConsumerHome = props => {
             </TouchableOpacity>
           </View>
 
-          <View style={[styles.chart, {marginLeft: 10}]}>
+          <View style={[styles.chart, { marginLeft: 10 }]}>
             <TouchableOpacity
               onPress={() =>
                 props.navigation.navigate('ConsumerHomeStack', {
@@ -502,10 +460,7 @@ const ConsumerHome = props => {
                     }}>
                     See who’s setting the trend
                   </Text>
-                  <Image
-                    source={moreImages}
-                    style={{height: 24, width: 57, marginRight: 10}}
-                  />
+                  <Image source={moreImages} style={{ height: 24, width: 57, marginRight: 10 }} />
                 </View>
               </View>
             </TouchableOpacity>
@@ -518,31 +473,25 @@ const ConsumerHome = props => {
             alignItems: 'center',
             marginHorizontal: widthToDp(5),
           }}>
-          <Text style={[styles.title, {marginTop: heightToDp(8.5)}]}>
-            Services you may like
-          </Text>
+          <Text style={[styles.title, { marginTop: heightToDp(8.5) }]}>Services you may like</Text>
           <View>
             <TouchableOpacity>
-              <Text style={{color: '#32aee3', fontWeight: fonts.robo_reg}}>
-                View all
-              </Text>
+              <Text style={{ color: '#32aee3', fontWeight: fonts.robo_reg }}>View all</Text>
             </TouchableOpacity>
           </View>
         </View>
         <FlatList
           data={serviceData}
           horizontal
-          style={{marginLeft: widthToDp(4.5)}}
-          contentContainerStyle={{paddingVertical: heightToDp(3)}}
-          keyExtractor={({item, index}) => index}
-          renderItem={({item, index}) => {
+          style={{ marginLeft: widthToDp(4.5) }}
+          contentContainerStyle={{ paddingVertical: heightToDp(3) }}
+          keyExtractor={({ item, index }) => index}
+          renderItem={({ item, index }) => {
             console.log(item);
             return (
               <HomeCard
-                onPress={() =>
-                  props.navigation.navigate('HomeStack', {screen: 'Artist'})
-                }
-                style={{marginRight: widthToDp(2.7)}}
+                onPress={() => props.navigation.navigate('HomeStack', { screen: 'Artist' })}
+                style={{ marginRight: widthToDp(2.7) }}
                 mainText={item.name}
                 location={item.location}
                 subText={item.address_text}
@@ -560,28 +509,24 @@ const ConsumerHome = props => {
             alignItems: 'center',
             marginHorizontal: widthToDp(5),
           }}>
-          <Text style={[styles.title, {marginTop: heightToDp(8.5)}]}>
-            Popular artist in your city
-          </Text>
+          <Text style={[styles.title, { marginTop: heightToDp(8.5) }]}>Popular artist in your city</Text>
           <View>
             <TouchableOpacity>
-              <Text style={{color: '#32aee3'}}>View all</Text>
+              <Text style={{ color: '#32aee3' }}>View all</Text>
             </TouchableOpacity>
           </View>
         </View>
         <FlatList
           data={popularData}
           horizontal
-          style={{marginLeft: widthToDp(4.5)}}
-          contentContainerStyle={{paddingVertical: heightToDp(3)}}
-          keyExtractor={({item, index}) => index}
-          renderItem={({item, index}) => {
+          style={{ marginLeft: widthToDp(4.5) }}
+          contentContainerStyle={{ paddingVertical: heightToDp(3) }}
+          keyExtractor={({ item, index }) => index}
+          renderItem={({ item, index }) => {
             return (
               <HomeCard
-                onPress={() =>
-                  props.navigation.navigate('HomeStack', {screen: 'Artist'})
-                }
-                style={{marginRight: widthToDp(2.2)}}
+                onPress={() => props.navigation.navigate('HomeStack', { screen: 'Artist' })}
+                style={{ marginRight: widthToDp(2.2) }}
                 mainText={item.name}
                 location={item.location}
                 subText={item.address_text}
@@ -599,26 +544,24 @@ const ConsumerHome = props => {
             alignItems: 'center',
             marginHorizontal: widthToDp(5),
           }}>
-          <Text style={[styles.title, {marginTop: heightToDp(8.5)}]}>
-            Studios around you
-          </Text>
+          <Text style={[styles.title, { marginTop: heightToDp(8.5) }]}>Studios around you</Text>
           <View>
             <TouchableOpacity>
-              <Text style={{color: '#32aee3'}}>View all</Text>
+              <Text style={{ color: '#32aee3' }}>View all</Text>
             </TouchableOpacity>
           </View>
         </View>
         <FlatList
           data={artistData}
           horizontal
-          style={{marginLeft: widthToDp(4.5)}}
-          contentContainerStyle={{paddingVertical: heightToDp(3)}}
-          keyExtractor={({item, index}) => index}
-          renderItem={({item, index}) => {
+          style={{ marginLeft: widthToDp(4.5) }}
+          contentContainerStyle={{ paddingVertical: heightToDp(3) }}
+          keyExtractor={({ item, index }) => index}
+          renderItem={({ item, index }) => {
             console.log(item.name);
             return (
               <HomeCard
-                style={{marginRight: widthToDp(2.2)}}
+                style={{ marginRight: widthToDp(2.2) }}
                 mainText={item.name}
                 location={item.location}
                 subText={item.subText}
@@ -723,9 +666,9 @@ const styles = StyleSheet.create({
     marginTop: heightToDp(3),
     marginBottom: 15,
   },
-  row: {flexDirection: 'row', alignItems: 'center'},
+  row: { flexDirection: 'row', alignItems: 'center' },
 
-  discover: {backgroundColor: 'white', width: width * 0.42, borderRadius: 10},
+  discover: { backgroundColor: 'white', width: width * 0.42, borderRadius: 10 },
   chart: {
     backgroundColor: 'white',
     width: width * 0.45,
@@ -734,7 +677,7 @@ const styles = StyleSheet.create({
     // alignItems: 'stretch',
     paddingLeft: 10,
   },
-  explorContainer: {flexDirection: 'row', marginHorizontal: widthToDp(4)},
+  explorContainer: { flexDirection: 'row', marginHorizontal: widthToDp(4) },
   logoView: {
     flexDirection: 'row',
     height: heightToDp(24),

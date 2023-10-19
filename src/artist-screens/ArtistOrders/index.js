@@ -1,19 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  TextInput,
-  Switch,
-  ScrollView,
-} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Switch, ScrollView } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Header, Button} from '../../components';
-import {height, heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {useTheme, fonts} from '../../utils/theme';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Header, Button } from '../../components';
+import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { useTheme, fonts } from '../../utils/theme';
 import back from '../../assets/back.png';
 // import { OrderCard } from '../../components';
 import OrderCard from '../../components/OrderCard';
@@ -148,7 +139,7 @@ const ArtistOrders = props => {
             width: widthToDp(90),
           }}>
           {/* <Image source={back} /> */}
-          <View style={{marginLeft: 0}}>
+          <View style={{ marginLeft: 0 }}>
             <Header backBtn />
           </View>
         </View>
@@ -181,55 +172,22 @@ const ArtistOrders = props => {
         </View>
 
         <View style={styles.btnContainer2}>
-          <TouchableOpacity
-            onPress={() => handleTabChange('Active')}
-            style={styles.tabButton}>
-            <Text
-              style={[
-                styles.tabText,
-                activeTab === 'Active' && styles.activeTab,
-              ]}>
-              New
-            </Text>
+          <TouchableOpacity onPress={() => handleTabChange('Active')} style={styles.tabButton}>
+            <Text style={[styles.tabText, activeTab === 'Active' && styles.activeTab]}>New</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => handleTabChange('New')}
-            style={styles.tabButton}>
-            <Text
-              style={[styles.tabText, activeTab === 'New' && styles.activeTab]}>
-              Active
-            </Text>
+          <TouchableOpacity onPress={() => handleTabChange('New')} style={styles.tabButton}>
+            <Text style={[styles.tabText, activeTab === 'New' && styles.activeTab]}>Active</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => handleTabChange('Completed')}
-            style={styles.tabButton}>
-            <Text
-              style={[
-                styles.tabText,
-                activeTab === 'Completed' && styles.activeTab,
-              ]}>
-              Completed
-            </Text>
+          <TouchableOpacity onPress={() => handleTabChange('Completed')} style={styles.tabButton}>
+            <Text style={[styles.tabText, activeTab === 'Completed' && styles.activeTab]}>Completed</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => handleTabChange('Cancelled')}
-            style={styles.tabButton}>
-            <Text
-              style={[
-                styles.tabText,
-                activeTab === 'Cancelled' && styles.activeTab,
-              ]}>
-              Cancelled
-            </Text>
+          <TouchableOpacity onPress={() => handleTabChange('Cancelled')} style={styles.tabButton}>
+            <Text style={[styles.tabText, activeTab === 'Cancelled' && styles.activeTab]}>Cancelled</Text>
           </TouchableOpacity>
         </View>
         <View>
           {displayedOrders.map((order, index) => (
-            <OrderCard
-              key={index}
-              order={order}
-              navigation={props.navigation}
-            />
+            <OrderCard key={index} order={order} navigation={props.navigation} />
           ))}
         </View>
       </ScrollView>

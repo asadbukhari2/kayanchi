@@ -37,7 +37,7 @@ import ConsumerGigMainPage from './ConsumerGigMainPage';
 import ConsumerPromoMainPage from './ConsumerPromoMainPage';
 import ConsumerPromoGig1 from './ConsumerPromoGig1';
 import ConsumerPromoGig2 from './ConsumerPromoGig2';
-import ConsumerPromoMood from './ConsumerPromoMood'
+import ConsumerPromoMood from './ConsumerPromoMood';
 import ConsumerUpdateProfile from './ConsumerUpdateProfile';
 import ConsumerPersonalDetails from './ConsumerPersonalDetails';
 import ConsumerProfileSaved from './ConsumerProfileSaved';
@@ -45,14 +45,14 @@ import ConsumerInviteFriends from './ConsumerInviteFriends';
 import ConsumerYourProfile from './ConsumerYourProfile';
 import ConsumerOrderSetting from './ConsumerOrderSetting';
 import ConsumerBookingSlots from './ConsumerBookingSlots';
-import ConsumerLanguage from "./ConsumerLanguage";
+import ConsumerLanguage from './ConsumerLanguage';
 import ConsumerHomeSearch from './ConsumerHomeSearch';
 import ConsumerDisocver from './ConsumerDiscover';
 import ConsumerCharts from './ConsumerCharts';
 import ConsumerTreatmentCharts from './ConsumerTreatmentCharts';
 import ConsumerGigDetailPage from './ConsumerGigDetailPage';
 import ConsumerGigDetailHair from './ConsumerGigDetailHair';
-import ConsumerGigGlowMakeup from './ConsumerGigGlowMakeup'
+import ConsumerGigGlowMakeup from './ConsumerGigGlowMakeup';
 import ConsumerPromoDetailsPage from './ConsumerPromoDetailsPage';
 import ConsumerCashPayment from './ConsumerCashPayment';
 import ConsumerApplyPromoCode from './ConsumerApplyPromoCode';
@@ -72,7 +72,7 @@ import ConsumerDisputeResolution from './ConsumerDisputeResolution';
 import ConsumerOrderCancellation from './ConsumerOrderCancellation';
 import ConsumerWhyCancel from './ConsumerWhyCancel';
 import ConsumerOrders from './ConsumerOrders';
-import ConsumerBooking from './ConsumerBooking' 
+import ConsumerBooking from './ConsumerBooking';
 export {
   ConsumerHome,
   ConsumerWelcome,
@@ -113,7 +113,8 @@ export {
   ConsumerPromoMainPage,
   ConsumerPromoGig1,
   ConsumerPromoGig2,
-  ConsumerPromoMood, ConsumerUpdateProfile,
+  ConsumerPromoMood,
+  ConsumerUpdateProfile,
   ConsumerPersonalDetails,
   ConsumerProfileSaved,
   ConsumerInviteFriends,
@@ -147,5 +148,5 @@ export {
   ConsumerOrderCancellation,
   ConsumerWhyCancel,
   ConsumerOrders,
-  ConsumerBooking
+  ConsumerBooking,
 };

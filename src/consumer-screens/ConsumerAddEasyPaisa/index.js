@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, ScrollView, Image} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {AddNewBtn, Button, Header, TextInput} from '../../components';
-import {heightToDp, widthToDp, width} from '../../utils/Dimensions';
-import {GLOBAL_STYLES} from '../../utils/styles';
-import {useTheme} from '../../utils/theme';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { AddNewBtn, Button, Header, TextInput } from '../../components';
+import { heightToDp, widthToDp, width } from '../../utils/Dimensions';
+import { GLOBAL_STYLES } from '../../utils/styles';
+import { useTheme } from '../../utils/theme';
 import easypaisa from '../../assets/easypaisa.png';
 const theme = useTheme();
 
@@ -13,13 +13,10 @@ const ConsumerAddEasyPaisa = props => {
 
   return (
     <SafeAreaView style={GLOBAL_STYLES.containerHome}>
-      <View style={{flex: 1}}>
-        <ScrollView
-          contentContainerStyle={{flexGrow: 1, paddingBottom: heightToDp(30)}}>
+      <View style={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: heightToDp(30) }}>
           <Header backBtnGrey />
-          <Text style={GLOBAL_STYLES.title}>
-            {'Add Easypaisa'}
-          </Text>
+          <Text style={GLOBAL_STYLES.title}>{'Add Easypaisa'}</Text>
 
           <Text
             style={{
@@ -61,10 +58,8 @@ const ConsumerAddEasyPaisa = props => {
             justifyContent: 'center',
             height: 100,
           }}>
-          <Image source={easypaisa} style={{width: 86, height: 14}} />
-          <Text style={{textAlign: 'center', marginVertical: 10}}>
-            All your information is kept safe and secure
-          </Text>
+          <Image source={easypaisa} style={{ width: 86, height: 14 }} />
+          <Text style={{ textAlign: 'center', marginVertical: 10 }}>All your information is kept safe and secure</Text>
           <Button
             title="Save"
             onPress={() =>

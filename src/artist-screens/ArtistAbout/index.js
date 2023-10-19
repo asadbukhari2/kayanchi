@@ -1,27 +1,18 @@
-import React, {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  TextInput,
-  Switch,
-  ScrollView,
-} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Switch, ScrollView } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Header, Button} from '../../components';
-import {height, heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {useTheme, fonts} from '../../utils/theme';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Header, Button } from '../../components';
+import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { useTheme, fonts } from '../../utils/theme';
 import back from '../../assets/back.png';
 import faq from '../../assets/faq.png';
 
 const theme = useTheme();
 const faqData = [
-  {id: 1, question: 'Terms & conditions'},
-  {id: 2, question: 'Privacy Policy'},
-  {id: 3, question: 'Payments & Wallet terms'},
+  { id: 1, question: 'Terms & conditions' },
+  { id: 2, question: 'Privacy Policy' },
+  { id: 3, question: 'Payments & Wallet terms' },
 ];
 const ArtistAbout = props => {
   const [name, setName] = useState('');
@@ -37,7 +28,7 @@ const ArtistAbout = props => {
             width: widthToDp(90),
           }}>
           {/* <Image source={back} /> */}
-          <View style={{marginLeft: 0}}>
+          <View style={{ marginLeft: 0 }}>
             <Header backBtn />
           </View>
         </View>
@@ -49,7 +40,7 @@ const ArtistAbout = props => {
         <View style={styles.faqcontainer}>
           {faqData.map(item => (
             <View style={styles.faqContent}>
-              <Text style={{fontSize: 16}}>{item.question}</Text>
+              <Text style={{ fontSize: 16 }}>{item.question}</Text>
               <Image source={faq} style={styles.faqimage} />
             </View>
           ))}
@@ -66,7 +57,7 @@ const styles = StyleSheet.create({
     color: '#0F2851',
     fontSize: 40,
     marginLeft: widthToDp(4),
-    fontFamily: fonts.hk_bold
+    fontFamily: fonts.hk_bold,
   },
   container: {
     flex: 1,
@@ -85,8 +76,8 @@ const styles = StyleSheet.create({
     marginHorizontal: widthToDp(4),
   },
 
-  image: {position: 'absolute', width: 16, height: 16, marginLeft: 8},
-  resolution: {width: 48, height: 48, resizeMode: 'contain', margin: 5},
+  image: { position: 'absolute', width: 16, height: 16, marginLeft: 8 },
+  resolution: { width: 48, height: 48, resizeMode: 'contain', margin: 5 },
   helpContainer: {
     backgroundColor: 'white',
     paddingHorizontal: widthToDp(5),
@@ -122,7 +113,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: widthToDp(2),
   },
-  faqimage: {width: 12, height: 12, resizeMode: 'contain'},
+  faqimage: { width: 12, height: 12, resizeMode: 'contain' },
   iconStyles: {
     width: 25,
     height: 25,

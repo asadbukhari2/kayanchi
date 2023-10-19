@@ -1,10 +1,10 @@
 import React from 'react';
-import {StyleSheet, Text, View, ScrollView, Image} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {AddNewBtn, Header} from '../../components';
-import {heightToDp, widthToDp, width} from '../../utils/Dimensions';
-import {GLOBAL_STYLES} from '../../utils/styles';
-import {useTheme, fonts} from '../../utils/theme';
+import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { AddNewBtn, Header } from '../../components';
+import { heightToDp, widthToDp, width } from '../../utils/Dimensions';
+import { GLOBAL_STYLES } from '../../utils/styles';
+import { useTheme, fonts } from '../../utils/theme';
 import CardComponent from './components/CardComponent';
 import logo1 from '../../assets/logo1.png';
 import PromoCodeComponent from './components/PromoCodeComponent';
@@ -53,9 +53,7 @@ const DATA = [
 const ConsumerPaymentMethods = props => {
   return (
     <SafeAreaView style={GLOBAL_STYLES.containerHome}>
-      <ScrollView
-        style={{flex: 1}}
-        contentContainerStyle={{paddingBottom: heightToDp(30)}}>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: heightToDp(30) }}>
         <Header backBtnGrey />
         <Text
           style={{
@@ -76,8 +74,7 @@ const ConsumerPaymentMethods = props => {
             marginBottom: 9,
             fontFamily: fonts.robo_reg,
           }}>
-          Top up your balance in Kyanchi's wallet via EasyPaisa or JazzCash and
-          save your time{' '}
+          Top up your balance in Kyanchi's wallet via EasyPaisa or JazzCash and save your time{' '}
         </Text>
 
         <Text
@@ -86,7 +83,7 @@ const ConsumerPaymentMethods = props => {
             marginTop: 15,
             color: '#67718C',
             fontFamily: fonts.robo_reg,
-            marginVertical: 5
+            marginVertical: 5,
           }}>
           Avaiable Kyanchi credit{' '}
         </Text>
@@ -113,21 +110,14 @@ const ConsumerPaymentMethods = props => {
           );
         })}
 
-        <Text style={{marginLeft: widthToDp(4), marginTop: heightToDp(2.7), fontFamily: fonts.sans_reg, marginTop: 25}}>
+        <Text
+          style={{ marginLeft: widthToDp(4), marginTop: heightToDp(2.7), fontFamily: fonts.sans_reg, marginTop: 25 }}>
           Promotions
         </Text>
-        <AddNewBtn
-          title={'Add referal code'}
-          iconColor={'#1583D8'}
-          titleStyle={{color: '#1583D8'}}
-        />
+        <AddNewBtn title={'Add referal code'} iconColor={'#1583D8'} titleStyle={{ color: '#1583D8' }} />
 
         {promocodeData.map((item, index) => (
-          <PromoCodeComponent
-            key={index}
-            code={item.code}
-            discount={item.discount}
-          />
+          <PromoCodeComponent key={index} code={item.code} discount={item.discount} />
         ))}
       </ScrollView>
     </SafeAreaView>

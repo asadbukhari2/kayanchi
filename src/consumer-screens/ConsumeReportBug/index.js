@@ -1,25 +1,20 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
-import {SafeAreaView} from 'react-native';
-import {Button, Header, TextInput} from '../../components';
-import {heightToDp, widthToDp, width, height} from '../../utils/Dimensions';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native';
+import { Button, Header, TextInput } from '../../components';
+import { heightToDp, widthToDp, width, height } from '../../utils/Dimensions';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Foundation from 'react-native-vector-icons/Foundation';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {useTheme, fonts} from '../../utils/theme';
+import { useTheme, fonts } from '../../utils/theme';
 import attachfile from '../../assets/attachfile.png';
 const theme = useTheme();
 const PAYMENTS = [
   {
-    icon: (
-      <SimpleLineIcons
-        name={'bell'}
-        style={{fontSize: 16, color: theme.primary}}
-      />
-    ),
+    icon: <SimpleLineIcons name={'bell'} style={{ fontSize: 16, color: theme.primary }} />,
     title: 'Notifications',
     onPress: () =>
       props.navigation.navigate('ArtistProfileStack', {
@@ -60,19 +55,12 @@ const PAYMENTS = [
   },
 
   {
-    icon: (
-      <Icon name={'magnify'} style={{fontSize: 16, color: theme.primary}} />
-    ),
+    icon: <Icon name={'magnify'} style={{ fontSize: 16, color: theme.primary }} />,
     title: 'Finding a service',
   },
 
   {
-    icon: (
-      <FontAwesome
-        name={'credit-card'}
-        style={{fontSize: 16, color: theme.primary}}
-      />
-    ),
+    icon: <FontAwesome name={'credit-card'} style={{ fontSize: 16, color: theme.primary }} />,
     title: 'Payments',
   },
   {
@@ -102,7 +90,7 @@ const PAYMENTS = [
   },
 ];
 
-const renderItem = ({icon, title, onPress}) => (
+const renderItem = ({ icon, title, onPress }) => (
   <TouchableOpacity style={styles.optionContainer} onPress={onPress}>
     <View style={styles.iconContainer}>{icon}</View>
     <Text style={styles.optionTitle}>{title}</Text>
@@ -122,9 +110,7 @@ export default function ConumerReportBug(props) {
         <Header title="Report a bug" backBtn />
       </View>
       <View>
-        <Text style={[styles.subHeading, {marginBottom: 15}]}>
-          Where did you experience this issue?
-        </Text>
+        <Text style={[styles.subHeading, { marginBottom: 15 }]}>Where did you experience this issue?</Text>
       </View>
       <View style={styles.optionsContainer}>
         <View style={styles.rowContainer}>
@@ -177,10 +163,10 @@ export default function ConumerReportBug(props) {
             }}>
             Attach a file
           </Text>
-          <Text style={{color: '#29AAE2'}}>0/2500</Text>
+          <Text style={{ color: '#29AAE2' }}>0/2500</Text>
         </View>
       </View>
-      <View style={{marginTop: 60}}>
+      <View style={{ marginTop: 60 }}>
         <Button title="Submit" />
       </View>
     </SafeAreaView>
@@ -215,7 +201,7 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 30,
   },
-  imageFile: {width: 20, height: 20, resizeMode: 'contain'},
+  imageFile: { width: 20, height: 20, resizeMode: 'contain' },
   rowContainer: {
     flexDirection: 'row',
     // justifyContent:"space-between",

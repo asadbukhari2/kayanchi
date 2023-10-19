@@ -1,20 +1,12 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  TextInput,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {AddNewBtn, Header} from '../../components';
-import {heightToDp, widthToDp, width} from '../../utils/Dimensions';
-import {GLOBAL_STYLES} from '../../utils/styles';
-import {fonts, useTheme} from '../../utils/theme';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, ScrollView, TextInput, Image, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { AddNewBtn, Header } from '../../components';
+import { heightToDp, widthToDp, width } from '../../utils/Dimensions';
+import { GLOBAL_STYLES } from '../../utils/styles';
+import { fonts, useTheme } from '../../utils/theme';
 import CheckBox from '@react-native-community/checkbox';
-import {RadioButton} from 'react-native-paper';
+import { RadioButton } from 'react-native-paper';
 import EasyPaisa from '../../assets/easypaisa.png';
 import JazzCash from '../../assets/jaazzcash.png';
 
@@ -41,9 +33,7 @@ const ArtistLoad = props => {
 
   return (
     <SafeAreaView style={GLOBAL_STYLES.containerHome}>
-      <ScrollView
-        style={{flex: 1}}
-        contentContainerStyle={{paddingBottom: heightToDp(30)}}>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: heightToDp(30) }}>
         <Header backBtnGrey />
         <Text
           style={[
@@ -65,9 +55,7 @@ const ArtistLoad = props => {
             marginBottom: 10,
             marginTop: 15,
           }}>
-          <Text style={{fontFamily: fonts.robo_reg, color: '#67718C'}}>
-            Avaiable Kyanchi credit{' '}
-          </Text>
+          <Text style={{ fontFamily: fonts.robo_reg, color: '#67718C' }}>Avaiable Kyanchi credit </Text>
           <Text
             style={{
               color: theme.primary,
@@ -77,7 +65,7 @@ const ArtistLoad = props => {
             PKR 2,000
           </Text>
         </View>
-        <Text style={{marginLeft: widthToDp(5)}}>CHOOSE ONE</Text>
+        <Text style={{ marginLeft: widthToDp(5) }}>CHOOSE ONE</Text>
 
         <View style={styles.balanceContainer}>
           {paymentMethod.map((payment, index) => (
@@ -112,10 +100,8 @@ const ArtistLoad = props => {
                 />
               </View>
               {isSelected && selectedMethod === payment.imageLink && (
-                <View style={{marginLeft: widthToDp(7)}}>
-                  <RadioButton.Group
-                    onValueChange={newValue => setChecked(newValue)}
-                    value={checked}>
+                <View style={{ marginLeft: widthToDp(7) }}>
+                  <RadioButton.Group onValueChange={newValue => setChecked(newValue)} value={checked}>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -126,10 +112,7 @@ const ArtistLoad = props => {
                       <Text> {payment.phoneNumbr}</Text>
                     </View>
                   </RadioButton.Group>
-                  <Text style={{fontSize: 16, color: '#67718C'}}>
-                    {' '}
-                    + Add new account
-                  </Text>
+                  <Text style={{ fontSize: 16, color: '#67718C' }}> + Add new account</Text>
                 </View>
               )}
             </View>
@@ -156,7 +139,7 @@ const ArtistLoad = props => {
           </Text>
           <View style={styles.load}>
             <TouchableOpacity>
-              <Text style={{color: 'white'}}>Load</Text>
+              <Text style={{ color: 'white' }}>Load</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -216,15 +199,15 @@ const styles = StyleSheet.create({
     paddingVertical: heightToDp(5),
     borderRadius: 10,
   },
-  checkboxContainer: {flexDirection: 'row', alignItems: 'center'},
+  checkboxContainer: { flexDirection: 'row', alignItems: 'center' },
   paymentContainer: {
     flexDirection: 'row',
     marginHorizontal: widthToDp(5),
     paddingVertical: heightToDp(2),
     width: width * 0.45,
   },
-  reason: {marginLeft: widthToDp(5)},
-  image: {height: 36, width: 38},
+  reason: { marginLeft: widthToDp(5) },
+  image: { height: 36, width: 38 },
   separator: {
     height: 1,
     backgroundColor: '#DDDDDD',

@@ -1,6 +1,6 @@
-import {StyleSheet, Text, View, ActivityIndicator} from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import React from 'react';
-import {useTheme} from '../../utils/theme';
+import { useTheme } from '../../utils/theme';
 
 export default function index() {
   const theme = useTheme();

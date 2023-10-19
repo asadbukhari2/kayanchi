@@ -1,8 +1,8 @@
 import thunk from 'redux-thunk';
-import {createStore, applyMiddleware, combineReducers} from 'redux';
-import {composeWithDevTools} from 'redux-devtools-extension';
-import {persistStore, persistReducer} from 'redux-persist';
-import {createTransform} from 'redux-persist';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import { persistStore, persistReducer } from 'redux-persist';
+import { createTransform } from 'redux-persist';
 import Flatted from 'flatted';
 
 //reducers

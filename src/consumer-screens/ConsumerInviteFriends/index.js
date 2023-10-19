@@ -1,24 +1,16 @@
-import React, {useState} from 'react';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Button, Header, TextInput} from '../../components';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ActivityIndicator,
-  Image,
-  ScrollView,
-} from 'react-native';
-import {fonts, useTheme} from '../../utils/theme';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
+import React, { useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Header, TextInput } from '../../components';
+import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator, Image, ScrollView } from 'react-native';
+import { fonts, useTheme } from '../../utils/theme';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Assuming you want to use FontAwesome icons, you can change it to any other supported icon library.
-import {showMessage} from 'react-native-flash-message';
+import { showMessage } from 'react-native-flash-message';
 
 const invitefriend = require('../../assets/invitefriend.png');
 const theme = useTheme();
 
-export default function ConsumerInviteFriends({navigation}) {
+export default function ConsumerInviteFriends({ navigation }) {
   const [skills, setSkills] = useState([]);
   const [name, setName] = useState('');
 
@@ -62,26 +54,21 @@ export default function ConsumerInviteFriends({navigation}) {
     <SafeAreaView style={styles.container}>
       <Header backBtn titleShadow />
       <ScrollView>
-        <Text style={[styles.heading, { fontFamily: fonts.hk_bold}]}>Bring a friend &</Text>
-        <Text style={[styles.subheading, { fontFamily: fonts.robo_reg}]}>
-          Get <Text style={{fontFamily: fonts.robo_bold}}>15% off</Text> on your next
-          order
+        <Text style={[styles.heading, { fontFamily: fonts.hk_bold }]}>Bring a friend &</Text>
+        <Text style={[styles.subheading, { fontFamily: fonts.robo_reg }]}>
+          Get <Text style={{ fontFamily: fonts.robo_bold }}>15% off</Text> on your next order
         </Text>
-        <Text style={[styles.subheading, { fontFamily: fonts.robo_reg}]}>
-          Your friend gets <Text style={{fontFamily: fonts.robo_bold}}>10% off</Text> on
-          their first order
+        <Text style={[styles.subheading, { fontFamily: fonts.robo_reg }]}>
+          Your friend gets <Text style={{ fontFamily: fonts.robo_bold }}>10% off</Text> on their first order
         </Text>
 
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 30}}>
-          <Image
-            source={invitefriend}
-            style={{height: 250, width: 250, resizeMode: 'contain'}}
-          />
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 30 }}>
+          <Image source={invitefriend} style={{ height: 250, width: 250, resizeMode: 'contain' }} />
         </View>
 
         <Button
           title={'Invite your friend'}
-          btnStyle={[styles.btn, {marginTop: heightToDp(10)}]}
+          btnStyle={[styles.btn, { marginTop: heightToDp(10) }]}
           onPress={SkillsHandler}
         />
       </ScrollView>
@@ -112,7 +99,7 @@ const styles = StyleSheet.create({
 
     // marginTopightToDp(8.5),
   },
-  heading: {fontSize: 40, color: '#0F2851', paddingLeft: widthToDp(4)},
+  heading: { fontSize: 40, color: '#0F2851', paddingLeft: widthToDp(4) },
   subheading: {
     color: '#677790',
     fontSize: 14,

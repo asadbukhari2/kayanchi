@@ -1,6 +1,6 @@
 import { getDay, addDays, subDays, format, addWeeks, subWeeks } from 'date-fns';
 
-export const createLocalWeek = (lang) => {
+export const createLocalWeek = lang => {
   switch (lang) {
     case 'ja':
       return require('date-fns/locale/ja');
@@ -15,7 +15,7 @@ export const createLocalWeek = (lang) => {
   }
 };
 
-export const createWholeWeek = (date) => {
+export const createWholeWeek = date => {
   const weekOfTheDay = getDay(date);
   const arr = [];
   for (let i = 0; i < 7; i++) {
@@ -33,16 +33,10 @@ export const createWholeWeeks = (date, wholeWeek) => {
   const weekBeforeLastWeek = createWholeWeek(subWeeks(date, 2));
   const nextWeek = createWholeWeek(addWeeks(date, 1));
   const weekAfterNextWeek = createWholeWeek(addWeeks(date, 2));
-  return [
-    ...weekBeforeLastWeek,
-    ...lastWeek,
-    ...wholeWeek,
-    ...nextWeek,
-    ...weekAfterNextWeek,
-  ];
+  return [...weekBeforeLastWeek, ...lastWeek, ...wholeWeek, ...nextWeek, ...weekAfterNextWeek];
 };
 
-export const createWeekList = (locale) => {
+export const createWeekList = locale => {
   const list = [];
   for (let i = 0; i < 7; i++) {
     list.push(locale.localize?.day(i, { width: 'short' }));
@@ -50,7 +44,7 @@ export const createWeekList = (locale) => {
   return list;
 };
 
-export const formatDate = (d) => {
+export const formatDate = d => {
   return format(d, 'yyyy年MM月dd日');
 };
 

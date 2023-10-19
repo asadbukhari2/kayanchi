@@ -1,16 +1,9 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  FlatList,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {fonts, useTheme} from '../../utils/theme';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {Button, Header, ImageCard} from '../../components';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { fonts, useTheme } from '../../utils/theme';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { Button, Header, ImageCard } from '../../components';
 import ImageCropPicker from 'react-native-image-crop-picker';
 
 const theme = useTheme();
@@ -34,11 +27,7 @@ const ArtistHostingSpot = props => {
     <SafeAreaView style={styles.container}>
       <Header backBtnGrey />
       <Text style={styles.title}>{'Upload pictures of your hosting spot'}</Text>
-      <Text style={styles.titleTxt}>
-        {
-          'Kaynchi needs to verify your hosting spot before processing your order.'
-        }
-      </Text>
+      <Text style={styles.titleTxt}>{'Kaynchi needs to verify your hosting spot before processing your order.'}</Text>
       <TouchableOpacity
         onPress={() => {
           ImageCropPicker.openPicker({
@@ -53,12 +42,8 @@ const ArtistHostingSpot = props => {
         activeOpacity={0.7}
         style={styles.picView}>
         <Image
-          source={image ? {uri: image.path} : require('../../assets/img.png')}
-          style={
-            image
-              ? {width: '100%', height: '100%', resizeMode: 'contain'}
-              : styles.imgIcon
-          }
+          source={image ? { uri: image.path } : require('../../assets/img.png')}
+          style={image ? { width: '100%', height: '100%', resizeMode: 'contain' } : styles.imgIcon}
         />
         {!image && <Text style={styles.uploadTxt}>Upload here</Text>}
       </TouchableOpacity>
@@ -70,10 +55,10 @@ const ArtistHostingSpot = props => {
       </View>
       <FlatList
         data={DATA1}
-        style={{marginLeft: widthToDp(4.5)}}
+        style={{ marginLeft: widthToDp(4.5) }}
         horizontal
-        keyExtractor={({item, index}) => index}
-        renderItem={({item, index}) => {
+        keyExtractor={({ item, index }) => index}
+        renderItem={({ item, index }) => {
           return (
             <ImageCard
               name={item.name}
@@ -84,11 +69,7 @@ const ArtistHostingSpot = props => {
           );
         }}
       />
-      <Button
-        title={'Continue'}
-        btnStyle={styles.btn}
-        onPress={() => props.navigation.navigate('BookingDate')}
-      />
+      <Button title={'Continue'} btnStyle={styles.btn} onPress={() => props.navigation.navigate('BookingDate')} />
     </SafeAreaView>
   );
 };

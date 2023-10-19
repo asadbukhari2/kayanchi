@@ -1,17 +1,17 @@
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React from 'react';
-import {fonts, useTheme} from '../../../utils/theme';
-import {heightToDp, widthToDp} from '../../../utils/Dimensions';
+import { fonts, useTheme } from '../../../utils/theme';
+import { heightToDp, widthToDp } from '../../../utils/Dimensions';
 
 const theme = useTheme();
 
 const CardComponent = props => {
-  const {makeDefault, titleData, state, number2, number, defaultCard} = props;
+  const { makeDefault, titleData, state, number2, number, defaultCard } = props;
   return (
     <View style={styles.container}>
       <View style={styles.carDetail}>
         <Text>{titleData}</Text>
-        <Text style={{color: '#1583D8'}}>{state}</Text>
+        <Text style={{ color: '#1583D8' }}>{state}</Text>
       </View>
       <View style={styles.card}>
         <View style={styles.cardNumber}>

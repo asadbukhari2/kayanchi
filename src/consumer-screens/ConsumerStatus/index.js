@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
-import {Text, StyleSheet, View} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Button, Header, RadioButton, TextInput} from '../../components';
-import {heightToDp, width} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
+import React, { useState } from 'react';
+import { Text, StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Header, RadioButton, TextInput } from '../../components';
+import { heightToDp, width } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
 
 const theme = useTheme();
 
@@ -13,15 +13,12 @@ const ConsumserStatus = props => {
   return (
     <SafeAreaView style={styles.container}>
       <Header title={'Status'} />
-      <View style={[styles.center, {marginTop:heightToDp(2.7)}]}>
+      <View style={[styles.center, { marginTop: heightToDp(2.7) }]}>
         <Text style={styles.title}>{'Are you hosting or travelling?'}</Text>
-        <Text style={styles.txt}>
-          {'You can always choose between travelling and hosting.'}
-        </Text>
-        <Text style={[styles.txt, {marginBottom:heightToDp(6.7)}]}>
+        <Text style={styles.txt}>{'You can always choose between travelling and hosting.'}</Text>
+        <Text style={[styles.txt, { marginBottom: heightToDp(6.7) }]}>
           {'visit'}
-          <Text style={{color: theme.primary}}>{' YOU '}</Text>{' '}
-          {'from the side menu for options.'}
+          <Text style={{ color: theme.primary }}>{' YOU '}</Text> {'from the side menu for options.'}
         </Text>
         <RadioButton
           text={"I'm travelling"}
@@ -33,7 +30,7 @@ const ConsumserStatus = props => {
           text={"I'm hosting"}
           isSelected={radio === "I'm hosting"}
           onPress={() => setRadio("I'm hosting")}
-          containerStyle={{marginVertical: heightToDp(4.5)}}
+          containerStyle={{ marginVertical: heightToDp(4.5) }}
           source={require('../../assets/hosting.png')}
         />
         <RadioButton
@@ -44,8 +41,8 @@ const ConsumserStatus = props => {
       </View>
       <Button
         title={'Continue'}
-        btnStyle={{position: 'absolute', bottom: heightToDp(5.5)}}
-        onPress={() => props.navigation.navigate('MyTabs',{screen: 'Home'})}
+        btnStyle={{ position: 'absolute', bottom: heightToDp(5.5) }}
+        onPress={() => props.navigation.navigate('MyTabs', { screen: 'Home' })}
       />
     </SafeAreaView>
   );

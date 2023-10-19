@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 import imageIcon from '../../assets/dummyHome.png';
 import { fonts } from '../../utils/theme';
 const CustomCallout = ({ title, description, image }) => {
-    console.log('image', image)
+  console.log('image', image);
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>
@@ -29,9 +29,9 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flex: 1,
-    backgroundColor:"white",
+    backgroundColor: 'white',
     padding: 15,
-    borderRadius: 10
+    borderRadius: 10,
   },
   title: {
     fontSize: 16,

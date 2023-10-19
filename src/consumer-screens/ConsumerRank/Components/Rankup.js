@@ -1,11 +1,11 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {heightToDp, widthToDp} from '../../../utils/Dimensions';
+import { View, Text, StyleSheet } from 'react-native';
+import { heightToDp, widthToDp } from '../../../utils/Dimensions';
 
-const Rankup = ({title, heading, description, rating}) => {
+const Rankup = ({ title, heading, description, rating }) => {
   return (
     <View style={styles.containerDetail}>
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         {title && <Text style={styles.title}>{title}</Text>}
         {heading && <Text style={styles.heading}>{heading}</Text>}
         {description && <Text style={styles.description}>{description}</Text>}
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     color: '#707993',
     fontSize: 12,
   },
-  rating: {color: '#84668C', marginLeft:widthToDp(5)},
+  rating: { color: '#84668C', marginLeft: widthToDp(5) },
 });
 
 export default Rankup;

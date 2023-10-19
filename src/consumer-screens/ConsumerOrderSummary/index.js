@@ -1,9 +1,9 @@
 import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, ScrollView} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Button, Header} from '../../components';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Header } from '../../components';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Service from './component';
 
@@ -30,41 +30,39 @@ const DATA = [
 const ConsumerOrderSummary = props => {
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={{flex:1}} contentContainerStyle={{paddingBottom:heightToDp(30)}}>
-      <Header backBtnGrey />
-      <Text style={styles.title}>{'Order Summary'}</Text>
-      <Text style={styles.subTitle}>{'ADDRESS'}</Text>
-      <View style={styles.addressView}>
-        <Text style={styles.titleTxt}>
-          {
-            'House B91, Lane 4, building 14-C main nishat commercial, DHA phase 6, karachi '
-          }
-        </Text>
-        <TouchableOpacity style={{height: heightToDp(9)}}>
-          <Icon name={'pencil'} style={styles.icon} />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.centerView}>
-        {DATA.map((item, index) => {
-          return (
-            <View style={{marginTop: index > 0 ? heightToDp(6.7) : 0}}>
-              <Service
-                key={index}
-                serviceName={item.serviceName}
-                artistName={item.artistName}
-                serviceCount={item.serviceCount}
-              />
-            </View>
-          );
-        })}
-        <Text style={styles.dateLabel}>{'Date and time'}</Text>
-        <Text style={styles.dateValue}>{'Thurday, 2nd December'}</Text>
-        <Text style={styles.dateValue}>{'7:30 - 8:30 AM'}</Text>
-        <View style={styles.chargesView}>
-          <Text style={styles.dateValue}>{'TOTAL incl VAT'}</Text>
-          <Text style={styles.charges}>{'Rs 5680'}</Text>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: heightToDp(30) }}>
+        <Header backBtnGrey />
+        <Text style={styles.title}>{'Order Summary'}</Text>
+        <Text style={styles.subTitle}>{'ADDRESS'}</Text>
+        <View style={styles.addressView}>
+          <Text style={styles.titleTxt}>
+            {'House B91, Lane 4, building 14-C main nishat commercial, DHA phase 6, karachi '}
+          </Text>
+          <TouchableOpacity style={{ height: heightToDp(9) }}>
+            <Icon name={'pencil'} style={styles.icon} />
+          </TouchableOpacity>
         </View>
-      </View>
+        <View style={styles.centerView}>
+          {DATA.map((item, index) => {
+            return (
+              <View style={{ marginTop: index > 0 ? heightToDp(6.7) : 0 }}>
+                <Service
+                  key={index}
+                  serviceName={item.serviceName}
+                  artistName={item.artistName}
+                  serviceCount={item.serviceCount}
+                />
+              </View>
+            );
+          })}
+          <Text style={styles.dateLabel}>{'Date and time'}</Text>
+          <Text style={styles.dateValue}>{'Thurday, 2nd December'}</Text>
+          <Text style={styles.dateValue}>{'7:30 - 8:30 AM'}</Text>
+          <View style={styles.chargesView}>
+            <Text style={styles.dateValue}>{'TOTAL incl VAT'}</Text>
+            <Text style={styles.charges}>{'Rs 5680'}</Text>
+          </View>
+        </View>
       </ScrollView>
       <Button title={'Continue'} btnStyle={styles.btn} onPress={() => props.navigation.navigate('PaymentDetails')} />
     </SafeAreaView>

@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
-import {height, heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {useTheme, fonts} from '../../utils/theme';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { useTheme, fonts } from '../../utils/theme';
 const location = require('../../assets/Path.png');
 import MultiButton from '../MultiButton';
 import Button from '../Button';
 
 const theme = useTheme();
 
-const OrderCard = ({order, navigation}) => {
+const OrderCard = ({ order, navigation }) => {
   const activeOrderHandler = () => {
     console.log('clicked', navigation);
     navigation.navigate('ArtistOrderStack', {
@@ -49,23 +49,18 @@ const OrderCard = ({order, navigation}) => {
             <View>
               <Text style={styles.headingName}>{order.name}</Text>
 
-              <Text style={[styles.textBold, {marginVertical: 3}]}>
-                SERVICES:
-              </Text>
+              <Text style={[styles.textBold, { marginVertical: 3 }]}>SERVICES:</Text>
               {order.services.map((service, serviceIndex) => {
                 const maxServicesToShow = 1;
 
                 if (serviceIndex < maxServicesToShow) {
                   return (
-                    <Text
-                      key={serviceIndex}
-                      style={{color: '#677790', fontFamily: fonts.robo_reg}}>
+                    <Text key={serviceIndex} style={{ color: '#677790', fontFamily: fonts.robo_reg }}>
                       {service}
                     </Text>
                   );
                 } else if (serviceIndex === maxServicesToShow) {
-                  const remainingServices =
-                    order.services.length - maxServicesToShow;
+                  const remainingServices = order.services.length - maxServicesToShow;
                   return (
                     <TouchableOpacity
                       key={serviceIndex}
@@ -94,7 +89,7 @@ const OrderCard = ({order, navigation}) => {
             </View>
           </View>
           {order.statusOrder !== 'Cancelled' && (
-            <View style={{marginLeft: 30}}>
+            <View style={{ marginLeft: 30 }}>
               <View style={styles.orderDetails}>
                 <Text
                   style={{
@@ -106,20 +101,17 @@ const OrderCard = ({order, navigation}) => {
                 </Text>
                 <Image source={order.imageLink} style={styles.OrderImage} />
               </View>
-              <Text style={{color: '#29AAE2', fontFamily: fonts.robo_reg}}>
-                3.5 kms <Text style={{color: '#0F2851'}}>away for you </Text>{' '}
+              <Text style={{ color: '#29AAE2', fontFamily: fonts.robo_reg }}>
+                3.5 kms <Text style={{ color: '#0F2851' }}>away for you </Text>{' '}
               </Text>
-              <Text style={[styles.textBold, {marginTop: 5}]}>Hosting at:</Text>
+              <Text style={[styles.textBold, { marginTop: 5 }]}>Hosting at:</Text>
               <View
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
                   marginTop: 5,
                 }}>
-                <Image
-                  source={location}
-                  style={{height: 15, width: 15, resizeMode: 'contain'}}
-                />
+                <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
                 <Text
                   style={{
                     color: '#32aee3',
@@ -136,17 +128,10 @@ const OrderCard = ({order, navigation}) => {
               <>
                 <View style={styles.orderDetails}>
                   <View>
-                    <Text style={[styles.textBold, {marginBottom: 5}]}>
-                      Hosting at:
-                    </Text>
-                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                      <Image
-                        source={location}
-                        style={{height: 15, width: 15, resizeMode: 'contain'}}
-                      />
-                      <Text style={{color: '#32aee3'}}>
-                        {order.salonAddress}
-                      </Text>
+                    <Text style={[styles.textBold, { marginBottom: 5 }]}>Hosting at:</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
+                      <Text style={{ color: '#32aee3' }}>{order.salonAddress}</Text>
                     </View>
                   </View>
                   <Image source={order.imageLink} style={styles.OrderImage} />
@@ -156,7 +141,7 @@ const OrderCard = ({order, navigation}) => {
                 <Text
                   style={[
                     styles.subheading,
-                    {overflow: 'hidden'}, // Set the height and overflow
+                    { overflow: 'hidden' }, // Set the height and overflow
                   ]}>
                   {order.cancelReason}{' '}
                 </Text>
@@ -172,13 +157,13 @@ const OrderCard = ({order, navigation}) => {
                 right: 15,
                 fontSize: 14,
                 borderRadius: 30,
-                bottom:-10,
+                bottom: -10,
                 textTransform: 'uppercase',
                 fontFamily: fonts.robo_bold,
                 paddingVertical: 5,
                 paddingHorizontal: 8,
                 backgroundColor: '#84668C',
-                color:"white"
+                color: 'white',
               }}>
               Active
             </Text>
@@ -202,7 +187,7 @@ const OrderCard = ({order, navigation}) => {
                   fontSize: 14,
                   height: heightToDp(10.5),
                 }}
-                titleStyle={{color: '#67506D'}}
+                titleStyle={{ color: '#67506D' }}
                 onPress={CancelHandler}
               />
             </View>
@@ -224,7 +209,7 @@ const OrderCard = ({order, navigation}) => {
                   backgroundColor: '#9A9A9A',
                   height: heightToDp(10.5),
                 }}
-                titleStyle={{fontFamily: fonts.hk_medium}}
+                titleStyle={{ fontFamily: fonts.hk_medium }}
                 onPress={GroomingDoneHandler}
               />
             </View>
@@ -242,7 +227,7 @@ const styles = StyleSheet.create({
     color: '#0F2851',
     fontSize: 40,
     marginLeft: widthToDp(4),
-    fontFamily: fonts.hk_bold
+    fontFamily: fonts.hk_bold,
   },
   btnContainer: {
     flexDirection: 'row',
@@ -330,8 +315,8 @@ const styles = StyleSheet.create({
     paddingRight: widthToDp(3),
     borderRadius: 50,
   },
-  indicatorView: {marginHorizontal: 4, marginTop: heightToDp(3)},
-  row: {flexDirection: 'row', alignItems: 'center'},
+  indicatorView: { marginHorizontal: 4, marginTop: heightToDp(3) },
+  row: { flexDirection: 'row', alignItems: 'center' },
 
   headingName: {
     fontSize: 20,

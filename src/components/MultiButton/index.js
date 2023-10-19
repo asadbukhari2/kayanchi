@@ -1,23 +1,18 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
-import {heightToDp, width} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
+import { StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
+import { heightToDp, width } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const theme = useTheme();
 
 const MultiButton = props => {
-  const {btnStyle, titleStyle, title, onPress, disable, icon, image} = props;
+  const { btnStyle, titleStyle, title, onPress, disable, icon, image } = props;
 
   return (
-    <TouchableOpacity
-      disabled={disable}
-      activeOpacity={0.7}
-      onPress={onPress}
-      style={[styles.container, btnStyle]}>
+    <TouchableOpacity disabled={disable} activeOpacity={0.7} onPress={onPress} style={[styles.container, btnStyle]}>
       {/* {icon && (icon)} */}
-      {image && <Image source={image} style={{width: 20, height: 20, marginRight:5}} resizeMode="contain"
- />}
+      {image && <Image source={image} style={{ width: 20, height: 20, marginRight: 5 }} resizeMode="contain" />}
       <Text style={[styles.txt, titleStyle]}>{title}</Text>
     </TouchableOpacity>
   );

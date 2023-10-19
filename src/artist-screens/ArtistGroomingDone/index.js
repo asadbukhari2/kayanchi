@@ -1,22 +1,14 @@
-import React, {useState} from 'react';
-import {
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-} from 'react-native';
-import {heightToDp, widthToDp, height} from '../../utils/Dimensions';
-import {Button} from '../../components';
+import React, { useState } from 'react';
+import { Text, View, Image, TouchableOpacity, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import { heightToDp, widthToDp, height } from '../../utils/Dimensions';
+import { Button } from '../../components';
 const grooming = require('../../assets/groomingdone.png');
 const carBrown = require('../../assets/car_brown.png');
 const location = require('../../assets/Path.png');
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Import the icon library
 import Feather from 'react-native-vector-icons/Feather';
-import {fonts, useTheme} from '../../utils/theme';
+import { fonts, useTheme } from '../../utils/theme';
 
 const theme = useTheme();
 const orders = [
@@ -59,8 +51,7 @@ export default function ArtistGroomingDone(props) {
         </View>
         <View>
           <Text style={styles.heading}>Grooming done</Text>
-          <Text
-            style={{color: '#67718C', textAlign: 'center', marginBottom: 10}}>
+          <Text style={{ color: '#67718C', textAlign: 'center', marginBottom: 10 }}>
             Great work! Off to the next one!{' '}
           </Text>
         </View>
@@ -92,8 +83,7 @@ export default function ArtistGroomingDone(props) {
                         if (serviceIndex < maxServicesToShow) {
                           return <Text key={serviceIndex}>{service}</Text>;
                         } else if (serviceIndex === maxServicesToShow) {
-                          const remainingServices =
-                            order.services.length - maxServicesToShow;
+                          const remainingServices = order.services.length - maxServicesToShow;
                           return (
                             <TouchableOpacity
                               key={serviceIndex}
@@ -110,9 +100,7 @@ export default function ArtistGroomingDone(props) {
                         }
                         return null;
                       })}
-                      <Text style={{color: '#84668C'}}>
-                        Rs {order.serviceCost}
-                      </Text>
+                      <Text style={{ color: '#84668C' }}>Rs {order.serviceCost}</Text>
                     </View>
                   </View>
 
@@ -120,27 +108,18 @@ export default function ArtistGroomingDone(props) {
                     <View style={styles.orderDetails}>
                       <Text>
                         was
-                        <Text style={{color: '#84668C'}}> HOSTING</Text>
+                        <Text style={{ color: '#84668C' }}> HOSTING</Text>
                       </Text>
 
-                      <Image
-                        source={order.imageLink}
-                        style={styles.OrderImage}
-                      />
+                      <Image source={order.imageLink} style={styles.OrderImage} />
                     </View>
-                    <Text style={{color: '#29AAE2'}}>
-                      3.5 kms{' '}
-                      <Text style={{color: '#0F2851'}}>away for you </Text>{' '}
+                    <Text style={{ color: '#29AAE2' }}>
+                      3.5 kms <Text style={{ color: '#0F2851' }}>away for you </Text>{' '}
                     </Text>
                     <Text style={styles.textBold}>Hosting at:</Text>
-                    <View style={{flexDirection: 'row'}}>
-                      <Image
-                        source={location}
-                        style={{height: 15, width: 15, resizeMode: 'contain'}}
-                      />
-                      <Text style={{color: '#32aee3'}}>
-                        {order.salonAddress}
-                      </Text>
+                    <View style={{ flexDirection: 'row' }}>
+                      <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
+                      <Text style={{ color: '#32aee3' }}>{order.salonAddress}</Text>
                     </View>
                   </View>
                 </View>
@@ -153,15 +132,15 @@ export default function ArtistGroomingDone(props) {
       <Modal
         coverScreen={false}
         isVisible={modalVisible}
-        style={{flex: 1, margin: 0, justifyContent: 'flex-end'}}
+        style={{ flex: 1, margin: 0, justifyContent: 'flex-end' }}
         onSwipeComplete={() => setModalVisible(!modalVisible)}
         swipeDirection={['down']}>
         <View style={styles.modalMainView}>
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => setModalVisible(false)}
-            style={{padding: heightToDp(4.5), position: 'absolute', right: 0}}>
-            <Feather name={'x'} style={{fontSize: 20, color: theme.backIcon}} />
+            style={{ padding: heightToDp(4.5), position: 'absolute', right: 0 }}>
+            <Feather name={'x'} style={{ fontSize: 20, color: theme.backIcon }} />
           </TouchableOpacity>
           <Text style={styles.title}>Rate This client</Text>
           <View
@@ -173,10 +152,7 @@ export default function ArtistGroomingDone(props) {
             {[1, 2, 3, 4, 5].map(rating => (
               <TouchableOpacity
                 key={rating}
-                style={[
-                  styles.ratingButton,
-                  selectedRating === rating && styles.selectedRating,
-                ]}
+                style={[styles.ratingButton, selectedRating === rating && styles.selectedRating]}
                 onPress={() => handleRating(rating)}>
                 <Icon
                   name={selectedRating >= rating ? 'star' : 'star-o'}
@@ -186,9 +162,7 @@ export default function ArtistGroomingDone(props) {
               </TouchableOpacity>
             ))}
           </View>
-          {selectedRating !== null && (
-            <Text style={styles.selectedRatingText}>{selectedRating}</Text>
-          )}
+          {selectedRating !== null && <Text style={styles.selectedRatingText}>{selectedRating}</Text>}
           <View style={styles.btnTxt}>
             <Button title="Back to home" onPress={groomingDoneHandler} />
           </View>
@@ -210,8 +184,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginVertical: 10,
   },
-  btnTxt: {marginVertical: 15},
-  selectedRatingText: {textAlign: 'center', color:"#747474", fontFamily: fonts.hk_bold},
+  btnTxt: { marginVertical: 15 },
+  selectedRatingText: { textAlign: 'center', color: '#747474', fontFamily: fonts.hk_bold },
   imageContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -225,14 +199,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontFamily: fonts.hk_bold,
-    color:"#0F2851",
+    color: '#0F2851',
     textAlign: 'center',
     marginTop: heightToDp(15),
     marginBottom: 15,
   },
-  ratingButton: {flexDirection: 'row', marginRight:10},
+  ratingButton: { flexDirection: 'row', marginRight: 10 },
   heading: {
-fontFamily: fonts.hk_bold,
+    fontFamily: fonts.hk_bold,
     fontSize: 28,
     color: '#0F2851',
     textAlign: 'center',
@@ -291,7 +265,7 @@ fontFamily: fonts.hk_bold,
   },
   headingName: {
     fontSize: 18,
-   fontFamily: fonts.robo_bold
+    fontFamily: fonts.robo_bold,
   },
   textBold: {
     fontWeight: 'bold',

@@ -1,16 +1,8 @@
-import React, {useState} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  Image,
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
-import {Button, Header, TextInput} from '../../components';
-import {useTheme, fonts} from '../../utils/theme';
-import {height, width, heightToDp, widthToDp} from '../../utils/Dimensions';
+import React, { useState } from 'react';
+import { SafeAreaView, StyleSheet, Image, Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { Button, Header, TextInput } from '../../components';
+import { useTheme, fonts } from '../../utils/theme';
+import { height, width, heightToDp, widthToDp } from '../../utils/Dimensions';
 import Gallery from '../../assets/Gallery.png';
 import back from '../../assets/back.png';
 import ImageCropPicker from 'react-native-image-crop-picker';
@@ -54,7 +46,7 @@ export default function ConsumerPromoGig2(props) {
   const [image2, setImage2] = useState();
   const [image3, setImage3] = useState();
   const handleClick = () => {
-      props.navigation.navigate('ConsumerHomeStack', {screen: 'ConsumerPromoMood'});
+    props.navigation.navigate('ConsumerHomeStack', { screen: 'ConsumerPromoMood' });
   };
 
   return (
@@ -62,12 +54,8 @@ export default function ConsumerPromoGig2(props) {
       <Header backBtn title="Promo gig info" />
       <ScrollView>
         <View>
-          <Text style={[styles.welcomeTxt, {paddingTop: 7}]}>
-            Promo duration
-          </Text>
-          <Text style={styles.subheading}>
-            The estimated time of the service, from start to end.{' '}
-          </Text>
+          <Text style={[styles.welcomeTxt, { paddingTop: 7 }]}>Promo duration</Text>
+          <Text style={styles.subheading}>The estimated time of the service, from start to end. </Text>
         </View>
         <View style={styles.genRow}>
           {Category.slice(0, 3).map(item => (
@@ -75,13 +63,13 @@ export default function ConsumerPromoGig2(props) {
               onPress={() => {
                 console.log('Clicked:', item.name);
 
-                setTime(item.name)}}
+                setTime(item.name);
+              }}
               activeOpacity={0.7}
               style={[
                 styles.genBtn,
                 {
-                  backgroundColor:
-                    time === item.name ? theme.primary : theme.genderGrey,
+                  backgroundColor: time === item.name ? theme.primary : theme.genderGrey,
                 },
               ]}
               key={item.name}>
@@ -93,9 +81,7 @@ export default function ConsumerPromoGig2(props) {
         </View>
 
         <View>
-          <Text style={[styles.welcomeTxt, {paddingTop: 7}]}>
-            Promo Price
-          </Text>
+          <Text style={[styles.welcomeTxt, { paddingTop: 7 }]}>Promo Price</Text>
           <Text style={styles.subheading}>Price your service.</Text>
           <TextInput
             input={text => setName(text)}
@@ -111,12 +97,9 @@ export default function ConsumerPromoGig2(props) {
           />
         </View>
 
-        <Text style={[styles.welcomeTxt, {paddingTop: 7}]}>
-          Promo Pictures
-        </Text>
+        <Text style={[styles.welcomeTxt, { paddingTop: 7 }]}>Promo Pictures</Text>
         <Text style={styles.subheading}>
-          Upload pictures of your past work for this service from your gallery.
-          (Optional)
+          Upload pictures of your past work for this service from your gallery. (Optional)
         </Text>
         <View style={styles.parentUpload}>
           <TouchableOpacity
@@ -130,7 +113,7 @@ export default function ConsumerPromoGig2(props) {
             }}
             activeOpacity={0.9}>
             {image1 ? (
-              <Image source={{uri: image1.path}} style={styles.upload} />
+              <Image source={{ uri: image1.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
                 <Image source={Gallery}></Image>
@@ -149,7 +132,7 @@ export default function ConsumerPromoGig2(props) {
             }}
             activeOpacity={0.9}>
             {image2 ? (
-              <Image source={{uri: image2.path}} style={styles.upload} />
+              <Image source={{ uri: image2.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
                 <Image source={Gallery}></Image>
@@ -168,7 +151,7 @@ export default function ConsumerPromoGig2(props) {
             }}
             activeOpacity={0.9}>
             {image3 ? (
-              <Image source={{uri: image3.path}} style={styles.upload} />
+              <Image source={{ uri: image3.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
                 <Image source={Gallery}></Image>
@@ -178,7 +161,7 @@ export default function ConsumerPromoGig2(props) {
           </TouchableOpacity>
         </View>
 
-        <View style={{ marginTop: heightToDp(25)}}>
+        <View style={{ marginTop: heightToDp(25) }}>
           <Button title="Continue" onPress={handleClick} />
         </View>
       </ScrollView>
@@ -239,7 +222,7 @@ const styles = StyleSheet.create({
     marginTop: heightToDp(4.5),
     color: '#ffffff',
   },
-  genTxt: {color: '#ffffff', marginLeft: 6},
+  genTxt: { color: '#ffffff', marginLeft: 6 },
   categoryItem: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -255,8 +238,8 @@ const styles = StyleSheet.create({
   },
   welcomeTxt: {
     fontSize: 30,
-fontFamily: fonts.hk_bold,
+    fontFamily: fonts.hk_bold,
     paddingHorizontal: widthToDp(7),
   },
-  subheading: {color: '#67718C', paddingHorizontal: widthToDp(7)},
+  subheading: { color: '#67718C', paddingHorizontal: widthToDp(7) },
 });

@@ -1,18 +1,9 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  TextInput,
-  Switch,
-  ScrollView,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Header, Button} from '../../components';
-import {height, heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {useTheme, fonts} from '../../utils/theme';
+import React, { useEffect, useRef, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Switch, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Header, Button } from '../../components';
+import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { useTheme, fonts } from '../../utils/theme';
 import iButton from '../../assets/ibutton.png';
 
 import back from '../../assets/back.png';
@@ -24,20 +15,20 @@ import TravelMoodImage from '../../assets/travel.png';
 import HostMoodImage from '../../assets/car-front.png';
 
 import LinearGradient from 'react-native-linear-gradient';
-import {useDispatch, useSelector} from 'react-redux';
-import {saveToken} from '../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { saveToken } from '../../redux/actions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const theme = useTheme();
 
 const ConsumerPromoMood = props => {
-    const [image, setImage] = useState();
-    const [isPrivate, setIsPrivate] = useState(false);
+  const [image, setImage] = useState();
+  const [isPrivate, setIsPrivate] = useState(false);
 
   const handlePrivateImage = () => {
     setIsPrivate(previousState => !previousState);
   };
-  const {navigation, route} = props;
+  const { navigation, route } = props;
   // const {data} = route.params;
 
   // console.log(data);
@@ -49,8 +40,7 @@ const ConsumerPromoMood = props => {
 
   const gotoConsumer = async () => {
     // dispatch(saveToken({token: 'anyvalue'}));
-    props.navigation.navigate('ConsumerHomeStack', {screen: 'ConsumerVerification'});
-
+    props.navigation.navigate('ConsumerHomeStack', { screen: 'ConsumerVerification' });
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -64,42 +54,34 @@ const ConsumerPromoMood = props => {
             width: widthToDp(90),
           }}>
           <Image source={back}></Image>
-          <View style={{marginLeft: -20}}>
+          <View style={{ marginLeft: -20 }}>
             <Header title={'Promo mood'} />
           </View>
         </View>
-        <Text style={styles.gigVersionAsk}>
-          From this Promo - would you like to
-        </Text>
+        <Text style={styles.gigVersionAsk}>From this Promo - would you like to</Text>
         <View style={styles.gigVersion}>
           <Text style={styles.title}>{'Travel, host or both?'}</Text>
         </View>
 
-        <Text style={styles.warning}>
-          {'Choose between travelling, hosting or both mood(s) for this gig.  '}
-        </Text>
-        <Text style={styles.warning2}>
-          {'Learn more about traveling and hosting moods.'}
-        </Text>
+        <Text style={styles.warning}>{'Choose between travelling, hosting or both mood(s) for this gig.  '}</Text>
+        <Text style={styles.warning2}>{'Learn more about traveling and hosting moods.'}</Text>
 
         <View style={styles.parentMood}>
           <View style={styles.mood}>
             <LinearGradient
               colors={[theme.primary, theme.primary]}
               style={styles.childMood}
-              start={{x: 1, y: 0.5}}
-              end={{x: 1, y: 0.5}}>
-              <Image
-                source={HostMoodImage}
-                style={{height: 30, width: 30, resizeMode: 'contain'}}></Image>
+              start={{ x: 1, y: 0.5 }}
+              end={{ x: 1, y: 0.5 }}>
+              <Image source={HostMoodImage} style={{ height: 30, width: 30, resizeMode: 'contain' }}></Image>
               <Text style={styles.childMoodHead}>Travel</Text>
               <Text style={styles.childMoodBody}>to client’s</Text>
             </LinearGradient>
             <LinearGradient
               colors={[theme.primary, theme.primary]}
               style={styles.childMood}
-              start={{x: 1, y: 0.5}}
-              end={{x: 1, y: 0.5}}>
+              start={{ x: 1, y: 0.5 }}
+              end={{ x: 1, y: 0.5 }}>
               <Image source={TravelMoodImage}></Image>
               <Text style={styles.childMoodHead}>Host</Text>
               <Text style={styles.childMoodBody}>the client</Text>
@@ -113,9 +95,7 @@ const ConsumerPromoMood = props => {
         </View>
 
         <Text style={styles.warning}>
-          {
-            'Budget your travel cost within the city. Offer travel for free, to get more orders.'
-          }
+          {'Budget your travel cost within the city. Offer travel for free, to get more orders.'}
         </Text>
         <View
           style={{
@@ -127,31 +107,22 @@ const ConsumerPromoMood = props => {
           <View style={styles.switchContainer}>
             <Switch
               value={isPrivate}
-
               onValueChange={handlePrivateImage}
               thumbColor={isPrivate ? theme.primary : '#eee'}
-              trackColor={{false: 'grey', true: 'grey'}}
+              trackColor={{ false: 'grey', true: 'grey' }}
               style={styles.switch}
             />
           </View>
         </View>
 
         <View style={styles.parentPrice}>
-          <TextInput
-            style={styles.priceField}
-            placeholder="100-1000"></TextInput>
+          <TextInput style={styles.priceField} placeholder="100-1000"></TextInput>
         </View>
 
         <View style={styles.gigVersion}>
-          <Text style={styles.title}>
-            {'Upload pictures of your hosting spot'}
-          </Text>
+          <Text style={styles.title}>{'Upload pictures of your hosting spot'}</Text>
         </View>
-        <Text style={styles.warning}>
-          {
-            'Kaynchi needs to verify your hosting spot before processing your order.'
-          }
-        </Text>
+        <Text style={styles.warning}>{'Kaynchi needs to verify your hosting spot before processing your order.'}</Text>
 
         <TouchableOpacity
           onPress={() => {
@@ -168,7 +139,7 @@ const ConsumerPromoMood = props => {
           style={styles.parentUpload}>
           {image ? (
             <Image
-              source={{uri: image.path}}
+              source={{ uri: image.path }}
               style={{
                 elevation: 1,
                 width: widthToDp(90),
@@ -384,7 +355,7 @@ const styles = StyleSheet.create({
   switch: {
     marginRight: 10,
   },
-  
+
   img: {
     resizeMode: 'cover',
     height: heightToDp(59.95),

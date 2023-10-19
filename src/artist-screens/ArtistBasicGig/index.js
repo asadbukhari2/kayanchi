@@ -1,23 +1,16 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  TextInput,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Header, Button} from '../../components';
-import {height, heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {useTheme, fonts} from '../../utils/theme';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Header, Button } from '../../components';
+import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { useTheme, fonts } from '../../utils/theme';
 import back from '../../assets/back.png';
 const category = ['Hair', 'Face', 'Skin', 'Spa', 'Body'];
 const audience = ['Female', 'Male', 'Non Binary'];
 const theme = useTheme();
 
 const index = props => {
-  const {navigation, route} = props;
+  const { navigation, route } = props;
   const [selectedCat, setSelectedCat] = useState('');
   const [selectedAud, setSelectedAud] = useState([]);
   // const {data} = route.params;
@@ -34,24 +27,20 @@ const index = props => {
           width: widthToDp(90),
         }}>
         <Image source={back}></Image>
-        <View style={{marginLeft: -20}}>
+        <View style={{ marginLeft: -20 }}>
           <Header title={'Baisc gig info'} />
         </View>
       </View>
       <View style={styles.gigVersion}>
         <Text style={styles.title}>{'Name your service'}</Text>
       </View>
-      <Text style={styles.txt}>
-        {'This will be displayed as your gig title.'}
-      </Text>
+      <Text style={styles.txt}>{'This will be displayed as your gig title.'}</Text>
       <TextInput
         multiline={true}
         height={90}
         style={styles.inputField}
         placeholder="Sagan / Engagement makeupx"></TextInput>
-      <Text style={styles.warning}>
-        {'The title can not contain more than 30 letters.'}
-      </Text>
+      <Text style={styles.warning}>{'The title can not contain more than 30 letters.'}</Text>
       <View style={styles.gigVersion}>
         <Text style={styles.title}>{'Choose category'}</Text>
       </View>
@@ -102,9 +91,7 @@ const index = props => {
       <View style={styles.gigVersion}>
         <Text style={styles.title}>{'Target audience'}</Text>
       </View>
-      <Text style={styles.txt}>
-        {'Choose the target audience, this gig is for.'}
-      </Text>
+      <Text style={styles.txt}>{'Choose the target audience, this gig is for.'}</Text>
       <View
         style={{
           flex: 0,
@@ -142,9 +129,7 @@ const index = props => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   borderRadius: 30,
-                  backgroundColor: selectedAud.includes(item)
-                    ? '#A77246'
-                    : '#9A9A9A',
+                  backgroundColor: selectedAud.includes(item) ? '#A77246' : '#9A9A9A',
                   marginRight: 7,
                   marginTop: 10,
                 }}>

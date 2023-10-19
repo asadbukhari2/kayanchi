@@ -1,29 +1,21 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  ScrollView,
-  View,
-  Image,
-  TouchableOpacity,
-  Switch,
-} from 'react-native';
+import { StyleSheet, Text, ScrollView, View, Image, TouchableOpacity, Switch } from 'react-native';
 import Modal from 'react-native-modal';
 
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {fonts, useTheme} from '../../utils/theme';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { fonts, useTheme } from '../../utils/theme';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Foundation from 'react-native-vector-icons/Foundation';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {Button, GradientRadio} from '../../components';
+import { Button, GradientRadio } from '../../components';
 import Row from './component/Row';
-import {useDispatch, useSelector} from 'react-redux';
-import {signout, testUpdateIsArtist} from '../../redux/actions';
-import {useState} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { signout, testUpdateIsArtist } from '../../redux/actions';
+import { useState } from 'react';
 const beauty = require('../../assets/beauty_color.png');
 const facebook = require('../../assets/facebook.png');
 const instagram = require('../../assets/instagram.png');
@@ -55,28 +47,23 @@ const ConsumerProfile = props => {
   console.log('22', user);
 
   function gotoConsumer() {
-    dispatch(testUpdateIsArtist({isArtist: false, isConsumer: true}));
+    dispatch(testUpdateIsArtist({ isArtist: false, isConsumer: true }));
     console.log('22', user);
   }
 
   function gotoArtist() {
-    dispatch(testUpdateIsArtist({isArtist: true, isConsumer: false}));
+    dispatch(testUpdateIsArtist({ isArtist: true, isConsumer: false }));
   }
 
   const socialMediaIcons = [
-    {title: 'Facebook', source: facebook},
-    {title: 'Instagram', source: instagram},
-    {title: 'Twitter', source: twitter},
+    { title: 'Facebook', source: facebook },
+    { title: 'Instagram', source: instagram },
+    { title: 'Twitter', source: twitter },
   ];
 
   const PAYMENTS = [
     {
-      icon: (
-        <Ionicons
-          name={'wallet-outline'}
-          style={{fontSize: 16, color: theme.primary}}
-        />
-      ),
+      icon: <Ionicons name={'wallet-outline'} style={{ fontSize: 16, color: theme.primary }} />,
       title: 'Your Wallet',
       onPress: () =>
         props.navigation.navigate('ConsumerProfileStack', {
@@ -84,12 +71,7 @@ const ConsumerProfile = props => {
         }),
     },
     {
-      icon: (
-        <FontAwesome
-          name={'credit-card'}
-          style={{fontSize: 16, color: theme.primary}}
-        />
-      ),
+      icon: <FontAwesome name={'credit-card'} style={{ fontSize: 16, color: theme.primary }} />,
       title: 'Payment methods',
       onPress: () =>
         props.navigation.navigate('ConsumerProfileStack', {
@@ -100,12 +82,7 @@ const ConsumerProfile = props => {
 
   const MYKAYNCHI = [
     {
-      icon: (
-        <AntDesign
-          name={'questioncircleo'}
-          style={{fontSize: 16, color: theme.primary}}
-        />
-      ),
+      icon: <AntDesign name={'questioncircleo'} style={{ fontSize: 16, color: theme.primary }} />,
       title: 'Help Center',
       onPress: () =>
         props.navigation.navigate('ConsumerProfileStack', {
@@ -113,12 +90,7 @@ const ConsumerProfile = props => {
         }),
     },
     {
-      icon: (
-        <Ionicons
-          name={'information-outline'}
-          style={{fontSize: 16, color: theme.primary}}
-        />
-      ),
+      icon: <Ionicons name={'information-outline'} style={{ fontSize: 16, color: theme.primary }} />,
       title: 'About',
       onPress: () =>
         props.navigation.navigate('ConsumerProfileStack', {
@@ -126,12 +98,7 @@ const ConsumerProfile = props => {
         }),
     },
     {
-      icon: (
-        <Icon
-          name={'message-text-outline'}
-          style={{fontSize: 16, color: theme.primary}}
-        />
-      ),
+      icon: <Icon name={'message-text-outline'} style={{ fontSize: 16, color: theme.primary }} />,
       title: 'Give us feedback',
       onPress: () => openFeedbackModal(props.navigation), // Pass the navigation prop
     },
@@ -201,12 +168,7 @@ const ConsumerProfile = props => {
         }),
     },
     {
-      icon: (
-        <SimpleLineIcons
-          name={'bell'}
-          style={{fontSize: 16, color: theme.primary}}
-        />
-      ),
+      icon: <SimpleLineIcons name={'bell'} style={{ fontSize: 16, color: theme.primary }} />,
       title: 'Notifications',
       onPress: () =>
         props.navigation.navigate('ConsumerProfileStack', {
@@ -234,9 +196,7 @@ const ConsumerProfile = props => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-        style={{flex: 1}}
-        contentContainerStyle={{paddingBottom: heightToDp(25)}}>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: heightToDp(25) }}>
         <View
           style={{
             flexDirection: 'row',
@@ -244,11 +204,8 @@ const ConsumerProfile = props => {
             paddingLeft: widthToDp(4),
             marginTop: heightToDp(12.2),
           }}>
-          <Image
-            source={kyanchiIcon}
-            style={{width: 50, height: 50, resizeMode: 'contain'}}
-          />
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <Image source={kyanchiIcon} style={{ width: 50, height: 50, resizeMode: 'contain' }} />
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Text
               style={{
                 color: '#84668C',
@@ -266,7 +223,7 @@ const ConsumerProfile = props => {
             /> */}
             <ToggleSwitch
               isOn={isEnabled}
-              style={{height: 20, marginRight: 10, marginLeft: 5}}
+              style={{ height: 20, marginRight: 10, marginLeft: 5 }}
               value={isEnabled}
               onColor="#84668C"
               offColor="#9A9A9A"
@@ -276,10 +233,7 @@ const ConsumerProfile = props => {
           </View>
         </View>
         <View style={styles.userProfileView}>
-          <Image
-            source={require('../../assets/profile.png')}
-            style={styles.userImg}
-          />
+          <Image source={require('../../assets/profile.png')} style={styles.userImg} />
           <View style={styles.userDetailsView}>
             <Text style={styles.userName}>{'Rizwan Noor'}</Text>
           </View>
@@ -291,13 +245,10 @@ const ConsumerProfile = props => {
                   screen: 'ConsumerProfileSaved',
                 })
               }
-              style={{padding: heightToDp(2.9)}}>
+              style={{ padding: heightToDp(2.9) }}>
               <Icon
                 name={'pencil'}
-                style={[
-                  styles.icon,
-                  {backgroundColor: '#EEEEEE', padding: 5, borderRadius: 20},
-                ]}
+                style={[styles.icon, { backgroundColor: '#EEEEEE', padding: 5, borderRadius: 20 }]}
               />
             </TouchableOpacity>
           </View>
@@ -325,20 +276,16 @@ const ConsumerProfile = props => {
             })
           }
           gradients={['#668C6A', '#668C6A']}
-          gradientEnd={{x: 0, y: 1}}
-          gradientStart={{x: 0, y: 0}}
-          titleStyle={{marginTop: 0, marginLeft: widthToDp(2)}}
-          imgStyle={{width: widthToDp(4.5), height: heightToDp(4.5)}}
+          gradientEnd={{ x: 0, y: 1 }}
+          gradientStart={{ x: 0, y: 0 }}
+          titleStyle={{ marginTop: 0, marginLeft: widthToDp(2) }}
+          imgStyle={{ width: widthToDp(4.5), height: heightToDp(4.5) }}
         />
         <View style={styles.btnView}>
           {MAIN.map((item, index) => {
             return (
-              <View style={{marginTop: index > 0 ? heightToDp(4.5) : 0}}>
-                <Row
-                  icon={item.icon}
-                  title={item.title}
-                  onPress={item.onPress}
-                />
+              <View style={{ marginTop: index > 0 ? heightToDp(4.5) : 0 }}>
+                <Row icon={item.icon} title={item.title} onPress={item.onPress} />
               </View>
             );
           })}
@@ -347,12 +294,8 @@ const ConsumerProfile = props => {
         <View style={styles.btnView}>
           {PAYMENTS.map((item, index) => {
             return (
-              <View style={{marginTop: index > 0 ? heightToDp(4.5) : 0}}>
-                <Row
-                  icon={item.icon}
-                  title={item.title}
-                  onPress={item.onPress}
-                />
+              <View style={{ marginTop: index > 0 ? heightToDp(4.5) : 0 }}>
+                <Row icon={item.icon} title={item.title} onPress={item.onPress} />
               </View>
             );
           })}
@@ -361,12 +304,8 @@ const ConsumerProfile = props => {
         <View style={styles.btnView}>
           {MYKAYNCHI.map((item, index) => {
             return (
-              <View style={{marginTop: index > 0 ? 16 : 0}}>
-                <Row
-                  onPress={item.onPress}
-                  icon={item.icon}
-                  title={item.title}
-                />
+              <View style={{ marginTop: index > 0 ? 16 : 0 }}>
+                <Row onPress={item.onPress} icon={item.icon} title={item.title} />
               </View>
             );
           })}
@@ -376,8 +315,8 @@ const ConsumerProfile = props => {
             marginHorizontal: widthToDp(4),
             paddingTop: 15,
           }}>
-          <Text style={{paddingBottom: 10}}>Follow us</Text>
-          <View style={{flexDirection: 'row'}}>
+          <Text style={{ paddingBottom: 10 }}>Follow us</Text>
+          <View style={{ flexDirection: 'row' }}>
             {socialMediaIcons.map((icon, index) => (
               <View
                 key={index}
@@ -389,10 +328,7 @@ const ConsumerProfile = props => {
                   marginRight: 10,
                   borderRadius: 20,
                 }}>
-                <Image
-                  source={icon.source}
-                  style={{width: 25, height: 25, resizeMode: 'contain'}}
-                />
+                <Image source={icon.source} style={{ width: 25, height: 25, resizeMode: 'contain' }} />
               </View>
             ))}
           </View>
@@ -401,7 +337,7 @@ const ConsumerProfile = props => {
         <Modal
           coverScreen={false}
           isVisible={modalVisible}
-          style={{flex: 1, margin: 0, justifyContent: 'flex-end'}}
+          style={{ flex: 1, margin: 0, justifyContent: 'flex-end' }}
           onSwipeComplete={() => setModalVisible(!modalVisible)}
           onBackdropPress={() => setModalVisible(false)}
           swipeDirection={['down']}>
@@ -415,9 +351,7 @@ const ConsumerProfile = props => {
               <View style={styles.feedbackContainer}>
                 <Image source={idea} style={styles.ideaimage} />
                 <View>
-                  <Text style={{fontFamily: fonts.robo_bold, color: '#2F3A58'}}>
-                    Share an idea
-                  </Text>
+                  <Text style={{ fontFamily: fonts.robo_bold, color: '#2F3A58' }}>Share an idea</Text>
                   <Text>I have a suggestion or feature request</Text>
                 </View>
                 <Image source={faq} style={styles.faqimage} />
@@ -433,9 +367,7 @@ const ConsumerProfile = props => {
               <View style={styles.feedbackContainer}>
                 <Image source={bug} style={styles.ideaimage} />
                 <View>
-                  <Text style={{fontFamily: fonts.robo_bold, color: '#2F3A58'}}>
-                    Report a bug
-                  </Text>
+                  <Text style={{ fontFamily: fonts.robo_bold, color: '#2F3A58' }}>Report a bug</Text>
                   <Text>Something isn't working as expected</Text>
                 </View>
                 <Image source={faq} style={styles.faqimage} />
@@ -448,7 +380,7 @@ const ConsumerProfile = props => {
                 marginTop: 15,
               }}>
               For help resolving issues related to an order, please contect{' '}
-              <Text style={{color: '#84668C'}}>Customer Support</Text>
+              <Text style={{ color: '#84668C' }}>Customer Support</Text>
             </Text>
           </View>
         </Modal>
@@ -483,7 +415,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.background,
     borderRadius: 10,
   },
-  centerDiv: {flexDirection: 'row', alignItems: 'center'},
+  centerDiv: { flexDirection: 'row', alignItems: 'center' },
   artistName: {
     color: theme.background,
     fontSize: 32,
@@ -528,7 +460,7 @@ const styles = StyleSheet.create({
     borderRadius: heightToDp(12.8) / 2,
   },
 
-  ideaimage: {width: 24, height: 26, resizeMode: 'contain'},
+  ideaimage: { width: 24, height: 26, resizeMode: 'contain' },
   feedbackContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -541,7 +473,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
 
-  faqimage: {width: 12, height: 12, resizeMode: 'contain'},
+  faqimage: { width: 12, height: 12, resizeMode: 'contain' },
 
   modalMainView: {
     // height: height * 0.55,

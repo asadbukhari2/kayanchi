@@ -1,20 +1,12 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  Modal,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Image, StyleSheet, Modal, TouchableOpacity, ScrollView } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import Feather from 'react-native-vector-icons/Feather';
-import {widthToDp, heightToDp, width} from '../../../utils/Dimensions';
-import {Button, TextInput} from '../../../components';
+import { widthToDp, heightToDp, width } from '../../../utils/Dimensions';
+import { Button, TextInput } from '../../../components';
 import DatePicker from 'react-native-date-picker';
 import ReactNativeModal from 'react-native-modal';
-import {useTheme} from '../../../utils/theme';
+import { useTheme } from '../../../utils/theme';
 const AddMore = require('../../../assets/addMore.png');
 
 const theme = useTheme();
@@ -90,45 +82,29 @@ const ContainerWorkCertificate = ({
     <View style={styles.Diploma}>
       <View style={styles.gigContainer}>
         <Text style={styles.heading}>{title}</Text>
-        <Image source={AddMore} style={{width: 20, height: 20}} />
+        <Image source={AddMore} style={{ width: 20, height: 20 }} />
       </View>
       <View style={styles.separator}></View>
       <View style={styles.DiplomaConatiner}>
-        <Image
-          source={imageSource}
-          style={{width: 50, height: 50, marginLeft: 10}}
-        />
-        <View style={{flex: 1, marginLeft: 10}}>
+        <Image source={imageSource} style={{ width: 50, height: 50, marginLeft: 10 }} />
+        <View style={{ flex: 1, marginLeft: 10 }}>
           <Text style={styles.subheading}>{subtitle}</Text>
           <Text>{details}</Text>
           <Text>{date}</Text>
           <Text>{country}</Text>
         </View>
-        <View style={{marginRight: 10}}>
-          <Feather
-            style={{color: '#193356', fontSize: 18}}
-            name="edit-2"
-            onPress={toggleModal}
-          />
+        <View style={{ marginRight: 10 }}>
+          <Feather style={{ color: '#193356', fontSize: 18 }} name="edit-2" onPress={toggleModal} />
         </View>
       </View>
       <Modal visible={isModalVisible} animationType="slide">
         <TouchableOpacity onPress={toggleModal}>
-          <Feather
-            name="x"
-            size={24}
-            color="black"
-            style={{paddingHorizontal: widthToDp(4), paddingTop: 10}}
-          />
+          <Feather name="x" size={24} color="black" style={{ paddingHorizontal: widthToDp(4), paddingTop: 10 }} />
         </TouchableOpacity>
         <ScrollView>
-          <View style={{flex: 1, justifyContent: 'center'}}>
-            {modalHeading && (
-              <Text style={styles.headingModal}>{modalHeading}</Text>
-            )}
-            {modalsubHeading && (
-              <Text style={styles.subheading2}>{modalsubHeading}</Text>
-            )}
+          <View style={{ flex: 1, justifyContent: 'center' }}>
+            {modalHeading && <Text style={styles.headingModal}>{modalHeading}</Text>}
+            {modalsubHeading && <Text style={styles.subheading2}>{modalsubHeading}</Text>}
 
             <Text
               style={{
@@ -141,10 +117,9 @@ const ContainerWorkCertificate = ({
             <View>
               {modaltitle && (
                 <View>
-                  <Text
-                    style={{paddingHorizontal: widthToDp(4), paddingTop: 15}}>
+                  <Text style={{ paddingHorizontal: widthToDp(4), paddingTop: 15 }}>
                     {modaltitle}
-                    <Text style={{color: '#29AAE2'}}>{'*'} </Text>
+                    <Text style={{ color: '#29AAE2' }}>{'*'} </Text>
                   </Text>
                   <TextInput
                     input={text => setName(text)}
@@ -162,10 +137,9 @@ const ContainerWorkCertificate = ({
             <View>
               {modaltitle2 && (
                 <View>
-                  <Text
-                    style={{paddingHorizontal: widthToDp(4), paddingTop: 15}}>
+                  <Text style={{ paddingHorizontal: widthToDp(4), paddingTop: 15 }}>
                     {modaltitle2}
-                    <Text style={{color: '#29AAE2'}}>{'*'} </Text>
+                    <Text style={{ color: '#29AAE2' }}>{'*'} </Text>
                   </Text>
                   <TextInput
                     input={text => setName(text)}
@@ -181,11 +155,7 @@ const ContainerWorkCertificate = ({
               )}
             </View>
             <View style={styles.checkboxContainer}>
-              <CheckBox
-                value={isSelected}
-                onValueChange={setSelection}
-                style={styles.checkbox}
-              />
+              <CheckBox value={isSelected} onValueChange={setSelection} style={styles.checkbox} />
               <Text style={styles.label}>This credentials does not expire</Text>
             </View>
 
@@ -202,7 +172,7 @@ const ContainerWorkCertificate = ({
               style={styles.modal}
               onSwipeComplete={() => setModalVisible(!modalVisible)}
               swipeDirection={['down']}>
-              <View style={{backgroundColor: theme.darkBlack, width: '100%'}}>
+              <View style={{ backgroundColor: theme.darkBlack, width: '100%' }}>
                 <TouchableOpacity
                   activeOpacity={0.7}
                   onPress={() => {
@@ -210,17 +180,11 @@ const ContainerWorkCertificate = ({
                     setModalVisible(false);
                   }}
                   style={styles.pickerDone}>
-                  <Text
-                    style={[
-                      styles.genTxt,
-                      {fontSize: 16, textAlign: 'center', color: 'white'},
-                    ]}>
-                    Done
-                  </Text>
+                  <Text style={[styles.genTxt, { fontSize: 16, textAlign: 'center', color: 'white' }]}>Done</Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.pickerOuterView}>
-                <View style={{backgroundColor: theme.dark}}>
+                <View style={{ backgroundColor: theme.dark }}>
                   <DatePicker
                     date={pickerDate}
                     androidVariant="nativeAndroid"
@@ -248,7 +212,7 @@ const ContainerWorkCertificate = ({
               style={styles.modal}
               onSwipeComplete={() => setModalVisible(!modalVisible)}
               swipeDirection={['down']}>
-              <View style={{backgroundColor: theme.darkBlack, width: '100%'}}>
+              <View style={{ backgroundColor: theme.darkBlack, width: '100%' }}>
                 <TouchableOpacity
                   activeOpacity={0.7}
                   onPress={() => {
@@ -256,17 +220,11 @@ const ContainerWorkCertificate = ({
                     setModalVisible(false);
                   }}
                   style={styles.pickerDone}>
-                  <Text
-                    style={[
-                      styles.genTxt,
-                      {fontSize: 16, textAlign: 'center', color: 'white'},
-                    ]}>
-                    Done
-                  </Text>
+                  <Text style={[styles.genTxt, { fontSize: 16, textAlign: 'center', color: 'white' }]}>Done</Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.pickerOuterView}>
-                <View style={{backgroundColor: theme.dark}}>
+                <View style={{ backgroundColor: theme.dark }}>
                   <DatePicker
                     date={pickerDate}
                     androidVariant="nativeAndroid"
@@ -282,8 +240,8 @@ const ContainerWorkCertificate = ({
             </ReactNativeModal>
 
             <View>
-              <Text style={[styles.welcomeTxt, {paddingTop: 4}]}>
-                Choose Category<Text style={{color: '#29AAE2'}}>{'*'} </Text>
+              <Text style={[styles.welcomeTxt, { paddingTop: 4 }]}>
+                Choose Category<Text style={{ color: '#29AAE2' }}>{'*'} </Text>
               </Text>
             </View>
             <View style={styles.genRow}>
@@ -294,23 +252,19 @@ const ContainerWorkCertificate = ({
                   style={[
                     styles.genBtn,
                     {
-                      backgroundColor:
-                        gender === item.name ? theme.primary : theme.genderGrey,
+                      backgroundColor: gender === item.name ? theme.primary : theme.genderGrey,
                     },
                   ]}
                   key={item.name}>
                   <View style={styles.categoryItem}>
-                    <Image
-                      source={item.imageLink}
-                      style={{height: 25, width: 25, resizeMode: 'contain'}}
-                    />
+                    <Image source={item.imageLink} style={{ height: 25, width: 25, resizeMode: 'contain' }} />
                     <Text style={styles.genTxt}>{item.name}</Text>
                   </View>
                 </TouchableOpacity>
               ))}
             </View>
 
-            <View style={[styles.genRow, {justifyContent: 'flex-start'}]}>
+            <View style={[styles.genRow, { justifyContent: 'flex-start' }]}>
               {Category.slice(3, 5).map(item => (
                 <TouchableOpacity
                   onPress={() => setGender(item.name)}
@@ -318,25 +272,21 @@ const ContainerWorkCertificate = ({
                   style={[
                     styles.genBtn,
                     {
-                      backgroundColor:
-                        gender === item.name ? theme.primary : theme.genderGrey,
+                      backgroundColor: gender === item.name ? theme.primary : theme.genderGrey,
                     },
-                    {marginRight: widthToDp(5)},
-                    {width: widthToDp(34.5)},
+                    { marginRight: widthToDp(5) },
+                    { width: widthToDp(34.5) },
                   ]}
                   key={item.name}>
                   <View style={styles.categoryItem}>
-                    <Image
-                      source={item.imageLink}
-                      style={{height: 25, width: 25, resizeMode: 'contain'}}
-                    />
+                    <Image source={item.imageLink} style={{ height: 25, width: 25, resizeMode: 'contain' }} />
                     <Text style={styles.genTxt}>{item.name}</Text>
                   </View>
                 </TouchableOpacity>
               ))}
             </View>
           </View>
-          <View style={{paddingTop: heightToDp(10), marginBottom: 10}}>
+          <View style={{ paddingTop: heightToDp(10), marginBottom: 10 }}>
             <Button title="Save" />
           </View>
         </ScrollView>
@@ -364,7 +314,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 10,
   },
-  input: {backgroundColor: 'red'},
+  input: { backgroundColor: 'red' },
   titleContainer: {
     marginTop: 10,
     backgroundColor: 'white',
@@ -372,8 +322,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 10,
   },
-  limitText:{color: '#29AAE2', textAlign:"right", paddingRight: 15},
-  title: {paddingLeft: 10, flex: 1},
+  limitText: { color: '#29AAE2', textAlign: 'right', paddingRight: 15 },
+  title: { paddingLeft: 10, flex: 1 },
   separator: {
     height: 1,
     backgroundColor: '#EEEEEE',
@@ -415,7 +365,7 @@ const styles = StyleSheet.create({
     // paddingHorizontal: widthToDp(4),
     paddingVertical: heightToDp(3),
   },
-  subheading: {fontSize: 16, color: '#333333', fontWeight: 'bold'},
+  subheading: { fontSize: 16, color: '#333333', fontWeight: 'bold' },
   subheading2: {
     fontSize: 16,
     color: '#333333',
@@ -443,7 +393,7 @@ const styles = StyleSheet.create({
     marginTop: heightToDp(4.5),
     color: '#ffffff',
   },
-  genTxt: {color: '#ffffff', marginLeft: 6},
+  genTxt: { color: '#ffffff', marginLeft: 6 },
   categoryItem: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -462,5 +412,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingHorizontal: widthToDp(4),
   },
-  subheading3: {color: '#67718C', paddingHorizontal: widthToDp(4)},
+  subheading3: { color: '#67718C', paddingHorizontal: widthToDp(4) },
 });

@@ -1,15 +1,9 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Button, Header} from '../../components';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Header } from '../../components';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Service from './component';
 
@@ -36,12 +30,10 @@ const DATA = [
 const ArtistOrderSummary = props => {
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-        style={{flex: 1}}
-        contentContainerStyle={{paddingBottom: heightToDp(30)}}>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: heightToDp(30) }}>
         <Header backBtnGrey />
-        <View style={{height: heightToDp(80), backgroundColor: 'red'}}></View>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View style={{ height: heightToDp(80), backgroundColor: 'red' }}></View>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Text
             style={{
               fontFamily: fonts.hk_bold,
@@ -50,7 +42,7 @@ const ArtistOrderSummary = props => {
             }}>
             Amjad Ali
           </Text>
-          <Text style={{marginLeft: 10}}>4.5</Text>
+          <Text style={{ marginLeft: 10 }}>4.5</Text>
         </View>
       </ScrollView>
     </SafeAreaView>

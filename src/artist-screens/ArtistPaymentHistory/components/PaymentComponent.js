@@ -1,22 +1,17 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
-import {heightToDp, widthToDp, width} from '../../../utils/Dimensions';
-import {fonts} from '../../../utils/theme';
+import { View, Text, Image, StyleSheet } from 'react-native';
+import { heightToDp, widthToDp, width } from '../../../utils/Dimensions';
+import { fonts } from '../../../utils/theme';
 
-const PaymentComponent = ({payment}) => (
+const PaymentComponent = ({ payment }) => (
   <View style={styles.paymentContainer}>
     <View>
       <Image source={payment.imageLink} style={styles.image} />
-      <Text style={{paddingTop: 20}}>{payment.status}</Text>
+      <Text style={{ paddingTop: 20 }}>{payment.status}</Text>
     </View>
     <View style={styles.reason}>
-      <Text
-        style={{color: '#67718C', fontSize: 12, fontFamily: fonts.robo_bold}}>
-        {payment.id}
-      </Text>
-      <Text style={{color: '#668C6A', paddingVertical: 9}}>
-        {payment.reason}
-      </Text>
+      <Text style={{ color: '#67718C', fontSize: 12, fontFamily: fonts.robo_bold }}>{payment.id}</Text>
+      <Text style={{ color: '#668C6A', paddingVertical: 9 }}>{payment.reason}</Text>
       <Text
         style={{
           color: '#193356',
@@ -27,9 +22,7 @@ const PaymentComponent = ({payment}) => (
       </Text>
     </View>
     <View>
-      <Text style={{fontSize: 12}}>
-        Transaction id: {payment.transactionId}
-      </Text>
+      <Text style={{ fontSize: 12 }}>Transaction id: {payment.transactionId}</Text>
       <Text
         style={{
           marginTop: heightToDp(10),
@@ -51,8 +44,8 @@ const styles = StyleSheet.create({
     paddingVertical: heightToDp(2),
     width: width * 0.45,
   },
-  reason: {marginLeft: widthToDp(5)},
-  image: {height: 36, width: 38},
+  reason: { marginLeft: widthToDp(5) },
+  image: { height: 36, width: 38 },
   separator: {
     height: 1,
     backgroundColor: '#DDDDDD',

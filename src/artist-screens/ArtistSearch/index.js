@@ -1,24 +1,9 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Image,
-  StyleSheet,
-  FlatList,
-  Text,
-  TextInput,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {
-  Button,
-  ButtonList,
-  Header,
-  HomeCard,
-  SearchCard,
-} from '../../components';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
+import React, { useState } from 'react';
+import { View, Image, StyleSheet, FlatList, Text, TextInput, ScrollView, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, ButtonList, Header, HomeCard, SearchCard } from '../../components';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
 import Feather from 'react-native-vector-icons/Feather';
 
 const theme = useTheme();
@@ -140,10 +125,7 @@ const ArtistSearch = props => {
           />
         </View>
         <TouchableOpacity style={styles.filterView}>
-          <Image
-            source={require('../../assets/filter.png')}
-            style={styles.filterIcon}
-          />
+          <Image source={require('../../assets/filter.png')} style={styles.filterIcon} />
         </TouchableOpacity>
       </View>
       <View style={styles.buttonView}>
@@ -154,10 +136,7 @@ const ArtistSearch = props => {
           textColor={theme.genderGrey}
         />
       </View>
-      <SearchCard
-        onPress={() => props.navigation.navigate('Artist')}
-        DATA={CARD_DATA}
-      />
+      <SearchCard onPress={() => props.navigation.navigate('Artist')} DATA={CARD_DATA} />
     </SafeAreaView>
   );
 };

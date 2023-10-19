@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
-import {width, heightToDp, widthToDp} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { width, heightToDp, widthToDp } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import Counter from '../Counter';
@@ -12,25 +12,25 @@ const car = require('../../assets/car_brown.png');
 const theme = useTheme();
 
 const ConsumerProfileSubCatCard = props => {
-  const {price, details, cat, time, onCountChange } = props;
-    const [count, setCount] = useState(0);
-    const [showMore, setShowMore] = useState(false);
-     
-    console.log("count", count);
-    console.log("price", parseInt(price * count));
+  const { price, details, cat, time, onCountChange } = props;
+  const [count, setCount] = useState(0);
+  const [showMore, setShowMore] = useState(false);
 
-    const increment = () => {
-      setCount(count + 1);
-      onCountChange(count + 1, price * (count + 1));
-    };
-    
-    const decrement = () => {
-      if (count > 0) {
-        setCount(count - 1);
-        onCountChange(count - 1, price * (count - 1));
-      }
-    };
-    
+  console.log('count', count);
+  console.log('price', parseInt(price * count));
+
+  const increment = () => {
+    setCount(count + 1);
+    onCountChange(count + 1, price * (count + 1));
+  };
+
+  const decrement = () => {
+    if (count > 0) {
+      setCount(count - 1);
+      onCountChange(count - 1, price * (count - 1));
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.shownView}>
@@ -41,32 +41,26 @@ const ConsumerProfileSubCatCard = props => {
               justifyContent: 'space-between',
               alignItems: 'center',
               width: width * 0.84,
-                            marginLeft: widthToDp(3),
+              marginLeft: widthToDp(3),
             }}>
-            <View style={{flexDirection:"row"}}>
-
-
-            <Text style={styles.catName}>{cat}</Text>
-            <Text
-              style={{
-                paddingHorizontal: heightToDp(2),
-                paddingVertical: heightToDp(0.5),
-                backgroundColor: '#fae5ff',
-                borderRadius: 10,
-                marginLeft: 5,
-                color: '#2F3A58',
-                fontFamily: fonts.robo_med,
-                fontSize: 12,
-              }}>
-              20% off
-            </Text>
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={styles.catName}>{cat}</Text>
+              <Text
+                style={{
+                  paddingHorizontal: heightToDp(2),
+                  paddingVertical: heightToDp(0.5),
+                  backgroundColor: '#fae5ff',
+                  borderRadius: 10,
+                  marginLeft: 5,
+                  color: '#2F3A58',
+                  fontFamily: fonts.robo_med,
+                  fontSize: 12,
+                }}>
+                20% off
+              </Text>
             </View>
-            
-            <Counter
-              count={count}
-              onPressIncrement={increment}
-              onPressDecrement={decrement}
-            />
+
+            <Counter count={count} onPressIncrement={increment} onPressDecrement={decrement} />
           </View>
           <View
             style={{
@@ -101,12 +95,10 @@ const ConsumerProfileSubCatCard = props => {
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => setShowMore(!showMore)}
-          style={{flexDirection: 'row', alignItems: 'center'}}>
+          style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Image source={car} style={styles.iconStyle} />
           <Image source={host} style={styles.iconStyle} />
-          <Text style={[styles.secondRowTxt, {color: theme.linkTxt}]}>
-            {'View'}
-          </Text>
+          <Text style={[styles.secondRowTxt, { color: theme.linkTxt }]}>{'View'}</Text>
         </TouchableOpacity>
       </View>
     </View>

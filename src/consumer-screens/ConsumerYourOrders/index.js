@@ -1,18 +1,11 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Header} from '../../components';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Header } from '../../components';
 
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {GLOBAL_STYLES} from '../../utils/styles';
-import {useTheme, fonts} from '../../utils/theme';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { GLOBAL_STYLES } from '../../utils/styles';
+import { useTheme, fonts } from '../../utils/theme';
 
 const theme = useTheme();
 
@@ -54,9 +47,7 @@ const ALL = [
 const ConsumerYourOrders = props => {
   return (
     <SafeAreaView style={GLOBAL_STYLES.containerHome}>
-      <ScrollView
-        style={{flex: 1}}
-        contentContainerStyle={{paddingBottom: heightToDp(30)}}>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: heightToDp(30) }}>
         <Header backBtnGrey />
         <Text style={GLOBAL_STYLES.title}>{'My Order'}</Text>
         <View
@@ -75,13 +66,11 @@ const ConsumerYourOrders = props => {
               borderRadius: widthToDp(2),
               alignItems: 'center',
               justifyContent: 'center',
-            }}
-            >
+            }}>
             <Text
               style={{
                 fontFamily: fonts.robo_reg,
                 fontSize: 16,
-                
               }}>
               {'All'}
             </Text>
@@ -92,8 +81,7 @@ const ConsumerYourOrders = props => {
               borderRadius: widthToDp(2),
               alignItems: 'center',
               justifyContent: 'center',
-            }}
-            >
+            }}>
             <Text
               style={{
                 fontFamily: fonts.robo_reg,
@@ -108,8 +96,7 @@ const ConsumerYourOrders = props => {
               borderRadius: widthToDp(2),
               alignItems: 'center',
               justifyContent: 'center',
-            }}
-            >
+            }}>
             <Text
               style={{
                 fontFamily: fonts.robo_reg,
@@ -137,7 +124,7 @@ const ConsumerYourOrders = props => {
             }}>
             {'All sites'}
           </Text>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             <Image
               source={require('../../assets/Vector.png')}
               style={{
@@ -147,7 +134,7 @@ const ConsumerYourOrders = props => {
                 marginRight: 5,
               }}
             />
-            <Text style={{color: theme.counterGrey}}>{'Filter & Sort'}</Text>
+            <Text style={{ color: theme.counterGrey }}>{'Filter & Sort'}</Text>
           </View>
         </View>
         {ALL.map((item, index) => {
@@ -156,10 +143,7 @@ const ConsumerYourOrders = props => {
             <View
               style={{
                 width: width * 0.9,
-                backgroundColor:
-                  item.preference === 'Travelling'
-                    ? theme.primary
-                    : theme.background,
+                backgroundColor: item.preference === 'Travelling' ? theme.primary : theme.background,
                 borderRadius: widthToDp(4),
                 alignSelf: 'center',
                 padding: 16,
@@ -172,10 +156,7 @@ const ConsumerYourOrders = props => {
                 }}>
                 <Text
                   style={{
-                    color:
-                      item.preference === 'Travelling'
-                        ? theme.background
-                        : theme.darkBlack,
+                    color: item.preference === 'Travelling' ? theme.background : theme.darkBlack,
                     fontFamily: fonts.robo_reg,
                     fontSize: heightToDp(5.1),
                     fontWeight: '700',
@@ -195,10 +176,7 @@ const ConsumerYourOrders = props => {
                   }}>
                   <Text
                     style={{
-                      color:
-                        item.preference === 'Travelling'
-                          ? theme.background
-                          : theme.darkBlack,
+                      color: item.preference === 'Travelling' ? theme.background : theme.darkBlack,
                       fontFamily: fonts.sans_bold,
                       fontSize: widthToDp(3.6),
                       lineHeight: 20,
@@ -218,10 +196,7 @@ const ConsumerYourOrders = props => {
                     fontFamily: fonts.robo_reg,
                     fontSize: widthToDp(3.6),
                     lineHeight: heightToDp(4.3),
-                    color:
-                      item.preference === 'Travelling'
-                        ? theme.background
-                        : theme.darkBlack,
+                    color: item.preference === 'Travelling' ? theme.background : theme.darkBlack,
                   }}>
                   {'DHA Phase 6...'}
                 </Text>
@@ -237,10 +212,7 @@ const ConsumerYourOrders = props => {
                     fontFamily: fonts.hk_regular,
                     fontSize: widthToDp(3.6),
                     lineHeight: heightToDp(5),
-                    color:
-                      item.preference === 'Travelling'
-                        ? theme.background
-                        : theme.darkBlack,
+                    color: item.preference === 'Travelling' ? theme.background : theme.darkBlack,
                   }}>
                   {'2 Dec, 2022'}
                 </Text>
@@ -249,10 +221,7 @@ const ConsumerYourOrders = props => {
                     fontFamily: fonts.hk_regular,
                     fontSize: widthToDp(3.6),
                     lineHeight: heightToDp(5),
-                    color:
-                      item.preference === 'Travelling'
-                        ? theme.background
-                        : theme.darkBlack,
+                    color: item.preference === 'Travelling' ? theme.background : theme.darkBlack,
                   }}>
                   {'7:30 - 8:30 AM'}
                 </Text>
@@ -268,10 +237,7 @@ const ConsumerYourOrders = props => {
                       fontFamily: fonts.hk_regular,
                       fontSize: widthToDp(3.6),
                       lineHeight: heightToDp(5),
-                      color:
-                        item.preference === 'Travelling'
-                          ? theme.background
-                          : theme.darkBlack,
+                      color: item.preference === 'Travelling' ? theme.background : theme.darkBlack,
                     }}>
                     {item.preference}
                   </Text>
@@ -280,8 +246,7 @@ const ConsumerYourOrders = props => {
                     style={{
                       width: 16,
                       height: 18,
-                      tintColor:
-                        item.preference === 'Travelling' ? 'white' : 'black',
+                      tintColor: item.preference === 'Travelling' ? 'white' : 'black',
                     }}
                   />
                 </View>

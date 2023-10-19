@@ -1,67 +1,38 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  SafeAreaView,
-} from 'react-native';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
-import {useNavigation} from '@react-navigation/native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, SafeAreaView } from 'react-native';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
+import { useNavigation } from '@react-navigation/native';
 import {} from 'react-native-safe-area-context';
 
 const theme = useTheme();
 
 const index = props => {
   const navigation = useNavigation();
-  const {
-    headerStyle,
-    titleStyle,
-    title,
-    titleShadow,
-    skip,
-    onSkip,
-    backBtn,
-    backBtnWhite,
-    backBtnGrey,
-  } = props;
+  const { headerStyle, titleStyle, title, titleShadow, skip, onSkip, backBtn, backBtnWhite, backBtnGrey } = props;
 
   return (
     <View style={[styles.container, headerStyle]}>
       {(backBtn || backBtnWhite || backBtnGrey) && (
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => navigation.goBack()}
-          style={[styles.backBtn, {left: 0}]}>
+        <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.goBack()} style={[styles.backBtn, { left: 0 }]}>
           <Image
             source={require('../../assets/backArrow.png')}
             style={[
               styles.backImg,
               {
-                tintColor: backBtnWhite
-                  ? theme.background
-                  : backBtnGrey
-                  ? theme.backIcon
-                  : theme.primary,
+                tintColor: backBtnWhite ? theme.background : backBtnGrey ? theme.backIcon : theme.primary,
               },
             ]}
           />
         </TouchableOpacity>
       )}
       {title && titleShadow ? (
-        <Text style={[styles.title, styles.textWithShadow, titleStyle]}>
-          {title}
-        </Text>
+        <Text style={[styles.title, styles.textWithShadow, titleStyle]}>{title}</Text>
       ) : title ? (
         <Text style={[styles.title, titleStyle]}>{title}</Text>
       ) : null}
       {skip && (
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={onSkip}
-          style={[styles.backBtn, {right: 0}]}>
+        <TouchableOpacity activeOpacity={0.7} onPress={onSkip} style={[styles.backBtn, { right: 0 }]}>
           <Text style={styles.skip}>skip</Text>
         </TouchableOpacity>
       )}
@@ -103,7 +74,7 @@ const styles = StyleSheet.create({
   },
   textWithShadow: {
     textShadowColor: 'rgba(0, 0, 0, 0.45)',
-    textShadowOffset: {width: -1, height: 1},
+    textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 4,
   },
 });

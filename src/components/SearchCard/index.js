@@ -1,14 +1,7 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  Image,
-  View,
-  TouchableOpacity,
-  FlatList,
-} from 'react-native';
-import {heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
+import React, { useState } from 'react';
+import { StyleSheet, Text, Image, View, TouchableOpacity, FlatList } from 'react-native';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -16,25 +9,17 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 const theme = useTheme();
 
 const index = props => {
-  const {DATA, onPress} = props;
+  const { DATA, onPress } = props;
 
   return DATA ? (
     <FlatList
       data={DATA}
-      keyExtractor={({item, index}) => index}
-      renderItem={({item, index}) => {
+      keyExtractor={({ item, index }) => index}
+      renderItem={({ item, index }) => {
         return (
-          <TouchableOpacity
-            onPress={onPress}
-            activeOpacity={0.7}
-            style={styles.cardView}>
+          <TouchableOpacity onPress={onPress} activeOpacity={0.7} style={styles.cardView}>
             <View style={styles.imgView}>
-              {item.popular && (
-                <Image
-                  source={require('../../assets/popularBadge.png')}
-                  style={styles.popular}
-                />
-              )}
+              {item.popular && <Image source={require('../../assets/popularBadge.png')} style={styles.popular} />}
             </View>
             <View style={styles.rightView}>
               <View>
@@ -76,21 +61,18 @@ const index = props => {
                     />
                   </View>
                 </View>
-                <View style={[styles.straightRow, {marginLeft: widthToDp(1)}]}>
+                <View style={[styles.straightRow, { marginLeft: widthToDp(1) }]}>
                   <Fontisto name={'map-marker-alt'} style={styles.icon} />
                   <Text style={styles.address}>{item.address}</Text>
                 </View>
               </View>
-              <View style={[styles.straightRow, {alignSelf: 'flex-end'}]}>
+              <View style={[styles.straightRow, { alignSelf: 'flex-end' }]}>
                 <Image
                   source={require('../../assets/travelling.png')}
                   style={[
                     styles.travelling,
                     {
-                      tintColor:
-                        item.status == 'travelling'
-                          ? theme.primary
-                          : theme.genderGrey,
+                      tintColor: item.status == 'travelling' ? theme.primary : theme.genderGrey,
                     },
                   ]}
                 />
@@ -99,10 +81,7 @@ const index = props => {
                   style={[
                     styles.hosting,
                     {
-                      tintColor:
-                        item.status == 'hosting'
-                          ? theme.primary
-                          : theme.genderGrey,
+                      tintColor: item.status == 'hosting' ? theme.primary : theme.genderGrey,
                     },
                   ]}
                 />

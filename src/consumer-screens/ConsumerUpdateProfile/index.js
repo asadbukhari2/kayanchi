@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,20 +12,13 @@ import {
   ScrollView,
 } from 'react-native';
 // import {getStatusBarHeight} from 'react-native-status-bar-height';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {fonts, useTheme} from '../../utils/theme';
-import {width, heightToDp, widthToDp, height} from '../../utils/Dimensions';
-import {
-  ConsumerSubCatCard,
-  Button,
-  GradientRadio,
-  Header,
-  PromotionOfferCard,
-  Tabs,
-} from '../../components';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { fonts, useTheme } from '../../utils/theme';
+import { width, heightToDp, widthToDp, height } from '../../utils/Dimensions';
+import { ConsumerSubCatCard, Button, GradientRadio, Header, PromotionOfferCard, Tabs } from '../../components';
 import Modal from 'react-native-modal';
 import Feather from 'react-native-vector-icons/Feather';
-import {TextInput} from '../../components';
+import { TextInput } from '../../components';
 import EditableField from '../../components/EditableField';
 import ContainerWorkCertificate from './Components/ContainerWorkCertificate';
 import Gallery from '../../assets/Gallery.png';
@@ -171,13 +164,12 @@ const ConsumerUpdateProfile = props => {
           zIndex: 100000,
         }}
       /> */}
-     <ScrollView 
+      <ScrollView
         scrollEventThrottle={10}
-        style={{height: height}}
+        style={{ height: height }}
         onScroll={e => {
           scrollY.setValue(e.nativeEvent.contentOffset.y);
-        }}
-        >
+        }}>
         {/* <View 
         // style={{marginTop: headerHeight}}
         >
@@ -233,7 +225,7 @@ const ConsumerUpdateProfile = props => {
           modalsubHeading="Complete your verification to activate your gig on the marketplace"
           modaltitle="Job Title"
           modaltitle2="Company Name"
-        /> 
+        />
         {/* <ContainerWorkCertificate
           title="Work Experience"
           imageSource={dummy} // Add the correct image source
@@ -290,8 +282,8 @@ const ConsumerUpdateProfile = props => {
           </View>
         </View> */}
 
-        <View style={{marginLeft: widthToDp(5)}}>
-          <Text style={[styles.welcomeTxt, {paddingTop: 7}]}>Portfolio</Text>
+        <View style={{ marginLeft: widthToDp(5) }}>
+          <Text style={[styles.welcomeTxt, { paddingTop: 7 }]}>Portfolio</Text>
           <Text>Check out Narmeen 's best work</Text>
         </View>
         <View>
@@ -310,7 +302,7 @@ const ConsumerUpdateProfile = props => {
             }}
             activeOpacity={0.9}>
             {image1 ? (
-              <Image source={{uri: image1.path}} style={styles.upload} />
+              <Image source={{ uri: image1.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
                 <Image source={Gallery}></Image>
@@ -329,7 +321,7 @@ const ConsumerUpdateProfile = props => {
             }}
             activeOpacity={0.9}>
             {image2 ? (
-              <Image source={{uri: image2.path}} style={styles.upload} />
+              <Image source={{ uri: image2.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
                 <Image source={Gallery}></Image>
@@ -348,7 +340,7 @@ const ConsumerUpdateProfile = props => {
             }}
             activeOpacity={0.9}>
             {image3 ? (
-              <Image source={{uri: image3.path}} style={styles.upload} />
+              <Image source={{ uri: image3.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
                 <Image source={Gallery}></Image>
@@ -418,7 +410,7 @@ const styles = StyleSheet.create({
     marginTop: heightToDp(4.5),
     color: '#ffffff',
   },
-  genTxt: {color: '#ffffff', marginLeft: 6},
+  genTxt: { color: '#ffffff', marginLeft: 6 },
   categoryItem: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -448,8 +440,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
-  saveButtonText: {color: '#84668C', fontSize: 12},
-  limitText: {fontSize: 12, paddingRight: 15, paddingLeft: 5, color: '#29AAE2'},
+  saveButtonText: { color: '#84668C', fontSize: 12 },
+  limitText: { fontSize: 12, paddingRight: 15, paddingLeft: 5, color: '#29AAE2' },
   saveButton: {
     borderWidth: 1,
     borderColor: '#84668C',
@@ -462,7 +454,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 10,
   },
-  input: {backgroundColor: 'red'},
+  input: { backgroundColor: 'red' },
   titleContainer: {
     marginTop: 10,
     backgroundColor: 'white',
@@ -470,7 +462,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 10,
   },
-  title: {paddingLeft: 10, flex: 1},
+  title: { paddingLeft: 10, flex: 1 },
   separator: {
     height: 1,
     backgroundColor: '#EEEEEE',
@@ -496,7 +488,7 @@ const styles = StyleSheet.create({
     // paddingHorizontal: widthToDp(4),
     paddingVertical: heightToDp(3),
   },
-  subheading: {fontSize: 16, color: '#333333', fontWeight: 'bold'},
+  subheading: { fontSize: 16, color: '#333333', fontWeight: 'bold' },
   DiplomaConatiner: {
     width: width * 0.91,
     flexDirection: 'row',
@@ -567,7 +559,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: -110,
   },
-  centerDiv: {flexDirection: 'row', alignItems: 'center'},
+  centerDiv: { flexDirection: 'row', alignItems: 'center' },
 
   subHeading: {
     fontSize: 17,

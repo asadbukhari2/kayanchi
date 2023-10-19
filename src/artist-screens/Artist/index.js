@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,18 +11,11 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
-import {getStatusBarHeight} from 'react-native-status-bar-height';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {fonts, useTheme} from '../../utils/theme';
-import {width, heightToDp, widthToDp, height} from '../../utils/Dimensions';
-import {
-  ArtistSubCatCard,
-  Button,
-  GradientRadio,
-  Header,
-  PromotionOfferCard,
-  Tabs,
-} from '../../components';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { fonts, useTheme } from '../../utils/theme';
+import { width, heightToDp, widthToDp, height } from '../../utils/Dimensions';
+import { ArtistSubCatCard, Button, GradientRadio, Header, PromotionOfferCard, Tabs } from '../../components';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Modal from 'react-native-modal';
@@ -160,12 +153,7 @@ const Artist = props => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar
-        animated={true}
-        backgroundColor="#000"
-        barStyle={'light-content'}
-        showHideTransition={'fade'}
-      />
+      <StatusBar animated={true} backgroundColor="#000" barStyle={'light-content'} showHideTransition={'fade'} />
       <View
         style={{
           height: getStatusBarHeight(),
@@ -175,12 +163,8 @@ const Artist = props => {
           zIndex: 100000,
         }}
       />
-      <Animated.View
-        style={[
-          styles.header,
-          {height: headerHeight, transform: [{translateY: opacity}]},
-        ]}>
-        <Animated.View style={[{transform: [{translateY: opacityHeader}]}]}>
+      <Animated.View style={[styles.header, { height: headerHeight, transform: [{ translateY: opacity }] }]}>
+        <Animated.View style={[{ transform: [{ translateY: opacityHeader }] }]}>
           <Header backBtnWhite />
         </Animated.View>
         <TouchableOpacity activeOpacity={0.7} style={styles.followBtn}>
@@ -190,19 +174,13 @@ const Artist = props => {
           {/* <Text style={styles.artistLocation}>{'3.2 kms away from you'}</Text> */}
           <Animated.Text
             // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
-            style={[
-              styles.artistLocation,
-              {transform: [{translateY: opacity}]},
-            ]}>
+            style={[styles.artistLocation, { transform: [{ translateY: opacity }] }]}>
             {'3.2 kms away from you'}
           </Animated.Text>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Animated.Text
               // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
-              style={[
-                styles.artistName,
-                {transform: [{translateX: translateName}, {scale: scaleName}]},
-              ]}>
+              style={[styles.artistName, { transform: [{ translateX: translateName }, { scale: scaleName }] }]}>
               {'Narmeen Iqbal'}
             </Animated.Text>
             <Animated.Text
@@ -210,10 +188,7 @@ const Artist = props => {
               style={[
                 styles.artistRating,
                 {
-                  transform: [
-                    {translateX: translateRating},
-                    {scale: scaleRating},
-                  ],
+                  transform: [{ translateX: translateRating }, { scale: scaleRating }],
                 },
               ]}>
               {'4.5'}
@@ -227,24 +202,24 @@ const Artist = props => {
       </Animated.View>
       <ScrollView
         scrollEventThrottle={10}
-        style={{height: height}}
+        style={{ height: height }}
         onScroll={e => {
           scrollY.setValue(e.nativeEvent.contentOffset.y);
         }}>
-        <View style={{marginTop: headerHeight}}>
+        <View style={{ marginTop: headerHeight }}>
           <Tabs selectedTab={txt => setSubHeading(txt)} DATA={DATA} />
         </View>
-        <View style={{marginTop: heightToDp(6.7)}}>
+        <View style={{ marginTop: heightToDp(6.7) }}>
           <View style={styles.PromotionTxtRow}>
             <Text style={styles.promotionTxt}>{'Promotional Offers'}</Text>
             <Text style={styles.linkTxt}>{'View all'}</Text>
           </View>
           <FlatList
             data={DATA1}
-            style={{marginTop: heightToDp(4.5), marginLeft: widthToDp(4.5)}}
+            style={{ marginTop: heightToDp(4.5), marginLeft: widthToDp(4.5) }}
             horizontal
-            keyExtractor={({item, index}) => index}
-            renderItem={({item, index}) => {
+            keyExtractor={({ item, index }) => index}
+            renderItem={({ item, index }) => {
               return (
                 <PromotionOfferCard
                   title={item.title}
@@ -261,42 +236,32 @@ const Artist = props => {
             <Text style={styles.subHeading}>{subHeading}</Text>
           </View>
         </View>
-        <View style={{marginTop: heightToDp(4.5)}}>
+        <View style={{ marginTop: heightToDp(4.5) }}>
           {DATA2.map((item, index) => {
             return (
-              <ArtistSubCatCard
-                key={index}
-                cat={item.cat}
-                price={item.price}
-                time={item.time}
-                details={item.details}
-              />
+              <ArtistSubCatCard key={index} cat={item.cat} price={item.price} time={item.time} details={item.details} />
             );
           })}
         </View>
         <Button
           title={'Continue'}
-          btnStyle={{marginBottom: heightToDp(5.5), marginTop: heightToDp(3.5)}}
+          btnStyle={{ marginBottom: heightToDp(5.5), marginTop: heightToDp(3.5) }}
           onPress={() => setModalVisible(true)}
         />
       </ScrollView>
       <Modal
         coverScreen={false}
         isVisible={modalVisible}
-        style={{flex: 1, margin: 0, justifyContent: 'flex-end'}}
+        style={{ flex: 1, margin: 0, justifyContent: 'flex-end' }}
         onSwipeComplete={() => setModalVisible(!modalVisible)}
         swipeDirection={['down']}>
         <View style={styles.modalMainView}>
-          <Image
-            source={require('../../assets/onBoarding.png')}
-            style={styles.modalImg}
-          />
+          <Image source={require('../../assets/onBoarding.png')} style={styles.modalImg} />
 
           <View style={styles.modalTxtView}>
             <Text style={styles.modalTitle}>Travelling or hosting?</Text>
             <Text style={styles.modalNormalTxt}>
-              Please choose Hosting or Travelling to conitnue with the order
-              process
+              Please choose Hosting or Travelling to conitnue with the order process
             </Text>
           </View>
 
@@ -308,16 +273,8 @@ const Artist = props => {
                   title={item.title}
                   source={item.source}
                   onPress={() => setPreferenceStatus(item.title)}
-                  titleStyle={
-                    preferenceStatus == item.title
-                      ? null
-                      : {color: theme.lightBlack}
-                  }
-                  imgStyle={
-                    preferenceStatus == item.title
-                      ? null
-                      : {tintColor: theme.lightBlack}
-                  }
+                  titleStyle={preferenceStatus == item.title ? null : { color: theme.lightBlack }}
+                  imgStyle={preferenceStatus == item.title ? null : { tintColor: theme.lightBlack }}
                   containerStyle={
                     preferenceStatus == item.title
                       ? null
@@ -326,21 +283,15 @@ const Artist = props => {
                           borderColor: 'rgba(132, 102, 140, 0.15)',
                         }
                   }
-                  gradients={
-                    preferenceStatus == item.title
-                      ? null
-                      : ['rgba(0,0,0,0.1)', theme.background]
-                  }
+                  gradients={preferenceStatus == item.title ? null : ['rgba(0,0,0,0.1)', theme.background]}
                 />
               );
             })}
           </View>
           <Button
             title={'Continue'}
-            btnStyle={{position: 'absolute', bottom: heightToDp(5.5)}}
-            onPress={() =>
-              props.navigation.navigate('ProfileStack', {screen: 'Address'})
-            }
+            btnStyle={{ position: 'absolute', bottom: heightToDp(5.5) }}
+            onPress={() => props.navigation.navigate('ProfileStack', { screen: 'Address' })}
           />
         </View>
       </Modal>

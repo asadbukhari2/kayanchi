@@ -1,23 +1,14 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  Switch,
-  TouchableOpacity,
-  Text,
-  View,
-  ScrollView,
-  Image,
-  Modal,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {AddNewBtn, Button, Header, TextInput} from '../../components';
-import {heightToDp, widthToDp, width} from '../../utils/Dimensions';
-import {GLOBAL_STYLES} from '../../utils/styles';
-import {fonts, useTheme} from '../../utils/theme';
+import React, { useState } from 'react';
+import { StyleSheet, Switch, TouchableOpacity, Text, View, ScrollView, Image, Modal } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { AddNewBtn, Button, Header, TextInput } from '../../components';
+import { heightToDp, widthToDp, width } from '../../utils/Dimensions';
+import { GLOBAL_STYLES } from '../../utils/styles';
+import { fonts, useTheme } from '../../utils/theme';
 import EasyPaisa from '../../assets/easypaisa.png';
 import JazzCash from '../../assets/jaazzcash.png';
 import ToggleSwitch from 'toggle-switch-react-native';
-import {RadioButton} from 'react-native-paper';
+import { RadioButton } from 'react-native-paper';
 import CheckBox from '@react-native-community/checkbox';
 import Feather from 'react-native-vector-icons/Feather';
 import CircularProgressBar from '../../components/CircularProgressBar';
@@ -88,50 +79,42 @@ const ConsumerCashPayment = props => {
   const handlePrivate = () => {
     setIsPrivate(previousState => !previousState);
   };
- 
+
   const closeModal = () => {
     setIsModalVisible(false);
   };
 
   return (
     <SafeAreaView style={GLOBAL_STYLES.containerHome}>
-      <ScrollView
-        style={{flex: 1}}
-        contentContainerStyle={{paddingBottom: heightToDp(10)}}>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: heightToDp(10) }}>
         <Header backBtnGrey />
-        <Text style={GLOBAL_STYLES.title}>
-          {'Payment method'}
-        </Text>
+        <Text style={GLOBAL_STYLES.title}>{'Payment method'}</Text>
         <AddNewBtn
           title={'Apply Promo Code'}
           iconColor={theme.counterGrey}
-          titleStyle={{color: theme.counterGrey}}
-          onPress={() =>
-            props.navigation.navigate('ConsumerApplyPromoCode')
-          }
+          titleStyle={{ color: theme.counterGrey }}
+          onPress={() => props.navigation.navigate('ConsumerApplyPromoCode')}
         />
         <View style={styles.balanceContainer}>
           <View style={styles.alignRow}>
             <Text style={styles.heading}>
-              2x <Text style={{color: '#84668C'}}>Haircut</Text>{' '}
+              2x <Text style={{ color: '#84668C' }}>Haircut</Text>{' '}
             </Text>
             <Text style={styles.subHeading}>Rs 2,300</Text>
           </View>
           <View style={styles.alignRow}>
             <Text style={styles.heading}>
-              2x <Text style={{color: '#84668C'}}>Haircolor</Text>
+              2x <Text style={{ color: '#84668C' }}>Haircolor</Text>
             </Text>
             <Text style={styles.subHeading}>Rs 2,300</Text>
           </View>
-          <View style={[styles.alignRow, { marginVertical: 5}]}>
-            <Text style={[styles.subHeading, { fontFamily: fonts.robo_med}]}>GST (13%)</Text>
+          <View style={[styles.alignRow, { marginVertical: 5 }]}>
+            <Text style={[styles.subHeading, { fontFamily: fonts.robo_med }]}>GST (13%)</Text>
             <Text style={styles.subHeading}>Rs 800</Text>
           </View>
-          <View style={[styles.alignRow, { alignItems:"center"}]}>
-            <Text style={[{color: '#84668C', fontFamily: fonts.robo_med, fontSize:16}]}>TOTAL</Text>
-            <Text style={{color: '#84668C', fontSize: 24, fontFamily: fonts.robo_bold}}>
-              Rs 12,300
-            </Text>
+          <View style={[styles.alignRow, { alignItems: 'center' }]}>
+            <Text style={[{ color: '#84668C', fontFamily: fonts.robo_med, fontSize: 16 }]}>TOTAL</Text>
+            <Text style={{ color: '#84668C', fontSize: 24, fontFamily: fonts.robo_bold }}>Rs 12,300</Text>
           </View>
         </View>
         <Text
@@ -145,11 +128,11 @@ const ConsumerCashPayment = props => {
         </Text>
         <View style={styles.balanceContainer}>
           <View style={styles.SwitchContent}>
-            <Text style={{fontWeight: fonts.robo_reg, fontSize:16, color:"#67718C"}}>{'Cash'}</Text>
+            <Text style={{ fontWeight: fonts.robo_reg, fontSize: 16, color: '#67718C' }}>{'Cash'}</Text>
             <View style={styles.switchContainer}>
-            <ToggleSwitch
+              <ToggleSwitch
                 isOn={isPrivate}
-                style={{height: 20, marginRight: 10}}
+                style={{ height: 20, marginRight: 10 }}
                 value={isPrivate}
                 onColor="#84668C"
                 offColor="#9A9A9A"
@@ -165,9 +148,9 @@ const ConsumerCashPayment = props => {
               /> */}
             </View>
           </View>
-          <View style={[styles.SwitchContent, {marginTop: 10, marginBottom: 15}]}>
-            <Text style={{fontWeight: fonts.robo_reg, fontSize:16, color:"#67718C"}}>{'Kayanchi Wallet'}</Text>
-            <Text style={{color: '#668C6A',  fontFamily: fonts.hk_bold, fontSize: 16}}>RS 5000</Text>
+          <View style={[styles.SwitchContent, { marginTop: 10, marginBottom: 15 }]}>
+            <Text style={{ fontWeight: fonts.robo_reg, fontSize: 16, color: '#67718C' }}>{'Kayanchi Wallet'}</Text>
+            <Text style={{ color: '#668C6A', fontFamily: fonts.hk_bold, fontSize: 16 }}>RS 5000</Text>
             <View style={styles.switchContainer}>
               {/* <Switch
                 value={isPrivate}
@@ -176,9 +159,9 @@ const ConsumerCashPayment = props => {
                 trackColor={{false: 'grey', true: 'grey'}}
                 style={styles.switch}
               /> */}
-                 <ToggleSwitch
+              <ToggleSwitch
                 isOn={isPrivate}
-                style={{height: 20, marginRight: 10}}
+                style={{ height: 20, marginRight: 10 }}
                 value={isPrivate}
                 onColor="#84668C"
                 offColor="#9A9A9A"
@@ -220,10 +203,8 @@ const ConsumerCashPayment = props => {
                 />
               </View>
               {isSelected && selectedMethod === payment.imageLink && (
-                <View style={{marginLeft: widthToDp(7)}}>
-                  <RadioButton.Group
-                    onValueChange={newValue => setChecked(newValue)}
-                    value={checked}>
+                <View style={{ marginLeft: widthToDp(7) }}>
+                  <RadioButton.Group onValueChange={newValue => setChecked(newValue)} value={checked}>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -234,10 +215,7 @@ const ConsumerCashPayment = props => {
                       <Text> {payment.phoneNumbr}</Text>
                     </View>
                   </RadioButton.Group>
-                  <Text style={{fontSize: 16, color: '#67718C', fontFamily: fonts.robo_reg}}>
-                    {' '}
-                    + Add new account
-                  </Text>
+                  <Text style={{ fontSize: 16, color: '#67718C', fontFamily: fonts.robo_reg }}> + Add new account</Text>
                 </View>
               )}
             </View>
@@ -247,19 +225,17 @@ const ConsumerCashPayment = props => {
           style={{
             color: '#67718C',
             marginVertical: 10,
-            fontSize: 14, 
+            fontSize: 14,
             fontFamily: fonts.hk_bold,
             marginHorizontal: widthToDp(5),
           }}>
-          BOOKING NOTES: <Text style={{fontFamily: fonts.robo_light}}>(Optional)</Text>
+          BOOKING NOTES: <Text style={{ fontFamily: fonts.robo_light }}>(Optional)</Text>
         </Text>
 
         <View>
           <TextInput
             input={text => setName(text)}
-            placeholder={
-              'Please tell us anything that may assist with the order...'
-            }
+            placeholder={'Please tell us anything that may assist with the order...'}
             multiline
             inputBoxStyle={{
               backgroundColor: '#ffffff',
@@ -281,17 +257,11 @@ const ConsumerCashPayment = props => {
             0/100
           </Text>
         </View>
-        <View style={{marginTop: 20}}>
-          <Button
-            title="Place your Order"
-            onPress={() => props.navigation.navigate("ConsumerApplyPromoCode")}
-          />
+        <View style={{ marginTop: 20 }}>
+          <Button title="Place your Order" onPress={() => props.navigation.navigate('ConsumerApplyPromoCode')} />
         </View>
 
-        <Modal
-          visible={isModalVisible}
-          animationType="slide"
-          onRequestClose={closeModal}>
+        <Modal visible={isModalVisible} animationType="slide" onRequestClose={closeModal}>
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
               <Text
@@ -303,7 +273,7 @@ const ConsumerCashPayment = props => {
                 }}>
                 Waiting for confirmation
               </Text>
-              <View style={{alignItems: 'center', marginVertical: 20}}>
+              <View style={{ alignItems: 'center', marginVertical: 20 }}>
                 <CircularProgressBar
                   progress={80}
                   radius={80}
@@ -316,7 +286,7 @@ const ConsumerCashPayment = props => {
                   }}
                 />
               </View>
-              <Text style={{fontSize: 16, marginHorizontal: widthToDp(5)}}>
+              <Text style={{ fontSize: 16, marginHorizontal: widthToDp(5) }}>
                 Waiting for Narmeen Iqbal to accept your booking.
               </Text>
               <Text
@@ -331,13 +301,10 @@ const ConsumerCashPayment = props => {
                 <View style={styles.row}>
                   <MultiButton
                     title={'Go Back Home'}
-                    btnStyle={{backgroundColor: '#67506D'}}
-                    onPress={() => props.navigation.navigate("ConsumerHomeStack" , { screen: "ConsumerHome"})}
+                    btnStyle={{ backgroundColor: '#67506D' }}
+                    onPress={() => props.navigation.navigate('ConsumerHomeStack', { screen: 'ConsumerHome' })}
                   />
-                  <MultiButton
-                    title={'Cancel Request'}
-                    btnStyle={{backgroundColor: '#9A9A9A'}}
-                  />
+                  <MultiButton title={'Cancel Request'} btnStyle={{ backgroundColor: '#9A9A9A' }} />
                 </View>
               </View>
             </View>
@@ -351,9 +318,9 @@ const ConsumerCashPayment = props => {
 export default ConsumerCashPayment;
 
 const styles = StyleSheet.create({
-  alignRow: {flexDirection: 'row', justifyContent: 'space-between'},
-  heading: {fontSize: 20, fontFamily: fonts.hk_bold},
-  subHeading: {fontSize: 16, color: '#67718C', fontFamily: fonts.hk_bold},
+  alignRow: { flexDirection: 'row', justifyContent: 'space-between' },
+  heading: { fontSize: 20, fontFamily: fonts.hk_bold },
+  subHeading: { fontSize: 16, color: '#67718C', fontFamily: fonts.hk_bold },
   txt: {
     color: '#1583D8',
     borderColor: '#1583D8',
@@ -378,7 +345,7 @@ const styles = StyleSheet.create({
     marginTop: heightToDp(3),
     marginBottom: 15,
   },
-  row: {flexDirection: 'row', alignItems: 'center'},
+  row: { flexDirection: 'row', alignItems: 'center' },
 
   input: {
     marginTop: 20,
@@ -430,15 +397,15 @@ const styles = StyleSheet.create({
     paddingVertical: heightToDp(5),
     borderRadius: 10,
   },
-  checkboxContainer: {flexDirection: 'row', alignItems: 'center'},
+  checkboxContainer: { flexDirection: 'row', alignItems: 'center' },
   paymentContainer: {
     flexDirection: 'row',
     marginHorizontal: widthToDp(5),
     paddingVertical: heightToDp(2),
     width: width * 0.45,
   },
-  reason: {marginLeft: widthToDp(5)},
-  image: {height: 36, width: 38},
+  reason: { marginLeft: widthToDp(5) },
+  image: { height: 36, width: 38 },
   separator: {
     height: 1,
     backgroundColor: '#DDDDDD',

@@ -1,12 +1,12 @@
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React from 'react';
-import {widthToDp} from '../../../utils/Dimensions';
-import {useTheme} from '../../../utils/theme';
+import { widthToDp } from '../../../utils/Dimensions';
+import { useTheme } from '../../../utils/theme';
 
 const theme = useTheme();
 
 const index = props => {
-  const {title} = props;
+  const { title } = props;
   const [tab, setTab] = useState('All');
   return (
     <TouchableOpacity

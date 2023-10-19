@@ -1,17 +1,15 @@
 import React from 'react';
-import { View, Text, Image , StyleSheet} from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 import { widthToDp, heightToDp } from '../../utils/Dimensions';
 import { fonts } from '../../utils/theme';
 
 const ModalContent = ({ data, theme }) => {
-    console.log('data', data)
+  console.log('data', data);
   return (
     <View
       style={[
         styles.modalElement,
-        data.modalImageSource === theme.CreateGig
-          ? { backgroundColor: '#416245' }
-          : { backgroundColor: theme.primary },
+        data.modalImageSource === theme.CreateGig ? { backgroundColor: '#416245' } : { backgroundColor: theme.primary },
       ]}>
       <View>
         <Image source={data.modalImageSource} style={styles.imageModal} />
@@ -32,9 +30,7 @@ const ModalContent = ({ data, theme }) => {
 
 export default ModalContent;
 
-
 const styles = StyleSheet.create({
-    
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -48,7 +44,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 30,
   },
-  imageModal: {width: 80, height: 100, resizeMode: 'contain'},
+  imageModal: { width: 80, height: 100, resizeMode: 'contain' },
   closeIconContainer: {
     backgroundColor: '#EEEEEE',
     borderRadius: 20,
@@ -66,7 +62,7 @@ const styles = StyleSheet.create({
   },
   modalText: {
     fontSize: 18,
-fontFamily: fonts.robo_bold,
+    fontFamily: fonts.robo_bold,
     marginBottom: 20,
     color: 'white',
   },
@@ -75,4 +71,4 @@ fontFamily: fonts.robo_bold,
     color: 'white',
     textAlign: 'justify',
   },
-})
+});

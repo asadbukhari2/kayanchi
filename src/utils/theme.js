@@ -1,7 +1,7 @@
 import React from 'react';
-import {Appearance} from 'react-native';
-import {useSelector} from 'react-redux';
-import {store} from '../redux/store';
+import { Appearance } from 'react-native';
+import { useSelector } from 'react-redux';
+import { store } from '../redux/store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const backgroundLight = '#1b0830';

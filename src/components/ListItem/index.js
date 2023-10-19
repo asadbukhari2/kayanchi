@@ -16,20 +16,20 @@ const ListItem = ({ label }) => {
 const styles = StyleSheet.create({
   listItem: {
     paddingHorizontal: widthToDp(4),
-    flexDirection: 'row', 
-    alignItems: 'center', 
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingVertical: 2,
   },
   bulletPoint: {
     fontSize: 14,
     marginRight: 8,
     color: '#67718C',
-    fontFamily:fonts.robo_med
+    fontFamily: fonts.robo_med,
   },
   itemText: {
     fontSize: 14,
-    color: '#67718C', 
-    fontFamily:fonts.robo_med,
+    color: '#67718C',
+    fontFamily: fonts.robo_med,
   },
 });
 

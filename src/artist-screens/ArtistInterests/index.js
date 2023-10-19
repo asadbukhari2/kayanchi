@@ -1,67 +1,66 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, FlatList} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Button, Header, ImageCard, TextInput} from '../../components';
-import {height, heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Header, ImageCard, TextInput } from '../../components';
+import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
 import api from '../../utils/APIservice';
-import {showMessage} from 'react-native-flash-message';
-import {useDispatch} from 'react-redux';
-import {saveUserData} from '../../redux/actions';
-import haircolor from '../../assets/haircolor_interest.png'
-import haircut from '../../assets/haircut_interest.png'
-import facials from '../../assets/facials_interest.png'
-import lashes from '../../assets/lashes_interest.png'
-import makeup from '../../assets/makeup_interest.png'
-import massage from '../../assets/massage_interest.png'
-import medicure from '../../assets/medicure_interest.png'
-import pedicure from '../../assets/pedicure_interest.png'
-import waxing from '../../assets/waxing_interest.png'
+import { showMessage } from 'react-native-flash-message';
+import { useDispatch } from 'react-redux';
+import { saveUserData } from '../../redux/actions';
+import haircolor from '../../assets/haircolor_interest.png';
+import haircut from '../../assets/haircut_interest.png';
+import facials from '../../assets/facials_interest.png';
+import lashes from '../../assets/lashes_interest.png';
+import makeup from '../../assets/makeup_interest.png';
+import massage from '../../assets/massage_interest.png';
+import medicure from '../../assets/medicure_interest.png';
+import pedicure from '../../assets/pedicure_interest.png';
+import waxing from '../../assets/waxing_interest.png';
 
 const theme = useTheme();
 
 const DATA = [
   {
     service: 'HAIRCUT',
-    imageLink:haircut
+    imageLink: haircut,
   },
   {
     service: 'HAIRCOLOR',
-    imageLink:haircolor
+    imageLink: haircolor,
   },
   {
     service: 'MAKEUP',
-    imageLink: makeup
+    imageLink: makeup,
   },
   {
     service: 'MASSAGES',
-    imageLink: massage
+    imageLink: massage,
   },
   {
     service: 'PEDICURE',
-    imageLink:pedicure
+    imageLink: pedicure,
   },
   {
     service: 'MEDICURE',
-    imageLink: medicure
-
+    imageLink: medicure,
   },
   {
     service: 'WAXING',
-    imageLink: waxing
+    imageLink: waxing,
   },
   {
     service: 'EYELASHES',
-    imageLink:lashes
+    imageLink: lashes,
   },
   {
     service: 'FACIALS',
-    imageLink: facials
+    imageLink: facials,
   },
 ];
 
 const ArtistInterests = props => {
-  const {navigation} = props;
+  const { navigation } = props;
 
   const dispatch = useDispatch();
   let [data, setData] = useState([]);
@@ -89,7 +88,7 @@ const ArtistInterests = props => {
       // setLoading(true);
       // dispatch(saveUserData(res.data));
 
-      navigation.navigate('OnBoardingWelcome', {data: res.data});
+      navigation.navigate('OnBoardingWelcome', { data: res.data });
       // } else {
       //   setLoading(false);
       //   showMessage({
@@ -109,7 +108,7 @@ const ArtistInterests = props => {
   return (
     <SafeAreaView style={styles.container}>
       <Header backBtn title={'Interests'} />
-      <View style={{width: width * 0.868, alignSelf: 'center'}}>
+      <View style={{ width: width * 0.868, alignSelf: 'center' }}>
         <Text style={styles.labelText}>What are you looking for?</Text>
         <Text style={styles.subLabel}>Personalize your Kaynchi.</Text>
       </View>
@@ -121,11 +120,11 @@ const ArtistInterests = props => {
         }}>
         <FlatList
           data={DATA}
-          columnWrapperStyle={{justifyContent: 'space-between'}}
-          contentContainerStyle={{paddingBottom: heightToDp(70)}}
+          columnWrapperStyle={{ justifyContent: 'space-between' }}
+          contentContainerStyle={{ paddingBottom: heightToDp(70) }}
           keyExtractor={(item, index) => index}
           numColumns={3}
-          renderItem={({item}) => {
+          renderItem={({ item }) => {
             return (
               <ImageCard
                 name={item.service}

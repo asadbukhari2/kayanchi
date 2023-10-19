@@ -1,8 +1,8 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, Text, View, ScrollView} from 'react-native';
-import {Header} from '../../components';
-import {fonts, useTheme} from '../../utils/theme';
-import {heightToDp, widthToDp} from '../../utils/Dimensions';
+import { SafeAreaView, StyleSheet, Text, View, ScrollView } from 'react-native';
+import { Header } from '../../components';
+import { fonts, useTheme } from '../../utils/theme';
+import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import ListItem from '../../components/ListItem';
 import Rankup from './Components/Rankup';
 
@@ -20,8 +20,8 @@ export default function ConsumerRank() {
         <View style={styles.seperator}></View>
 
         <View style={styles.new}>
-          <Text style={{fontFamily: fonts.robo_bold}}>
-            New <Text style={{fontFamily: fonts.robo_light}}>(Current Rank)</Text>
+          <Text style={{ fontFamily: fonts.robo_bold }}>
+            New <Text style={{ fontFamily: fonts.robo_light }}>(Current Rank)</Text>
           </Text>
           <View>
             {data.map((item, index) => (
@@ -82,7 +82,8 @@ const styles = StyleSheet.create({
   welcomeTxt: {
     fontSize: 40,
     color: '#193356',
-    fontFamily:fonts.hk_bold,    paddingHorizontal: widthToDp(4),
+    fontFamily: fonts.hk_bold,
+    paddingHorizontal: widthToDp(4),
   },
   seperator: {
     height: 2,

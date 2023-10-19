@@ -1,35 +1,27 @@
-import React, {useState, useEffect} from 'react';
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  Image,
-  FlatList,
-} from 'react-native';
-import {height} from '../../utils/Dimensions';
-import {fonts, useTheme} from '../../utils/theme';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, TouchableOpacity, Image, FlatList } from 'react-native';
+import { height } from '../../utils/Dimensions';
+import { fonts, useTheme } from '../../utils/theme';
 
 const theme = useTheme();
 
 const index = props => {
-  const {DATA, containerStyle, btnStyle, txtStyle, selectedTab} = props;
+  const { DATA, containerStyle, btnStyle, txtStyle, selectedTab } = props;
 
   const [selected, setSelected] = useState(0);
 
   useEffect(() => {
-    selectedTab(
-      DATA.map((item, index) => (index == selected ? item.name : null)),
-    );
+    selectedTab(DATA.map((item, index) => (index == selected ? item.name : null)));
   }, [selected]);
 
   return DATA ? (
     <FlatList
       data={DATA}
-      style={{marginTop: 8, height: 50}}
-      contentContainerStyle={[containerStyle, {height: 50}]}
+      style={{ marginTop: 8, height: 50 }}
+      contentContainerStyle={[containerStyle, { height: 50 }]}
       horizontal
-      keyExtractor={({item, index}) => index}
-      renderItem={({item, index}) => {
+      keyExtractor={({ item, index }) => index}
+      renderItem={({ item, index }) => {
         return (
           <TouchableOpacity
             onPress={() => setSelected(index)}
@@ -37,14 +29,11 @@ const index = props => {
             style={[
               styles.btnView,
               {
-                borderColor:
-                  selected == index ? theme.primary : theme.inputText,
+                borderColor: selected == index ? theme.primary : theme.inputText,
               },
               btnStyle,
             ]}>
-            {item && item.imageLink && (
-              <Image source={item.imageLink} style={styles.tabImage} />
-            )}
+            {item && item.imageLink && <Image source={item.imageLink} style={styles.tabImage} />}
 
             <Text
               style={[
@@ -84,7 +73,7 @@ const styles = StyleSheet.create({
   txt: {
     fontSize: 16,
     fontFamily: fonts.hk_medium,
-    color:"#747474",
+    color: '#747474',
     lineHeight: 16.41,
     marginLeft: 2, // Added for spacing between image and text
   },

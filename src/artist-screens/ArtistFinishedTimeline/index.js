@@ -1,16 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Header, Button} from '../../components';
-import {height, heightToDp, width, widthToDp} from '../../utils/Dimensions';
-import {useTheme, fonts} from '../../utils/theme';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Header, Button } from '../../components';
+import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { useTheme, fonts } from '../../utils/theme';
 const carBrown = require('../../assets/car_brown.png');
 const location = require('../../assets/Path.png');
 import FinishedOrderStep from '../../components/FinishedOrderStep';
@@ -82,7 +75,7 @@ const ArtistFinishedTimeline = props => {
             width: widthToDp(90),
           }}>
           {/* <Image source={back} /> */}
-          <View style={{marginLeft: 0}}>
+          <View style={{ marginLeft: 0 }}>
             <Header
               backBtn
               title="help?"
@@ -139,8 +132,7 @@ const ArtistFinishedTimeline = props => {
                         if (serviceIndex < maxServicesToShow) {
                           return <Text key={serviceIndex}>{service}</Text>;
                         } else if (serviceIndex === maxServicesToShow) {
-                          const remainingServices =
-                            order.services.length - maxServicesToShow;
+                          const remainingServices = order.services.length - maxServicesToShow;
                           return (
                             <TouchableOpacity
                               key={serviceIndex}
@@ -171,36 +163,24 @@ const ArtistFinishedTimeline = props => {
 
                   <View>
                     <View style={styles.orderDetails}>
-                      <Text
-                        style={{color: '#84668C', fontFamily: fonts.robo_med}}>
-                        HOSTING
-                      </Text>
-                      <Image
-                        source={order.imageLink}
-                        style={styles.OrderImage}
-                      />
+                      <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>HOSTING</Text>
+                      <Image source={order.imageLink} style={styles.OrderImage} />
                     </View>
-                    <Text style={{color: '#29AAE2'}}>
-                      3.5 kms{' '}
-                      <Text style={{color: '#0F2851'}}>away for you </Text>{' '}
+                    <Text style={{ color: '#29AAE2' }}>
+                      3.5 kms <Text style={{ color: '#0F2851' }}>away for you </Text>{' '}
                     </Text>
                     <Text
                       style={{
                         color: '#0F2851',
                         fontFamily: fonts.robo_med,
                         marginVertical: 5,
-                        textTransform:"uppercase"
+                        textTransform: 'uppercase',
                       }}>
                       Hosting at:
                     </Text>
-                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                      <Image
-                        source={location}
-                        style={{height: 15, width: 15, resizeMode: 'contain'}}
-                      />
-                      <Text style={{color: '#32aee3'}}>
-                        {order.salonAddress}
-                      </Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
+                      <Text style={{ color: '#32aee3' }}>{order.salonAddress}</Text>
                     </View>
                   </View>
                 </View>
@@ -223,7 +203,7 @@ const styles = StyleSheet.create({
     color: '#0F2851',
     fontSize: 40,
     marginLeft: widthToDp(4),
-    fontFamily: fonts.hk_bold
+    fontFamily: fonts.hk_bold,
   },
   textCenter: {
     color: '#67718C',
@@ -288,7 +268,7 @@ const styles = StyleSheet.create({
     marginTop: heightToDp(6),
     marginBottom: 20,
   },
-  row: {flexDirection: 'row', alignItems: 'center'},
+  row: { flexDirection: 'row', alignItems: 'center' },
 
   headingName: {
     fontSize: 20,
