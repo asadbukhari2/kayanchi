@@ -8,7 +8,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const theme = useTheme();
 
-const index = props => {
+const SearchCard = props => {
   const { DATA, onPress } = props;
 
   return DATA ? (
@@ -95,7 +95,7 @@ const index = props => {
   ) : null;
 };
 
-export default index;
+export default SearchCard;
 
 const styles = StyleSheet.create({
   cardView: {

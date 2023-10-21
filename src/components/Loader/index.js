@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import React from 'react';
 import { useTheme } from '../../utils/theme';
 
-export default function index() {
+export default function Loader() {
   const theme = useTheme();
   return (
     <View

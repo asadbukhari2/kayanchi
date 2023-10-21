@@ -6,7 +6,7 @@ import { heightToDp } from '../../utils/Dimensions';
 
 const theme = useTheme();
 
-const index = props => {
+const OrderServiceCard = props => {
   const { serviceCount, serviceName, artistName, screen, distance } = props;
 
   const [count, setCount] = useState(serviceCount);
@@ -83,7 +83,7 @@ const index = props => {
   );
 };
 
-export default index;
+export default OrderServiceCard;
 
 const styles = StyleSheet.create({
   // container: {

@@ -5,7 +5,7 @@ import { fonts, useTheme } from '../../utils/theme';
 
 const theme = useTheme();
 
-const index = props => {
+const ButtonList = props => {
   const { DATA, containerStyle, btnStyle, txtStyle, selectedBackgroundColor, backgroundColor, textColor } = props;
 
   const [selected, setSelected] = useState(0);
@@ -48,7 +48,7 @@ const index = props => {
   ) : null;
 };
 
-export default index;
+export default ButtonList;
 
 const styles = StyleSheet.create({
   btnView: {

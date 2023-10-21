@@ -6,7 +6,7 @@ import Feather from 'react-native-vector-icons/Feather';
 
 const theme = useTheme();
 
-const index = props => {
+const SearchBox = props => {
   const { onChange, value, placeholder, containerView, onSearch } = props;
   return (
     <View style={[styles.searchBar, containerView]}>
@@ -24,7 +24,7 @@ const index = props => {
   );
 };
 
-export default index;
+export default SearchBox;
 
 const styles = StyleSheet.create({
   searchBar: {

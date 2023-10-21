@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { widthToDp } from '../../../utils/Dimensions';
-import { useTheme } from '../../../utils/theme';
+import { fonts, useTheme } from '../../../utils/theme';
 
 const theme = useTheme();
 
-const index = props => {
+const ArtistYourOrders = props => {
   const { title } = props;
   const [tab, setTab] = useState('All');
   return (
@@ -30,6 +30,6 @@ const index = props => {
   );
 };
 
-export default index;
+export default ArtistYourOrders;
 
 const styles = StyleSheet.create({});

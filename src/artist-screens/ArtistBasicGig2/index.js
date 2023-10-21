@@ -11,7 +11,7 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 
 const theme = useTheme();
 const category = ['30 mins +', '1 hour +', '2 hour +'];
-const index = props => {
+const ArtistGig2 = props => {
   const [image1, setImage1] = useState();
   const [image2, setImage2] = useState();
   const [image3, setImage3] = useState();
@@ -181,7 +181,7 @@ const index = props => {
   );
 };
 
-export default index;
+export default ArtistGig2;
 
 const styles = StyleSheet.create({
   parentUpload: {

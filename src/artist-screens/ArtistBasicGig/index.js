@@ -9,7 +9,7 @@ const category = ['Hair', 'Face', 'Skin', 'Spa', 'Body'];
 const audience = ['Female', 'Male', 'Non Binary'];
 const theme = useTheme();
 
-const index = props => {
+const ArtistBasicGig = props => {
   const { navigation, route } = props;
   const [selectedCat, setSelectedCat] = useState('');
   const [selectedAud, setSelectedAud] = useState([]);
@@ -159,7 +159,7 @@ const index = props => {
   );
 };
 
-export default index;
+export default ArtistBasicGig;
 
 const styles = StyleSheet.create({
   gigVersion: {

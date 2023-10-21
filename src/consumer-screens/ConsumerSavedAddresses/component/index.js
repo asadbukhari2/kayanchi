@@ -5,7 +5,7 @@ import { heightToDp, width } from '../../../utils/Dimensions';
 
 const theme = useTheme();
 
-const index = props => {
+const ConsumerSavedAddressesComp = props => {
   const { area, address, artistName, artistContact, lastOrder, onEdit } = props;
   return (
     <View style={styles.container}>
@@ -62,4 +62,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default index;
+export default ConsumerSavedAddressesComp;

@@ -2,7 +2,7 @@ import React from 'react';
 import { Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const index = props => {
+const ArtistDrawer = props => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: 'blue' }}>
       <Text>haskc</Text>
@@ -10,4 +10,4 @@ const index = props => {
   );
 };
 
-export default index;
+export default ArtistDrawer;

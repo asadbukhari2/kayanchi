@@ -5,7 +5,7 @@ import { fonts, useTheme } from '../../utils/theme';
 
 const theme = useTheme();
 
-const index = props => {
+const ListHeader = props => {
   const { title, linkText, linkOnPress, titleStyle, linkStyle, containerStyle } = props;
   return (
     <View style={[styles.container, containerStyle]}>
@@ -40,4 +40,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default index;
+export default ListHeader;

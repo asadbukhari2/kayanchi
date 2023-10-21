@@ -6,7 +6,7 @@ import { useTheme, fonts } from '../../utils/theme';
 
 const theme = useTheme();
 
-const index = props => {
+const GradientRadio = props => {
   const { onPress, containerStyle, gradients, source, title, titleStyle, imgStyle, gradientStart, gradientEnd } = props;
 
   return (
@@ -47,4 +47,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default index;
+export default GradientRadio;

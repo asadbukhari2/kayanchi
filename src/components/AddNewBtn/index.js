@@ -6,7 +6,7 @@ import { fonts, useTheme } from '../../utils/theme';
 
 const theme = useTheme();
 
-const index = props => {
+const AddNewBtn = props => {
   const { title, iconColor, titleStyle, onPress } = props;
   return (
     <TouchableOpacity onPress={onPress} activeOpacity={0.7} style={[styles.addAddress]}>
@@ -40,4 +40,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default index;
+export default AddNewBtn;
