@@ -109,7 +109,7 @@ export const email_login = (email, password, oneSignalId) => async dispatch => {
   await api
     .request('post', 'users/login', data)
     .then(async res => {
-      if (res.status == 200) {
+      if (res.status === 200) {
         await AsyncStorage.setItem('userToken', JSON.stringify(res.data.token));
         showMessage({
           message: 'Logged In Successfully!',

@@ -116,35 +116,25 @@ export default function Root() {
   }, []);
 
   const auth = useSelector(state => state.auth);
-
+  const authToken = 'choora';
   const accountCompleted = auth?.userDetails?.account_completed;
   const isArtist = auth?.userDetails?.isArtist === true;
   const isConsumer = auth?.userDetails?.isConsumer === true;
-
-  // return auth?.token && accountCompleted && isArtist ? (
-  //   <ArtistMainStack />
-  // ) : auth?.token && accountCompleted && isConsumer ? (
-  //   <ConsumerMainStack />
-  // ) : !auth?.token && isArtist ? (
+  console.log(isArtist, isConsumer);
+  return isArtist ? <ArtistMainStack /> : isConsumer ? <ConsumerMainStack /> : <InitStack />;
+  // return auth?.token ? (
+  //   isArtist ? (
+  //     <ArtistMainStack />
+  //   ) : (
+  //     <ConsumerMainStack />
+  //   )
+  // ) : isArtist ? (
   //   <ArtistAuthStack />
-  // ) : !auth?.token && isConsumer ? (
-  //   <ConsumerAuthStack />
   // ) : (
-  //   <InitStack />
+  //   <ConsumerAuthStack />
   // );
-  return auth?.token && isArtist ? (
-    <ArtistMainStack />
-  ) : auth?.token && isConsumer ? (
-    <ConsumerMainStack />
-  ) : !auth?.token && isArtist ? (
-    <ArtistAuthStack />
-  ) : !auth?.token && isConsumer ? (
-    <ConsumerAuthStack />
-  ) : (
-    <InitStack />
-  );
 
-  // return <MySplashScreen />;
+  // return <ArtistMainStack />;
 }
 
 // import {createNativeStackNavigator} from '@react-navigation/native-stack';

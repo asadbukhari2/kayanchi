@@ -52,7 +52,7 @@ export default class ArtistAuthStack extends Component {
         <Stack.Screen name="ArtistBasicGig" component={ArtistBasicGig} />
         <Stack.Screen name="ArtistBasicGig2" component={ArtistBasicGig2} />
         <Stack.Screen name="ArtistGigMood" component={ArtistGigMood} />
-        <Stack.Screen name="ArtistHome" component={ArtistHome} />
+        {/* <Stack.Screen name="ArtistHome" component={ArtistHome} /> */}
         {/* <Stack.Screen name="ArtistYourOrders" component={ArtistYourOrders} /> */}
       </Stack.Navigator>
     );

@@ -168,7 +168,7 @@ const OrderCard = ({ order, navigation }) => {
               Active
             </Text>
           </View>
-        ) : order.statusOrder === 'All' ? (
+        ) : order.statusOrder === 'New' ? (
           <View style={styles.indicatorView}>
             <View style={styles.row}>
               <MultiButton

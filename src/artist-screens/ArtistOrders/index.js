@@ -209,11 +209,6 @@ const styles = StyleSheet.create({
     marginHorizontal: widthToDp(5),
     marginVertical: 10,
   },
-  tabText: {
-    color: '#0F2851',
-    fontFamily: fonts.robo_reg,
-    fontSize: 14,
-  },
   btnContainer2: {
     flexDirection: 'row',
     justifyContent: 'space-between',

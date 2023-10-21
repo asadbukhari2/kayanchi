@@ -858,7 +858,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingHorizontal: 10,
     paddingTop: 35,
-    paddingBottom: 10,
     paddingBottom: 15,
     borderWidth: 0.5,
     borderColor: '#eeeeee',

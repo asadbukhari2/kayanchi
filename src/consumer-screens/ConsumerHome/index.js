@@ -487,10 +487,10 @@ const ConsumerHome = props => {
           contentContainerStyle={{ paddingVertical: heightToDp(3) }}
           keyExtractor={({ item, index }) => index}
           renderItem={({ item, index }) => {
-            console.log(item);
+            console.log({ item });
             return (
               <HomeCard
-                onPress={() => props.navigation.navigate('HomeStack', { screen: 'Artist' })}
+                onPress={() => props.navigation.navigate('ConsumerHomeStack', { screen: 'ConsumerGigDetailPage' })}
                 style={{ marginRight: widthToDp(2.7) }}
                 mainText={item.name}
                 location={item.location}
@@ -525,7 +525,7 @@ const ConsumerHome = props => {
           renderItem={({ item, index }) => {
             return (
               <HomeCard
-                onPress={() => props.navigation.navigate('HomeStack', { screen: 'Artist' })}
+                onPress={() => props.navigation.navigate('ConsumerHomeStack', { screen: 'Artist' })}
                 style={{ marginRight: widthToDp(2.2) }}
                 mainText={item.name}
                 location={item.location}
