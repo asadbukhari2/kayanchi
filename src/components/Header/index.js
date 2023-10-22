@@ -7,7 +7,7 @@ import {} from 'react-native-safe-area-context';
 
 const theme = useTheme();
 
-const index = props => {
+const Header = props => {
   const navigation = useNavigation();
   const { headerStyle, titleStyle, title, titleShadow, skip, onSkip, backBtn, backBtnWhite, backBtnGrey } = props;
 
@@ -79,4 +79,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default index;
+export default Header;

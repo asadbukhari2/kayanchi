@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, SafeAreaView, StatusBar, ScrollView, Button } f
 import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin';
 import api from '../../utils/APIservice.js';
 
-const index = () => {
+const ArtistGoogleSignIn = () => {
   const [loggedIn, setloggedIn] = useState(false);
   const [userInfo, setuserInfo] = useState([]);
 
@@ -71,6 +71,4 @@ const index = () => {
   );
 };
 
-export default index;
-
-const styles = StyleSheet.create({});
+export default ArtistGoogleSignIn;

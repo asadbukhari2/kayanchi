@@ -5,10 +5,8 @@ import { View, Text } from 'react-native';
 import { useSelector } from 'react-redux';
 
 function MySplashScreen({ navigation }) {
-  const state = useSelector(state => state);
   const auth = useSelector(state => state.auth);
 
-  const accountCompleted = auth?.userDetails?.account_completed;
   const isArtist = auth?.userDetails?.isArtist === true;
   const isConsumer = auth?.userDetails?.isConsumer === true;
 
@@ -31,7 +29,7 @@ function MySplashScreen({ navigation }) {
 
     init().finally(async () => {
       setTimeout(async function () {}, 1000);
-      console.log('Bootsplash has been hidden successfully', state);
+      console.log('Bootsplash has been hidden successfully');
     });
   }, []);
 

@@ -21,7 +21,6 @@ const InputText = props => {
     disable,
     placeholder,
     multiline,
-    placeholderTextColor,
     onInputPress,
     inputMarginTop,
     keyboardType,

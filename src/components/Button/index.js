@@ -1,8 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
-import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { heightToDp, width } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
-import Icon from 'react-native-vector-icons/FontAwesome'; // Import the desired icon library
 
 const theme = useTheme();
 
