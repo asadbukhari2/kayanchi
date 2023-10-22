@@ -5,7 +5,7 @@ import { useTheme } from '../../../utils/theme';
 
 const theme = useTheme();
 
-const index = props => {
+const ConsumerYourOrdersComp = props => {
   const { title } = props;
   const [tab, setTab] = useState('All');
   return (
@@ -30,6 +30,6 @@ const index = props => {
   );
 };
 
-export default index;
+export default ConsumerYourOrdersComp;
 
 const styles = StyleSheet.create({});

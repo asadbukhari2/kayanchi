@@ -6,7 +6,7 @@ import { heightToDp, widthToDp } from '../../../utils/Dimensions';
 
 const theme = useTheme();
 
-const index = props => {
+const ArtistOrderSummary = props => {
   const { serviceCount, serviceName, artistName } = props;
 
   const [count, setCount] = useState(serviceCount);
@@ -41,7 +41,7 @@ const index = props => {
   );
 };
 
-export default index;
+export default ArtistOrderSummary;
 
 const styles = StyleSheet.create({
   container: {

@@ -11,7 +11,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 const theme = useTheme();
 
-const index = props => {
+const ArtistCreateGig = props => {
   const [selected, setSelected] = useState('basic');
   const { navigation } = props;
   return (
@@ -63,7 +63,7 @@ const index = props => {
   );
 };
 
-export default index;
+export default ArtistCreateGig;
 
 const styles = StyleSheet.create({
   moodIbutton: {

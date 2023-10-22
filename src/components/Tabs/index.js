@@ -5,7 +5,7 @@ import { fonts, useTheme } from '../../utils/theme';
 
 const theme = useTheme();
 
-const index = props => {
+const Tabs = props => {
   const { DATA, containerStyle, btnStyle, txtStyle, selectedTab } = props;
 
   const [selected, setSelected] = useState(0);
@@ -58,7 +58,7 @@ const index = props => {
   ) : null;
 };
 
-export default index;
+export default Tabs;
 
 const styles = StyleSheet.create({
   btnView: {

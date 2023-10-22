@@ -6,7 +6,7 @@ import { useTheme, fonts } from '../../utils/theme';
 
 const theme = useTheme();
 
-const index = props => {
+const Counter = props => {
   const { count, onPressIncrement, onPressDecrement, btnStyle, countStyle, iconStyle } = props;
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -23,7 +23,7 @@ const index = props => {
   );
 };
 
-export default index;
+export default Counter;
 
 const styles = StyleSheet.create({
   counterBtn: {

@@ -7,7 +7,7 @@ import { fonts, useTheme } from '../../utils/theme';
 
 const theme = useTheme();
 
-const index = props => {
+const ArtistStatus = props => {
   const [radio, setRadio] = useState(null);
 
   return (
@@ -72,4 +72,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default index;
+export default ArtistStatus;

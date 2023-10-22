@@ -26,7 +26,7 @@ const DATA = [
   },
 ];
 
-const index = props => {
+const ArtistSavedAddresses = props => {
   return (
     <SafeAreaView style={GLOBAL_STYLES.containerHome}>
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: heightToDp(30) }}>
@@ -56,4 +56,4 @@ const index = props => {
 
 const styles = StyleSheet.create({});
 
-export default index;
+export default ArtistSavedAddresses;

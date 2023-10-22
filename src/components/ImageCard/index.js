@@ -6,7 +6,7 @@ import { Image } from 'react-native';
 const addMore = require('../../assets/addMore.png');
 const theme = useTheme();
 
-const index = props => {
+const ImageCard = props => {
   const { name, containerStyle, imgStyle, nameStyle, onPress, isSelected, imageLink } = props;
 
   const [circleBackgroundColor, setCircleBackgroundColor] = useState('#E9E9E9');
@@ -63,4 +63,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default index;
+export default ImageCard;

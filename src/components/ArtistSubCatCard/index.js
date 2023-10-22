@@ -10,7 +10,7 @@ const theme = useTheme();
 const host = require('../../assets/hostborwn.png');
 const car = require('../../assets/car_brown.png');
 
-const index = props => {
+const ArtistSubCatCard = props => {
   const { price, details, cat, time, onCountChange } = props;
   const [count, setCount] = useState(0);
   const [showMore, setShowMore] = useState(false);
@@ -68,7 +68,7 @@ const index = props => {
   );
 };
 
-export default index;
+export default ArtistSubCatCard;
 
 const styles = StyleSheet.create({
   container: {

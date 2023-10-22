@@ -7,7 +7,7 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 
 const theme = useTheme();
 
-const index = props => {
+const HomeCard = props => {
   const { imageLink, verified, location, mainText, subText, popular, style, onPress } = props;
 
   return (
@@ -93,4 +93,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default index;
+export default HomeCard;

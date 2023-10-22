@@ -26,7 +26,7 @@ const Gender = [
   },
 ];
 
-const index = props => {
+const ArtistGenderSignUp = props => {
   const dispatch = useDispatch();
   const { navigation } = props;
 
@@ -204,4 +204,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default index;
+export default ArtistGenderSignUp;

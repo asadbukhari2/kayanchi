@@ -5,7 +5,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { heightToDp, widthToDp } from '../../utils/Dimensions';
 const theme = useTheme();
 
-const index = props => {
+const PromotionCard = props => {
   const { title, dateFrom, dateTo, price } = props;
   return (
     <View
@@ -61,7 +61,7 @@ const index = props => {
   );
 };
 
-export default index;
+export default PromotionCard;
 
 const styles = StyleSheet.create({
   icon: {

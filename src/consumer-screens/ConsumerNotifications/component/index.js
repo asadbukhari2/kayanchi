@@ -5,7 +5,7 @@ import { fonts, useTheme } from '../../../utils/theme';
 
 const theme = useTheme();
 
-const index = props => {
+const ConsumerNotificationComp = props => {
   const { unRead, title, body } = props;
   return (
     <View style={[styles.container, { backgroundColor: unRead ? theme.primary : theme.background }]}>
@@ -78,4 +78,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default index;
+export default ConsumerNotificationComp;

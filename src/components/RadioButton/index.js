@@ -5,7 +5,7 @@ import { fonts, useTheme } from '../../utils/theme';
 
 const theme = useTheme();
 
-const index = props => {
+const RadioButton = props => {
   const { text, containerStyle, source, isSelected, onPress } = props;
   return (
     <TouchableOpacity onPress={onPress} activeOpacity={0.7} style={[styles.container, containerStyle]}>
@@ -57,4 +57,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default index;
+export default RadioButton;

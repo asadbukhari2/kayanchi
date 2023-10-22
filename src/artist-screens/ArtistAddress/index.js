@@ -5,11 +5,10 @@ import { AddNewBtn, Button, Header } from '../../components';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { useTheme, fonts } from '../../utils/theme';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const theme = useTheme();
 
-const index = props => {
+const ArtistAddress = props => {
   const [address, setAddress] = useState('');
 
   return (
@@ -167,4 +166,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default index;
+export default ArtistAddress;
