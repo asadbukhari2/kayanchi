@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import api from '../../utils/APIservice';
+
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Header, Loader, TextInput } from '../../components';
 import { heightToDp, width } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { showMessage } from 'react-native-flash-message';
 import { useNavigation } from '@react-navigation/native';
+import { saveUserData } from '../../redux/actions';
 
 const theme = useTheme();
 
@@ -21,7 +22,8 @@ const EmailSignUp = () => {
 
   const emailSignup = async () => {
     try {
-      navigation.navigate('ArtistOtpSignUp', { email });
+      navigation.navigate('ArtistOtpSignUp', { email, code });
+      dispatch(saveUserData({ email, code }));
       // const res = await api.post('/api/users', {
       //   email: email,
       // });

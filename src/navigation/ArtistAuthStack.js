@@ -35,18 +35,19 @@ export default class ArtistAuthStack extends Component {
           gestureEnabled: true,
         }}>
         <Stack.Screen name="ArtistWelcome" component={ArtistWelcome} />
-        <Stack.Screen name="ArtistYourOrders" component={ArtistYourOrders} />
+        <Stack.Screen name="ArtistEmailSignUp" component={ArtistEmailSignUp} />
         <Stack.Screen name="ArtistGoogleSignIn" component={ArtistGoogleSignIn} />
         <Stack.Screen name="ArtistNumberSignUp" component={ArtistNumberSignUp} />
-        <Stack.Screen name="ArtistEmailSignUp" component={ArtistEmailSignUp} />
         <Stack.Screen name="ArtistOtpSignUp" component={ArtistOtpSignUp} />
         <Stack.Screen name="ArtistUsernameSignUp" component={ArtistUsernameSignUp} />
         <Stack.Screen name="ArtistPasswordSignUp" component={ArtistPasswordSignUp} />
-        <Stack.Screen name="ArtistGenderSignUp" component={ArtistGenderSignUp} />
-        <Stack.Screen name="ArtistInterests" component={ArtistInterests} />
-        <Stack.Screen name="ArtistOnBoarding" component={ArtistOnBoarding} />
         <Stack.Screen name="ArtistKnownFor" component={ArtistKnownFor} />
         <Stack.Screen name="ArtistOnBoardingWelcome" component={ArtistOnBoardingWelcome} />
+        <Stack.Screen name="ArtistOnBoarding" component={ArtistOnBoarding} />
+
+        <Stack.Screen name="ArtistYourOrders" component={ArtistYourOrders} />
+        <Stack.Screen name="ArtistGenderSignUp" component={ArtistGenderSignUp} />
+        <Stack.Screen name="ArtistInterests" component={ArtistInterests} />
         <Stack.Screen name="ArtistVerification" component={ArtistVerification} />
         <Stack.Screen name="ArtistCreateGig" component={ArtistCreateGig} />
         <Stack.Screen name="ArtistBasicGig" component={ArtistBasicGig} />

@@ -1,19 +1,22 @@
 import React, { useRef } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { fonts, useTheme } from '../../utils/theme';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { Button, Header } from '../../components';
-import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
-import { useDispatch } from 'react-redux';
-import { showMessage } from 'react-native-flash-message';
-import { saveUserData } from '../../redux/actions';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { heightToDp, widthToDp } from '../../utils/Dimensions';
+// import { useDispatch } from 'react-redux';
+
 import MultiButton from '../../components/MultiButton';
 import LinearGradient from 'react-native-linear-gradient';
-import { set } from 'react-native-reanimated';
+import { useNavigation } from '@react-navigation/native';
+
 const timer = require('../../assets/CreatePromo.png');
 const CreateGig = require('../../assets/CreateGig.png');
+const car = require('../../assets/car.png');
+const host = require('../../assets/host.png');
+const booking = require('../../assets/booking.png');
+const ondemand = require('../../assets/ondemand.png');
 
 const theme = useTheme();
 
@@ -28,7 +31,7 @@ const slides = [
   {
     key: 2,
     heading: 'Mood',
-    title: `It's all about you, so your mood comes first`,
+    title: "It's all about you, so your mood comes first",
     text: 'Choose between traveling or hosting. Select both to activate all your gigs because all gigs have their own mood.',
     image: require('../../assets/Demo2.png'),
   },
@@ -48,33 +51,16 @@ const slides = [
   },
 ];
 
-const car = require('../../assets/car.png');
-const host = require('../../assets/host.png');
-const booking = require('../../assets/booking.png');
-const ondemand = require('../../assets/ondemand.png');
-const info = require('../../assets/information.png');
+const ArtistOnBoarding = () => {
+  const navigation = useNavigation();
 
-const ArtistOnBoarding = props => {
-  const { navigation, route } = props;
   const [selectedItem, setSelectedItem] = React.useState(slides[0]);
 
-  // const {data} = route.params;
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const myFlatList = useRef(null);
 
   const addData = async () => {
     //   navigation.replace('MainStack');
-    // try {
-    //   // setLoading(true);
-    //   dispatch(saveUserData(data));
-    //   navigation.replace('MainStack');
-    // } catch (error) {
-    //   showMessage({
-    //     message: error?.message,
-    //     type: 'warning',
-    //   });
-    //   console.log(error);
-    // }
   };
 
   const _renderItem = ({ item, index }) => {
@@ -101,7 +87,6 @@ const ArtistOnBoarding = props => {
             onSlideChange={a => {
               setSelectedItem(slides[a]);
             }}
-            // renderNextButton={() => <Button title={'Next'} disable />}
             data={slides}
             onDone={addData}
             onSkip={() => navigation.replace('AuthStack')}
@@ -148,7 +133,7 @@ const ArtistOnBoarding = props => {
                 </LinearGradient>
               </View>
             ) : null}
-            {selectedItem.key == 2 && (
+            {selectedItem.key === 2 && (
               <View style={styles.indicatorView}>
                 <View style={styles.row}>
                   <MultiButton title={'Travel to Client'} image={car} disable />
@@ -156,7 +141,7 @@ const ArtistOnBoarding = props => {
                 </View>
               </View>
             )}
-            {selectedItem.key == 3 && (
+            {selectedItem.key === 3 && (
               <View style={styles.indicatorView}>
                 <View style={styles.row}>
                   <MultiButton title={'On-Demand'} btnStyle={{ backgroundColor: '#a77246' }} image={ondemand} disable />
@@ -169,7 +154,7 @@ const ArtistOnBoarding = props => {
                 </View>
               </View>
             )}
-            {selectedItem.key == 4 && (
+            {selectedItem.key === 4 && (
               <Button
                 title={"Let's go"}
                 onPress={() => navigation.replace('ArtistHome')}

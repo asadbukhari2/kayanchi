@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Header, TextInput } from '../../components';
-import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { fonts, useTheme } from '../../utils/theme';
-import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
-import Icon from 'react-native-vector-icons/FontAwesome'; // Assuming you want to use FontAwesome icons, you can change it to any other supported icon library.
-import { showMessage } from 'react-native-flash-message';
+import { heightToDp, width } from '../../utils/Dimensions';
+
+import { useNavigation } from '@react-navigation/native';
+import { SIGNUP, saveUserData } from '../../redux/actions';
+import { useDispatch } from 'react-redux';
 
 const theme = useTheme();
 
@@ -53,12 +55,13 @@ const Gender = [
   },
 ];
 
-export default function ArtistKnownFor({ navigation }) {
-  const [skills, setSkills] = useState([]);
+export default function ArtistKnownFor() {
+  const navigation = useNavigation();
   const [name, setName] = useState('');
   const [selectedSkills, setSelectedSkills] = useState([]);
 
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+
   const toggleSkill = skillName => {
     if (selectedSkills.includes(skillName)) {
       setSelectedSkills(prevSkills => prevSkills.filter(skill => skill !== skillName));
@@ -68,37 +71,9 @@ export default function ArtistKnownFor({ navigation }) {
   };
 
   const SkillsHandler = async () => {
+    // dispatch(SIGNUP(form data));
+    dispatch(saveUserData({ known_for: selectedSkills }));
     navigation.navigate('ArtistOnBoardingWelcome');
-    // try {
-    //   const res = await api.post('/api/users/verifypassword', {
-    //     email,
-    //     phone_number,
-    //     password,
-    //   });
-    //   setLoading(true);
-    //   console.log(email, password, res.data, 'EMAIL/PASSWORD');
-    //   console.log(res.data);
-    // if (res.status == 200) {
-    //   dispatch(saveUserData(res.data));
-    //   dispatch(saveToken(res.data));
-    //   showMessage({
-    //     message: 'Logged in successfully!',
-    //     type: 'success',
-    //   });
-    //   navigation.navigate('OnBoardingWelcome');
-    // } else {
-    //   showMessage({
-    //     message: res.data.message,
-    //     type: 'danger',
-    //   });
-    // }
-    // } catch (error) {
-    //   showMessage({
-    //     message: error?.message,
-    //     type: 'warning',
-    //   });
-    //   console.log(error);
-    // }
   };
 
   return (
@@ -130,7 +105,7 @@ export default function ArtistKnownFor({ navigation }) {
         <View style={styles.genView}>
           {Gender.map(item => {
             return (
-              <>
+              <View key={item.name}>
                 <TouchableOpacity
                   onPress={() => toggleSkill(item.name)}
                   activeOpacity={0.7}
@@ -139,9 +114,7 @@ export default function ArtistKnownFor({ navigation }) {
                     {
                       backgroundColor: selectedSkills.includes(item.name) ? theme.brown : '#D5D5D5',
                     },
-                  ]}
-                  key={item.name} // Add a unique key to the TouchableOpacity
-                >
+                  ]}>
                   <Text
                     style={[
                       styles.genTxt,
@@ -161,12 +134,12 @@ export default function ArtistKnownFor({ navigation }) {
                     </View>
                   ))}
                 </View>
-              </>
+              </View>
             );
           })}
         </View>
 
-        <Button title={'Continue'} btnStyle={[styles.btn, { marginTop: heightToDp(10) }]} onPress={SkillsHandler} />
+        <Button title="Continue" btnStyle={[styles.btn, { marginTop: heightToDp(10) }]} onPress={SkillsHandler} />
       </ScrollView>
     </SafeAreaView>
   );

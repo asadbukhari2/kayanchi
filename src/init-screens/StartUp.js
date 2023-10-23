@@ -15,7 +15,7 @@ const StartUp = () => {
       <Text style={styles.heading}>Grooming for Everyone</Text>
       <Image source={require('../assets/startUpPeople.png')} resizeMode="contain" style={styles.img} />
       <Button
-        title={'Get Started'}
+        title="Get Started"
         btnStyle={[styles.whiteBtn, { marginTop: heightToDp(4.5) }]}
         titleStyle={styles.blackText}
         imageStyle={styles.iconStyles}

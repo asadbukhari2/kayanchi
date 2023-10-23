@@ -45,6 +45,7 @@ import { LogBox } from 'react-native';
 LogBox.ignoreAllLogs(); //Ignore all log notifications
 import FlashMessage from 'react-native-flash-message';
 import { StatusBar } from 'react-native';
+
 function App() {
   return (
     <Provider store={store}>

@@ -115,6 +115,6 @@ export const images = {
 };
 
 export const useTheme = isDark => {
-  // return isDark ? darkTheme : lightTheme;
-  return lightTheme;
+  return isDark ? darkTheme : lightTheme;
+  // return lightTheme;
 };

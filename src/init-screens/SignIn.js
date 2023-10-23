@@ -1,20 +1,49 @@
-import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import React from 'react';
+import { Text, Image, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import React, { useEffect } from 'react';
 import { Button, Header } from '../components';
 import { fonts, useTheme } from '../utils/theme';
 import { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { heightToDp, widthToDp } from '../utils/Dimensions';
+import { EMAIL_LOGIN } from '../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { showMessage } from 'react-native-flash-message';
+import { SIGN_OUT } from '../redux/constants/constants';
 const google = require('../assets/google.png');
 const facebook = require('../assets/facebook.png');
+
 const theme = useTheme();
+
 const SignIn = () => {
-  const [formData, setFormData] = useState({ phone: '', password: '' });
+  const dispatch = useDispatch();
   const navigation = useNavigation();
+  const isLoading = useSelector(state => state.auth.isLoading);
+  const auth = useSelector(state => state.auth);
+
+  const [formData, setFormData] = useState({ phone: 'asad@a.com', password: 'helloworld' });
+
   const submitForm = () => {
-    console.log(formData);
+    if (formData.phone.includes('@')) {
+      dispatch(EMAIL_LOGIN({ email: formData.phone, password: formData.password }));
+    } else if (formData.phone !== '') {
+      showMessage({
+        message: 'API for phone login is not available',
+        type: 'warning',
+      });
+    } else {
+      showMessage({
+        message: 'Please add values',
+        type: 'warning',
+      });
+    }
   };
+
+  // useEffect(() => {
+  //   dispatch({ type: SIGN_OUT });
+  // }, []);
+
   return (
     <SafeAreaView style={styles.mainPage}>
       <Header backBtn title="Sign In" />
@@ -34,7 +63,12 @@ const SignIn = () => {
         secureTextEntry
         onChangeText={e => setFormData({ ...formData, password: e })}
       />
-      <Button title={'Continue'} onPress={submitForm} btnStyle={{ marginVertical: 6 }} />
+      <Button
+        title={isLoading ? 'Loading...' : 'Continue'}
+        onPress={submitForm}
+        btnStyle={{ marginVertical: 6 }}
+        disable={isLoading}
+      />
       <Text style={styles.social}>Or via social networks</Text>
       <Button
         title={'Continue with google'}
@@ -84,6 +118,7 @@ const styles = StyleSheet.create({
     marginVertical: 6,
     borderRadius: 7,
     paddingHorizontal: 10,
+    color: theme.dark,
   },
   blackText: {
     color: theme.darkBlack,
@@ -102,6 +137,7 @@ const styles = StyleSheet.create({
   social: {
     marginTop: 12,
     textAlign: 'center',
+    color: theme.dark,
   },
   forgot: {
     textAlign: 'center',
@@ -110,4 +146,5 @@ const styles = StyleSheet.create({
     color: '#1583D8',
   },
 });
+
 export default SignIn;

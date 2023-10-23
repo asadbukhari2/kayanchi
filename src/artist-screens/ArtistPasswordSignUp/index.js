@@ -14,16 +14,8 @@ import ReactNativeModal from 'react-native-modal';
 const theme = useTheme();
 
 const ArtistPasswordSignUp = props => {
-  // const {
-  //   navigation,
-  //   route: {
-  //     params: {email, phone_number},
-  //   },
-  // } = props;
-
   const [password, setPassword] = useState(null);
   const [name, setName] = useState(null);
-  // const [age, setAge] = useState(null);
   const [loading, setLoading] = useState(false);
   const [gender, setGender] = useState('');
   const [dob, setDob] = useState(new Date());
@@ -50,45 +42,14 @@ const ArtistPasswordSignUp = props => {
     },
   ];
 
-  // console.log(email, password);
   const toggleModal = () => {
-    console.log('vlivk');
     setModalVisible(!modalVisible);
   };
 
   const signUp = async () => {
+    dispatch(saveUserData({ name, password, dob, gender }));
     props.navigation.navigate('ArtistKnownFor');
-    console.log('artist');
-    try {
-      const res = await api.post('/api/users/verifypassword', {
-        // email,
-        // phone_number,
-        password,
-      });
-      setLoading(true);
-      // console.log(email, password, res.data, 'EMAIL/PASSWORD');
-      console.log(res.data);
-      // if (res.status == 200) {
-      //   dispatch(saveUserData(res.data));
-      //   dispatch(saveToken(res.data));
-      //   showMessage({
-      //     message: 'Logged in successfully!',
-      //     type: 'success',
-      //   });
-      //   navigation.navigate('OnBoardingWelcome');
-      // } else {
-      //   showMessage({
-      //     message: res.data.message,
-      //     type: 'danger',
-      //   });
-      // }
-    } catch (error) {
-      showMessage({
-        message: error?.message,
-        type: 'warning',
-      });
-      console.log(error);
-    }
+    console.log('artist', name, password, dob, gender);
   };
 
   return (
@@ -204,7 +165,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   genTxt: {
-    fontSize: fonts.robo_reg,
+    // fontSize: fonts.robo_reg,
     fontSize: 14,
     lineHeight: 16.41,
     color: theme.background,

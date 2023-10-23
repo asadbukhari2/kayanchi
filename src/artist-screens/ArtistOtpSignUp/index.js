@@ -6,18 +6,18 @@ import { Button, Header, TextInput } from '../../components';
 import { heightToDp, width } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
 // import api from '../../utils/APIservice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // import {saveUserData} from '../../redux/actions';
 // import {showMessage} from 'react-native-flash-message';
 import { useNavigation } from '@react-navigation/native';
+import { saveUserData } from '../../redux/actions';
 
 const theme = useTheme();
 
 const ArtistOtpSignUp = () => {
   const navigation = useNavigation();
-  // const {number} = props.route.params;
 
-  // console.log(number, 'PHONE_NUMBER');
+  // const signUpUserData = useSelector(state => state.auth.signUpUserData);
 
   const [otp, setOtp] = useState(null);
   // const dispatch = useDispatch();
@@ -29,7 +29,6 @@ const ArtistOtpSignUp = () => {
     //   number: phone_number,
     //   otp: verification_code,
     // });
-
     // if (res.status == 200) {
     // dispatch(saveUserData(res.data));
     // showMessage({

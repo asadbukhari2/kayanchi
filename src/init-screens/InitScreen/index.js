@@ -96,7 +96,6 @@ const styles = StyleSheet.create({
     padding: 8,
     bottom: 32,
     borderRadius: 12,
-
     alignItems: 'center',
     backgroundColor: '#fff',
   },
@@ -105,6 +104,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     paddingVertical: 12,
+    color: '#000',
   },
   cardImg: {
     width: 84,
@@ -112,6 +112,7 @@ const styles = StyleSheet.create({
   },
   desc: {
     textAlign: 'center',
+    color: '#000',
   },
   signIn: {
     padding: 16,

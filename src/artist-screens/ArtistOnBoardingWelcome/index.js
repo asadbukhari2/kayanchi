@@ -1,17 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header, Button } from '../../components';
-import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { useTheme, fonts } from '../../utils/theme';
+import { useNavigation } from '@react-navigation/native';
 
 const theme = useTheme();
 
 const ArtistOnBoardingWelcome = props => {
-  const { navigation, route } = props;
-  // const {data} = route.params;
+  const navigation = useNavigation();
 
-  // console.log(data);
   return (
     <SafeAreaView style={styles.container}>
       <Header title={'Perfecto!'} />
@@ -45,8 +44,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: heightToDp(8),
-
-    // backgroundColor: theme.lightBrown,
   },
   skipView: {
     position: 'absolute',

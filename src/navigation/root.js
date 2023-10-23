@@ -121,7 +121,9 @@ export default function Root() {
   const isArtist = auth?.userDetails?.isArtist === true;
   const isConsumer = auth?.userDetails?.isConsumer === true;
   console.log(isArtist, isConsumer);
-  return isArtist ? <ArtistMainStack /> : isConsumer ? <ConsumerMainStack /> : <InitStack />;
+  // return isArtist ? <ArtistMainStack /> : isConsumer ? <ConsumerMainStack /> : <InitStack />;
+
+  // return auth.token ? <ArtistMainStack /> : <InitStack />;
   // return auth?.token ? (
   //   isArtist ? (
   //     <ArtistMainStack />
@@ -134,7 +136,7 @@ export default function Root() {
   //   <ConsumerAuthStack />
   // );
 
-  // return <ArtistMainStack />;
+  return <ArtistAuthStack />;
 }
 
 // import {createNativeStackNavigator} from '@react-navigation/native-stack';
