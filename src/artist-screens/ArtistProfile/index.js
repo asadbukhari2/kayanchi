@@ -41,6 +41,9 @@ const ArtistProfile = props => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalNavigation, setModalNavigation] = useState(null);
 
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.auth.userDetails);
+
   const toggleSwitch = () => {
     setIsEnabled(previousState => !previousState);
   };
@@ -49,18 +52,6 @@ const ArtistProfile = props => {
     setModalVisible(true);
     setModalNavigation(navigation); // Save the navigation object in the state
   };
-  const dispatch = useDispatch();
-  const user = useSelector(state => state.auth.userDetails);
-  console.log('22', user);
-
-  function gotoArtist() {
-    dispatch(testUpdateIsArtist({ isArtist: false, isArtist: true }));
-    console.log('22', user);
-  }
-
-  function gotoArtist() {
-    dispatch(testUpdateIsArtist({ isArtist: true, isArtist: false }));
-  }
 
   const socialMediaIcons = [
     { title: 'Facebook', source: facebook },
@@ -238,6 +229,7 @@ const ArtistProfile = props => {
             />
           </View>
         </View>
+
         <View style={styles.userProfileView}>
           <TouchableWithoutFeedback
             onPress={() => {
@@ -248,7 +240,7 @@ const ArtistProfile = props => {
             <Image source={require('../../assets/profile.png')} style={styles.userImg} />
           </TouchableWithoutFeedback>
           <View style={styles.userDetailsView}>
-            <Text style={styles.userName}>{'Rizwan Noor'}</Text>
+            <Text style={styles.userName}>{user.name}</Text>
             <View style={styles.centerDiv}>
               <Image
                 source={beauty}

@@ -6,12 +6,13 @@ import { fonts, useTheme } from '../../utils/theme';
 import { heightToDp, width } from '../../utils/Dimensions';
 
 import { useNavigation } from '@react-navigation/native';
-import { SIGNUP, saveUserData } from '../../redux/actions';
-import { useDispatch } from 'react-redux';
+import { SIGNUP } from '../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { showMessage } from 'react-native-flash-message';
 
 const theme = useTheme();
 
-const Gender = [
+const Skills = [
   {
     name: 'Hair',
     icons: [
@@ -61,6 +62,9 @@ export default function ArtistKnownFor() {
   const [selectedSkills, setSelectedSkills] = useState([]);
 
   const dispatch = useDispatch();
+  const dataToSave = useSelector(state => state.auth.signUpUserData);
+  const isLoading = useSelector(state => state.auth.isLoading);
+  const isSignUp = useSelector(state => state.auth.isSignUp);
 
   const toggleSkill = skillName => {
     if (selectedSkills.includes(skillName)) {
@@ -70,10 +74,20 @@ export default function ArtistKnownFor() {
     }
   };
 
-  const SkillsHandler = async () => {
-    // dispatch(SIGNUP(form data));
-    dispatch(saveUserData({ known_for: selectedSkills }));
-    navigation.navigate('ArtistOnBoardingWelcome');
+  const createAccount = async () => {
+    if (selectedSkills.length < 1) {
+      showMessage({
+        message: 'Please Select atleast one',
+        type: 'warning',
+      });
+    } else {
+      const knf = selectedSkills.map(item => {
+        return {
+          name: item,
+        };
+      });
+      dispatch(SIGNUP({ ...dataToSave, type_login: 'artist', known_for: knf }));
+    }
   };
 
   return (
@@ -103,7 +117,7 @@ export default function ArtistKnownFor() {
         />
 
         <View style={styles.genView}>
-          {Gender.map(item => {
+          {Skills.map(item => {
             return (
               <View key={item.name}>
                 <TouchableOpacity
@@ -138,8 +152,20 @@ export default function ArtistKnownFor() {
             );
           })}
         </View>
-
-        <Button title="Continue" btnStyle={[styles.btn, { marginTop: heightToDp(10) }]} onPress={SkillsHandler} />
+        {isSignUp ? (
+          <Button
+            title="Continue"
+            btnStyle={[styles.btn, { marginTop: heightToDp(10) }]}
+            onPress={() => navigation.navigate('ArtistOnBoardingWelcome')}
+          />
+        ) : (
+          <Button
+            title={isLoading ? 'Loading...' : 'Create Account'}
+            disable={isLoading}
+            btnStyle={[styles.btn, { marginTop: heightToDp(10) }]}
+            onPress={createAccount}
+          />
+        )}
       </ScrollView>
     </SafeAreaView>
   );

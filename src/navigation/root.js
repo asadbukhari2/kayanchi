@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-// redux
-import { useSelector } from 'react-redux';
-// import {useDispatch} from 'react-redux';
-// import OneSignal from 'react-native-onesignal';
+import { useDispatch, useSelector } from 'react-redux';
 
 // Stack
 import ArtistMainStack from './ArtistMainStack';
@@ -11,82 +8,6 @@ import ConsumerMainStack from './ConsumerMainStack';
 import ArtistAuthStack from './ArtistAuthStack';
 import ConsumerAuthStack from './ConsumerAuthStack';
 import InitStack from './InitStack';
-import AuthStack from './ConsumerAuthStack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-  Artist,
-  ArtistGig,
-  ArtistAddress,
-  ArtistBookingDate,
-  ArtistCreateGig,
-  ArtistHome,
-  ArtistInterests,
-  ArtistNumberSignUp,
-  ArtistUpdateProfile,
-  ArtistOrderSummary,
-  ArtistOrders,
-  ArtistOtpSignUp,
-  ArtistPasswordSignUp,
-  ArtistProfile,
-  ArtistSearch,
-  ArtistStatus,
-  ArtistUsernameSignUp,
-  ArtistVerification,
-  ArtistWelcome,
-  ArtistKnownFor,
-  ArtistOnBoarding,
-  ArtistOnBoardingWelcome,
-  ArtistGigMood,
-  ArtistPublishGig,
-} from '../artist-screens';
-import {
-  ConsumerLanguage,
-  ConsumerNotifications,
-  ConsumerLocateKaynchi,
-  ConsumerMapSearch,
-  ConsumerSavedAddresses,
-  ConsumerBookingSlots,
-  ConsumerOrderSetting,
-  ConsumerYourProfile,
-  ConsumerInviteFriends,
-  ConsumerProfileSaved,
-  ConsumerPersonalDetails,
-  ConsumerArtist,
-  ConsumerAddEasyPaisa,
-  ConsumerGigMainPage,
-  ConsumerProfile,
-  ConsumerPromoGig1,
-  ConsumerPromoGig2,
-  ConsumerPromoMainPage,
-  ConsumerPromoMood,
-  ConsumerPublishGig,
-  ConsumerUpdateProfile,
-  ConsumerVerification,
-  ConsumerHomeSearch,
-  ConsumerDisocver,
-  ConsumerCharts,
-  ConsumerTreatmentCharts,
-  ConsumerGigDetailPage,
-  ConsumerGigDetailHair,
-  ConsumerGigGlowMakeup,
-  ConsumerPromoDetailsPage,
-  ConsumerCashPayment,
-  ConsumerApplyPromoCode,
-  ConsumerOrderConfirm,
-  ConsumerOrderProcess,
-  ConsumerAddToCart,
-  ConsumerYourOrders,
-  ConsumerHostingSpot,
-  ConsumerHostingLocation,
-  LocateKaynchi,
-  ConsumerHelp,
-  ConsumerAbout,
-  ConumerReportBug,
-  ConsumerShareIdea,
-  ConsumerOrderCancellation,
-  ConsumerBooking,
-} from '../consumer-screens';
-import MySplashScreen from '../init-screens/SplashScreen';
 
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -108,70 +29,23 @@ export default function Root() {
   //     if(event.to.userId){await AsyncStorage.setItem('oneSignalId', event.to.userId);}
   //   })
 
-  const [loader, setLoader] = useState(false);
-  useEffect(() => {
-    setTimeout(() => {
-      setLoader(true);
-    }, 500);
-  }, []);
-
   const auth = useSelector(state => state.auth);
-  const authToken = 'choora';
-  const accountCompleted = auth?.userDetails?.account_completed;
-  const isArtist = auth?.userDetails?.isArtist === true;
-  const isConsumer = auth?.userDetails?.isConsumer === true;
-  console.log(isArtist, isConsumer);
-  // return isArtist ? <ArtistMainStack /> : isConsumer ? <ConsumerMainStack /> : <InitStack />;
+  const dispatch = useDispatch();
 
-  // return auth.token ? <ArtistMainStack /> : <InitStack />;
-  // return auth?.token ? (
-  //   isArtist ? (
-  //     <ArtistMainStack />
-  //   ) : (
-  //     <ConsumerMainStack />
-  //   )
-  // ) : isArtist ? (
-  //   <ArtistAuthStack />
-  // ) : (
-  //   <ConsumerAuthStack />
-  // );
+  const isArtist = auth?.isArtist === true;
+  const isConsumer = auth?.isConsumer === true;
+  console.log('-=-=-=-=-', isArtist, isConsumer, auth?.token?.length > 0);
+  // dispatch({ type: 'SIGN_OUT' });
 
-  return <ArtistAuthStack />;
+  return !auth.token && isArtist ? (
+    <ArtistAuthStack />
+  ) : auth.token && isArtist ? (
+    <ArtistMainStack />
+  ) : !auth.token && isConsumer ? (
+    <ConsumerAuthStack />
+  ) : auth.token && isConsumer ? (
+    <ConsumerMainStack />
+  ) : (
+    <InitStack />
+  );
 }
-
-// import {createNativeStackNavigator} from '@react-navigation/native-stack';
-
-// import {SplashScreenAfter} from '../Screens';
-// const Stack = createNativeStackNavigator();
-
-// const Routes = () => {
-//   return (
-//     <Stack.Navigator
-//       initialRouteName={'SplashScreen'}
-//       screenOptions={{headerShown: false}}>
-//       <Stack.Screen name={'SplashScreen'} component={MySplashScreen} />
-//       <Stack.Screen
-//         name="ConsumerMain"
-//         component={ConsumerMainStack}
-//         options={{headerShown: false}}
-//       />
-//       <Stack.Screen
-//         name="ConsumerAuthStack"
-//         component={ConsumerAuthStack}
-//         options={{headerShown: false}}
-//       />
-//       <Stack.Screen
-//         name="ArtistAuthStack"
-//         component={ArtistAuthStack}
-//         options={{headerShown: false}}
-//       />
-//       <Stack.Screen
-//         name="ArtistMainStack"
-//         component={ArtistMainStack}
-//         options={{headerShown: false}}
-//       />
-//     </Stack.Navigator>
-//   );
-// };
-
-// export default Routes;

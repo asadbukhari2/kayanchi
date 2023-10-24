@@ -1,17 +1,31 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Header, TextInput, Loader } from '../../components';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
-import { fonts, useTheme } from '../../utils/theme';
-import api from '../../utils/APIservice';
+import { useTheme } from '../../utils/theme';
+
 import { useDispatch } from 'react-redux';
-import { saveToken, saveUserData } from '../../redux/actions';
-import { showMessage } from 'react-native-flash-message';
+import { saveUserData } from '../../redux/actions';
+
 import DatePicker from 'react-native-date-picker';
 import ReactNativeModal from 'react-native-modal';
+import moment from 'moment';
+import { showMessage } from 'react-native-flash-message';
 
 const theme = useTheme();
+
+const Gender = [
+  {
+    name: 'Female',
+  },
+  {
+    name: 'Male',
+  },
+  {
+    name: 'Non Binary',
+  },
+];
 
 const ArtistPasswordSignUp = props => {
   const [password, setPassword] = useState(null);
@@ -22,34 +36,32 @@ const ArtistPasswordSignUp = props => {
   const [modalVisible, setModalVisible] = useState(false);
   const [pickerDate, setPickerDate] = useState(new Date());
 
-  console.log('pickerDate', pickerDate);
-  console.log('dob', dob);
   const currentYear = new Date().getFullYear();
   const dobYear = dob.getFullYear();
   const age = currentYear - dobYear;
 
   const dispatch = useDispatch();
 
-  const Gender = [
-    {
-      name: 'Female',
-    },
-    {
-      name: 'Male',
-    },
-    {
-      name: 'Non Binary',
-    },
-  ];
-
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
 
-  const signUp = async () => {
-    dispatch(saveUserData({ name, password, dob, gender }));
-    props.navigation.navigate('ArtistKnownFor');
-    console.log('artist', name, password, dob, gender);
+  const handlePasswordSignUp = async () => {
+    if (!name || !password || !gender) {
+      showMessage({
+        message: 'Please Fill all Fields',
+        type: 'warning',
+      });
+    } else if (age < 18) {
+      showMessage({
+        message: 'age musst be greater than 18',
+        type: 'warning',
+      });
+    } else {
+      const formatedDOB = moment(dob).format('DD/MM/YYYY');
+      dispatch(saveUserData({ name, password, dob: formatedDOB, gender }));
+      props.navigation.navigate('ArtistKnownFor');
+    }
   };
 
   return (
@@ -70,30 +82,9 @@ const ArtistPasswordSignUp = props => {
         placeholder={'************'}
       />
 
-      {/* <TextInput
-        mainLabel={'What’s your age and gender?'}
-        subLabel={'Let’s find the best artist for you!'}
-      /> */}
-      {/* <View
-        style={{
-          marginTop: heightToDp(15),
-          marginVertical: 20,
-          alignItems: 'center',
-        }}>
-        <DatePicker
-          date={dob ? dob : new Date()}
-          mode="date"
-          maximumDate={new Date()}
-          onDateChange={date => {
-            // console.log(typeof date.toDateString());
-            setDob(date);
-          }}
-        />
-      </View> */}
-
       <TextInput
         mainLabel={'What’s your age and gender?'}
-        subLabel={'Let’s find the best artist for you!'}
+        subLabel={'Let’s find the best Consumers for you!'}
         editable={false}
         value={age ? `${age} years` : ''}
         placeholder="DD/MM/YYYY"
@@ -125,6 +116,7 @@ const ArtistPasswordSignUp = props => {
         {Gender.map(item => {
           return (
             <TouchableOpacity
+              key={item.name}
               onPress={() => setGender(item.name)}
               activeOpacity={0.7}
               style={[
@@ -139,7 +131,7 @@ const ArtistPasswordSignUp = props => {
         })}
       </View>
 
-      <Button title={'Create Account'} btnStyle={styles.btn} onPress={signUp} />
+      <Button title="Continue" btnStyle={styles.btn} onPress={handlePasswordSignUp} />
       {loading && <Loader />}
     </SafeAreaView>
   );

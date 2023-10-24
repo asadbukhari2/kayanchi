@@ -1,21 +1,20 @@
 import React from 'react';
 import { StyleSheet, Image, Text, ScrollView, View, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
 import { heightToDp, width } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
-
 import { useDispatch } from 'react-redux';
-import { testUpdateIsArtist } from '../../redux/actions';
 import { useNavigation } from '@react-navigation/native';
+import { SET_IS_CONSUMER } from '../../redux/constants/constants';
 
 const theme = useTheme();
 
 export default function InitScreen() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
   function gotoConsumer() {
-    dispatch(testUpdateIsArtist({ isArtist: false, isConsumer: true }));
+    dispatch({ type: SET_IS_CONSUMER });
   }
 
   function gotoArtist() {

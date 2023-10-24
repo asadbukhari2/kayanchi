@@ -6,7 +6,7 @@ import { fonts, useTheme } from '../../utils/theme';
 const theme = useTheme();
 
 const Button = props => {
-  const { btnStyle, titleStyle, title, onPress, disable, icon, image, imageStyle, loading } = props;
+  const { btnStyle, titleStyle, title, onPress, disable, icon, image, imageStyle } = props;
   console.log('title', title);
   return (
     <TouchableOpacity disabled={disable} activeOpacity={0.7} onPress={onPress} style={[styles.container, btnStyle]}>

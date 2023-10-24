@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+
 import {
   ArtistWelcome,
   ArtistNumberSignUp,
@@ -17,8 +17,8 @@ import {
   ArtistBasicGig,
   ArtistBasicGig2,
   ArtistGigMood,
-  ArtistHome,
-  ArtistOrder,
+  // ArtistHome,
+  // ArtistOrder,
   ArtistYourOrders,
   ArtistKnownFor,
 } from '../artist-screens';

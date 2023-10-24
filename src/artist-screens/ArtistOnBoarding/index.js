@@ -10,6 +10,7 @@ import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import MultiButton from '../../components/MultiButton';
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
 
 const timer = require('../../assets/CreatePromo.png');
 const CreateGig = require('../../assets/CreateGig.png');
@@ -53,10 +54,9 @@ const slides = [
 
 const ArtistOnBoarding = () => {
   const navigation = useNavigation();
-
+  const dispatch = useDispatch();
   const [selectedItem, setSelectedItem] = React.useState(slides[0]);
 
-  // const dispatch = useDispatch();
   const myFlatList = useRef(null);
 
   const addData = async () => {
@@ -71,10 +71,14 @@ const ArtistOnBoarding = () => {
     );
   };
 
+  const handleNextScreen = () => {
+    dispatch({ type: 'SIGN_UP_SUCCESS_TOKEN_SET' });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ flex: 1, backgroundColor: '#fff' }}>
-        <Header title={selectedItem?.heading} skip onSkip={() => navigation.replace('ArtistHome')} />
+        <Header title={selectedItem?.heading} skip onSkip={handleNextScreen} />
         <View style={{ height: heightToDp(100) }}>
           <AppIntroSlider
             ref={myFlatList}
@@ -155,11 +159,7 @@ const ArtistOnBoarding = () => {
               </View>
             )}
             {selectedItem.key === 4 && (
-              <Button
-                title={"Let's go"}
-                onPress={() => navigation.replace('ArtistHome')}
-                btnStyle={{ marginTop: heightToDp(4) }}
-              />
+              <Button title={"Let's go"} onPress={handleNextScreen} btnStyle={{ marginTop: heightToDp(4) }} />
             )}
           </>
         ) : null}

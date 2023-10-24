@@ -8,24 +8,6 @@ const impression = require('../../../assets/impressions.png');
 const leftArrow = require('../../../assets/left.png');
 const rightArrow = require('../../../assets/right.png');
 
-// const insightData = [
-//     {
-//       title: 'Impression',
-//       count: '955',
-//       imageLink: impression,
-//     },
-//     {
-//       title: 'Clicks',
-//       count: '16',
-//       imageLink: impression,
-//     },
-//     {
-//       title: 'Conversions',
-//       count: '0.21%',
-//       imageLink: impression,
-//     },
-//   ];
-
 export default function Insights({ insightData }) {
   return (
     <View style={styles.insight}>

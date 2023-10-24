@@ -1,53 +1,30 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Header, TextInput } from '../../components';
 import { heightToDp, width } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
-// import api from '../../utils/APIservice';
-import { useDispatch, useSelector } from 'react-redux';
-// import {saveUserData} from '../../redux/actions';
-// import {showMessage} from 'react-native-flash-message';
+
 import { useNavigation } from '@react-navigation/native';
-import { saveUserData } from '../../redux/actions';
+
+import { showMessage } from 'react-native-flash-message';
 
 const theme = useTheme();
 
 const ArtistOtpSignUp = () => {
   const navigation = useNavigation();
 
-  // const signUpUserData = useSelector(state => state.auth.signUpUserData);
-
   const [otp, setOtp] = useState(null);
-  // const dispatch = useDispatch();
 
-  const phoneSignup = async () => {
-    navigation.navigate('ArtistPasswordSignUp');
-    // try {
-    // const res = await api.post('/api/users/verifyotp', {
-    //   number: phone_number,
-    //   otp: verification_code,
-    // });
-    // if (res.status == 200) {
-    // dispatch(saveUserData(res.data));
-    // showMessage({
-    //   message: 'Logged in successfully!',
-    //   type: 'success',
-    // });
-    // navigation.navigate('ArtistPasswordSignUp', {phone_number});
-    // } else {
-    //   showMessage({
-    //     message: res.data,
-    //     type: 'danger',
-    //   });
-    // }
-    // } catch (error) {
-    //   showMessage({
-    //     message: error?.message,
-    //     type: 'success',
-    //   });
-    // }
+  const handleOTPVerification = async () => {
+    showMessage({
+      message: 'Waiting FOR API',
+      type: 'warning',
+      duration: 100,
+    });
+    setTimeout(() => {
+      navigation.navigate('ArtistPasswordSignUp');
+    }, 500);
   };
 
   return (
@@ -67,7 +44,7 @@ const ArtistOtpSignUp = () => {
           <Text style={{ color: theme.linkTxt }}> Resend</Text>
         </Text>
       </View>
-      <Button title={'Continue'} btnStyle={styles.btn} onPress={phoneSignup} />
+      <Button title={'Continue'} btnStyle={styles.btn} onPress={handleOTPVerification} />
     </SafeAreaView>
   );
 };

@@ -1,14 +1,11 @@
 import React from 'react';
 import { StyleSheet, Image, Text, ScrollView, View, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
 import { heightToDp, width } from '../utils/Dimensions';
 import { fonts, useTheme } from '../utils/theme';
-
 import { useDispatch } from 'react-redux';
-import { testUpdateIsArtist } from '../redux/actions';
 import { useNavigation } from '@react-navigation/native';
-import { Header } from '../components';
+import { SET_IS_ARTIST } from '../redux/constants/constants';
 
 const theme = useTheme();
 
@@ -17,7 +14,7 @@ export default function ArtistType() {
   const navigation = useNavigation();
 
   function gotoArtist() {
-    dispatch(testUpdateIsArtist({ isArtist: true, isConsumer: false }));
+    dispatch({ type: SET_IS_ARTIST });
   }
 
   return (
@@ -116,6 +113,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     paddingVertical: 12,
+    color: theme.dark,
   },
   cardImg: {
     width: 98,
@@ -123,6 +121,7 @@ const styles = StyleSheet.create({
   },
   desc: {
     textAlign: 'center',
+    color: theme.dark,
   },
   signIn: {
     padding: 16,

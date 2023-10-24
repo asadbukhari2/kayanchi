@@ -1,11 +1,9 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { StyleSheet, Image, Text, View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from '../../components';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
-import { Ionicons } from 'react-native-vector-icons'; // Import the icon you want to use
 
 const theme = useTheme();
 const facebook = require('../../assets/facebook.png');

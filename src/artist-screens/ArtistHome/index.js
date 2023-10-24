@@ -159,6 +159,7 @@ const ModalData = [
     modalTitle: 'Create a Promo',
   },
 ];
+
 const insightData = [
   {
     title: 'Impression',

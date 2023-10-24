@@ -8,6 +8,8 @@ import {
   SEND_OTP_SUCCESS,
   SAVE_USER_DATA,
   SAVE_TOKEN,
+  SET_IS_ARTIST,
+  SIGN_UP,
 } from '../constants/constants';
 import { showMessage } from 'react-native-flash-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -33,6 +35,12 @@ export const EMAIL_LOGIN =
         type: SIGN_IN_SUCCESS,
         payload: res,
       });
+
+      if (res.type_login === 'artist') {
+        dispatch({
+          type: SET_IS_ARTIST,
+        });
+      }
     } else {
       const { message } = await res.json();
       showMessage({
@@ -48,45 +56,51 @@ export const EMAIL_LOGIN =
   };
 
 export const SIGNUP = data => async dispatch => {
+  // console.log('--------======', data);
+
+  // const y = {
+  //   name: 'Kgifj',
+  //   email: 'asad7@kayanchi.com',
+  //   password: 'Gjgmgkfjfjfjfjfkgm',
+  //   gender: 'Male',
+  //   dob: '25/10/1995',
+  //   known_for: [{ name: 'Hair' }],
+  //   referral_code: 'Nradgv6',
+  //   type_login: 'artist',
+  // };
+  dispatch({
+    type: SIGN_UP,
+  });
   let res = await Fetch.post('/api/users/artist', data);
-  // if (phone_number) {
-  //   var data = {
-  //     phone_number: phone_number,
-  //   };
-  // } else {
-  //   var data = {
-  //     email: email,
-  //     password: password,
-  //   };
-  // }
-  // await API.post('/api/users', data)
-  //   .then(res => {
-  //     if (res.status == 201) {
-  //       showMessage({
-  //         message: 'Sign Up Successfully!',
-  //         type: 'success',
-  //       });
-  //       dispatch({
-  //         type: SIGN_UP_SUCCESS,
-  //         payload: data,
-  //       });
-  //     } else {
-  //       showMessage({
-  //         message: res.status,
-  //         type: 'danger',
-  //       });
-  //     }
-  //   })
-  //   .catch(error => {
-  //     showMessage({
-  //       message: 'Error in service!',
-  //       type: 'danger',
-  //     });
-  //     dispatch({
-  //       type: SIGN_UP_FAILED,
-  //       payload: { flag: true, text: error.error },
-  //     });
-  //   });
+  if (res.status >= 200 && res.status < 300) {
+    res = await res.json();
+    console.log(res);
+    await AsyncStorage.setItem('userToken', JSON.stringify(res.token));
+    showMessage({
+      message: 'Successfully Created Your Account',
+      type: 'success',
+    });
+    dispatch({
+      type: SIGN_UP_SUCCESS,
+      payload: res,
+    });
+  } else if (res.status >= 500) {
+    showMessage({
+      message: 'Server Issues',
+      type: 'danger',
+    });
+  } else {
+    const { message } = await res.json();
+    showMessage({
+      message: message || 'Something Went Wrong',
+      type: 'danger',
+    });
+    dispatch({
+      type: SIGN_UP_FAILED,
+      payload: message,
+    });
+    throw new Error(message ?? 'Something went wrong');
+  }
 };
 
 export const testUpdateIsArtist = payload => dispatch => {

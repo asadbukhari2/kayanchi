@@ -2,65 +2,32 @@ import React, { useState } from 'react';
 
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button, Header, Loader, TextInput } from '../../components';
+import { Button, Header, TextInput } from '../../components';
 import { heightToDp, width } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
 import { useDispatch } from 'react-redux';
-import { showMessage } from 'react-native-flash-message';
 import { useNavigation } from '@react-navigation/native';
 import { saveUserData } from '../../redux/actions';
+import { showMessage } from 'react-native-flash-message';
 
 const theme = useTheme();
 
 const EmailSignUp = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [code, setCode] = useState(null);
 
   const dispatch = useDispatch();
 
   const emailSignup = async () => {
-    try {
-      navigation.navigate('ArtistOtpSignUp', { email, code });
-      dispatch(saveUserData({ email, code }));
-      // const res = await api.post('/api/users', {
-      //   email: email,
-      // });
-      // setLoading(true);
-      // console.log('this is funny', res.data);
-      // if (res.status == 200) {
-      //   // dispatch(saveUserData(res.data));
-      //   // dispatch(saveToken(res.data));
-      //   // showMessage({
-      //   //   message: 'Logged in successfully!',
-      //   //   type: 'success',
-      //   // });
-      //   setLoading(false);
-      // } else {
-      //   setLoading(false);
-      //   showMessage({
-      //     message: res.data,
-      //     type: 'danger',
-      //   });
-      // }
-    } catch (error) {
-      showMessage({
-        message: error?.message,
-        type: 'warning',
-      });
-      console.log(error);
+    if (!email) {
+      showMessage({ message: 'Please Type Email', type: 'warning' });
+    } else {
+      navigation.navigate('ArtistOtpSignUp');
+      dispatch(saveUserData({ email, referral_code: code }));
     }
-    // console.log(email);
-    // try {
-    //   const res = await api.post('/api/users/sendotp', {phone_number: number});
-    //   console.log('data', res.data);
-    //   showMessage({message: res.data});
-
-    // } catch (error) {
-    //   console.log(error);
-    // }
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <Header backBtn title={'Sign up'} />
@@ -87,7 +54,6 @@ const EmailSignUp = () => {
         {/* </TouchableOpacity> */}
       </View>
       <Button title={'Continue'} btnStyle={styles.btn} onPress={emailSignup} />
-      {loading && <Loader />}
     </SafeAreaView>
   );
 };
