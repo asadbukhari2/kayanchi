@@ -2,20 +2,22 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header, Button } from '../../components';
-import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { useTheme, fonts } from '../../utils/theme';
 import back from '../../assets/back.png';
+import { useNavigation } from '@react-navigation/native';
+
 const category = ['Hair', 'Face', 'Skin', 'Spa', 'Body'];
 const audience = ['Female', 'Male', 'Non Binary'];
+
 const theme = useTheme();
 
-const ArtistBasicGig = props => {
-  const { navigation, route } = props;
+const ArtistBasicGig = () => {
+  const navigation = useNavigation();
+
   const [selectedCat, setSelectedCat] = useState('');
   const [selectedAud, setSelectedAud] = useState([]);
-  // const {data} = route.params;
 
-  // console.log(data);
   return (
     <SafeAreaView style={styles.container}>
       <View
@@ -26,9 +28,11 @@ const ArtistBasicGig = props => {
           marginLeft: widthToDp(5),
           width: widthToDp(90),
         }}>
-        <Image source={back}></Image>
+        {/* // TODO add back function below*/}
+        <Image source={back} />
+
         <View style={{ marginLeft: -20 }}>
-          <Header title={'Baisc gig info'} />
+          <Header title="Baisc gig info" />
         </View>
       </View>
       <View style={styles.gigVersion}>
@@ -39,12 +43,14 @@ const ArtistBasicGig = props => {
         multiline={true}
         height={90}
         style={styles.inputField}
-        placeholder="Sagan / Engagement makeupx"></TextInput>
-      <Text style={styles.warning}>{'The title can not contain more than 30 letters.'}</Text>
+        maxLength={30}
+        placeholder="Sagan / Engagement makeupx"
+      />
+      <Text style={styles.warning}>The title can not contain more than 30 letters.</Text>
       <View style={styles.gigVersion}>
-        <Text style={styles.title}>{'Choose category'}</Text>
+        <Text style={styles.title}>Choose category</Text>
       </View>
-      <Text style={styles.txt}>{'Please choose from the given. '}</Text>
+      <Text style={styles.txt}>Please choose from the given.</Text>
       <View
         style={{
           flex: 0,
@@ -70,7 +76,7 @@ const ArtistBasicGig = props => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   borderRadius: 30,
-                  backgroundColor: selectedCat == item ? '#84668C' : '#9A9A9A',
+                  backgroundColor: selectedCat === item ? '#84668C' : '#9A9A9A',
                   marginRight: 7,
                   marginTop: 10,
                 }}>
@@ -89,9 +95,9 @@ const ArtistBasicGig = props => {
         </View>
       </View>
       <View style={styles.gigVersion}>
-        <Text style={styles.title}>{'Target audience'}</Text>
+        <Text style={styles.title}>Target audience</Text>
       </View>
-      <Text style={styles.txt}>{'Choose the target audience, this gig is for.'}</Text>
+      <Text style={styles.txt}>Choose the target audience, this gig is for.</Text>
       <View
         style={{
           flex: 0,
@@ -112,8 +118,6 @@ const ArtistBasicGig = props => {
                 onPress={() => {
                   if (selectedAud.includes(item)) {
                     let arr = selectedAud;
-                    const index = arr.indexOf(item);
-                    const x = arr.splice(index, 1);
                     setSelectedAud([...arr]);
                   } else {
                     let arr = selectedAud;
@@ -223,7 +227,5 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     fontFamily: fonts.hk_bold,
     color: theme.lightBlack,
-    // marginTop: 23,
-    lineHeight: 28.13,
   },
 });

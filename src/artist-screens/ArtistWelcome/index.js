@@ -13,6 +13,7 @@ const email = require('../../assets/email.png');
 
 const ArtistWelcome = () => {
   const navigation = useNavigation();
+
   return (
     <SafeAreaView style={styles.container}>
       <Image source={require('../../assets/Signup.png')} style={styles.img} resizeMode="contain" />
@@ -61,7 +62,8 @@ const ArtistWelcome = () => {
           <View style={styles.seperator} />
         </View>
         <View style={styles.btnText}>
-          <Button title={'Continue with mobile number'} onPress={() => navigation.navigate('ArtistNumberSignUp')} />
+          <Button title="Continue with mobile number" onPress={() => navigation.navigate('ArtistNumberSignUp')} />
+          <Button title="dummy button" onPress={() => navigation.navigate('ArtistBasicGig')} />
         </View>
       </View>
     </SafeAreaView>

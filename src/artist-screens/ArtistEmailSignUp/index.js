@@ -23,7 +23,7 @@ const EmailSignUp = () => {
     if (!email) {
       showMessage({ message: 'Please Type Email', type: 'warning' });
     } else {
-      navigation.navigate('ArtistOtpSignUp');
+      navigation.navigate('ArtistPasswordSignUp');
       dispatch(saveUserData({ email, referral_code: code }));
     }
   };

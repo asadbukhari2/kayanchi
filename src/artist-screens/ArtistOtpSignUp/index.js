@@ -17,12 +17,15 @@ const ArtistOtpSignUp = () => {
   const [otp, setOtp] = useState(null);
 
   const handleOTPVerification = async () => {
-    navigation.navigate('ArtistPasswordSignUp');
-    setOtp(null);
+    showMessage({ message: 'Waiting For API', type: 'warning', duration: 100 });
+    setTimeout(() => {
+      navigation.navigate('ArtistPasswordSignUp');
+    }, 500);
+    // setOtp(null); // TODO uncomment when API DONE
   };
 
   const resendFunc = () => {
-    console.log('Resend OTP');
+    showMessage({ message: 'API Required', type: 'warning' });
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -43,7 +46,12 @@ const ArtistOtpSignUp = () => {
           </Text>
         </Text>
       </View>
-      <Button title={'Continue'} btnStyle={styles.btn} onPress={handleOTPVerification} disable={!otp} />
+      <Button
+        title="Continue"
+        btnStyle={styles.btn}
+        onPress={handleOTPVerification}
+        // disable={!otp} // TODO: uncomment it when integratd API
+      />
     </SafeAreaView>
   );
 };

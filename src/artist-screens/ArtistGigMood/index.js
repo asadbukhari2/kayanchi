@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Switch, ScrollView } from 'react-native';
 import ToggleSwitch from 'toggle-switch-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header, Button } from '../../components';
-import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { useTheme, fonts } from '../../utils/theme';
-import iButton from '../../assets/ibutton.png';
 
 import back from '../../assets/back.png';
 import travelling from '../../assets/travelling.png';
@@ -17,33 +16,30 @@ import HostMoodImage from '../../assets/car-front.png';
 
 import LinearGradient from 'react-native-linear-gradient';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveToken } from '../../redux/actions';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 const theme = useTheme();
 
 const ArtistGigMood = props => {
   const [image, setImage] = useState();
-  const [isPrivate, setIsPrivate] = useState(false);
+  const [isPrivate, setIsPrivate] = useState(true);
+  const navigation = useNavigation();
 
   const handlePrivateImage = () => {
-    setIsPrivate(previousState => !previousState);
+    setIsPrivate(!isPrivate);
   };
-  const { navigation, route } = props;
-  // const {data} = route.params;
 
-  // console.log(data);
   const dispatch = useDispatch();
+
   const user = useSelector(state => state.auth);
+
   useEffect(() => {
     console.log(user);
   }, [user]);
 
   const gotoArtist = async () => {
     // dispatch(saveToken({token: 'anyvalue'}));
-    props.navigation.navigate('ArtistHomeStack', {
-      screen: 'ArtistVerification',
-    });
+    navigation.navigate('ArtistVerification');
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -56,7 +52,8 @@ const ArtistGigMood = props => {
             marginLeft: widthToDp(5),
             width: widthToDp(90),
           }}>
-          <Image source={back}></Image>
+          {/* // TODO add back function below */}
+          <Image source={back} />
           <View style={{ marginLeft: -20 }}>
             <Header title={'Gig mood'} />
           </View>
@@ -76,7 +73,7 @@ const ArtistGigMood = props => {
               style={styles.childMood}
               start={{ x: 1, y: 0.5 }}
               end={{ x: 1, y: 0.5 }}>
-              <Image source={HostMoodImage} style={{ height: 30, width: 30, resizeMode: 'contain' }}></Image>
+              <Image source={HostMoodImage} style={{ height: 30, width: 30, resizeMode: 'contain' }} />
               <Text style={styles.childMoodHead}>Travel</Text>
               <Text style={styles.childMoodBody}>to client’s</Text>
             </LinearGradient>
@@ -85,7 +82,7 @@ const ArtistGigMood = props => {
               style={styles.childMood}
               start={{ x: 1, y: 0.5 }}
               end={{ x: 1, y: 0.5 }}>
-              <Image source={TravelMoodImage}></Image>
+              <Image source={TravelMoodImage} />
               <Text style={styles.childMoodHead}>Host</Text>
               <Text style={styles.childMoodBody}>the client</Text>
             </LinearGradient>
@@ -93,8 +90,8 @@ const ArtistGigMood = props => {
         </View>
         <View style={styles.serviceDuration}>
           <Text style={styles.title2}>{'Default Travelling cost'}</Text>
-          <Image source={travelling}></Image>
-          <View style={styles.childServiceDuration}></View>
+          <Image source={travelling} />
+          <View style={styles.childServiceDuration} />
         </View>
 
         <Text style={styles.warning}>
@@ -109,7 +106,7 @@ const ArtistGigMood = props => {
           <Text style={styles.warning}>{'Offer free travel'}</Text>
           <View style={styles.switchContainer}>
             <ToggleSwitch
-              isOn={false}
+              // isOn={false}
               style={{ height: 20, marginRight: 10 }}
               value={isPrivate}
               onColor="#84668C"
@@ -121,14 +118,14 @@ const ArtistGigMood = props => {
               value={isPrivate}
               onValueChange={handlePrivateImage}
               thumbColor={isPrivate ? theme.primary : '#eee'}
-              trackColor={{false: 'grey', true: 'grey'}}
+              trackColor={{ false: 'grey', true: 'grey' }}
               style={styles.switch}
             /> */}
           </View>
         </View>
 
         <View style={styles.parentPrice}>
-          <TextInput style={styles.priceField} placeholder="100-1000"></TextInput>
+          <TextInput style={styles.priceField} placeholder="100-1000" />
         </View>
 
         <View style={styles.gigVersion}>
@@ -139,11 +136,8 @@ const ArtistGigMood = props => {
         <TouchableOpacity
           onPress={() => {
             ImageCropPicker.openPicker({
-              // width: width * 0.868,
-              // height: heightToDp(43.2),
               cropping: true,
             }).then(image => {
-              console.log(image);
               setImage(image);
             });
           }}
@@ -163,23 +157,16 @@ const ArtistGigMood = props => {
           ) : (
             <View>
               <View style={styles.upload}>
-                <Image source={galleryBig}></Image>
+                <Image source={galleryBig} />
                 <Text style={styles.uploadText}>Upload</Text>
               </View>
             </View>
           )}
         </TouchableOpacity>
 
-        <Text style={styles.warning2}>{'Terms and conditions.'}</Text>
+        <Text style={styles.warning2}>Terms and conditions.</Text>
 
-        <Button
-          title={'Publish Gig'}
-          btnStyle={styles.btn}
-          onPress={() => {
-            // navigation.navigate('gotoArtist');
-            gotoArtist();
-          }}
-        />
+        <Button title="Publish Gig" btnStyle={styles.btn} onPress={gotoArtist} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -285,7 +272,6 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginBottom: 20,
     lineHeight: 18.75,
-    color: '#1583D8',
   },
   parentPrice: {
     flex: 0,
@@ -334,7 +320,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     fontFamily: fonts.robo_med,
     color: '#8D8A94',
-    marginTop: 8,
     lineHeight: 22,
   },
   container: {
@@ -379,8 +364,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     fontFamily: fonts.robo_reg,
     color: '#67718C',
-    // marginTop: 4,
-    // lineHeight: 18.75,
   },
   title: {
     fontSize: 34,

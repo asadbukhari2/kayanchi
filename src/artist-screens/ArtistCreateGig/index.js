@@ -2,23 +2,28 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header, Button } from '../../components';
-import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { useTheme, fonts } from '../../utils/theme';
 import iButton from '../../assets/ibutton.png';
 import TravelMoodImage from '../../assets/travel.png';
 import HostMoodImage from '../../assets/host.png';
 import LinearGradient from 'react-native-linear-gradient';
+import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 const theme = useTheme();
 
-const ArtistCreateGig = props => {
+const ArtistCreateGig = () => {
   const [selected, setSelected] = useState('basic');
-  const { navigation } = props;
+  const navigation = useNavigation();
+
+  const user = useSelector(state => state.auth.user);
+
   return (
     <SafeAreaView style={styles.container}>
       <Header title={'Create gig'} />
       <View style={styles.gigVersion}>
-        <Text style={styles.title}>{'Greetings Farrukh!'}</Text>
+        <Text style={styles.title}>{`Greetings ${user.name}!`}</Text>
       </View>
       <Text style={styles.txt}>{'Time to create your first gig and showcase your skills at Kaynchi.'}</Text>
       <Image style={styles.img} source={require('../../assets/onBoarding.png')} />
@@ -26,25 +31,25 @@ const ArtistCreateGig = props => {
       <View style={styles.parentMood}>
         <View style={styles.mood}>
           <View style={styles.moodIbutton}>
-            <Image style={{ marginBottom: 20 }} source={iButton}></Image>
+            <Image style={{ marginBottom: 20 }} source={iButton} />
             <TouchableOpacity onPress={() => setSelected('basic')}>
               <LinearGradient
-                colors={selected == 'basic' ? ['#86C0E9', '#2764AE'] : ['#696969', '#AEAEAE']}
+                colors={selected === 'basic' ? ['#86C0E9', '#2764AE'] : ['#696969', '#AEAEAE']}
                 style={styles.childMood}>
-                <Image source={HostMoodImage}></Image>
+                <Image source={HostMoodImage} />
                 <Text style={styles.childMoodHead1}>Create basic gig</Text>
               </LinearGradient>
             </TouchableOpacity>
           </View>
           <View style={styles.moodIbutton}>
-            <Image style={{ marginBottom: 20 }} source={iButton}></Image>
+            <Image style={{ marginBottom: 20 }} source={iButton} />
             <TouchableOpacity onPress={() => setSelected('promotion')}>
               <LinearGradient
-                colors={selected == 'promotion' ? ['#86C0E9', '#2764AE'] : ['#696969', '#AEAEAE']}
+                colors={selected === 'promotion' ? ['#86C0E9', '#2764AE'] : ['#696969', '#AEAEAE']}
                 style={styles.childMood}
                 start={{ x: 0, y: 0.5 }}
                 end={{ x: 1, y: 0.5 }}>
-                <Image source={TravelMoodImage}></Image>
+                <Image source={TravelMoodImage} />
                 <Text style={styles.childMoodHead2}>Create Promotional gig</Text>
               </LinearGradient>
             </TouchableOpacity>
@@ -53,7 +58,7 @@ const ArtistCreateGig = props => {
       </View>
 
       <Button
-        title={'Continue'}
+        title="Continue"
         btnStyle={styles.btn}
         onPress={() => {
           navigation.navigate('ArtistBasicGig');
@@ -78,24 +83,16 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   mood: {
-    // borderColor: "red",
-    // borderWidth: 1,
     width: width * 0.9,
     flex: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // alignItems:"s"
   },
   childMood: {
     height: 130,
-    // borderColor: "blue",
-    // borderWidth: 1,
     width: width * 0.425,
-    // height:40,
     backgroundColor: 'blue',
     flex: 0,
-    // justifyContent:"center",
-    // alignItems:"center",
     paddingVertical: 20,
     borderRadius: 15,
     paddingHorizontal: 20,
@@ -104,7 +101,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.robo_med,
     fontSize: 14,
     lineHeight: 16,
-    color: 'white',
+    color: theme.dark,
     marginTop: 25,
   },
   childMoodHead2: {

@@ -8,6 +8,7 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 import approval from '../../assets/approval.png';
 
 import { PermissionsAndroid } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 async function requestCameraPermission() {
   try {
@@ -27,11 +28,13 @@ async function requestCameraPermission() {
   }
 }
 const theme = useTheme();
-const ArtistVerification = props => {
+const ArtistVerification = () => {
   const [image, setImage] = useState();
   const [cnic, setCnic] = useState();
   const [nadraCard, setNadraCard] = useState();
   const [selectedImage, setSelectedImage] = useState(null); // State to store selected image URI
+
+  const navigation = useNavigation();
 
   const openCamera = () => {
     console.log('clicked');
@@ -150,17 +153,13 @@ const ArtistVerification = props => {
         </View>
 
         <View style={styles.skipStyling}>
-          <Text style={styles.fileText}>I want to skip </Text>
+          <Text style={styles.fileText} onPress={() => navigation.navigate('ArtistPublishGig')}>
+            I want to skip
+          </Text>
         </View>
 
         <View style={styles.btnText}>
-          <Button
-            title={'Continue'}
-            btnStyle={styles.btn}
-            onPress={() => {
-              props.navigation.navigate('ArtistPublishGig');
-            }}
-          />
+          <Button title="Continue" btnStyle={styles.btn} onPress={() => navigation.navigate('ArtistPublishGig')} />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -209,13 +208,10 @@ const styles = StyleSheet.create({
   pendingLabelContainer: {
     height: 100,
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
-
     width: widthToDp(90),
     position: 'absolute',
     top: 0,
     left: 0,
-    width: '100%',
-    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
@@ -232,19 +228,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 12,
   },
-  // pendingLabel: {
-  //   position: 'absolute',
-  //   height:100,
-  //   width: widthToDp(90),
-  //   textAlign:'center',
-  //   justifyContent:'center',
-  //   paddingTop: 35,
-  //   alignItems:'center',
-  //   backgroundColor: 'rgba(0, 0,0, 0.2)',
-  //   borderRadius: 4,
-  //   color:'white',
-  //   fontSize:16,
-  // },
+
   parentGigVersion: {
     marginTop: 25,
   },

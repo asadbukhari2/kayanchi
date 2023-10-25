@@ -28,6 +28,8 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Modal from 'react-native-modal';
 import SliderComponent from '../../components/Slider';
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
 const beauty = require('../../assets/beautician.png');
 const share = require('../../assets/share.png');
 const ondemand = require('../../assets/ondemand.png');
@@ -44,6 +46,7 @@ const face = require('../../assets/FaceDark.png');
 const waxing = require('../../assets/BodyDark.png');
 const Massages = require('../../assets/SpaDark.png');
 const Botox = require('../../assets/TreatDark.png');
+
 const orderSummary = [
   {
     bookingCount: 5,
@@ -145,11 +148,14 @@ const STATUS_RADIO = [
 const headerHeight = heightToDp(57.5);
 const headerFinalHeight = heightToDp(25);
 
-const ArtistPublishGig = props => {
+const ArtistPublishGig = () => {
   const [preferenceStatus, setPreferenceStatus] = useState('');
   const [subHeading, setSubHeading] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [sliderValue, setSliderValue] = useState(50);
+
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const handleSliderChange = newValue => {
     setSliderValue(newValue);
@@ -204,11 +210,13 @@ const ArtistPublishGig = props => {
   });
 
   const updateHandler = () => {
-    props.navigation.navigate('ArtistHomeStack', {
-      screen: 'ArtistUpdateProfile',
-    });
-    // props.navigation.navigate('ArtistHomeStack', {screen: 'ArtistGigDescription'});
+    navigation.navigate('ArtistUpdateProfile');
   };
+
+  const handleGoToHome = () => {
+    dispatch({ type: 'SIGN_UP_SUCCESS_TOKEN_SET' });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar animated={true} backgroundColor="#000" barStyle={'light-content'} showHideTransition={'fade'} />
@@ -226,7 +234,7 @@ const ArtistPublishGig = props => {
           {/* <Header backBtnWhite /> */}
         </Animated.View>
         <TouchableOpacity activeOpacity={0.7} style={styles.followBtn}>
-          <Text style={styles.follow}>{'View Profile'}</Text>
+          <Text style={styles.follow}>View Profile</Text>
         </TouchableOpacity>
         <View style={styles.headerMain}>
           {/* <Text style={styles.artistLocation}>{'3.2 kms away from you'}</Text> */}
@@ -459,7 +467,6 @@ const ArtistPublishGig = props => {
             </View>
             {/* slider */}
             <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 5 }}>
-              {/* <View style={{marginVertical: heightToDp(2)}}> */}
               <SliderComponent
                 min={0}
                 max={100}
@@ -468,7 +475,7 @@ const ArtistPublishGig = props => {
                 colorSlider={theme.primary}
                 radius={10}
               />
-              {/* </View> */}
+
               <Text
                 style={{
                   fontSize: 12,
@@ -509,13 +516,6 @@ const ArtistPublishGig = props => {
           <Tabs selectedTab={txt => setSubHeading(txt)} DATA={DATA} />
         </View>
 
-        {/* <View style={styles.btnView}>
-          <View style={styles.subHeadingView}>
-            <Text style={styles.subHeading}>{subHeading}</Text>
-          </View>
-        </View> */}
-        {/* Avaiability */}
-
         <View style={{ marginTop: heightToDp(4.5) }}>
           {DATA2.map((item, index) => {
             return (
@@ -530,9 +530,9 @@ const ArtistPublishGig = props => {
           })}
         </View>
         <Button
-          title={'Go to home'}
+          title="Go to home"
           btnStyle={{ marginBottom: heightToDp(5.5), marginTop: heightToDp(3.5) }}
-          onPress={() => props.navigation.navigate('ArtistHome')}
+          onPress={handleGoToHome}
         />
       </ScrollView>
       {/* <Modal

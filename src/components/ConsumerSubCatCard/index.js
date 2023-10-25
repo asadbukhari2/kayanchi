@@ -77,7 +77,7 @@ const ConsumerSubCatCard = props => {
           style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Image source={car} style={styles.iconStyle} />
           <Image source={host} style={styles.iconStyle} />
-          <Text style={[styles.secondRowTxt, { color: theme.linkTxt }]}>{'View'}</Text>
+          <Text style={[styles.secondRowTxt, { color: theme.linkTxt }]}>View</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -2,12 +2,29 @@ import React from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-// Stack
 import ArtistMainStack from './ArtistMainStack';
 import ConsumerMainStack from './ConsumerMainStack';
 import ArtistAuthStack from './ArtistAuthStack';
 import ConsumerAuthStack from './ConsumerAuthStack';
 import InitStack from './InitStack';
+
+import {
+  ArtistBasicGig,
+  ArtistBasicGig2,
+  ArtistCreateGig,
+  ArtistGenderSignUp,
+  ArtistGigMood,
+  ArtistHome,
+  ArtistInterests,
+  ArtistOnBoarding,
+  ArtistOnBoardingWelcome,
+  ArtistPasswordSignUp,
+  ArtistPublishGig,
+  ArtistUpdateProfile,
+  ArtistUsernameSignUp,
+  ArtistVerification,
+  ArtistYourOrders,
+} from '../artist-screens';
 
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -34,6 +51,7 @@ export default function Root() {
 
   const isArtist = auth?.isArtist === true;
   const isConsumer = auth?.isConsumer === true;
+  console.log(auth.signUpUserData);
   console.log('-=-=-=-=-', isArtist, isConsumer, auth?.token?.length > 0);
   // dispatch({ type: 'SIGN_OUT' });
 
@@ -48,4 +66,5 @@ export default function Root() {
   ) : (
     <InitStack />
   );
+  // return <ArtistOnBoardingWelcome />;
 }

@@ -2,25 +2,26 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header, Button } from '../../components';
-import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { useTheme, fonts } from '../../utils/theme';
-import iButton from '../../assets/ibutton.png';
 import Gallery from '../../assets/Gallery.png';
 import back from '../../assets/back.png';
 import ImageCropPicker from 'react-native-image-crop-picker';
+import { useNavigation } from '@react-navigation/native';
 
 const theme = useTheme();
-const category = ['30 mins +', '1 hour +', '2 hour +'];
-const ArtistGig2 = props => {
+
+const timeLimits = ['30 mins +', '1 hour +', '2 hour +'];
+
+const ArtistGig2 = () => {
   const [image1, setImage1] = useState();
   const [image2, setImage2] = useState();
   const [image3, setImage3] = useState();
+
   const [selected, setSelected] = useState('');
 
-  const { navigation, route } = props;
-  // const {data} = route.params;
+  const navigation = useNavigation();
 
-  // console.log(data);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -32,26 +33,27 @@ const ArtistGig2 = props => {
             marginLeft: widthToDp(5),
             width: widthToDp(90),
           }}>
+          {/* // TODO add back function below */}
           <Image source={back} />
           <View style={{ marginLeft: -20 }}>
-            <Header title={'Baisc gig info'} />
+            <Header title="Baisc gig info" />
           </View>
         </View>
         <View style={styles.gigVersion}>
-          <Text style={styles.title}>{'Service description'}</Text>
+          <Text style={styles.title}>Service description</Text>
         </View>
 
         <TextInput
           multiline={true}
-          height={140}
+          maxLength={200}
           style={styles.inputField}
           placeholder="Please tell use anything that may assist with the order..."
         />
-        <Text style={styles.warning}>{'The desc can not contain more than 200 letters.'}</Text>
+        <Text style={styles.warning}>The desc can not contain more than 200 letters.</Text>
         <View style={styles.gigVersion}>
-          <Text style={styles.title}>{'Service duration'}</Text>
+          <Text style={styles.title}>Service duration</Text>
         </View>
-        <Text style={styles.warning}>{'The estimated time of the service, from start to end.'}</Text>
+        <Text style={styles.warning}>The estimated time of the service, from start to end.</Text>
 
         <View
           style={{
@@ -62,12 +64,11 @@ const ArtistGig2 = props => {
           <View
             style={{
               width: widthToDp(90),
-
               flex: 0,
               flexDirection: 'row',
               flexWrap: 'wrap',
             }}>
-            {category.map(item => {
+            {timeLimits.map(item => {
               return (
                 <View
                   style={{
@@ -78,15 +79,17 @@ const ArtistGig2 = props => {
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderRadius: 30,
-                    backgroundColor: '#84668C',
+                    backgroundColor: selected === item ? '#84668C' : '#9A9A9A',
                     marginRight: 7,
                     marginTop: 10,
                   }}>
                   <Text
+                    onPress={() => setSelected(item)}
                     style={{
                       fontSize: 14,
                       fontFamily: fonts.robo_reg,
                       color: 'white',
+
                       lineHeight: 16,
                     }}>
                     {item}
@@ -97,19 +100,17 @@ const ArtistGig2 = props => {
           </View>
         </View>
         <View style={styles.gigVersion}>
-          <Text style={styles.title}>{'Service price'}</Text>
+          <Text style={styles.title}>Service price</Text>
         </View>
-        <Text style={styles.txt}>{'Price your service.'}</Text>
+        <Text style={styles.txt}>Price your service.</Text>
         <View style={styles.parentPrice}>
           <TextInput style={styles.priceField} />
           <Text style={styles.pkr}>Pkr</Text>
         </View>
         <View style={styles.gigVersion}>
-          <Text style={styles.title}>{'Service pictures '}</Text>
+          <Text style={styles.title}>Service pictures</Text>
         </View>
-        <Text style={styles.txt}>
-          {'Uplod pictures of your past work for this service from your gallery. (Optional)'}
-        </Text>
+        <Text style={styles.txt}>Uplod pictures of your past work for this service from your gallery. (Optional)</Text>
         <View style={styles.parentUpload}>
           <TouchableOpacity
             onPress={() => {
@@ -315,7 +316,5 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     fontFamily: fonts.robo_med,
     color: theme.lightBlack,
-    // marginTop: 23,
-    lineHeight: 28.13,
   },
 });

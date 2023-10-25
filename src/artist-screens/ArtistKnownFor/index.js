@@ -64,6 +64,7 @@ export default function ArtistKnownFor() {
   const dispatch = useDispatch();
   const dataToSave = useSelector(state => state.auth.signUpUserData);
   const isSignUp = useSelector(state => state.auth.isSignUp);
+  const isLoading = useSelector(state => state.auth.isLoading);
 
   const toggleSkill = skillName => {
     if (selectedSkills.includes(skillName)) {
@@ -86,7 +87,6 @@ export default function ArtistKnownFor() {
         };
       });
       dispatch(SIGNUP({ ...dataToSave, type_login: 'artist', known_for: knf }));
-      navigation.navigate('ArtistOnBoardingWelcome');
     }
   };
 
@@ -159,7 +159,12 @@ export default function ArtistKnownFor() {
             onPress={() => navigation.navigate('ArtistOnBoardingWelcome')}
           />
         ) : (
-          <Button title={'Continue'} btnStyle={[styles.btn, { marginTop: heightToDp(10) }]} onPress={createAccount} />
+          <Button
+            title={isLoading ? 'Loading...' : 'Continue'}
+            disable={isLoading}
+            btnStyle={[styles.btn, { marginTop: heightToDp(10) }]}
+            onPress={createAccount}
+          />
         )}
       </ScrollView>
     </SafeAreaView>

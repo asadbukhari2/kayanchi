@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const initialState = {
   token: null,
   userDetails: null,
+  user: null,
   isLoading: false,
   signUpUserData: null,
   isArtist: null,
@@ -53,13 +54,14 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         userDetails: action.payload,
+        user: action.payload.user,
         isSignUp: true,
         isLoading: false,
       };
     case 'SIGN_UP_SUCCESS_TOKEN_SET':
       return {
         ...state,
-        token: 'token',
+        token: state.userDetails.token,
       };
     case SIGN_IN:
       return {
@@ -71,6 +73,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         token: action.payload.token,
         userDetails: action.payload,
+        user: action.payload,
         isLoading: false,
       };
     case SIGN_IN_FAILED:

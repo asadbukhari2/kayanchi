@@ -5,7 +5,6 @@ import { fonts, useTheme } from '../../utils/theme';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { Button, Header } from '../../components';
 import { heightToDp, widthToDp } from '../../utils/Dimensions';
-// import { useDispatch } from 'react-redux';
 
 import MultiButton from '../../components/MultiButton';
 import LinearGradient from 'react-native-linear-gradient';
@@ -72,13 +71,14 @@ const ArtistOnBoarding = () => {
   };
 
   const handleNextScreen = () => {
-    dispatch({ type: 'SIGN_UP_SUCCESS_TOKEN_SET' });
+    // dispatch({ type: 'SIGN_UP_SUCCESS_TOKEN_SET' });
+    navigation.navigate('ArtistCreateGig');
   };
-
+  console.log(selectedItem);
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ flex: 1, backgroundColor: '#fff' }}>
-        <Header title={selectedItem?.heading} skip onSkip={handleNextScreen} />
+        {selectedItem.key !== 4 && <Header title={selectedItem?.heading} skip onSkip={handleNextScreen} />}
         <View style={{ height: heightToDp(100), top: 32 }}>
           <AppIntroSlider
             ref={myFlatList}
@@ -159,7 +159,7 @@ const ArtistOnBoarding = () => {
               </View>
             )}
             {selectedItem.key === 4 && (
-              <Button title={"Let's go"} onPress={handleNextScreen} btnStyle={{ marginTop: heightToDp(4) }} />
+              <Button title="Let's go" onPress={handleNextScreen} btnStyle={{ marginTop: heightToDp(4) }} />
             )}
           </>
         ) : null}
