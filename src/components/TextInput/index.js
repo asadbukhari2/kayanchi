@@ -29,7 +29,6 @@ const InputText = props => {
     underlineColorIOS,
   } = props;
 
-  console.log('underlineColorAndroid', inputBoxStyle);
   const [isSecured, setIsSecured] = useState(secured);
 
   return (

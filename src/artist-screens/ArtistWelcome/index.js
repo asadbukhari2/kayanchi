@@ -1,25 +1,26 @@
 import React from 'react';
-import { StyleSheet, Image, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Image, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from '../../components';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
+import { useNavigation } from '@react-navigation/native';
 
 const theme = useTheme();
 const facebook = require('../../assets/facebook.png');
 const google = require('../../assets/google.png');
 const email = require('../../assets/email.png');
 
-const ArtistWelcome = props => {
-  const { navigation } = props;
+const ArtistWelcome = () => {
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={{ flex: 1 }}>
-        <Image source={require('../../assets/Signup.png')} style={styles.img} resizeMode="contain" />
-        <Text style={styles.heading}>
-          Earn with <Text style={{ color: theme.primary }}>Kaynchi</Text>
-        </Text>
-        <Text style={styles.txt}>Join a community of 100+ artists and salons and make a name for yourself!</Text>
+      <Image source={require('../../assets/Signup.png')} style={styles.img} resizeMode="contain" />
+      <Text style={styles.heading}>
+        Earn with <Text style={{ color: theme.primary }}>Kaynchi</Text>
+      </Text>
+      <Text style={styles.txt}>Join a community of 100+ artists and salons and make a name for yourself!</Text>
+      <View style={styles.buttons}>
         <Button
           title={'Continue With Email'}
           btnStyle={[styles.whiteBtn, { marginTop: heightToDp(6.8) }]}
@@ -62,7 +63,7 @@ const ArtistWelcome = props => {
         <View style={styles.btnText}>
           <Button title={'Continue with mobile number'} onPress={() => navigation.navigate('ArtistNumberSignUp')} />
         </View>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
@@ -124,6 +125,12 @@ const styles = StyleSheet.create({
     borderBottomColor: theme.orSeperator,
     borderBottomWidth: 1,
     flex: 1,
+  },
+  buttons: {
+    position: 'absolute',
+    bottom: 32,
+    left: 0,
+    right: 0,
   },
 });
 

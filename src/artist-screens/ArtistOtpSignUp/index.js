@@ -17,16 +17,13 @@ const ArtistOtpSignUp = () => {
   const [otp, setOtp] = useState(null);
 
   const handleOTPVerification = async () => {
-    showMessage({
-      message: 'Waiting FOR API',
-      type: 'warning',
-      duration: 100,
-    });
-    setTimeout(() => {
-      navigation.navigate('ArtistPasswordSignUp');
-    }, 500);
+    navigation.navigate('ArtistPasswordSignUp');
+    setOtp(null);
   };
 
+  const resendFunc = () => {
+    console.log('Resend OTP');
+  };
   return (
     <SafeAreaView style={styles.container}>
       <Header backBtn title={'Sign up'} />
@@ -41,10 +38,12 @@ const ArtistOtpSignUp = () => {
       <View style={styles.bottomTxtView}>
         <Text style={styles.bottomTxt}>We have sent you an OTP on your device.</Text>
         <Text style={[styles.bottomTxt, { position: 'absolute', right: 0, top: -50 }]}>
-          <Text style={{ color: theme.linkTxt }}> Resend</Text>
+          <Text style={{ color: theme.linkTxt }} onPress={resendFunc}>
+            Resend
+          </Text>
         </Text>
       </View>
-      <Button title={'Continue'} btnStyle={styles.btn} onPress={handleOTPVerification} />
+      <Button title={'Continue'} btnStyle={styles.btn} onPress={handleOTPVerification} disable={!otp} />
     </SafeAreaView>
   );
 };

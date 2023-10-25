@@ -63,7 +63,6 @@ export default function ArtistKnownFor() {
 
   const dispatch = useDispatch();
   const dataToSave = useSelector(state => state.auth.signUpUserData);
-  const isLoading = useSelector(state => state.auth.isLoading);
   const isSignUp = useSelector(state => state.auth.isSignUp);
 
   const toggleSkill = skillName => {
@@ -87,6 +86,7 @@ export default function ArtistKnownFor() {
         };
       });
       dispatch(SIGNUP({ ...dataToSave, type_login: 'artist', known_for: knf }));
+      navigation.navigate('ArtistOnBoardingWelcome');
     }
   };
 
@@ -120,34 +120,34 @@ export default function ArtistKnownFor() {
           {Skills.map(item => {
             return (
               <View key={item.name}>
-                <TouchableOpacity
-                  onPress={() => toggleSkill(item.name)}
-                  activeOpacity={0.7}
-                  style={[
-                    styles.genBtn,
-                    {
-                      backgroundColor: selectedSkills.includes(item.name) ? theme.brown : '#D5D5D5',
-                    },
-                  ]}>
-                  <Text
+                <TouchableOpacity onPress={() => toggleSkill(item.name)} activeOpacity={0.7}>
+                  <View
                     style={[
-                      styles.genTxt,
+                      styles.genBtn,
                       {
-                        color: !selectedSkills.includes(item.name) ? '#2F3A58' : theme.background,
+                        backgroundColor: selectedSkills.includes(item.name) ? theme.brown : '#D5D5D5',
                       },
                     ]}>
-                    {item.name}
-                  </Text>
-                </TouchableOpacity>
+                    <Text
+                      style={[
+                        styles.genTxt,
+                        {
+                          color: !selectedSkills.includes(item.name) ? theme.lightBlack : theme.background,
+                        },
+                      ]}>
+                      {item.name}
+                    </Text>
+                  </View>
 
-                <View style={styles.iconContainer}>
-                  {item.icons.map((imagePath, index) => (
-                    <View key={index} style={styles.iconWrapper}>
-                      <Image source={imagePath} resizeMode="contain" style={{ width: 50, height: 50 }} />
-                      <Text style={styles.iconText}>{item.message[index]}</Text>
-                    </View>
-                  ))}
-                </View>
+                  <View style={styles.iconContainer}>
+                    {item.icons.map((imagePath, index) => (
+                      <View key={index} style={styles.iconWrapper}>
+                        <Image source={imagePath} resizeMode="contain" style={{ width: 50, height: 50 }} />
+                        <Text style={styles.iconText}>{item.message[index]}</Text>
+                      </View>
+                    ))}
+                  </View>
+                </TouchableOpacity>
               </View>
             );
           })}
@@ -159,12 +159,7 @@ export default function ArtistKnownFor() {
             onPress={() => navigation.navigate('ArtistOnBoardingWelcome')}
           />
         ) : (
-          <Button
-            title={isLoading ? 'Loading...' : 'Create Account'}
-            disable={isLoading}
-            btnStyle={[styles.btn, { marginTop: heightToDp(10) }]}
-            onPress={createAccount}
-          />
+          <Button title={'Continue'} btnStyle={[styles.btn, { marginTop: heightToDp(10) }]} onPress={createAccount} />
         )}
       </ScrollView>
     </SafeAreaView>
@@ -206,13 +201,13 @@ const styles = StyleSheet.create({
   iconContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    width: width * 0.9, // Use the width of the parent view to adjust the icon container
+    width: width * 0.9,
     marginTop: heightToDp(4.5),
     marginBottom: heightToDp(4.5),
   },
   iconWrapper: {
     alignItems: 'center',
-    flexDirection: 'column', // Ensure text appears below the icon
+    flexDirection: 'column',
   },
   iconText: {
     textTransform: 'uppercase',

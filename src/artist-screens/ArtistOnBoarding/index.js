@@ -79,7 +79,7 @@ const ArtistOnBoarding = () => {
     <SafeAreaView style={styles.container}>
       <View style={{ flex: 1, backgroundColor: '#fff' }}>
         <Header title={selectedItem?.heading} skip onSkip={handleNextScreen} />
-        <View style={{ height: heightToDp(100) }}>
+        <View style={{ height: heightToDp(100), top: 32 }}>
           <AppIntroSlider
             ref={myFlatList}
             style={{ backgroundColor: '#fff' }}
@@ -100,7 +100,7 @@ const ArtistOnBoarding = () => {
           <>
             <Text style={styles.title}>{selectedItem.title}</Text>
             <Text style={styles.txt}>{selectedItem.text}</Text>
-            {selectedItem.key == 1 ? (
+            {selectedItem.key === 1 ? (
               <View
                 style={[
                   {
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center' },
   img: {
     resizeMode: 'cover',
-    height: heightToDp(80),
+    height: heightToDp(70),
     width: widthToDp(70),
     alignSelf: 'center',
   },

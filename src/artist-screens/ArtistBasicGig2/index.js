@@ -32,7 +32,7 @@ const ArtistGig2 = props => {
             marginLeft: widthToDp(5),
             width: widthToDp(90),
           }}>
-          <Image source={back}></Image>
+          <Image source={back} />
           <View style={{ marginLeft: -20 }}>
             <Header title={'Baisc gig info'} />
           </View>
@@ -45,7 +45,8 @@ const ArtistGig2 = props => {
           multiline={true}
           height={140}
           style={styles.inputField}
-          placeholder="Please tell use anything that may assist with the order..."></TextInput>
+          placeholder="Please tell use anything that may assist with the order..."
+        />
         <Text style={styles.warning}>{'The desc can not contain more than 200 letters.'}</Text>
         <View style={styles.gigVersion}>
           <Text style={styles.title}>{'Service duration'}</Text>
@@ -100,7 +101,7 @@ const ArtistGig2 = props => {
         </View>
         <Text style={styles.txt}>{'Price your service.'}</Text>
         <View style={styles.parentPrice}>
-          <TextInput style={styles.priceField}></TextInput>
+          <TextInput style={styles.priceField} />
           <Text style={styles.pkr}>Pkr</Text>
         </View>
         <View style={styles.gigVersion}>
@@ -124,7 +125,7 @@ const ArtistGig2 = props => {
               <Image source={{ uri: image1.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
-                <Image source={Gallery}></Image>
+                <Image source={Gallery} />
               </View>
             )}
             <Text style={styles.uploadText}>Upload</Text>
@@ -143,7 +144,7 @@ const ArtistGig2 = props => {
               <Image source={{ uri: image2.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
-                <Image source={Gallery}></Image>
+                <Image source={Gallery} />
               </View>
             )}
             <Text style={styles.uploadText}>Upload</Text>
@@ -162,7 +163,7 @@ const ArtistGig2 = props => {
               <Image source={{ uri: image3.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
-                <Image source={Gallery}></Image>
+                <Image source={Gallery} />
               </View>
             )}
             <Text style={styles.uploadText}>Upload</Text>
@@ -272,7 +273,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     fontFamily: fonts.robo_med,
     color: '#8D8A94',
-    marginTop: 8,
     lineHeight: 22,
   },
   container: {

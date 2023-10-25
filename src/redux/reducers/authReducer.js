@@ -59,7 +59,7 @@ const reducer = (state = initialState, action) => {
     case 'SIGN_UP_SUCCESS_TOKEN_SET':
       return {
         ...state,
-        token: state.userDetails.token,
+        token: 'token',
       };
     case SIGN_IN:
       return {

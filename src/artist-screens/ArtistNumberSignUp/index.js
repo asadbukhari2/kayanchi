@@ -9,11 +9,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import api from '../../utils/APIservice';
 import { saveUserData, signup } from '../../redux/actions';
 import { showMessage } from 'react-native-flash-message';
+import { useNavigation } from '@react-navigation/native';
 
 const theme = useTheme();
 
-const ArtistNumberSignUp = props => {
-  const { navigation } = props;
+const ArtistNumberSignUp = () => {
+  const navigation = useNavigation();
   const [number, setNumber] = useState(null);
   const [code, setCode] = useState(null);
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const ArtistNumberSignUp = props => {
       // const res = await api.post('/api/users/sendotp', {phone_number: number});
       // console.log('data', res.data);
       // showMessage({message: res.data});
-      props.navigation.navigate('ArtistOtpSignUp', { number });
+      navigation.navigate('ArtistOtpSignUp', { number });
     } catch (error) {
       console.log(error);
     }
@@ -38,6 +39,7 @@ const ArtistNumberSignUp = props => {
         input={text => setNumber(text)}
         placeholder="0332 0310780"
         keyboardType={'phone-pad'}
+        color="black"
       />
       <TextInput
         mainLabel={'Were you invited?'}

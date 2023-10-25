@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button, Header, TextInput, Loader } from '../../components';
+import { Button, Header, TextInput } from '../../components';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { useTheme } from '../../utils/theme';
 
@@ -12,6 +12,7 @@ import DatePicker from 'react-native-date-picker';
 import ReactNativeModal from 'react-native-modal';
 import moment from 'moment';
 import { showMessage } from 'react-native-flash-message';
+import { useNavigation } from '@react-navigation/native';
 
 const theme = useTheme();
 
@@ -27,10 +28,10 @@ const Gender = [
   },
 ];
 
-const ArtistPasswordSignUp = props => {
+const ArtistPasswordSignUp = () => {
+  const navigation = useNavigation();
   const [password, setPassword] = useState(null);
   const [name, setName] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [gender, setGender] = useState('');
   const [dob, setDob] = useState(new Date());
   const [modalVisible, setModalVisible] = useState(false);
@@ -54,13 +55,13 @@ const ArtistPasswordSignUp = props => {
       });
     } else if (age < 18) {
       showMessage({
-        message: 'age musst be greater than 18',
+        message: 'age must be greater than 18',
         type: 'warning',
       });
     } else {
       const formatedDOB = moment(dob).format('DD/MM/YYYY');
       dispatch(saveUserData({ name, password, dob: formatedDOB, gender }));
-      props.navigation.navigate('ArtistKnownFor');
+      navigation.navigate('ArtistKnownFor');
     }
   };
 
@@ -86,8 +87,7 @@ const ArtistPasswordSignUp = props => {
         mainLabel={'What’s your age and gender?'}
         subLabel={'Let’s find the best Consumers for you!'}
         editable={false}
-        value={age ? `${age} years` : ''}
-        placeholder="DD/MM/YYYY"
+        value={age ? `${age} years` : 'Select date'}
         onInputPress={toggleModal}
       />
 
@@ -132,7 +132,6 @@ const ArtistPasswordSignUp = props => {
       </View>
 
       <Button title="Continue" btnStyle={styles.btn} onPress={handlePasswordSignUp} />
-      {loading && <Loader />}
     </SafeAreaView>
   );
 };

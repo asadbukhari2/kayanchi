@@ -71,7 +71,7 @@ const lightTheme = {
   backIcon: '#67718C',
   linkTxt: '#1583D8',
   inputBottom: '#C4C4C4',
-  inputText: '#D5D5D5',
+  inputText: '#9A9A9A',
   orSeperator: '#707070',
   genderGrey: '#9A9A9A',
   brown: '#A77246',

@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   txt: {
-    fontSize: 14,
+    fontSize: 16,
     lineHeight: 16.41,
     color: theme.background,
     fontFamily: fonts.robo_bold,

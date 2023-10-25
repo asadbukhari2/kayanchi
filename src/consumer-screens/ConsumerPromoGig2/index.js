@@ -61,8 +61,6 @@ export default function ConsumerPromoGig2(props) {
           {Category.slice(0, 3).map(item => (
             <TouchableOpacity
               onPress={() => {
-                console.log('Clicked:', item.name);
-
                 setTime(item.name);
               }}
               activeOpacity={0.7}

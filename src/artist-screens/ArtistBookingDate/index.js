@@ -60,11 +60,11 @@ const ArtistBookingDate = props => {
                 containerStyle={styles.btnListContainer}
                 titleStyle={{
                   marginTop: 0,
-                  color: timeSelected == item.name ? theme.background : theme.backIcon,
+                  color: timeSelected === item.name ? theme.background : theme.backIcon,
                 }}
                 gradientEnd={{ x: 0, y: 1 }}
                 gradientStart={{ x: 0, y: 0 }}
-                gradients={timeSelected == item.name ? null : [theme.background, theme.background]}
+                gradients={timeSelected === item.name ? null : [theme.background, theme.background]}
               />
             );
           }}
