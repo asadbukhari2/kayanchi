@@ -87,70 +87,65 @@ const ArtistVerification = () => {
         </View>
         <Text style={styles.txt}>{'Complete your verification to activate your gigs on the marketplace'}</Text>
 
-        <View style={styles.filePicker}>
-          <TouchableOpacity
-            onPress={() => {
-              ImageCropPicker.openPicker({
-                width: widthToDp(90),
-                height: heightToDp(97.2),
-                cropping: true,
-              }).then(cnic => {
-                console.log(cnic);
-                setCnic(cnic);
-              });
-            }}
-            activeOpacity={0.9}
-            style={styles.parentUpload}>
-            {cnic ? (
-              renderImageWithLabel({ uri: cnic.path }, 'Pending Approval')
-            ) : (
-              <View>
-                <View style={styles.upload}>
-                  <Text style={styles.fileText}>Upload NIC Picture</Text>
-                </View>
+        <TouchableOpacity
+          onPress={() => {
+            ImageCropPicker.openPicker({
+              width: widthToDp(90),
+              height: heightToDp(97.2),
+              cropping: true,
+            }).then(img => {
+              console.log(img);
+              setCnic(img);
+            });
+          }}
+          activeOpacity={0.9}
+          style={styles.filePicker}>
+          {cnic ? (
+            renderImageWithLabel({ uri: cnic.path }, 'Pending Approval')
+          ) : (
+            <View>
+              <View style={styles.upload}>
+                <Text style={styles.fileText}>Upload NIC Picture</Text>
               </View>
-            )}
-          </TouchableOpacity>
-        </View>
-        <View style={styles.filePicker}>
-          <TouchableOpacity onPress={openCamera} activeOpacity={0.9} style={styles.parentUpload}>
-            {image ? (
-              renderImageWithLabel({ uri: image.path }, 'Pending Approval')
-            ) : (
-              <View>
-                <View style={styles.upload}>
-                  <Text style={styles.fileText}>Take a Selfie</Text>
-                </View>
-              </View>
-            )}
-          </TouchableOpacity>
-        </View>
+            </View>
+          )}
+        </TouchableOpacity>
 
-        <View style={styles.filePicker}>
-          <TouchableOpacity
-            onPress={() => {
-              ImageCropPicker.openPicker({
-                width: widthToDp(90),
-                height: heightToDp(97.2),
-                cropping: true,
-              }).then(nadraCard => {
-                console.log(nadraCard);
-                setNadraCard(nadraCard);
-              });
-            }}
-            activeOpacity={0.9}
-            style={styles.parentUpload}>
-            {nadraCard ? (
-              renderImageWithLabel({ uri: nadraCard.path }, 'Pending Approval')
-            ) : (
-              <View>
-                <View style={styles.upload}>
-                  <Text style={styles.fileText}>Nadra Verification Certificate</Text>
-                </View>
+        <TouchableOpacity onPress={openCamera} activeOpacity={0.9} style={styles.filePicker}>
+          {image ? (
+            renderImageWithLabel({ uri: image.path }, 'Pending Approval')
+          ) : (
+            <View>
+              <View style={styles.upload}>
+                <Text style={styles.fileText}>Take a Selfie</Text>
               </View>
-            )}
-          </TouchableOpacity>
-        </View>
+            </View>
+          )}
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => {
+            ImageCropPicker.openPicker({
+              width: widthToDp(90),
+              height: heightToDp(97.2),
+              cropping: true,
+            }).then(nicCard => {
+              console.log(nicCard);
+              setNadraCard(nicCard);
+            });
+          }}
+          activeOpacity={0.9}
+          style={styles.filePicker}>
+          {nadraCard ? (
+            renderImageWithLabel({ uri: nadraCard.path }, 'Pending Approval')
+          ) : (
+            <View>
+              <View style={styles.upload}>
+                <Text style={styles.fileText}>Nadra Verification Certificate</Text>
+              </View>
+            </View>
+          )}
+        </TouchableOpacity>
 
         <View style={styles.skipStyling}>
           <Text style={styles.fileText} onPress={() => navigation.navigate('ArtistPublishGig')}>

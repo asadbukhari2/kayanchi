@@ -17,12 +17,20 @@ const EditableField = ({ label, value, isEditing, onEditPress, onChangeText, pla
           {label}
         </Text>
         {isEditing ? (
-          <Feather style={{ color: '#67718C', fontSize: 18, marginLeft: 10 }} name="x" onPress={onEditPress} />
+          <Feather
+            style={{ color: '#67718C', fontSize: 18, marginLeft: 10, padding: 2 }}
+            name="x"
+            onPress={onEditPress}
+          />
         ) : (
-          <Feather style={{ color: '#193356', fontSize: 18, marginLeft: 10 }} name="edit-2" onPress={onEditPress} />
+          <Feather
+            style={{ color: '#193356', fontSize: 18, marginLeft: 10, padding: 2 }}
+            name="edit-2"
+            onPress={onEditPress}
+          />
         )}
       </View>
-      <View style={styles.separator}></View>
+      <View style={styles.separator} />
       <View style={styles.title}>
         {isEditing ? (
           <TextInput
@@ -65,7 +73,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 10,
   },
-  input: { backgroundColor: 'white', borderBottomColor: 'white' },
+  input: { backgroundColor: 'white', borderBottomColor: 'white', color: 'black' },
   titleContainer: {
     marginTop: 10,
     backgroundColor: 'white',
@@ -92,7 +100,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#84668C',
     paddingHorizontal: 8,
-    paddingVertical: 4,
+    padding: 6,
     borderRadius: 5,
+    marginRight: 10,
   },
 });

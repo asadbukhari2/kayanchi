@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Switch, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native';
 import ToggleSwitch from 'toggle-switch-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header, Button } from '../../components';
@@ -19,15 +19,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
 const theme = useTheme();
-
-const ArtistGigMood = props => {
+const modeData = [
+  {
+    id: 'travel',
+    image: HostMoodImage,
+    heading: 'Travel',
+    desc: "to client's",
+  },
+  {
+    id: 'host',
+    image: TravelMoodImage,
+    heading: 'Host',
+    desc: 'the client',
+  },
+];
+const ArtistGigMood = () => {
   const [image, setImage] = useState();
-  const [isPrivate, setIsPrivate] = useState(true);
+  const [isPrivate, setIsPrivate] = useState(false);
+  const [gigMood, setGigMood] = useState('');
+  const [travelFee, setTravelFee] = useState(0);
   const navigation = useNavigation();
-
-  const handlePrivateImage = () => {
-    setIsPrivate(!isPrivate);
-  };
 
   const dispatch = useDispatch();
 
@@ -52,40 +63,38 @@ const ArtistGigMood = props => {
             marginLeft: widthToDp(5),
             width: widthToDp(90),
           }}>
-          {/* // TODO add back function below */}
-          <Image source={back} />
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Image source={back} />
+          </TouchableOpacity>
           <View style={{ marginLeft: -20 }}>
             <Header title={'Gig mood'} />
           </View>
         </View>
-        <Text style={styles.gigVersionAsk}>From this gig - would you like to</Text>
+        <Text style={styles.gigVersionAsk}>For this gig - would you like to</Text>
         <View style={styles.gigVersion}>
           <Text style={styles.title}>{'Travel, host or both?'}</Text>
         </View>
 
-        <Text style={styles.warning}>{'Choose between travelling, hosting or both mood(s) for this gig.  '}</Text>
-        <Text style={styles.warning2}>{'Learn more about traveling and hosting moods.'}</Text>
+        <Text style={styles.warning}>Choose between travelling, hosting or both mood(s) for this gig.</Text>
+        <Text style={styles.warning2}>Learn more about traveling and hosting moods.</Text>
 
         <View style={styles.parentMood}>
           <View style={styles.mood}>
-            <LinearGradient
-              colors={['#84668C', '#67506D']}
-              style={styles.childMood}
-              start={{ x: 1, y: 0.5 }}
-              end={{ x: 1, y: 0.5 }}>
-              <Image source={HostMoodImage} style={{ height: 30, width: 30, resizeMode: 'contain' }} />
-              <Text style={styles.childMoodHead}>Travel</Text>
-              <Text style={styles.childMoodBody}>to client’s</Text>
-            </LinearGradient>
-            <LinearGradient
-              colors={[theme.primary, theme.primary]}
-              style={styles.childMood}
-              start={{ x: 1, y: 0.5 }}
-              end={{ x: 1, y: 0.5 }}>
-              <Image source={TravelMoodImage} />
-              <Text style={styles.childMoodHead}>Host</Text>
-              <Text style={styles.childMoodBody}>the client</Text>
-            </LinearGradient>
+            {modeData.map(mood => {
+              return (
+                <TouchableOpacity onPress={() => setGigMood(mood.id)}>
+                  <LinearGradient
+                    colors={gigMood === mood.id ? ['#86C0E9', '#2764AE'] : ['#696969', '#AEAEAE']}
+                    style={styles.childMood}
+                    start={{ x: 1, y: 0.5 }}
+                    end={{ x: 1, y: 0.5 }}>
+                    <Image source={mood.image} style={{ height: 30, width: 30, resizeMode: 'contain' }} />
+                    <Text style={styles.childMoodHead}>{mood.heading}</Text>
+                    <Text style={styles.childMoodBody}>{mood.desc}</Text>
+                  </LinearGradient>
+                </TouchableOpacity>
+              );
+            })}
           </View>
         </View>
         <View style={styles.serviceDuration}>
@@ -106,39 +115,39 @@ const ArtistGigMood = props => {
           <Text style={styles.warning}>{'Offer free travel'}</Text>
           <View style={styles.switchContainer}>
             <ToggleSwitch
-              // isOn={false}
+              isOn={isPrivate}
               style={{ height: 20, marginRight: 10 }}
               value={isPrivate}
               onColor="#84668C"
               offColor="#9A9A9A"
               size="small"
-              onToggle={handlePrivateImage}
+              onToggle={isOn => setIsPrivate(isOn)}
             />
-            {/* <Switch
-              value={isPrivate}
-              onValueChange={handlePrivateImage}
-              thumbColor={isPrivate ? theme.primary : '#eee'}
-              trackColor={{ false: 'grey', true: 'grey' }}
-              style={styles.switch}
-            /> */}
           </View>
         </View>
 
         <View style={styles.parentPrice}>
-          <TextInput style={styles.priceField} placeholder="100-1000" />
+          <TextInput
+            style={styles.priceField}
+            editable={!isPrivate}
+            value={travelFee}
+            keyboardType="number-pad"
+            onChangeText={e => setTravelFee(e)}
+            placeholder="100-1000"
+          />
         </View>
 
         <View style={styles.gigVersion}>
-          <Text style={styles.title}>{'Upload pictures of your hosting spot'}</Text>
+          <Text style={styles.title}>Upload pictures of your hosting spot</Text>
         </View>
-        <Text style={styles.warning}>{'Kaynchi needs to verify your hosting spot before processing your order.'}</Text>
+        <Text style={styles.warning}>Kaynchi needs to verify your hosting spot before processing your order.</Text>
 
         <TouchableOpacity
           onPress={() => {
             ImageCropPicker.openPicker({
               cropping: true,
-            }).then(image => {
-              setImage(image);
+            }).then(img => {
+              setImage(img);
             });
           }}
           activeOpacity={0.9}
@@ -215,14 +224,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     // lineHeight: 16,
     color: 'white',
-    marginTop: 15,
+    marginTop: 8,
   },
   childMoodBody: {
     fontFamily: fonts.robo_light,
     fontSize: 14,
     // lineHeight: 16,
     color: 'white',
-    marginTop: 10,
+    marginTop: 4,
   },
 
   parentUpload: {
@@ -268,7 +277,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginHorizontal: 24,
     fontFamily: fonts.robo_reg,
-    color: theme.darkGray,
+    color: theme.blue,
     marginTop: 8,
     marginBottom: 20,
     lineHeight: 18.75,
@@ -325,7 +334,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.white,
-    paddingTop: heightToDp(7),
   },
   skipView: {
     position: 'absolute',

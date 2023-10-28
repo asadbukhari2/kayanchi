@@ -1,28 +1,16 @@
 import React, { useState, useRef } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Animated,
-  FlatList,
-  TouchableOpacity,
-  Image,
-  StatusBar,
-  Platform,
-  ScrollView,
-} from 'react-native';
+import { StyleSheet, Text, View, Animated, TouchableOpacity, Image, StatusBar, ScrollView } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { fonts, useTheme } from '../../utils/theme';
 import { width, heightToDp, widthToDp, height } from '../../utils/Dimensions';
-import { Button, GradientRadio, Header, PromotionOfferCard, Tabs } from '../../components';
-import Modal from 'react-native-modal';
-import Feather from 'react-native-vector-icons/Feather';
-import { TextInput } from '../../components';
+import { Tabs } from '../../components';
+
 import EditableField from '../../components/EditableField';
 import ContainerWorkCertificate from './Components/ContainerWorkCertificate';
 import Gallery from '../../assets/Gallery.png';
 import ContainerExperience from './Components/ContainerExperience';
+import ImageCropPicker from 'react-native-image-crop-picker';
 const theme = useTheme();
 //             <Feather name="x" size={24} color="black" />
 
@@ -137,12 +125,6 @@ const ArtistUpdateProfile = props => {
     extrapolate: 'clamp',
   });
 
-  const scaleDistance = scrollY.interpolate({
-    inputRange: [0, offset],
-    outputRange: [1, 0],
-    extrapolate: 'clamp',
-  });
-
   const translateRating = scrollY.interpolate({
     inputRange: [0, offset / 2, offset],
     outputRange: [0, 10, -widthToDp(5) + headerFinalHeight],
@@ -233,13 +215,8 @@ const ArtistUpdateProfile = props => {
         onScroll={e => {
           scrollY.setValue(e.nativeEvent.contentOffset.y);
         }}>
-        <View style={{ marginTop: headerHeight }}>
-          <Tabs
-            txtStyle={{ width: widthToDp(37), textAlign: 'center' }}
-            // selectedTab={txt => setTab(txt)}
-            selectedTab={handleTabSelection}
-            DATA={DATA}
-          />
+        <View style={{ marginTop: headerHeight, marginLeft: widthToDp(6) }}>
+          <Tabs txtStyle={{ width: widthToDp(37), textAlign: 'center' }} selectedTab={handleTabSelection} DATA={DATA} />
         </View>
         {/* title */}
         <EditableField
@@ -372,7 +349,7 @@ const ArtistUpdateProfile = props => {
               <Image source={{ uri: image1.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
-                <Image source={Gallery}></Image>
+                <Image source={Gallery} />
               </View>
             )}
             <Text style={styles.uploadText}>Upload</Text>
@@ -391,7 +368,7 @@ const ArtistUpdateProfile = props => {
               <Image source={{ uri: image2.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
-                <Image source={Gallery}></Image>
+                <Image source={Gallery} />
               </View>
             )}
             <Text style={styles.uploadText}>Upload</Text>
@@ -410,7 +387,7 @@ const ArtistUpdateProfile = props => {
               <Image source={{ uri: image3.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
-                <Image source={Gallery}></Image>
+                <Image source={Gallery} />
               </View>
             )}
             <Text style={styles.uploadText}>Upload</Text>

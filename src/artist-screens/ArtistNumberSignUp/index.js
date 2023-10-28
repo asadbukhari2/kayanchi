@@ -24,7 +24,7 @@ const ArtistNumberSignUp = () => {
       // const res = await api.post('/api/users/sendotp', {phone_number: number});
       // console.log('data', res.data);
       // showMessage({message: res.data});
-      navigation.navigate('ArtistOtpSignUp', { number });
+      navigation.navigate('ArtistPasswordSignUp', { number });
     } catch (error) {
       console.log(error);
     }

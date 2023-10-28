@@ -1,182 +1,197 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Header, Button } from '../../components';
-import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
-import { useTheme, fonts } from '../../utils/theme';
-import iButton from '../../assets/ibutton.png';
-import TravelMoodImage from '../../assets/travel.png';
-import HostMoodImage from '../../assets/host.png';
-import LinearGradient from 'react-native-linear-gradient';
-import { useNavigation } from '@react-navigation/native';
+import { SafeAreaView, StyleSheet, Image, Text, View, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { Button, Header } from '../../components';
+import { useTheme, images, fonts } from '../../utils/theme';
+import { width, heightToDp, widthToDp, height } from '../../utils/Dimensions';
 import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
+const data = ['20% Commision', '5 Gigs', '2 Promos'];
 const theme = useTheme();
 
-const ArtistCreateGig = () => {
-  const [selected, setSelected] = useState('basic');
+const ModalData = [
+  {
+    id: 'gig',
+    modalImageSource: images.CreateGig,
+    modalDescription: 'Basic gigs allow you to offer services in a single category only.',
+    modalTitle: 'Create a Gig',
+  },
+  {
+    id: 'promo',
+    modalImageSource: images.CreatePromo,
+    modalDescription:
+      'Promo gig offers are multi-category packaged deals that a you can create in response to general requirements of Clients.',
+    modalTitle: 'Create a Promo',
+  },
+];
+
+export default function ArtistGig() {
   const navigation = useNavigation();
+  const [selectedContainer, setSelectedContainer] = useState(null);
+  const user = useSelector(state => state.auth);
 
-  const user = useSelector(state => state.auth.user);
+  const handleContainerClick = containerId => {
+    console.log(containerId);
+    setSelectedContainer(containerId);
+  };
 
+  const handleContinueClick = () => {
+    if (selectedContainer === 'gig') {
+      navigation.navigate('ArtistBasicGig');
+    } else if (selectedContainer === 'promo') {
+      navigation.navigate('ArtistBasicGig2');
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
-      <Header title={'Create gig'} />
-      <View style={styles.gigVersion}>
-        <Text style={styles.title}>{`Greetings ${user.name}!`}</Text>
-      </View>
-      <Text style={styles.txt}>{'Time to create your first gig and showcase your skills at Kaynchi.'}</Text>
-      <Image style={styles.img} source={require('../../assets/onBoarding.png')} />
+      <ScrollView>
+        <View>
+          <Text style={styles.welcomeTxt}>Create menu</Text>
+          <Text style={styles.heading}>Hey {user?.name}</Text>
+          <Text
+            style={{
+              fontFamily: fonts.robo_reg,
+              fontSize: 16,
+              marginRight: widthToDp(5),
+            }}>
+            Time to create your menu and showcase your skills as an expert at{' '}
+            <Text style={{ color: theme.primary }}>Kaynchi</Text>
+          </Text>
+        </View>
 
-      <View style={styles.parentMood}>
-        <View style={styles.mood}>
-          <View style={styles.moodIbutton}>
-            <Image style={{ marginBottom: 20 }} source={iButton} />
-            <TouchableOpacity onPress={() => setSelected('basic')}>
-              <LinearGradient
-                colors={selected === 'basic' ? ['#86C0E9', '#2764AE'] : ['#696969', '#AEAEAE']}
-                style={styles.childMood}>
-                <Image source={HostMoodImage} />
-                <Text style={styles.childMoodHead1}>Create basic gig</Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.moodIbutton}>
-            <Image style={{ marginBottom: 20 }} source={iButton} />
-            <TouchableOpacity onPress={() => setSelected('promotion')}>
-              <LinearGradient
-                colors={selected === 'promotion' ? ['#86C0E9', '#2764AE'] : ['#696969', '#AEAEAE']}
-                style={styles.childMood}
-                start={{ x: 0, y: 0.5 }}
-                end={{ x: 1, y: 0.5 }}>
-                <Image source={TravelMoodImage} />
-                <Text style={styles.childMoodHead2}>Create Promotional gig</Text>
-              </LinearGradient>
-            </TouchableOpacity>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            {ModalData.map((data, index) => (
+              <TouchableWithoutFeedback key={index} onPress={() => handleContainerClick(data.id)}>
+                <View style={[styles.modalElement]}>
+                  <View
+                    style={[
+                      {
+                        backgroundColor:
+                          selectedContainer === data.id
+                            ? data.id === 'gig'
+                              ? '#668C6A'
+                              : theme.primary
+                            : data.id === 'promo'
+                            ? '#BAAED3'
+                            : '#A0CDA3', // Use the lighter shade here
+                      },
+                      {
+                        width: widthToDp(60),
+                        padding: 15,
+                        flexDirection: 'column',
+                        justifyContent: 'space-around',
+                        borderRadius: 10,
+                      },
+                    ]}>
+                    <Text style={styles.modalText}>{data.modalTitle}</Text>
+                    <Text style={[styles.modalDescription, { paddingTop: heightToDp(5) }]}>
+                      {data.modalDescription}
+                    </Text>
+                  </View>
+                  <View>
+                    <Image source={data.modalImageSource} style={styles.imageModal} />
+                  </View>
+                </View>
+              </TouchableWithoutFeedback>
+            ))}
           </View>
         </View>
-      </View>
-
-      <Button
-        title="Continue"
-        btnStyle={styles.btn}
-        onPress={() => {
-          navigation.navigate('ArtistBasicGig');
-        }}
-      />
+        <View>
+          <Text style={styles.subheading}>Minimum 2 Basic gigs are required to craete a promo.</Text>
+          <Text style={styles.subheading}>Promo(s) are valid for 14 days only.</Text>
+        </View>
+        <View style={styles.buttontext}>
+          <Button title="Continue" onPress={handleContinueClick} />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
-};
-
-export default ArtistCreateGig;
+}
 
 const styles = StyleSheet.create({
-  moodIbutton: {
-    flex: 0,
-    flexDirection: 'column',
-    alignItems: 'flex-end',
-  },
-  parentMood: {
-    flex: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 30,
-  },
-  mood: {
-    width: width * 0.9,
-    flex: 0,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  childMood: {
-    height: 130,
-    width: width * 0.425,
-    backgroundColor: 'blue',
-    flex: 0,
-    paddingVertical: 20,
-    borderRadius: 15,
-    paddingHorizontal: 20,
-  },
-  childMoodHead1: {
-    fontFamily: fonts.robo_med,
-    fontSize: 14,
-    lineHeight: 16,
-    color: theme.dark,
-    marginTop: 25,
-  },
-  childMoodHead2: {
-    fontFamily: fonts.robo_med,
-    fontSize: 14,
-    lineHeight: 16,
-    color: 'white',
-    marginTop: 20,
-  },
-  childMoodBody: {
-    fontFamily: fonts.robo_light,
-    fontSize: 14,
-    lineHeight: 16,
-    color: 'white',
-    marginTop: 10,
-  },
-
-  parentGigVersion: {
-    marginTop: 25,
-  },
-  gigVersion: {
-    flex: 0,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 23,
-  },
-  gigVersionText: {
-    fontSize: 16,
-    marginHorizontal: 24,
-    fontFamily: fonts.robo_reg,
-    color: theme.darkBlack,
-    marginTop: 8,
-    lineHeight: 18.75,
-    width: width * 0.5,
-  },
   container: {
     flex: 1,
-    backgroundColor: theme.white,
+    backgroundColor: '#EEEEEE',
+    paddingTop: heightToDp(8),
+    paddingHorizontal: widthToDp(5),
   },
-  skipView: {
-    position: 'absolute',
-    bottom: heightToDp(23),
-    alignSelf: 'center',
+  welcomeTxt: {
+    fontSize: 20,
+    color: 'black',
+    textAlign: 'center',
+    paddingHorizontal: widthToDp(4),
   },
-  btn: {
-    position: 'absolute',
-    bottom: heightToDp(5.5),
+  seperator: {
+    height: 2,
+    backgroundColor: '#DEDEDE',
   },
-  img: {
-    resizeMode: 'cover',
-    height: heightToDp(59.95),
-    width: widthToDp(67.9),
-    alignSelf: 'center',
-    marginTop: heightToDp(6.7),
+  heading: {
+    fontSize: 40,
+    color: '#2F3A58',
+    fontFamily: fonts.hk_bold,
+    paddingVertical: heightToDp(3),
   },
-  skip: {
-    fontSize: 14,
+  subheading: {
+    color: '#67718C',
+    fontSize: 12,
+    textAlign: 'center',
     fontFamily: fonts.robo_reg,
-    lineHeight: 16.41,
-    color: theme.linkTxt,
   },
-  txt: {
-    fontSize: 16,
-    marginHorizontal: 24,
-    fontFamily: fonts.robo_reg,
-    color: theme.darkBlack,
-    marginTop: 8,
-    lineHeight: 18.75,
+  new: {
+    paddingVertical: heightToDp(5),
+    paddingHorizontal: widthToDp(4),
   },
-  title: {
-    fontSize: 24,
-    marginHorizontal: 24,
+
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // backgroundColor: 'rgba(0, 0, 0, 0.9)', // Transparent black background
+  },
+  modalContent: {
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    paddingTop: 20,
+  },
+  imageModal: {
+    width: 80,
+    height: 100,
+    resizeMode: 'contain',
+    marginLeft: 10,
+  },
+  closeIconContainer: {
+    backgroundColor: '#EEEEEE',
+    borderRadius: 20,
+    position: 'absolute',
+    right: 20,
+    top: 5,
+  },
+  modalElement: {
+    backgroundColor: 'white',
+    width: width * 0.91,
+    height: (height * 0.91) / 4, // Set a fixed height or remove this line if you want it to adjust based on content
+    // paddingVertical: 20,
+    // paddingHorizontal: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    marginTop: 10,
+  },
+  modalText: {
+    fontSize: 18,
+    // fontWeight: 'bold',
     fontFamily: fonts.robo_med,
-    color: theme.lightBlack,
-    // marginTop: 23,
-    lineHeight: 28.13,
+    color: 'white',
   },
+  modalDescription: {
+    fontSize: 14,
+    color: '#D5D5D5',
+    fontFamily: fonts.robo_reg,
+    textAlign: 'left',
+    paddingRight: widthToDp(5),
+  },
+  buttontext: { marginVertical: heightToDp(5) },
 });
