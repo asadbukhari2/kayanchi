@@ -1,32 +1,11 @@
 import React, { useState, useRef } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Animated,
-  FlatList,
-  TouchableOpacity,
-  Image,
-  StatusBar,
-  Platform,
-  ScrollView,
-} from 'react-native';
+import { StyleSheet, Text, View, Animated, TouchableOpacity, Image, StatusBar, ScrollView } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { fonts, useTheme } from '../../utils/theme';
 import { width, heightToDp, widthToDp, height } from '../../utils/Dimensions';
-import {
-  ConsumerSubCatCard,
-  ArtistSubCatCard,
-  Button,
-  GradientRadio,
-  Header,
-  PromotionOfferCard,
-  Tabs,
-} from '../../components';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Fontisto from 'react-native-vector-icons/Fontisto';
-import Modal from 'react-native-modal';
+import { ConsumerSubCatCard, Button, Tabs } from '../../components';
+
 import SliderComponent from '../../components/Slider';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
@@ -149,10 +128,9 @@ const headerHeight = heightToDp(57.5);
 const headerFinalHeight = heightToDp(25);
 
 const ArtistPublishGig = () => {
-  const [preferenceStatus, setPreferenceStatus] = useState('');
   const [subHeading, setSubHeading] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
-  const [sliderValue, setSliderValue] = useState(50);
+
+  const [sliderValue, setSliderValue] = useState(33);
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -191,12 +169,6 @@ const ArtistPublishGig = () => {
     extrapolate: 'clamp',
   });
 
-  const scaleDistance = scrollY.interpolate({
-    inputRange: [0, offset],
-    outputRange: [1, 0],
-    extrapolate: 'clamp',
-  });
-
   const translateRating = scrollY.interpolate({
     inputRange: [0, offset / 2, offset],
     outputRange: [0, 10, -widthToDp(5) + headerFinalHeight],
@@ -224,15 +196,10 @@ const ArtistPublishGig = () => {
         style={{
           height: getStatusBarHeight(),
           backgroundColor: '#000',
-          // position: 'absolute',
-          // top: -getStatusBarHeight(),
           zIndex: 100000,
         }}
       />
       <Animated.View style={[styles.header, { height: headerHeight, transform: [{ translateY: opacity }] }]}>
-        <Animated.View style={[{ transform: [{ translateY: opacityHeader }] }]}>
-          {/* <Header backBtnWhite /> */}
-        </Animated.View>
         <TouchableOpacity activeOpacity={0.7} style={styles.followBtn}>
           <Text style={styles.follow}>View Profile</Text>
         </TouchableOpacity>
@@ -492,7 +459,7 @@ const ArtistPublishGig = () => {
                 fontSize: 12,
                 fontFamily: fonts.robo_med,
               }}>
-              Fill your profile and verify. You’re done!
+              {'Fill your profile and verify. You’re done!'}
             </Text>
             <TouchableOpacity onPress={updateHandler}>
               <Text
@@ -651,7 +618,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.primary,
     color: '#ffffff',
     width: widthToDp(67),
-    padding: widthToDp(10),
+    padding: widthToDp(6),
     fontFamily: fonts.robo_bold,
     textAlign: 'center',
     borderBottomLeftRadius: 10,

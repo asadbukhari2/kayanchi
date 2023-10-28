@@ -87,6 +87,7 @@ export default function ArtistKnownFor() {
         };
       });
       dispatch(SIGNUP({ ...dataToSave, type_login: 'artist', known_for: knf }));
+      navigation.navigate('ArtistOnBoardingWelcome');
     }
   };
 
@@ -161,7 +162,7 @@ export default function ArtistKnownFor() {
         ) : (
           <Button
             title={isLoading ? 'Loading...' : 'Continue'}
-            disable={isLoading}
+            // disable={isLoading}
             btnStyle={[styles.btn, { marginTop: heightToDp(10) }]}
             onPress={createAccount}
           />

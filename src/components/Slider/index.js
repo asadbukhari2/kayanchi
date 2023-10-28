@@ -41,29 +41,29 @@ import { useTheme } from '../../utils/theme';
 
 const theme = useTheme();
 
-const SliderComponent = ({ min, max, value, onChange, colorSlider, radius, start, end }) => {
+const SliderComponent = ({ min, max, value, colorSlider, radius, start, end }) => {
   const [sliderValue, setSliderValue] = useState(value);
-  const [sliderWidth, setSliderWidth] = useState(0);
+  // const [sliderWidth, setSliderWidth] = useState(0);
 
-  const handlePanResponderMove = (_, gestureState) => {
-    const { moveX } = gestureState;
-    const newValue = (moveX / sliderWidth) * (max - min) + min;
-    const clampedValue = Math.min(max, Math.max(min, newValue));
-    setSliderValue(clampedValue);
-    onChange(clampedValue);
-  };
+  // const handlePanResponderMove = (_, gestureState) => {
+  //   const { moveX } = gestureState;
+  //   const newValue = (moveX / sliderWidth) * (max - min) + min;
+  //   const clampedValue = Math.min(max, Math.max(min, newValue));
+  //   setSliderValue(clampedValue);
+  //   onChange(clampedValue);
+  // };
 
-  const panResponder = PanResponder.create({
-    onStartShouldSetPanResponder: () => true,
-    onMoveShouldSetPanResponder: () => true,
-    onPanResponderMove: handlePanResponderMove,
-  });
+  // const panResponder = PanResponder.create({
+  //   onStartShouldSetPanResponder: () => true,
+  //   onMoveShouldSetPanResponder: () => true,
+  //   onPanResponderMove: handlePanResponderMove,
+  // });
 
   return (
     <>
       <View
-        onLayout={event => setSliderWidth(event.nativeEvent.layout.width)}
-        {...panResponder.panHandlers}
+        // onLayout={event => setSliderWidth(event.nativeEvent.layout.width)}
+        // {...panResponder.panHandlers}
         style={{
           width: '90%',
           height: 10,

@@ -74,7 +74,7 @@ const ArtistOnBoarding = () => {
     // dispatch({ type: 'SIGN_UP_SUCCESS_TOKEN_SET' });
     navigation.navigate('ArtistCreateGig');
   };
-  console.log(selectedItem);
+  console.log({ selectedItem });
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ flex: 1, backgroundColor: '#fff' }}>

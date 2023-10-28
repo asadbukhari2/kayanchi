@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity, Image, FlatList } from 'react-native';
-import { height } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
 
 const theme = useTheme();
@@ -11,7 +10,7 @@ const Tabs = props => {
   const [selected, setSelected] = useState(0);
 
   useEffect(() => {
-    selectedTab(DATA.map((item, index) => (index == selected ? item.name : null)));
+    selectedTab(DATA.map((item, index) => (index === selected ? item.name : null)));
   }, [selected]);
 
   return DATA ? (
@@ -29,7 +28,7 @@ const Tabs = props => {
             style={[
               styles.btnView,
               {
-                borderColor: selected == index ? theme.primary : theme.inputText,
+                borderColor: selected === index ? theme.primary : theme.inputText,
               },
               btnStyle,
             ]}>
@@ -39,13 +38,13 @@ const Tabs = props => {
               style={[
                 styles.txt,
                 {
-                  color: selected == index ? theme.primary : theme.greyText,
+                  color: selected === index ? theme.primary : theme.greyText,
                 },
                 {
-                  fontSize: selected == index ? 17 : 16,
+                  fontSize: selected === index ? 17 : 16,
                 },
                 {
-                  fontWeight: selected == index ? '700' : '500',
+                  fontWeight: selected === index ? '700' : '500',
                 },
                 txtStyle,
               ]}>
@@ -64,8 +63,7 @@ const styles = StyleSheet.create({
   btnView: {
     borderBottomWidth: 1,
     justifyContent: 'center',
-    flexDirection: 'row', // Added for image and text side by side
-    justifyContent: 'center',
+    flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 12,
     height: 50,
@@ -74,13 +72,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: fonts.hk_medium,
     color: '#747474',
-    lineHeight: 16.41,
-    marginLeft: 2, // Added for spacing between image and text
+    marginLeft: 2,
   },
   tabImage: {
-    width: 15, // Adjust image dimensions as needed
+    width: 15,
     height: 15,
-    marginRight: 2, // Added for spacing between image and text
+    marginRight: 2,
     resizeMode: 'contain',
   },
 });

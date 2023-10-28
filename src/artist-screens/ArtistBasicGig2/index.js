@@ -7,7 +7,7 @@ import { useTheme, fonts } from '../../utils/theme';
 import Gallery from '../../assets/Gallery.png';
 import back from '../../assets/back.png';
 import ImageCropPicker from 'react-native-image-crop-picker';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 const theme = useTheme();
 
@@ -19,9 +19,14 @@ const ArtistGig2 = () => {
   const [image3, setImage3] = useState();
 
   const [selected, setSelected] = useState('');
-
+  const [price, setPrice] = useState(0);
   const navigation = useNavigation();
-
+  const route = useRoute();
+  const { selectedCat, selectedAud, title } = route.params;
+  const handleContinue = () => {
+    console.log({ selectedCat, selectedAud, title, price, selected });
+    navigation.navigate('ArtistGigMood');
+  };
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -33,10 +38,11 @@ const ArtistGig2 = () => {
             marginLeft: widthToDp(5),
             width: widthToDp(90),
           }}>
-          {/* // TODO add back function below */}
-          <Image source={back} />
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Image source={back} />
+          </TouchableOpacity>
           <View style={{ marginLeft: -20 }}>
-            <Header title="Baisc gig info" />
+            <Header title="Basic gig info" />
           </View>
         </View>
         <View style={styles.gigVersion}>
@@ -49,7 +55,7 @@ const ArtistGig2 = () => {
           style={styles.inputField}
           placeholder="Please tell use anything that may assist with the order..."
         />
-        <Text style={styles.warning}>The desc can not contain more than 200 letters.</Text>
+        <Text style={styles.warning}>The description can not contain more than 200 letters.</Text>
         <View style={styles.gigVersion}>
           <Text style={styles.title}>Service duration</Text>
         </View>
@@ -104,7 +110,12 @@ const ArtistGig2 = () => {
         </View>
         <Text style={styles.txt}>Price your service.</Text>
         <View style={styles.parentPrice}>
-          <TextInput style={styles.priceField} />
+          <TextInput
+            style={styles.priceField}
+            value={price}
+            onChangeText={e => setPrice(e)}
+            keyboardType="number-pad"
+          />
           <Text style={styles.pkr}>Pkr</Text>
         </View>
         <View style={styles.gigVersion}>
@@ -171,13 +182,7 @@ const ArtistGig2 = () => {
           </TouchableOpacity>
         </View>
 
-        <Button
-          title={'Continue'}
-          btnStyle={styles.btn}
-          onPress={() => {
-            navigation.navigate('ArtistGigMood');
-          }}
-        />
+        <Button title={'Continue'} btnStyle={styles.btn} onPress={handleContinue} />
       </ScrollView>
     </SafeAreaView>
   );

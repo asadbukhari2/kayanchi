@@ -16,6 +16,7 @@ const ArtistBasicGig = () => {
   const navigation = useNavigation();
 
   const [selectedCat, setSelectedCat] = useState('');
+  const [title, setTitle] = useState('');
   const [selectedAud, setSelectedAud] = useState([]);
 
   return (
@@ -32,7 +33,7 @@ const ArtistBasicGig = () => {
         <Image source={back} />
 
         <View style={{ marginLeft: -20 }}>
-          <Header title="Baisc gig info" />
+          <Header title="Basic gig info" />
         </View>
       </View>
       <View style={styles.gigVersion}>
@@ -43,6 +44,8 @@ const ArtistBasicGig = () => {
         multiline={true}
         height={90}
         style={styles.inputField}
+        value={title}
+        onChangeText={e => setTitle(e)}
         maxLength={30}
         placeholder="Sagan / Engagement makeupx"
       />
@@ -117,12 +120,9 @@ const ArtistBasicGig = () => {
               <TouchableOpacity
                 onPress={() => {
                   if (selectedAud.includes(item)) {
-                    let arr = selectedAud;
-                    setSelectedAud([...arr]);
+                    setSelectedAud(selectedAud.filter(aud => aud !== item));
                   } else {
-                    let arr = selectedAud;
-                    arr.push(item);
-                    setSelectedAud([...arr]);
+                    setSelectedAud([...selectedAud, item]);
                   }
                 }}
                 style={{
@@ -156,7 +156,7 @@ const ArtistBasicGig = () => {
         title={'Continue'}
         btnStyle={styles.btn}
         onPress={() => {
-          navigation.navigate('ArtistBasicGig2');
+          navigation.navigate('ArtistBasicGig2', { selectedCat, selectedAud, title });
         }}
       />
     </SafeAreaView>
