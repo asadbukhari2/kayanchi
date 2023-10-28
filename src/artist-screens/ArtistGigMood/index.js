@@ -16,7 +16,9 @@ import HostMoodImage from '../../assets/car-front.png';
 
 import LinearGradient from 'react-native-linear-gradient';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { showMessage } from 'react-native-flash-message';
+import { publishSimpleGig } from '../../redux/actions/gigActions';
 
 const theme = useTheme();
 const modeData = [
@@ -35,22 +37,45 @@ const modeData = [
 ];
 const ArtistGigMood = () => {
   const [image, setImage] = useState();
-  const [isPrivate, setIsPrivate] = useState(false);
+  const [isFree, setIsFree] = useState(false);
   const [gigMood, setGigMood] = useState('');
   const [travelFee, setTravelFee] = useState(0);
   const navigation = useNavigation();
 
+  const route = useRoute();
+
+  console.log(route.params);
+
   const dispatch = useDispatch();
 
-  const user = useSelector(state => state.auth);
-
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+  const auth = useSelector(state => state.auth);
 
   const gotoArtist = async () => {
-    // dispatch(saveToken({token: 'anyvalue'}));
-    navigation.navigate('ArtistVerification');
+    if ((travelFee || isFree) && gigMood && image) {
+      const data = {
+        ...route.params,
+        is_travelling: gigMood === 'travel',
+        is_hosting: gigMood === 'host',
+        offer_free_travel: gigMood === 'host' ? false : isFree,
+        travelling_cost: isFree || gigMood === 'host' ? 0 : travelFee,
+        hosting_image: image.path,
+        address_text: null,
+        is_active: true,
+        discount_percentage: 0,
+        additional_services: [],
+        promo_services: [],
+      };
+
+      dispatch(publishSimpleGig(data, auth.userDetails.token));
+
+      // dispatch(saveToken({token: 'anyvalue'}));
+      // navigation.navigate('ArtistVerification');
+    } else {
+      showMessage({
+        type: 'warning',
+        message: 'Fill Form',
+      });
+    }
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -113,15 +138,17 @@ const ArtistGigMood = () => {
             alignContent: 'center',
           }}>
           <Text style={styles.warning}>{'Offer free travel'}</Text>
+          {console.log(gigMood)}
           <View style={styles.switchContainer}>
             <ToggleSwitch
-              isOn={isPrivate}
+              isOn={isFree}
               style={{ height: 20, marginRight: 10 }}
-              value={isPrivate}
+              value={gigMood === 'host' ? false : isFree}
               onColor="#84668C"
               offColor="#9A9A9A"
               size="small"
-              onToggle={isOn => setIsPrivate(isOn)}
+              disabled={gigMood === 'host'}
+              onToggle={isOn => setIsFree(isOn)}
             />
           </View>
         </View>
@@ -129,7 +156,7 @@ const ArtistGigMood = () => {
         <View style={styles.parentPrice}>
           <TextInput
             style={styles.priceField}
-            editable={!isPrivate}
+            editable={gigMood !== 'host' && !isFree}
             value={travelFee}
             keyboardType="number-pad"
             onChangeText={e => setTravelFee(e)}

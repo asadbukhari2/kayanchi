@@ -59,7 +59,7 @@ const theme = useTheme();
 
 export default function ArtistKnownFor() {
   const navigation = useNavigation();
-  const [name, setName] = useState('');
+  const [title, setTitle] = useState('');
   const [skills, setSkills] = useState([]);
   const [selectedSkills, setSelectedSkills] = useState([]);
 
@@ -68,6 +68,7 @@ export default function ArtistKnownFor() {
   const isSignUp = useSelector(state => state.auth.isSignUp);
   const isLoading = useSelector(state => state.auth.isLoading);
   const categories = useSelector(state => state.common.categories);
+  console.log({ isLoading });
 
   useEffect(() => {
     setSkills(categories);
@@ -92,7 +93,7 @@ export default function ArtistKnownFor() {
   };
 
   const createAccount = async () => {
-    if (selectedSkills.length < 1 || !name) {
+    if (selectedSkills.length < 1 || !title) {
       showMessage({
         message: 'Please Select atleast one category or fill your title',
         type: 'warning',
@@ -105,8 +106,7 @@ export default function ArtistKnownFor() {
         };
       });
 
-      // dispatch(SIGNUP({ ...dataToSave, type_login: 'artist', known_for: knf, name }));
-      navigation.navigate('ArtistOnBoardingWelcome');
+      dispatch(SIGNUP({ ...dataToSave, type_login: 'artist', known_for: knf, title }));
     }
   };
 
@@ -117,7 +117,7 @@ export default function ArtistKnownFor() {
         <TextInput
           mainLabel={'What are you known as?'}
           subLabel={'Let your clients know what you’re the best at'}
-          input={text => setName(text)}
+          input={text => setTitle(text)}
           placeholder={'For e.g Make up artist, Stylist, Barber'}
           inputBoxStyle={{
             borderBottomColor: '#EEEEEE',
@@ -196,7 +196,7 @@ export default function ArtistKnownFor() {
           />
         ) : (
           <Button
-            title={isLoading ? 'Loading...' : 'Continude'}
+            title={isLoading ? 'Loading...' : 'Continue'}
             // disable={isLoading}
             btnStyle={[styles.btn, { marginTop: heightToDp(10) }]}
             onPress={createAccount}

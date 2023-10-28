@@ -24,8 +24,8 @@ function get(url) {
   return fetch(BASE_URL + url, requestOptions).then(res => handleResponse(res));
 }
 
-function post(url, body) {
-  const accessToken = store.getState().auth?.token;
+function post(url, body, token) {
+  const accessToken = store.getState().auth?.token || token;
   const headers = {
     'Content-Type': 'application/json',
     authorization: `Bearer ${accessToken}`,

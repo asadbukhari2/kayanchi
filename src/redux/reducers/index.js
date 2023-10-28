@@ -8,8 +8,7 @@ import Flatted from 'flatted';
 //reducers
 import auth from './authReducer';
 import common from './commonReducer';
-// import userReducer from "./userReducer";
-// import eventReducer from "./eventReducer";
+import gig from './gigiReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const transformCircular = createTransform(
@@ -31,8 +30,7 @@ const authConfig = {
 const reducers = combineReducers({
   auth: persistReducer(authConfig, auth),
   common: common,
-  // user: userReducer,
-  // events:eventReducer
+  gig: gig,
 });
 const persistedReducer = persistReducer(persistConfig, reducers);
 const middleware = composeWithDevTools(applyMiddleware(thunk));

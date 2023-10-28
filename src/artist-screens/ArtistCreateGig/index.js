@@ -5,6 +5,7 @@ import { useTheme, images, fonts } from '../../utils/theme';
 import { width, heightToDp, widthToDp, height } from '../../utils/Dimensions';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import { showMessage } from 'react-native-flash-message';
 
 const theme = useTheme();
 
@@ -27,7 +28,7 @@ const ModalData = [
 export default function ArtistGig() {
   const navigation = useNavigation();
   const [selectedContainer, setSelectedContainer] = useState(null);
-  const user = useSelector(state => state.auth);
+  const user = useSelector(state => state.auth.user);
 
   const handleContainerClick = containerId => {
     setSelectedContainer(containerId);
@@ -35,9 +36,14 @@ export default function ArtistGig() {
 
   const handleContinueClick = () => {
     if (selectedContainer === 'gig') {
-      navigation.navigate('ArtistBasicGig');
+      navigation.navigate('ArtistBasicGig', { is_promotional: false });
     } else if (selectedContainer === 'promo') {
-      navigation.navigate('ArtistBasicGig2');
+      navigation.navigate('ArtistBasicGig2', { is_promotional: true });
+    } else {
+      showMessage({
+        message: 'Please Select type',
+        type: 'warning',
+      });
     }
   };
   return (

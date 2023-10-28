@@ -5,19 +5,39 @@ import { Header, Button } from '../../components';
 import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { useTheme, fonts } from '../../utils/theme';
 import back from '../../assets/back.png';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import { capitalizeEachWord } from '../../utils/helper';
+import { showMessage } from 'react-native-flash-message';
 
-const category = ['Hair', 'Face', 'Skin', 'Spa', 'Body'];
-const audience = ['Female', 'Male', 'Non Binary'];
+const audience = ['Female', 'Male', 'non-binary'];
 
 const theme = useTheme();
 
 const ArtistBasicGig = () => {
   const navigation = useNavigation();
 
-  const [selectedCat, setSelectedCat] = useState('');
-  const [title, setTitle] = useState('');
-  const [selectedAud, setSelectedAud] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [name, setName] = useState('');
+  const [selectedAudience, setSelectedAudience] = useState([]);
+
+  const categories = useSelector(state => state.common.categories);
+  const route = useRoute();
+  const clickHandler = () => {
+    if (!name || !selectedCategory || selectedAudience.length < 0) {
+      showMessage({
+        type: 'warning',
+        message: 'Enter Values',
+      });
+    } else {
+      navigation.navigate('ArtistBasicGig2', {
+        category_id: selectedCategory.id,
+        target_audience: selectedAudience,
+        name,
+        ...route.params,
+      });
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -29,8 +49,10 @@ const ArtistBasicGig = () => {
           marginLeft: widthToDp(5),
           width: widthToDp(90),
         }}>
-        {/* // TODO add back function below*/}
-        <Image source={back} />
+        {/* // TODO add back function below */}
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image source={back} />
+        </TouchableOpacity>
 
         <View style={{ marginLeft: -20 }}>
           <Header title="Basic gig info" />
@@ -44,8 +66,8 @@ const ArtistBasicGig = () => {
         multiline={true}
         height={90}
         style={styles.inputField}
-        value={title}
-        onChangeText={e => setTitle(e)}
+        value={name}
+        onChangeText={e => setName(e)}
         maxLength={30}
         placeholder="Sagan / Engagement makeupx"
       />
@@ -67,10 +89,10 @@ const ArtistBasicGig = () => {
             flexDirection: 'row',
             flexWrap: 'wrap',
           }}>
-          {category.map(item => {
+          {categories.map(item => {
             return (
               <TouchableOpacity
-                onPress={() => setSelectedCat(item)}
+                onPress={() => setSelectedCategory(item)}
                 style={{
                   width: 100,
                   height: 35,
@@ -79,7 +101,7 @@ const ArtistBasicGig = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   borderRadius: 30,
-                  backgroundColor: selectedCat === item ? '#84668C' : '#9A9A9A',
+                  backgroundColor: selectedCategory.name === item.name ? '#84668C' : '#9A9A9A',
                   marginRight: 7,
                   marginTop: 10,
                 }}>
@@ -90,7 +112,7 @@ const ArtistBasicGig = () => {
                     color: 'white',
                     lineHeight: 16,
                   }}>
-                  {item}
+                  {item.name}
                 </Text>
               </TouchableOpacity>
             );
@@ -119,10 +141,10 @@ const ArtistBasicGig = () => {
             return (
               <TouchableOpacity
                 onPress={() => {
-                  if (selectedAud.includes(item)) {
-                    setSelectedAud(selectedAud.filter(aud => aud !== item));
+                  if (selectedAudience.includes(item)) {
+                    setSelectedAudience(selectedAudience.filter(aud => aud !== item));
                   } else {
-                    setSelectedAud([...selectedAud, item]);
+                    setSelectedAudience([...selectedAudience, item]);
                   }
                 }}
                 style={{
@@ -133,7 +155,7 @@ const ArtistBasicGig = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   borderRadius: 30,
-                  backgroundColor: selectedAud.includes(item) ? '#A77246' : '#9A9A9A',
+                  backgroundColor: selectedAudience.includes(item) ? '#A77246' : '#9A9A9A',
                   marginRight: 7,
                   marginTop: 10,
                 }}>
@@ -144,7 +166,7 @@ const ArtistBasicGig = () => {
                     color: 'white',
                     lineHeight: 16,
                   }}>
-                  {item}
+                  {capitalizeEachWord(item.split('-').join(' '))}
                 </Text>
               </TouchableOpacity>
             );
@@ -152,13 +174,7 @@ const ArtistBasicGig = () => {
         </View>
       </View>
 
-      <Button
-        title={'Continue'}
-        btnStyle={styles.btn}
-        onPress={() => {
-          navigation.navigate('ArtistBasicGig2', { selectedCat, selectedAud, title });
-        }}
-      />
+      <Button title={'Continue'} btnStyle={styles.btn} onPress={clickHandler} />
     </SafeAreaView>
   );
 };

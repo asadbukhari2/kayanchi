@@ -8,25 +8,55 @@ import Gallery from '../../assets/Gallery.png';
 import back from '../../assets/back.png';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { showMessage } from 'react-native-flash-message';
 
 const theme = useTheme();
 
-const timeLimits = ['30 mins +', '1 hour +', '2 hour +'];
+const timeLimits = [
+  { label: '30 mins +', value: '30' },
+  { label: '1 hour +', value: '60' },
+  { label: '2 hour +', value: '120' },
+];
 
 const ArtistGig2 = () => {
   const [image1, setImage1] = useState();
   const [image2, setImage2] = useState();
   const [image3, setImage3] = useState();
 
-  const [selected, setSelected] = useState('');
-  const [price, setPrice] = useState(0);
+  const [description, setDescription] = useState();
+  const [duration, setDuration] = useState();
+  const [amount, setAmount] = useState(0);
   const navigation = useNavigation();
   const route = useRoute();
-  const { selectedCat, selectedAud, title } = route.params;
+  const { category_id, target_audience, name } = route.params;
+  console.log(duration);
   const handleContinue = () => {
-    console.log({ selectedCat, selectedAud, title, price, selected });
-    navigation.navigate('ArtistGigMood');
+    if (
+      description &&
+      duration &&
+      amount
+      //&& image1 && image2 && image3
+    ) {
+      const service_images = [image1.path, image2.path, image3.path];
+      console.log(service_images);
+      console.log({ amount, duration, description, service_images });
+      navigation.navigate('ArtistGigMood', {
+        category_id,
+        target_audience,
+        name,
+        amount,
+        duration,
+        description,
+        service_images,
+      });
+    } else {
+      showMessage({
+        type: 'warning',
+        message: 'Fill All fields',
+      });
+    }
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -51,8 +81,10 @@ const ArtistGig2 = () => {
 
         <TextInput
           multiline={true}
-          maxLength={200}
           style={styles.inputField}
+          value={description}
+          onChangeText={e => setDescription(e)}
+          maxLength={200}
           placeholder="Please tell use anything that may assist with the order..."
         />
         <Text style={styles.warning}>The description can not contain more than 200 letters.</Text>
@@ -85,12 +117,12 @@ const ArtistGig2 = () => {
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderRadius: 30,
-                    backgroundColor: selected === item ? '#84668C' : '#9A9A9A',
+                    backgroundColor: duration === item.value ? '#84668C' : '#9A9A9A',
                     marginRight: 7,
                     marginTop: 10,
                   }}>
                   <Text
-                    onPress={() => setSelected(item)}
+                    onPress={() => setDuration(item.value)}
                     style={{
                       fontSize: 14,
                       fontFamily: fonts.robo_reg,
@@ -98,7 +130,7 @@ const ArtistGig2 = () => {
 
                       lineHeight: 16,
                     }}>
-                    {item}
+                    {item.label}
                   </Text>
                 </View>
               );
@@ -106,14 +138,14 @@ const ArtistGig2 = () => {
           </View>
         </View>
         <View style={styles.gigVersion}>
-          <Text style={styles.title}>Service price</Text>
+          <Text style={styles.title}>Service amount</Text>
         </View>
         <Text style={styles.txt}>Price your service.</Text>
         <View style={styles.parentPrice}>
           <TextInput
             style={styles.priceField}
-            value={price}
-            onChangeText={e => setPrice(e)}
+            value={amount}
+            onChangeText={e => setAmount(e)}
             keyboardType="number-pad"
           />
           <Text style={styles.pkr}>Pkr</Text>
