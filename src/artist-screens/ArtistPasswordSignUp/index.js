@@ -13,6 +13,8 @@ import ReactNativeModal from 'react-native-modal';
 import moment from 'moment';
 import { showMessage } from 'react-native-flash-message';
 import { useNavigation } from '@react-navigation/native';
+import { useEffect } from 'react';
+import { getCategory } from '../../redux/actions/commonActions';
 
 const theme = useTheme();
 
@@ -42,6 +44,11 @@ const ArtistPasswordSignUp = () => {
   const age = currentYear - dobYear;
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCategory());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);

@@ -9,6 +9,7 @@ const initialState = {
   isArtist: null,
   isConsumer: null,
   isSignUp: null,
+  categories: null,
 };
 
 import {
@@ -103,6 +104,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         error: action.payload,
+      };
+    case 'GET_CATEGORIES':
+      return {
+        ...state,
+        categories: action.payload,
       };
     case 'TEST_UPDATE_IS_ARTIST':
       return {

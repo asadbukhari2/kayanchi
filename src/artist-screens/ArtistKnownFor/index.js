@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Header, TextInput } from '../../components';
 import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
@@ -9,84 +9,103 @@ import { useNavigation } from '@react-navigation/native';
 import { SIGNUP } from '../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { showMessage } from 'react-native-flash-message';
+import { getCategory } from '../../redux/actions/commonActions';
 
 const theme = useTheme();
 
-const Skills = [
-  {
-    name: 'Hair',
-    icons: [
-      require('../../assets/Haircut.png'),
-      require('../../assets/Haircolor.png'),
-      require('../../assets/Styling.png'),
-    ],
-    message: ['Haircut', 'Hair Color', 'Styling'],
-  },
-  {
-    name: 'Face',
-    icons: [
-      require('../../assets/Makeup.png'),
-      require('../../assets/EyeLashes.png'),
-      require('../../assets/Facials.png'),
-    ],
-    message: ['Makeup', 'EyeLashes', 'Facials'],
-  },
-  {
-    name: 'Body',
-    icons: [
-      require('../../assets/Waxing.png'),
-      require('../../assets/Pedicure.png'),
-      require('../../assets/Medicure.png'),
-    ],
-    message: ['Waxing', 'Pedicure', 'Medicure'],
-  },
-  {
-    name: 'Spa',
-    icons: [
-      require('../../assets/Massages.png'),
-      require('../../assets/Oiling.png'),
-      require('../../assets/Cupping.png'),
-    ],
-    message: ['Massages', 'Oiling', 'Cupping'],
-  },
-  {
-    name: 'Treatments',
-    icons: [require('../../assets/Botox.png'), require('../../assets/Fillers.png'), require('../../assets/Laser.png')],
-    message: ['Botox', 'Fillers', 'Laser'],
-  },
-];
+// const Skills = [
+//   {
+//     name: 'Hair',
+//     icons: [
+//       require('../../assets/Haircut.png'),
+//       require('../../assets/Haircolor.png'),
+//       require('../../assets/Styling.png'),
+//     ],
+//     message: ['Haircut', 'Hair Color', 'Styling'],
+//   },
+//   {
+//     name: 'Face',
+//     icons: [
+//       require('../../assets/Makeup.png'),
+//       require('../../assets/EyeLashes.png'),
+//       require('../../assets/Facials.png'),
+//     ],
+//     message: ['Makeup', 'EyeLashes', 'Facials'],
+//   },
+//   {
+//     name: 'Body',
+//     icons: [
+//       require('../../assets/Waxing.png'),
+//       require('../../assets/Pedicure.png'),
+//       require('../../assets/Medicure.png'),
+//     ],
+//     message: ['Waxing', 'Pedicure', 'Medicure'],
+//   },
+//   {
+//     name: 'Spa',
+//     icons: [
+//       require('../../assets/Massages.png'),
+//       require('../../assets/Oiling.png'),
+//       require('../../assets/Cupping.png'),
+//     ],
+//     message: ['Massages', 'Oiling', 'Cupping'],
+//   },
+//   {
+//     name: 'Treatments',
+//     icons: [require('../../assets/Botox.png'), require('../../assets/Fillers.png'), require('../../assets/Laser.png')],
+//     message: ['Botox', 'Fillers', 'Laser'],
+//   },
+// ];
 
 export default function ArtistKnownFor() {
   const navigation = useNavigation();
   const [name, setName] = useState('');
+  const [skills, setSkills] = useState([]);
   const [selectedSkills, setSelectedSkills] = useState([]);
 
   const dispatch = useDispatch();
   const dataToSave = useSelector(state => state.auth.signUpUserData);
   const isSignUp = useSelector(state => state.auth.isSignUp);
   const isLoading = useSelector(state => state.auth.isLoading);
+  const categories = useSelector(state => state.common.categories);
 
-  const toggleSkill = skillName => {
-    if (selectedSkills.includes(skillName)) {
-      setSelectedSkills(prevSkills => prevSkills.filter(skill => skill !== skillName));
+  useEffect(() => {
+    setSkills(categories);
+  }, [categories]);
+
+  // const toggleSkill = skillName => {
+  //   if (selectedSkills.includes(skillName)) {
+  //     setSelectedSkills(prevSkills => prevSkills.filter(skill => skill !== skillName));
+  //   } else {
+  //     setSelectedSkills(prevSkills => [...prevSkills, skillName]);
+  //   }
+  // };
+
+  const toggleSkill = skill => {
+    const skillIndex = selectedSkills.findIndex(selectedSkill => selectedSkill.name === skill.name);
+
+    if (skillIndex !== -1) {
+      setSelectedSkills(prevSkills => [...prevSkills.slice(0, skillIndex), ...prevSkills.slice(skillIndex + 1)]);
     } else {
-      setSelectedSkills(prevSkills => [...prevSkills, skillName]);
+      setSelectedSkills(prevSkills => [...prevSkills, skill]);
     }
   };
 
   const createAccount = async () => {
-    if (selectedSkills.length < 1) {
+    if (selectedSkills.length < 1 || !name) {
       showMessage({
-        message: 'Please Select atleast one',
+        message: 'Please Select atleast one category or fill your title',
         type: 'warning',
       });
     } else {
       const knf = selectedSkills.map(item => {
         return {
-          name: item,
+          name: item.name,
+          id: item.id,
         };
       });
-      dispatch(SIGNUP({ ...dataToSave, type_login: 'artist', known_for: knf }));
+
+      // dispatch(SIGNUP({ ...dataToSave, type_login: 'artist', known_for: knf, name }));
       navigation.navigate('ArtistOnBoardingWelcome');
     }
   };
@@ -118,22 +137,26 @@ export default function ArtistKnownFor() {
         />
 
         <View style={styles.genView}>
-          {Skills.map(item => {
+          {skills.map(item => {
             return (
               <View key={item.name}>
-                <TouchableOpacity onPress={() => toggleSkill(item.name)} activeOpacity={0.7}>
+                <TouchableOpacity onPress={() => toggleSkill(item)} activeOpacity={0.7}>
                   <View
                     style={[
                       styles.genBtn,
                       {
-                        backgroundColor: selectedSkills.includes(item.name) ? theme.brown : '#D5D5D5',
+                        backgroundColor: selectedSkills.some(selectedSkill => selectedSkill.name === item.name)
+                          ? theme.brown
+                          : '#D5D5D5',
                       },
                     ]}>
                     <Text
                       style={[
                         styles.genTxt,
                         {
-                          color: !selectedSkills.includes(item.name) ? theme.lightBlack : theme.background,
+                          color: !selectedSkills.some(selectedSkill => selectedSkill.name === item.name)
+                            ? theme.lightBlack
+                            : theme.background,
                         },
                       ]}>
                       {item.name}
@@ -141,13 +164,25 @@ export default function ArtistKnownFor() {
                   </View>
 
                   <View style={styles.iconContainer}>
-                    {item.icons.map((imagePath, index) => (
+                    <View style={styles.iconWrapper}>
+                      <Image
+                        source={{
+                          uri: item.image,
+                        }}
+                        resizeMode="contain"
+                        style={{ width: 50, height: 50 }}
+                      />
+                      <Text style={styles.iconText}>{item.message}</Text>
+                    </View>
+                  </View>
+                  {/* <View style={styles.iconContainer}>
+                    {item?.icons.map((imagePath, index) => (
                       <View key={index} style={styles.iconWrapper}>
                         <Image source={imagePath} resizeMode="contain" style={{ width: 50, height: 50 }} />
                         <Text style={styles.iconText}>{item.message[index]}</Text>
                       </View>
                     ))}
-                  </View>
+                  </View> */}
                 </TouchableOpacity>
               </View>
             );
@@ -161,7 +196,7 @@ export default function ArtistKnownFor() {
           />
         ) : (
           <Button
-            title={isLoading ? 'Loading...' : 'Continue'}
+            title={isLoading ? 'Loading...' : 'Continude'}
             // disable={isLoading}
             btnStyle={[styles.btn, { marginTop: heightToDp(10) }]}
             onPress={createAccount}

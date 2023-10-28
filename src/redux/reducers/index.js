@@ -7,6 +7,7 @@ import Flatted from 'flatted';
 
 //reducers
 import auth from './authReducer';
+import common from './commonReducer';
 // import userReducer from "./userReducer";
 // import eventReducer from "./eventReducer";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -29,6 +30,7 @@ const authConfig = {
 
 const reducers = combineReducers({
   auth: persistReducer(authConfig, auth),
+  common: common,
   // user: userReducer,
   // events:eventReducer
 });

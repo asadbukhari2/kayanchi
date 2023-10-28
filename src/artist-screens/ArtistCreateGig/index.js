@@ -6,7 +6,6 @@ import { width, heightToDp, widthToDp, height } from '../../utils/Dimensions';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
-const data = ['20% Commision', '5 Gigs', '2 Promos'];
 const theme = useTheme();
 
 const ModalData = [
@@ -31,7 +30,6 @@ export default function ArtistGig() {
   const user = useSelector(state => state.auth);
 
   const handleContainerClick = containerId => {
-    console.log(containerId);
     setSelectedContainer(containerId);
   };
 
@@ -44,9 +42,9 @@ export default function ArtistGig() {
   };
   return (
     <SafeAreaView style={styles.container}>
+      <Header title="Create gig" />
       <ScrollView>
         <View>
-          <Text style={styles.welcomeTxt}>Create menu</Text>
           <Text style={styles.heading}>Hey {user?.name}</Text>
           <Text
             style={{
@@ -62,7 +60,10 @@ export default function ArtistGig() {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             {ModalData.map((data, index) => (
-              <TouchableWithoutFeedback key={index} onPress={() => handleContainerClick(data.id)}>
+              <TouchableWithoutFeedback
+                key={index}
+                onPress={() => handleContainerClick(data.id)}
+                disabled={data.id === 'promo'}>
                 <View style={[styles.modalElement]}>
                   <View
                     style={[
