@@ -19,17 +19,42 @@ const timeLimits = [
 ];
 
 const ArtistGig2 = () => {
-  const [image1, setImage1] = useState();
-  const [image2, setImage2] = useState();
-  const [image3, setImage3] = useState();
-
+  const [images, setImages] = useState([null, null, null]);
+  const [files, setFiles] = useState([]);
   const [description, setDescription] = useState();
   const [duration, setDuration] = useState();
   const [amount, setAmount] = useState(0);
   const navigation = useNavigation();
   const route = useRoute();
   const { category_id, target_audience, name } = route.params;
-  console.log(duration);
+
+  const handleImageSelection = index => {
+    ImageCropPicker.openPicker({
+      cropping: true,
+    }).then(image => {
+      const updatedImages = [...images];
+      updatedImages[index] = image;
+      setImages(updatedImages);
+      const file = dataURLtoFile(image.path, image.filename, index);
+      console.log({ file });
+    });
+  };
+  function dataURLtoFile(dataurl, filename, index) {
+    fetch(dataurl)
+      .then(response => response.blob())
+      .then(blob => {
+        // eslint-disable-next-line no-undef
+        const file = new File([blob], 'filename.jpg', { type: 'image/jpeg' });
+        const updatedfiles = [...files];
+        updatedfiles[index] = file;
+        setFiles(updatedfiles);
+        console.log('File:', file);
+        return file;
+      })
+      .catch(error => {
+        console.error('Error fetching the file:', error);
+      });
+  }
   const handleContinue = () => {
     if (
       description &&
@@ -37,9 +62,9 @@ const ArtistGig2 = () => {
       amount
       //&& image1 && image2 && image3
     ) {
-      const service_images = [image1.path, image2.path, image3.path];
-      console.log(service_images);
-      console.log({ amount, duration, description, service_images });
+      // const service_images = [image1.path, image2.path, image3.path];
+      // console.log(service_images);
+      console.log({ amount, duration, description });
       navigation.navigate('ArtistGigMood', {
         category_id,
         target_audience,
@@ -47,7 +72,7 @@ const ArtistGig2 = () => {
         amount,
         duration,
         description,
-        service_images,
+        files,
       });
     } else {
       showMessage({
@@ -155,63 +180,18 @@ const ArtistGig2 = () => {
         </View>
         <Text style={styles.txt}>Uplod pictures of your past work for this service from your gallery. (Optional)</Text>
         <View style={styles.parentUpload}>
-          <TouchableOpacity
-            onPress={() => {
-              ImageCropPicker.openPicker({
-                cropping: true,
-              }).then(image => {
-                console.log(image);
-                setImage1(image);
-              });
-            }}
-            activeOpacity={0.9}>
-            {image1 ? (
-              <Image source={{ uri: image1.path }} style={styles.upload} />
-            ) : (
-              <View style={styles.upload}>
-                <Image source={Gallery} />
-              </View>
-            )}
-            <Text style={styles.uploadText}>Upload</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              ImageCropPicker.openPicker({
-                cropping: true,
-              }).then(image => {
-                console.log(image);
-                setImage2(image);
-              });
-            }}
-            activeOpacity={0.9}>
-            {image2 ? (
-              <Image source={{ uri: image2.path }} style={styles.upload} />
-            ) : (
-              <View style={styles.upload}>
-                <Image source={Gallery} />
-              </View>
-            )}
-            <Text style={styles.uploadText}>Upload</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              ImageCropPicker.openPicker({
-                cropping: true,
-              }).then(image => {
-                console.log(image);
-                setImage3(image);
-              });
-            }}
-            activeOpacity={0.9}>
-            {image3 ? (
-              <Image source={{ uri: image3.path }} style={styles.upload} />
-            ) : (
-              <View style={styles.upload}>
-                <Image source={Gallery} />
-              </View>
-            )}
-            <Text style={styles.uploadText}>Upload</Text>
-          </TouchableOpacity>
+          {images.map((image, index) => (
+            <TouchableOpacity key={index} onPress={() => handleImageSelection(index)} activeOpacity={0.9}>
+              {image ? (
+                <Image source={{ uri: image.path }} style={styles.upload} />
+              ) : (
+                <View style={styles.upload}>
+                  <Image source={Gallery} />
+                </View>
+              )}
+              <Text style={styles.uploadText}>Upload</Text>
+            </TouchableOpacity>
+          ))}
         </View>
 
         <Button title={'Continue'} btnStyle={styles.btn} onPress={handleContinue} />
