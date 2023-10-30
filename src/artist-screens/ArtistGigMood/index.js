@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { showMessage } from 'react-native-flash-message';
 import { publishSimpleGig } from '../../redux/actions/gigActions';
+import { saveToken } from '../../redux/actions';
 
 const theme = useTheme();
 const modeData = [
@@ -51,6 +52,7 @@ const ArtistGigMood = () => {
   const auth = useSelector(state => state.auth);
 
   const gotoArtist = async () => {
+    navigation.navigate('ArtistVerification');
     if ((travelFee || isFree) && gigMood && image) {
       const data = {
         ...route.params,
@@ -68,8 +70,7 @@ const ArtistGigMood = () => {
 
       dispatch(publishSimpleGig(data, auth.userDetails.token));
 
-      // dispatch(saveToken({token: 'anyvalue'}));
-      // navigation.navigate('ArtistVerification');
+      dispatch(saveToken({ token: 'anyvalue' }));
     } else {
       showMessage({
         type: 'warning',
@@ -129,7 +130,7 @@ const ArtistGigMood = () => {
         </View>
 
         <Text style={styles.warning}>
-          {'Budget your travel cost within the city. Offer travel for free, to get more orders.'}
+          Budget your travel cost within the city. Offer travel for free, to get more orders.
         </Text>
         <View
           style={{
@@ -161,6 +162,7 @@ const ArtistGigMood = () => {
             keyboardType="number-pad"
             onChangeText={e => setTravelFee(e)}
             placeholder="100-1000"
+            placeholderTextColor={'#8D8A94'}
           />
         </View>
 
@@ -296,7 +298,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginHorizontal: 24,
     fontFamily: fonts.robo_reg,
-    color: theme.darkGray,
+    color: '#8D8A94',
     marginTop: 8,
     lineHeight: 18.75,
   },
@@ -334,12 +336,9 @@ const styles = StyleSheet.create({
   priceField: {
     backgroundColor: '#DFDEDF',
     width: widthToDp(90),
-    // marginLeft: widthToDp(5),
     borderRadius: 8,
-    // paddingVertical: 5,
     paddingHorizontal: 10,
     fontSize: 16,
-    // marginHorizontal: 24,
     fontFamily: fonts.robo_med,
     color: '#8D8A94',
     lineHeight: 22,

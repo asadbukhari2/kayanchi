@@ -111,6 +111,7 @@ const ArtistGig2 = () => {
           onChangeText={e => setDescription(e)}
           maxLength={200}
           placeholder="Please tell use anything that may assist with the order..."
+          placeholderTextColor={'#8D8A94'}
         />
         <Text style={styles.warning}>The description can not contain more than 200 letters.</Text>
         <View style={styles.gigVersion}>
@@ -241,7 +242,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginHorizontal: 24,
     fontFamily: fonts.robo_reg,
-    color: theme.darkGray,
+    color: '#8D8A94',
     marginTop: 8,
     lineHeight: 18.75,
   },
@@ -262,7 +263,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     fontSize: 17,
     fontFamily: fonts.robo_med,
-    color: '#9A9A9A',
+    color: '#242424',
     lineHeight: 22,
     opacity: 0.3,
   },

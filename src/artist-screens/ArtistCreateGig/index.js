@@ -33,7 +33,7 @@ export default function ArtistGig() {
   const handleContainerClick = containerId => {
     setSelectedContainer(containerId);
   };
-
+  console.log(selectedContainer);
   const handleContinueClick = () => {
     if (selectedContainer === 'gig') {
       navigation.navigate('ArtistBasicGig', { is_promotional: false });
@@ -57,6 +57,7 @@ export default function ArtistGig() {
               fontFamily: fonts.robo_reg,
               fontSize: 16,
               marginRight: widthToDp(5),
+              color: theme.dark,
             }}>
             Time to create your menu and showcase your skills as an expert at{' '}
             <Text style={{ color: theme.primary }}>Kaynchi</Text>

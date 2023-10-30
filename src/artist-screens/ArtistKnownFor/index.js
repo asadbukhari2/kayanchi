@@ -13,7 +13,7 @@ import { getCategory } from '../../redux/actions/commonActions';
 
 const theme = useTheme();
 
-// const Skills = [
+// const skills = [
 //   {
 //     name: 'Hair',
 //     icons: [

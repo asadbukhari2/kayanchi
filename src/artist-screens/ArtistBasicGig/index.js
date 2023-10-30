@@ -59,9 +59,9 @@ const ArtistBasicGig = () => {
         </View>
       </View>
       <View style={styles.gigVersion}>
-        <Text style={styles.title}>{'Name your service'}</Text>
+        <Text style={styles.title}>Name your service</Text>
       </View>
-      <Text style={styles.txt}>{'This will be displayed as your gig title.'}</Text>
+      <Text style={styles.txt}>This will be displayed as your gig title.</Text>
       <TextInput
         multiline={true}
         height={90}
@@ -70,6 +70,7 @@ const ArtistBasicGig = () => {
         onChangeText={e => setName(e)}
         maxLength={30}
         placeholder="Sagan / Engagement makeupx"
+        placeholderTextColor={'#8D8A94'}
       />
       <Text style={styles.warning}>The title can not contain more than 30 letters.</Text>
       <View style={styles.gigVersion}>
@@ -189,7 +190,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginHorizontal: 24,
     fontFamily: fonts.robo_reg,
-    color: theme.darkGray,
+    color: '#8D8A94',
     marginTop: 8,
     lineHeight: 18.75,
   },

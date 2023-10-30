@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { fonts, useTheme } from '../../utils/theme';
 import AppIntroSlider from 'react-native-app-intro-slider';
@@ -77,9 +77,14 @@ const ArtistOnBoarding = () => {
   console.log({ selectedItem });
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ flex: 1, backgroundColor: '#fff' }}>
-        {selectedItem.key !== 4 && <Header title={selectedItem?.heading} skip onSkip={handleNextScreen} />}
-        <View style={{ height: heightToDp(100), top: 32 }}>
+      <ScrollView>
+        {selectedItem.key === 4 ? (
+          <Header title={selectedItem?.heading} onSkip={handleNextScreen} />
+        ) : (
+          <Header title={selectedItem?.heading} skip onSkip={handleNextScreen} />
+        )}
+
+        <View style={{ height: heightToDp(100), top: 22 }}>
           <AppIntroSlider
             ref={myFlatList}
             style={{ backgroundColor: '#fff' }}
@@ -163,7 +168,7 @@ const ArtistOnBoarding = () => {
             )}
           </>
         ) : null}
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -190,7 +195,6 @@ const styles = StyleSheet.create({
   indicatorView: { marginHorizontal: 24, marginTop: heightToDp(4) },
   row: { flexDirection: 'row', alignItems: 'center' },
   img: {
-    resizeMode: 'cover',
     height: heightToDp(70),
     width: widthToDp(70),
     alignSelf: 'center',
