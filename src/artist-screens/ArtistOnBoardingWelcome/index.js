@@ -5,13 +5,11 @@ import { Header, Button } from '../../components';
 import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { useTheme, fonts } from '../../utils/theme';
 import { useNavigation } from '@react-navigation/native';
-// import { useDispatch } from 'react-redux';
 
 const theme = useTheme();
 
 const ArtistOnBoardingWelcome = () => {
   const navigation = useNavigation();
-  // const dispatch = useDispatch();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -25,7 +23,6 @@ const ArtistOnBoardingWelcome = () => {
         activeOpacity={0.7}
         style={styles.skipView}
         onPress={() => {
-          // dispatch({ type: 'SIGN_UP_SUCCESS_TOKEN_SET' });
           navigation.navigate('ArtistCreateGig');
         }}>
         <Text style={styles.skip}>I want to skip</Text>

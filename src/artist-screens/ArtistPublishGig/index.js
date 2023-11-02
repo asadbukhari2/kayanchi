@@ -159,11 +159,11 @@ const ArtistPublishGig = () => {
     extrapolate: 'clamp',
   });
 
-  const translateYOffset = -10; // Adjust this value to control the space from the top
+  const translateYOffset = 0; // Adjust this value to control the space from the top
 
   const translateName = scrollY.interpolate({
     inputRange: [0, offset / 2, offset],
-    outputRange: [0, translateYOffset, -widthToDp(10)], // Add translateYOffset
+    outputRange: [0, translateYOffset, -widthToDp(5)], // Add translateYOffset
     extrapolate: 'clamp',
   });
 
@@ -255,7 +255,6 @@ const ArtistPublishGig = () => {
                 {' ' + level + ' ' ?? ' New Artist'}
               </Animated.Text>
             </View>
-
             <Animated.View style={[styles.imageShare, { transform: [{ translateY: opacity }] }]}>
               <Image source={share} style={{ width: 20, height: 20, resizeMode: 'contain' }} />
             </Animated.View>
@@ -796,7 +795,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 50,
     position: 'absolute',
-    right: -110,
+    right: -210,
     bottom: 0,
   },
   modalMainView: {

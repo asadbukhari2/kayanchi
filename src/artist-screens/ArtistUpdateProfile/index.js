@@ -121,11 +121,11 @@ const ArtistUpdateProfile = () => {
     extrapolate: 'clamp',
   });
 
-  const translateYOffset = -10; // Adjust this value to control the space from the top
+  const translateYOffset = 5; // Adjust this value to control the space from the top
 
   const translateName = scrollY.interpolate({
     inputRange: [0, offset / 2, offset],
-    outputRange: [0, translateYOffset, -widthToDp(10)], // Add translateYOffset
+    outputRange: [0, translateYOffset, -widthToDp(5)], // Add translateYOffset
     extrapolate: 'clamp',
   });
 
@@ -606,7 +606,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     position: 'absolute',
     bottom: 0,
-    right: -110,
+    right: -200,
   },
   centerDiv: { flexDirection: 'row', alignItems: 'center' },
 

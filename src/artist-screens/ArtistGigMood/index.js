@@ -218,7 +218,6 @@ const ArtistGigMood = () => {
             <Image
               source={{ uri: image.path }}
               style={{
-                elevation: 1,
                 width: widthToDp(90),
                 height: 160,
                 borderRadius: 10,
@@ -319,7 +318,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   upload: {
-    elevation: 1,
     backgroundColor: '#FFFFFF',
     width: widthToDp(90),
     height: 160,
