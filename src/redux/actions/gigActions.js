@@ -6,11 +6,12 @@ export const publishSimpleGig = (body, token) => async dispatch => {
   dispatch({
     type: PUBLISH_GIG,
   });
-  console.log({ body });
-  let res = await Fetch.post('/api/service/user', body, token);
+
+  let res = await Fetch.postFormData('/api/service/user', body, token);
+
   if (res.status >= 200 && res.status < 300) {
     res = await res.json();
-    console.log({ res });
+
     showMessage({
       message: 'Gig Published!',
       type: 'success',
@@ -25,6 +26,23 @@ export const publishSimpleGig = (body, token) => async dispatch => {
       type: PUBLISH_GIG_ERROR,
       payload: res,
     });
+    showMessage({
+      message: message,
+      type: 'danger',
+    });
+
+    throw new Error(message ?? 'Something went wrong');
+  }
+};
+
+export const verify = async (body, token) => {
+  let res = await Fetch.postFormData('/api/verification', body, token);
+  console.log(res.status);
+  if (res.status >= 200 && res.status < 300) {
+    res = await res.json();
+    console.log({ res });
+  } else {
+    const { message } = await res.json();
     showMessage({
       message: message,
       type: 'danger',

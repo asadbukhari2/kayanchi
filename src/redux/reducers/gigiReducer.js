@@ -17,14 +17,14 @@ const reducer = (state = initialState, action) => {
     case PUBLISH_GIG_SUCCESS:
       return {
         ...state,
-        gigDetails: action.payload.data,
-        laoding: false,
+        gigDetails: action.payload,
+        loading: false,
       };
     case PUBLISH_GIG_ERROR:
       return {
         ...state,
         error: action.payload.error,
-        laoding: false,
+        loading: false,
       };
 
     default:

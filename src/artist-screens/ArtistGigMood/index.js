@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native';
 import ToggleSwitch from 'toggle-switch-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -19,7 +19,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { showMessage } from 'react-native-flash-message';
 import { publishSimpleGig } from '../../redux/actions/gigActions';
-import { saveToken } from '../../redux/actions';
 
 const theme = useTheme();
 const modeData = [
@@ -45,39 +44,73 @@ const ArtistGigMood = () => {
 
   const route = useRoute();
 
-  console.log(route.params);
-
   const dispatch = useDispatch();
 
   const auth = useSelector(state => state.auth);
+  const loading = useSelector(state => state.gig.loading);
+  const gigDetails = useSelector(state => state.gig.gigDetails);
+
+  function objectToFormData(data) {
+    const formData = new FormData();
+
+    for (const key in data) {
+      const value = data[key];
+
+      if (data.hasOwnProperty(key)) {
+        if (key === 'service_images') {
+          console.log(value);
+          value.forEach(ele => {
+            const obj = {
+              uri: ele?.path,
+              type: 'image/jpg',
+              name: ele.path.split('/').pop(),
+            };
+            formData.append(key, obj);
+          });
+        } else if (key === 'hosting_image') {
+          formData.append(key, { uri: value.path, type: 'image/jpg', name: value.path.split('/').pop() });
+        } else if (key === 'category_id' || key === 'duration' || key === 'amount') {
+          formData.append(key, value);
+        } else {
+          formData.append(key, JSON.stringify(value));
+        }
+      }
+    }
+
+    return formData;
+  }
 
   const gotoArtist = async () => {
-    navigation.navigate('ArtistVerification');
-    if ((travelFee || isFree) && gigMood && image) {
+    if (gigMood && image) {
       const data = {
         ...route.params,
         is_travelling: gigMood === 'travel',
         is_hosting: gigMood === 'host',
         offer_free_travel: gigMood === 'host' ? false : isFree,
         travelling_cost: isFree || gigMood === 'host' ? 0 : travelFee,
-        hosting_image: image.path,
-        address_text: null,
+        hosting_image: image,
+        is_discount: false,
         is_active: true,
+        is_promotional: false,
         discount_percentage: 0,
         additional_services: [],
         promo_services: [],
+        target_audience: route.params.target_audience.splice(0, 1),
       };
 
-      dispatch(publishSimpleGig(data, auth.userDetails.token));
+      const formData = objectToFormData(data);
 
-      dispatch(saveToken({ token: 'anyvalue' }));
+      dispatch(publishSimpleGig(formData, auth.userDetails.token));
+
+      // dispatch(saveToken({token: 'anyvalue'}));
     } else {
       showMessage({
         type: 'warning',
-        message: 'Fill Form',
+        message: 'Fill Form and verify inputs',
       });
     }
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -108,7 +141,7 @@ const ArtistGigMood = () => {
           <View style={styles.mood}>
             {modeData.map(mood => {
               return (
-                <TouchableOpacity onPress={() => setGigMood(mood.id)}>
+                <TouchableOpacity onPress={() => setGigMood(mood.id)} key={mood.id}>
                   <LinearGradient
                     colors={gigMood === mood.id ? ['#86C0E9', '#2764AE'] : ['#696969', '#AEAEAE']}
                     style={styles.childMood}
@@ -139,7 +172,7 @@ const ArtistGigMood = () => {
             alignContent: 'center',
           }}>
           <Text style={styles.warning}>{'Offer free travel'}</Text>
-          {console.log(gigMood)}
+
           <View style={styles.switchContainer}>
             <ToggleSwitch
               isOn={isFree}
@@ -162,7 +195,6 @@ const ArtistGigMood = () => {
             keyboardType="number-pad"
             onChangeText={e => setTravelFee(e)}
             placeholder="100-1000"
-            placeholderTextColor={'#8D8A94'}
           />
         </View>
 
@@ -204,7 +236,22 @@ const ArtistGigMood = () => {
 
         <Text style={styles.warning2}>Terms and conditions.</Text>
 
-        <Button title="Publish Gig" btnStyle={styles.btn} onPress={gotoArtist} />
+        {!gigDetails ? (
+          <Button
+            title={!loading ? 'Publish Gig' : 'Loading...'}
+            disabled={loading}
+            btnStyle={styles.btn}
+            onPress={gotoArtist}
+          />
+        ) : (
+          <Button
+            title="Continue"
+            btnStyle={styles.btn}
+            onPress={() => {
+              navigation.navigate('ArtistVerification');
+            }}
+          />
+        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -298,7 +345,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginHorizontal: 24,
     fontFamily: fonts.robo_reg,
-    color: '#8D8A94',
+    color: theme.darkGray,
     marginTop: 8,
     lineHeight: 18.75,
   },
@@ -336,9 +383,12 @@ const styles = StyleSheet.create({
   priceField: {
     backgroundColor: '#DFDEDF',
     width: widthToDp(90),
+    // marginLeft: widthToDp(5),
     borderRadius: 8,
+    // paddingVertical: 5,
     paddingHorizontal: 10,
     fontSize: 16,
+    // marginHorizontal: 24,
     fontFamily: fonts.robo_med,
     color: '#8D8A94',
     lineHeight: 22,

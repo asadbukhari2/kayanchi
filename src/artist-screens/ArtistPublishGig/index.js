@@ -8,7 +8,7 @@ import { ConsumerSubCatCard, Button, Tabs } from '../../components';
 
 import SliderComponent from '../../components/Slider';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 const beauty = require('../../assets/beautician.png');
 const share = require('../../assets/share.png');
 const ondemand = require('../../assets/ondemand.png');
@@ -134,6 +134,10 @@ const ArtistPublishGig = () => {
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const auth = useSelector(state => state.auth);
+
+  const { followers, title, level, rating, rating_count, bio } = auth.userDetails.profile;
+  const { name } = auth.user;
 
   const handleSliderChange = newValue => {
     setSliderValue(newValue);
@@ -182,7 +186,7 @@ const ArtistPublishGig = () => {
   });
 
   const updateHandler = () => {
-    navigation.navigate('ArtistUpdateProfile');
+    navigation.navigate('ArtistUpdateProfile', { title, bio });
   };
 
   const handleGoToHome = () => {
@@ -209,7 +213,7 @@ const ArtistPublishGig = () => {
             <Animated.Text
               // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
               style={[styles.artistName, { transform: [{ translateX: translateName }, { scale: scaleName }] }]}>
-              {'Narmeen Iqbal'}
+              {name ?? 'Narmeen Iqbal'}
             </Animated.Text>
           </View>
           <View style={styles.centerDiv}>
@@ -230,7 +234,7 @@ const ArtistPublishGig = () => {
               <Animated.Text
                 // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
                 style={[styles.artistLocation, { transform: [{ translateY: opacity }] }]}>
-                {'  Beautician '}
+                {' ' + title + ' ' ?? '  Beautician '}
               </Animated.Text>
 
               <Animated.View style={[styles.dotContainer, { transform: [{ translateY: opacity }] }]}>
@@ -248,7 +252,7 @@ const ArtistPublishGig = () => {
               <Animated.Text
                 // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
                 style={[styles.artistLocation, { transform: [{ translateY: opacity }] }]}>
-                {' New Artist'}
+                {' ' + level + ' ' ?? ' New Artist'}
               </Animated.Text>
             </View>
 
@@ -344,7 +348,7 @@ const ArtistPublishGig = () => {
                           fontFamily: fonts.robo_med,
                           color: '#2F3A58',
                         }}>
-                        0
+                        {followers ?? 20}
                       </Text>
                     </View>
                   </View>
@@ -373,7 +377,7 @@ const ArtistPublishGig = () => {
                           fontFamily: fonts.robo_med,
                           color: '#2F3A58',
                         }}>
-                        0 (0)
+                        {rating ?? 0} ({rating_count ?? 0})
                       </Text>
                     </View>
                   </View>

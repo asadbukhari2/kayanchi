@@ -15,6 +15,7 @@ import { showMessage } from 'react-native-flash-message';
 import { useNavigation } from '@react-navigation/native';
 import { useEffect } from 'react';
 import { getCategory } from '../../redux/actions/commonActions';
+import { isPasswordStrong } from '../../utils/helper';
 
 const theme = useTheme();
 
@@ -55,9 +56,14 @@ const ArtistPasswordSignUp = () => {
   };
 
   const handlePasswordSignUp = async () => {
-    if (!name || !password || !gender) {
+    if (!name || !gender) {
       showMessage({
         message: 'Please Fill all Fields',
+        type: 'warning',
+      });
+    } else if (!isPasswordStrong(password)) {
+      showMessage({
+        message: 'Password Must be of length 8',
         type: 'warning',
       });
     } else if (age < 18) {

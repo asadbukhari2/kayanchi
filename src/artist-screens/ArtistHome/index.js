@@ -221,7 +221,10 @@ const ArtistHome = props => {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [service, setService] = useState([]);
   const [artist, setArtist] = useState([]);
+  const auth = useSelector(state => state.auth);
 
+  console.log(auth.user);
+  const { name } = auth.user;
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const [sliderValue, setSliderValue] = useState(50);
@@ -248,7 +251,6 @@ const ArtistHome = props => {
     props.navigation.navigate('ArtistHomeStack', { screen: 'ArtistRankUp' });
   };
 
-  const user = useSelector(state => console.log(state.auth.token));
   // const getService = async () => {
   //   try {
   //     const res = await api.get('/api/service');
@@ -303,7 +305,7 @@ const ArtistHome = props => {
         <View style={styles.welcome}>
           <View>
             <Text style={styles.welcomeTxt}>Welcome</Text>
-            <Text style={styles.welcomeTxt}>Narmeen!</Text>
+            <Text style={styles.welcomeTxt}>{name}</Text>
           </View>
           <View>
             <View style={{ flexDirection: 'row' }}>

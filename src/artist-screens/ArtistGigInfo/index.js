@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Image, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { Button, Header, TextInput } from '../../components';
 import { fonts, useTheme } from '../../utils/theme';
-import { height, width, heightToDp, widthToDp } from '../../utils/Dimensions';
+import { width, heightToDp, widthToDp } from '../../utils/Dimensions';
 
 const data = ['20% Commision', '5 Gigs', '2 Promos'];
 
@@ -11,6 +11,7 @@ const face = require('../../assets/face.png');
 const waxing = require('../../assets/body.png');
 const Massages = require('../../assets/spa.png');
 const Botox = require('../../assets/treatment.png');
+
 const Gender = [
   {
     name: 'Female',
@@ -150,7 +151,8 @@ export default function ArtistGigInfo(props) {
                   {
                     backgroundColor: gender === item.name ? theme.brown : theme.genderGrey,
                   },
-                ]}>
+                ]}
+                key={item.name}>
                 <Text style={{ color: '#ffffff' }}>{item.name}</Text>
               </TouchableOpacity>
             );

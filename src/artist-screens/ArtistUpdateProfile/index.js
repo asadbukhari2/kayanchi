@@ -11,20 +11,20 @@ import ContainerWorkCertificate from './Components/ContainerWorkCertificate';
 import Gallery from '../../assets/Gallery.png';
 import ContainerExperience from './Components/ContainerExperience';
 import ImageCropPicker from 'react-native-image-crop-picker';
-const theme = useTheme();
-//             <Feather name="x" size={24} color="black" />
 
-const AddMore = require('../../assets/addMore.png');
+import { useDispatch, useSelector } from 'react-redux';
+import { updateProfile } from '../../redux/actions';
+
 const dummy = require('../../assets/dummy.png');
-
 const beauty = require('../../assets/beautician.png');
 const share = require('../../assets/share.png');
-
 const hair = require('../../assets/HairDark.png');
 const face = require('../../assets/FaceDark.png');
 const waxing = require('../../assets/BodyDark.png');
 const Massages = require('../../assets/SpaDark.png');
 const Botox = require('../../assets/TreatDark.png');
+
+const theme = useTheme();
 
 const DATA = [
   {
@@ -61,9 +61,15 @@ const DATATabs = [
 const headerHeight = heightToDp(57.5);
 const headerFinalHeight = heightToDp(25);
 
-const ArtistUpdateProfile = props => {
+const ArtistUpdateProfile = () => {
   const [subHeading, setSubHeading] = useState('');
   const [tab, setTab] = useState('');
+
+  const dispatch = useDispatch();
+
+  const auth = useSelector(state => state.auth);
+  const { title, level, bio } = auth.profile;
+  const { name } = auth.user;
 
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [isEditingDescription, setIsEditingDescription] = useState(false);
@@ -71,15 +77,12 @@ const ArtistUpdateProfile = props => {
   const [image1, setImage1] = useState();
   const [image2, setImage2] = useState();
   const [image3, setImage3] = useState();
-  const [inputValue, setInputValue] = useState('Beautician');
-  const [description, setDescription] = useState(
-    'Hi I am Narmeen an experienced beatcian with two years of experience. I excel in facials, waxing and makeup application along with ahir dos.',
-  );
+  const [inputValue, setInputValue] = useState(title);
+  const [description, setDescription] = useState(bio);
 
   const [selectedTab, setSelectedTab] = useState(null);
 
   const handleTabSelection = tabData => {
-    // Handle the selected tab data here
     console.log('Selected Tab:', tabData);
     setSelectedTab(tabData);
   };
@@ -91,8 +94,15 @@ const ArtistUpdateProfile = props => {
     setIsEditingDescription(!isEditingDescription);
   };
   const handleSavePress = () => {
-    setIsEditingTitle(false); // If editing the title
-    setIsEditingDescription(false); // If editing the description
+    if (isEditingTitle) {
+      dispatch(updateProfile({ title: inputValue }));
+      setIsEditingTitle(false);
+      setIsEditingDescription(false);
+    } else {
+      dispatch(updateProfile({ bio: description }));
+      setIsEditingTitle(false);
+      setIsEditingDescription(false);
+    }
   };
 
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -144,8 +154,6 @@ const ArtistUpdateProfile = props => {
         style={{
           height: getStatusBarHeight(),
           backgroundColor: '#000',
-          // position: 'absolute',
-          // top: -getStatusBarHeight(),
           zIndex: 100000,
         }}
       />
@@ -159,7 +167,7 @@ const ArtistUpdateProfile = props => {
             <Animated.Text
               // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
               style={[styles.artistName, { transform: [{ translateX: translateName }, { scale: scaleName }] }]}>
-              {'Narmeen Iqbal'}
+              {name ?? 'Narmeen Iqbal'}
             </Animated.Text>
           </View>
           <View style={styles.centerDiv}>
@@ -177,15 +185,12 @@ const ArtistUpdateProfile = props => {
               />
             </Animated.View>
             <View style={[styles.centerDiv, { paddingTop: 5 }]}>
-              <Animated.Text
-                // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
-                style={[styles.artistLocation, { transform: [{ translateY: opacity }] }]}>
-                {'  Beautician '}
+              <Animated.Text style={[styles.artistLocation, { transform: [{ translateY: opacity }] }]}>
+                {' ' + title + ' ' ?? '  Beautician '}
               </Animated.Text>
 
               <Animated.View style={[styles.dotContainer, { transform: [{ translateY: opacity }] }]}>
                 <Animated.Text
-                  // onTextLayout={e => setRatingWidth(e.nativeEvent.lines[0].width)}
                   style={[
                     styles.artistRating,
                     {
@@ -195,10 +200,8 @@ const ArtistUpdateProfile = props => {
                   {'.'}
                 </Animated.Text>
               </Animated.View>
-              <Animated.Text
-                // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
-                style={[styles.artistLocation, { transform: [{ translateY: opacity }] }]}>
-                {' New Artist'}
+              <Animated.Text style={[styles.artistLocation, { transform: [{ translateY: opacity }] }]}>
+                {' ' + level + ' ' ?? ' New Artist'}
               </Animated.Text>
             </View>
 
@@ -218,7 +221,7 @@ const ArtistUpdateProfile = props => {
         <View style={{ marginTop: headerHeight, marginLeft: widthToDp(6) }}>
           <Tabs txtStyle={{ width: widthToDp(37), textAlign: 'center' }} selectedTab={handleTabSelection} DATA={DATA} />
         </View>
-        {/* title */}
+
         <EditableField
           label="Title"
           value={inputValue}
@@ -338,7 +341,7 @@ const ArtistUpdateProfile = props => {
           <TouchableOpacity
             onPress={() => {
               ImageCropPicker.openPicker({
-                cropping: true,
+                cropping: false,
               }).then(image => {
                 console.log(image);
                 setImage1(image);
@@ -357,7 +360,7 @@ const ArtistUpdateProfile = props => {
           <TouchableOpacity
             onPress={() => {
               ImageCropPicker.openPicker({
-                cropping: true,
+                cropping: false,
               }).then(image => {
                 console.log(image);
                 setImage2(image);
@@ -376,7 +379,7 @@ const ArtistUpdateProfile = props => {
           <TouchableOpacity
             onPress={() => {
               ImageCropPicker.openPicker({
-                cropping: true,
+                cropping: false,
               }).then(image => {
                 console.log(image);
                 setImage3(image);

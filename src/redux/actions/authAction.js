@@ -56,25 +56,13 @@ export const EMAIL_LOGIN =
   };
 
 export const SIGNUP = data => async dispatch => {
-  // console.log('--------======', data);
-
-  // const y = {
-  //   name: 'Kgifj',
-  //   email: 'asad7@kayanchi.com',
-  //   password: 'Gjgmgkfjfjfjfjfkgm',
-  //   gender: 'Male',
-  //   dob: '25/10/1995',
-  //   known_for: [{ name: 'Hair' }],
-  //   referral_code: 'Nradgv6',
-  //   type_login: 'artist',
-  // };
   dispatch({
     type: SIGN_UP,
   });
   let res = await Fetch.post('/api/users/artist', data);
   if (res.status >= 200 && res.status < 300) {
     res = await res.json();
-    console.log(res);
+
     await AsyncStorage.setItem('userToken', JSON.stringify(res.token));
     showMessage({
       message: 'Successfully Created Your Account',
@@ -100,6 +88,24 @@ export const SIGNUP = data => async dispatch => {
       payload: message,
     });
     throw new Error(message ?? 'Something went wrong');
+  }
+};
+
+export const updateProfile = data => async dispatch => {
+  let res = await Fetch.put('/api/profile', data);
+
+  if (res.status >= 200 && res.status < 300) {
+    res = await res.json();
+    dispatch({
+      type: 'UPDATE_PROFILE',
+      payload: res,
+    });
+  } else {
+    const { message } = await res.json();
+    showMessage({
+      message: message || 'Something Went Wrong',
+      type: 'danger',
+    });
   }
 };
 

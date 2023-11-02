@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { saveUserData } from '../../redux/actions';
 import { showMessage } from 'react-native-flash-message';
+import { isEmailValid } from '../../utils/helper';
 
 const theme = useTheme();
 
@@ -20,8 +21,8 @@ const EmailSignUp = () => {
   const dispatch = useDispatch();
 
   const emailSignup = async () => {
-    if (!email) {
-      showMessage({ message: 'Please Type Email', type: 'warning' });
+    if (!isEmailValid(email)) {
+      showMessage({ message: 'Please type Correct Email', type: 'warning' });
     } else {
       navigation.navigate('ArtistPasswordSignUp');
       dispatch(saveUserData({ email, referral_code: code }));

@@ -37,6 +37,18 @@ function post(url, body, token) {
   };
   return fetch(BASE_URL + url, requestOptions).then(res => handleResponse(res));
 }
+function postFormData(url, body, token) {
+  const accessToken = store.getState().auth?.token || token;
+  const headers = {
+    authorization: `Bearer ${accessToken}`,
+  };
+  const requestOptions = {
+    method: 'POST',
+    headers,
+    body: body,
+  };
+  return fetch(BASE_URL + url, requestOptions).then(res => handleResponse(res));
+}
 
 function upload(url, formData) {
   const accessToken = store.getState().auth?.token;
@@ -65,7 +77,8 @@ function _delete(url) {
 }
 
 function put(url, data) {
-  const accessToken = store.getState().auth?.token;
+  console.log(store.getState().auth?.userDetails);
+  const accessToken = store.getState().auth?.token || store.getState().auth?.userDetails?.token;
   const headers = {
     'Content-Type': 'application/json',
     authorization: `Bearer ${accessToken}`,
@@ -84,4 +97,5 @@ export const Fetch = {
   upload,
   delete: _delete,
   put,
+  postFormData,
 };

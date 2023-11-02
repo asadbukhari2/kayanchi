@@ -8,6 +8,7 @@ const initialState = {
   isSignUp: null,
   isAllowedToMain: false,
   userDetails: null,
+  profile: null,
   user: null,
   signUpUserData: null,
   categories: null,
@@ -57,7 +58,9 @@ const reducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         userDetails: action.payload,
+        profile: action.payload.profile,
         user: action.payload.user,
+        signUpUserData: null,
         isSignUp: true,
       };
     case 'SIGN_UP_SUCCESS_TOKEN_SET':
@@ -111,6 +114,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         categories: action.payload,
+      };
+    case 'UPDATE_PROFILE':
+      return {
+        ...state,
+        profile: action.payload,
       };
     case 'TEST_UPDATE_IS_ARTIST':
       return {

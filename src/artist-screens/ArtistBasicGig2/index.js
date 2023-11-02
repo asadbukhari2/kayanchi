@@ -20,7 +20,7 @@ const timeLimits = [
 
 const ArtistGig2 = () => {
   const [images, setImages] = useState([null, null, null]);
-  const [files, setFiles] = useState([]);
+
   const [description, setDescription] = useState();
   const [duration, setDuration] = useState();
   const [amount, setAmount] = useState(0);
@@ -32,39 +32,16 @@ const ArtistGig2 = () => {
     ImageCropPicker.openPicker({
       cropping: true,
     }).then(image => {
+      console.log(image);
       const updatedImages = [...images];
       updatedImages[index] = image;
+
       setImages(updatedImages);
-      const file = dataURLtoFile(image.path, image.filename, index);
-      console.log({ file });
     });
   };
-  function dataURLtoFile(dataurl, filename, index) {
-    fetch(dataurl)
-      .then(response => response.blob())
-      .then(blob => {
-        // eslint-disable-next-line no-undef
-        const file = new File([blob], 'filename.jpg', { type: 'image/jpeg' });
-        const updatedfiles = [...files];
-        updatedfiles[index] = file;
-        setFiles(updatedfiles);
-        console.log('File:', file);
-        return file;
-      })
-      .catch(error => {
-        console.error('Error fetching the file:', error);
-      });
-  }
+
   const handleContinue = () => {
-    if (
-      description &&
-      duration &&
-      amount
-      //&& image1 && image2 && image3
-    ) {
-      // const service_images = [image1.path, image2.path, image3.path];
-      // console.log(service_images);
-      console.log({ amount, duration, description });
+    if (description && duration && amount && images.length === 3) {
       navigation.navigate('ArtistGigMood', {
         category_id,
         target_audience,
@@ -72,7 +49,7 @@ const ArtistGig2 = () => {
         amount,
         duration,
         description,
-        files,
+        service_images: images,
       });
     } else {
       showMessage({
@@ -134,7 +111,9 @@ const ArtistGig2 = () => {
             }}>
             {timeLimits.map(item => {
               return (
-                <View
+                <TouchableOpacity
+                  key={item.value}
+                  onPress={() => setDuration(item.value)}
                   style={{
                     width: 100,
                     height: 35,
@@ -148,17 +127,15 @@ const ArtistGig2 = () => {
                     marginTop: 10,
                   }}>
                   <Text
-                    onPress={() => setDuration(item.value)}
                     style={{
                       fontSize: 14,
                       fontFamily: fonts.robo_reg,
                       color: 'white',
-
                       lineHeight: 16,
                     }}>
                     {item.label}
                   </Text>
-                </View>
+                </TouchableOpacity>
               );
             })}
           </View>

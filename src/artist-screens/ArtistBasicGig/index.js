@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import { capitalizeEachWord } from '../../utils/helper';
 import { showMessage } from 'react-native-flash-message';
 
-const audience = ['Female', 'Male', 'non-binary'];
+const audience = ['Female', 'Male', 'Non-Binary'];
 
 const theme = useTheme();
 
@@ -49,7 +49,6 @@ const ArtistBasicGig = () => {
           marginLeft: widthToDp(5),
           width: widthToDp(90),
         }}>
-        {/* // TODO add back function below */}
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image source={back} />
         </TouchableOpacity>

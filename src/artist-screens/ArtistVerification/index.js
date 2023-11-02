@@ -9,6 +9,8 @@ import approval from '../../assets/approval.png';
 
 import { PermissionsAndroid } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { verify } from '../../redux/actions/gigActions';
+import { useSelector } from 'react-redux';
 
 async function requestCameraPermission() {
   try {
@@ -32,9 +34,22 @@ const ArtistVerification = () => {
   const [image, setImage] = useState();
   const [cnic, setCnic] = useState();
   const [nadraCard, setNadraCard] = useState();
-  const [selectedImage, setSelectedImage] = useState(null); // State to store selected image URI
 
+  const auth = useSelector(state => state.auth);
   const navigation = useNavigation();
+
+  const handleVerification = (type, img) => {
+    const formD = new FormData();
+
+    formD.append('type', type);
+    formD.append('image', {
+      uri: img.path,
+      name: img.path.split('/').pop(),
+      type: 'image/jpg',
+    });
+
+    verify(formD, auth.userDetails.token);
+  };
 
   const openCamera = () => {
     console.log('clicked');
@@ -43,9 +58,10 @@ const ArtistVerification = () => {
       height: heightToDp(97.2),
       cropping: true,
     })
-      .then(image => {
-        console.log(image);
-        setImage(image);
+      .then(selfie => {
+        console.log(selfie);
+        handleVerification('Selfie', selfie);
+        setImage(selfie);
       })
       .catch(error => {
         console.log('Camera capture error:', error);
@@ -62,7 +78,6 @@ const ArtistVerification = () => {
         <Image
           source={imageSource}
           style={{
-            elevation: 1,
             width: widthToDp(90),
             height: 100,
             borderRadius: 10,
@@ -94,7 +109,7 @@ const ArtistVerification = () => {
               height: heightToDp(97.2),
               cropping: true,
             }).then(img => {
-              console.log(img);
+              handleVerification('CNIC', img);
               setCnic(img);
             });
           }}
@@ -131,6 +146,7 @@ const ArtistVerification = () => {
               cropping: true,
             }).then(nicCard => {
               console.log(nicCard);
+              handleVerification('Nadra Verification', nicCard);
               setNadraCard(nicCard);
             });
           }}
