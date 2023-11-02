@@ -1,5 +1,5 @@
 import { Text, Image, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Button, Header } from '../components';
 import { fonts, useTheme } from '../utils/theme';
 import { useState } from 'react';
@@ -10,7 +10,7 @@ import { EMAIL_LOGIN } from '../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { showMessage } from 'react-native-flash-message';
-import { SIGN_OUT } from '../redux/constants/constants';
+
 const google = require('../assets/google.png');
 const facebook = require('../assets/facebook.png');
 
@@ -20,9 +20,8 @@ const SignIn = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const isLoading = useSelector(state => state.auth.isLoading);
-  const auth = useSelector(state => state.auth);
 
-  const [formData, setFormData] = useState({ phone: 'asad@a.com', password: 'helloworld' });
+  const [formData, setFormData] = useState({ phone: '', password: '' });
 
   const submitForm = () => {
     if (formData.phone.includes('@')) {
@@ -39,10 +38,6 @@ const SignIn = () => {
       });
     }
   };
-
-  // useEffect(() => {
-  //   dispatch({ type: SIGN_OUT });
-  // }, []);
 
   return (
     <SafeAreaView style={styles.mainPage}>
