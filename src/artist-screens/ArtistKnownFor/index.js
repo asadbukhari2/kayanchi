@@ -106,7 +106,8 @@ export default function ArtistKnownFor() {
         };
       });
 
-      dispatch(SIGNUP({ ...dataToSave, type_login: 'artist', known_for: knf, title }));
+      dispatch(SIGNUP({ ...dataToSave, type_login: 'artist', known_for: knf }));
+      navigation.navigate('ArtistOnBoardingWelcome');
     }
   };
 
