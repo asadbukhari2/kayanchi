@@ -18,6 +18,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { showMessage } from 'react-native-flash-message';
+
 import { publishSimpleGig } from '../../redux/actions/gigActions';
 
 const theme = useTheme();
@@ -41,7 +42,6 @@ const ArtistGigMood = () => {
   const [gigMood, setGigMood] = useState('');
   const [travelFee, setTravelFee] = useState(0);
   const navigation = useNavigation();
-
   const route = useRoute();
 
   const dispatch = useDispatch();
