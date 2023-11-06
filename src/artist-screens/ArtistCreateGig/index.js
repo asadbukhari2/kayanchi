@@ -179,11 +179,10 @@ const styles = StyleSheet.create({
   modalElement: {
     backgroundColor: 'white',
     width: width * 0.91,
-    height: (height * 0.91) / 4, // Set a fixed height or remove this line if you want it to adjust based on content
-    // paddingVertical: 20,
-    // paddingHorizontal: 10,
+    height: (height * 0.91) / 4,
     flexDirection: 'row',
     alignItems: 'center',
+    overflow: 'visible',
     justifyContent: 'center',
     borderRadius: 10,
     marginTop: 10,

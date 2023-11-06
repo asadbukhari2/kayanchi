@@ -63,7 +63,7 @@ const ArtistGigMood = () => {
             const obj = {
               uri: ele?.path,
               type: 'image/jpg',
-              name: ele.path.split('/').pop(),
+              name: ele?.path.split('/').pop(),
             };
             formData.append(key, obj);
           });
@@ -190,6 +190,7 @@ const ArtistGigMood = () => {
         <View style={styles.parentPrice}>
           <TextInput
             style={styles.priceField}
+            placeholderTextColor={'#8D8A94'}
             editable={gigMood !== 'host' && !isFree}
             value={travelFee}
             keyboardType="number-pad"
@@ -345,7 +346,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginHorizontal: 24,
     fontFamily: fonts.robo_reg,
-    color: theme.darkGray,
+    color: theme.darkModeText,
     marginTop: 8,
     lineHeight: 18.75,
   },

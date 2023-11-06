@@ -93,6 +93,7 @@ const lightTheme = {
   msgUnReadBadge: '#E7DB47',
   addressHeadings: '#A4ADBC',
   blue: '#29AAE2',
+  darkModeText: '#1a1a1a',
 };
 
 // export const themeAtom = atom({
