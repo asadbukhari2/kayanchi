@@ -50,12 +50,14 @@ const SignIn = () => {
         placeholder="Email or Mobile"
         value={formData.phone}
         onChangeText={e => setFormData({ ...formData, phone: e })}
+        placeholderTextColor={'#8D8A94'}
       />
       <TextInput
         style={styles.input}
         placeholder="Password"
         value={formData.password}
         secureTextEntry
+        placeholderTextColor={'#8D8A94'}
         onChangeText={e => setFormData({ ...formData, password: e })}
       />
       <Button
@@ -107,6 +109,7 @@ const styles = StyleSheet.create({
   det: {
     padding: 4,
     marginBottom: 24,
+    color: theme.darkModeText,
   },
   input: {
     backgroundColor: '#EBE8EC',
