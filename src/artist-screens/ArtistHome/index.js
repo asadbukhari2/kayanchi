@@ -224,7 +224,8 @@ const ArtistHome = props => {
   const auth = useSelector(state => state.auth);
 
   console.log(auth.user);
-  const { name } = auth.user;
+  // const { name } = auth.user;
+  const name = 'Zohaib';
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const [sliderValue, setSliderValue] = useState(50);
