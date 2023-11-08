@@ -4,9 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header, Button } from '../../components';
 import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { useTheme, fonts } from '../../utils/theme';
-import iButton from '../../assets/ibutton.png';
 
-import back from '../../assets/back.png';
 import travelling from '../../assets/travelling.png';
 import galleryBig from '../../assets/galleryBig.png';
 import ImageCropPicker from 'react-native-image-crop-picker';
@@ -112,6 +110,7 @@ const ArtistOrderSetting = props => {
               height: 15,
               width: 15,
               marginLeft: widthToDp(2),
+              marginTop: widthToDp(2),
             }}
           />
         </View>
@@ -126,7 +125,7 @@ const ArtistOrderSetting = props => {
               style={styles.childMood}
               start={{ x: 1, y: 0.5 }}
               end={{ x: 1, y: 0.5 }}>
-              <Image source={HostMoodImage} style={{ height: 30, width: 30, resizeMode: 'contain' }}></Image>
+              <Image source={HostMoodImage} style={{ height: 40, width: 40, resizeMode: 'contain' }} />
               <Text style={styles.childMoodHead}>Travel</Text>
               <Text style={styles.childMoodBody}>to client’s</Text>
             </LinearGradient>
@@ -135,7 +134,7 @@ const ArtistOrderSetting = props => {
               style={styles.childMood}
               start={{ x: 1, y: 0.5 }}
               end={{ x: 1, y: 0.5 }}>
-              <Image source={TravelMoodImage}></Image>
+              <Image source={TravelMoodImage} />
               <Text style={styles.childMoodHead}>Host</Text>
               <Text style={styles.childMoodBody}>the client</Text>
             </LinearGradient>
@@ -143,8 +142,8 @@ const ArtistOrderSetting = props => {
         </View>
         <View style={styles.serviceDuration}>
           <Text style={styles.title2}>{'Default Travelling cost'}</Text>
-          <Image source={travelling}></Image>
-          <View style={styles.childServiceDuration}></View>
+          <Image source={travelling} resizeMode="contain" />
+          <View style={styles.childServiceDuration} />
         </View>
 
         <Text style={styles.warning}>
@@ -172,19 +171,18 @@ const ArtistOrderSetting = props => {
         </View>
 
         <View style={styles.parentPrice}>
-          <TextInput style={styles.priceField} placeholder="100-1000"></TextInput>
+          <TextInput style={styles.priceField} placeholder="100-1000" placeholderTextColor={theme.genderGrey} />
         </View>
         <View style={styles.serviceDuration}>
           <Text style={styles.title2}>
-            {'Minimum Order Value'} <Text style={{ fontWeight: fonts.robo_light }}>(MOV)</Text>
+            {'Minimum Order Value'} <Text style={{ fontFamily: fonts.robo_light }}>(MOV)</Text>
           </Text>
-          <View style={styles.childServiceDuration}></View>
         </View>
 
         <Text style={styles.warning}>{"Set a minimum amount below which you won't accept order"}</Text>
 
         <View style={[styles.parentPrice, { marginTop: 10 }]}>
-          <TextInput style={styles.priceField} placeholder="0"></TextInput>
+          <TextInput style={styles.priceField} placeholder="0" placeholderTextColor={theme.genderGrey} />
         </View>
 
         <View style={styles.serviceDuration}>
@@ -203,7 +201,6 @@ const ArtistOrderSetting = props => {
               onToggle={handlePrivateImage}
             />
           </View>
-          <View style={styles.childServiceDuration}></View>
         </View>
 
         <Text style={styles.warning}>{'Only avaiable if your annual revenue is more than 4M pkr.'}</Text>
@@ -247,13 +244,9 @@ const styles = StyleSheet.create({
     // alignItems:"s"
   },
   childMood: {
-    // borderColor: "blue",
-    // borderWidth: 1,
     width: width * 0.425,
-    // height:40,
     backgroundColor: 'blue',
     flex: 0,
-    // justifyContent:"center",
     alignItems: 'center',
     paddingVertical: 10,
     borderRadius: 15,
@@ -261,18 +254,15 @@ const styles = StyleSheet.create({
   childMoodHead: {
     fontFamily: fonts.robo_med,
     fontSize: 14,
-    // lineHeight: 16,
     color: 'white',
-    marginTop: 15,
+    marginTop: 5,
   },
   childMoodBody: {
     fontFamily: fonts.robo_light,
     fontSize: 14,
-    // lineHeight: 16,
     color: 'white',
-    marginTop: 10,
+    marginTop: 5,
   },
-
   parentUpload: {
     marginTop: 10,
     marginHorizontal: widthToDp(5),
@@ -309,7 +299,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginHorizontal: 24,
     fontFamily: fonts.robo_reg,
-    color: theme.darkGray,
+    color: theme.darkModeText,
     marginTop: 8,
     lineHeight: 18.75,
   },
@@ -321,7 +311,6 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginBottom: 20,
     lineHeight: 18.75,
-    color: '#1583D8',
   },
   parentPrice: {
     flex: 0,
@@ -330,7 +319,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginLeft: widthToDp(5),
     marginRight: widthToDp(5),
-    // marginTop: 10,
     marginBottom: 10,
   },
   pkr: {
@@ -355,7 +343,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     // marginHorizontal: 24,
     fontFamily: fonts.robo_reg,
-    color: '#8D8A94',
+    color: theme.darkModeText,
     lineHeight: 22,
   },
   inputField: {
@@ -370,10 +358,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     fontFamily: fonts.robo_reg,
     color: '#8D8A94',
-    marginTop: 8,
     lineHeight: 22,
   },
-  indicatorView: { marginHorizontal: 14, marginTop: heightToDp(6) },
+  indicatorView: { marginHorizontal: 14, marginTop: heightToDp(2) },
   row: { flexDirection: 'row', alignItems: 'center' },
 
   container: {
@@ -435,17 +422,19 @@ const styles = StyleSheet.create({
     fontFamily: fonts.hk_bold,
     // marginTop: 23,
     lineHeight: 24,
+    justifyContent: 'space-between',
     color: '#2F3A58',
   },
   serviceDuration: {
     flex: 0,
     flexDirection: 'row',
-    alignItems: 'center',
-    // justifyContent:"space-between",
-    marginTop: 20,
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginTop: 10,
   },
   childServiceDuration: {
     height: 40,
-    marginLeft: 10,
+    marginLeft: 50,
   },
 });

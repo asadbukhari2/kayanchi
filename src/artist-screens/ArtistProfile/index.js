@@ -1,28 +1,18 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  ScrollView,
-  View,
-  Image,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  Switch,
-} from 'react-native';
+import { StyleSheet, Text, ScrollView, View, Image, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import Modal from 'react-native-modal';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { fonts, useTheme } from '../../utils/theme';
 import { heightToDp, width, widthToDp, height } from '../../utils/Dimensions';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Foundation from 'react-native-vector-icons/Foundation';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { Button, GradientRadio } from '../../components';
+import { GradientRadio } from '../../components';
 import Row from './component/Row';
 import { useDispatch, useSelector } from 'react-redux';
-import { signout, testUpdateIsArtist } from '../../redux/actions';
+import { signout } from '../../redux/actions';
 import { useState } from 'react';
 import ToggleSwitch from 'toggle-switch-react-native';
 const beauty = require('../../assets/beauty_color.png');
@@ -61,7 +51,7 @@ const ArtistProfile = props => {
 
   const PAYMENTS = [
     {
-      icon: <Ionicons name={'wallet-outline'} style={{ fontSize: 16, color: theme.primary }} />,
+      icon: <Ionicons name={'wallet-outline'} style={{ fontSize: 20, color: theme.primary }} />,
       title: 'My Wallet',
       onPress: () =>
         props.navigation.navigate('ArtistProfileStack', {
@@ -69,7 +59,7 @@ const ArtistProfile = props => {
         }),
     },
     {
-      icon: <FontAwesome name={'credit-card'} style={{ fontSize: 16, color: theme.primary }} />,
+      icon: <FontAwesome name={'credit-card'} style={{ fontSize: 19, color: theme.primary }} />,
       title: 'Payment methods',
       onPress: () =>
         props.navigation.navigate('ArtistProfileStack', {
@@ -80,7 +70,7 @@ const ArtistProfile = props => {
 
   const MYKAYNCHI = [
     {
-      icon: <AntDesign name={'questioncircleo'} style={{ fontSize: 16, color: theme.primary }} />,
+      icon: <AntDesign name={'questioncircleo'} style={{ fontSize: 18, color: theme.primary }} />,
       title: 'Help Center',
       onPress: () =>
         props.navigation.navigate('ArtistProfileStack', {
@@ -91,7 +81,7 @@ const ArtistProfile = props => {
       icon: (
         <Ionicons
           name={'ios-information-circle-outline'} // Use the information icon
-          style={{ fontSize: 16, color: theme.primary }}
+          style={{ fontSize: 20, color: theme.primary }}
         />
       ),
       title: 'About',
@@ -101,7 +91,7 @@ const ArtistProfile = props => {
         }),
     },
     {
-      icon: <Icon name={'message-text-outline'} style={{ fontSize: 16, color: theme.primary }} />,
+      icon: <Icon name={'message-text-outline'} style={{ fontSize: 18, color: theme.primary }} />,
       title: 'Give us feedback',
       onPress: () => openFeedbackModal(props.navigation), // Pass the navigation prop
     },
@@ -240,7 +230,7 @@ const ArtistProfile = props => {
             <Image source={require('../../assets/profile.png')} style={styles.userImg} />
           </TouchableWithoutFeedback>
           <View style={styles.userDetailsView}>
-            <Text style={styles.userName}>{user.name}</Text>
+            <Text style={styles.userName}>{user?.name}</Text>
             <View style={styles.centerDiv}>
               <Image
                 source={beauty}
@@ -369,11 +359,11 @@ const ArtistProfile = props => {
 
         <View
           style={{
-            marginHorizontal: widthToDp(4),
-            paddingTop: 15,
+            marginHorizontal: widthToDp(2),
+            paddingTop: 5,
           }}>
-          <Text style={{ paddingBottom: 10 }}>Follow us</Text>
-          <View style={{ flexDirection: 'row' }}>
+          <Text style={styles.heading}>Follow us</Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
             {socialMediaIcons.map((icon, index) => (
               <View
                 key={index}
@@ -382,7 +372,6 @@ const ArtistProfile = props => {
                   borderWidth: 1,
                   paddingVertical: 10,
                   paddingHorizontal: 38,
-                  marginRight: 10,
                   borderRadius: 20,
                 }}>
                 <Image source={icon.source} style={{ width: 25, height: 25, resizeMode: 'contain' }} />
@@ -408,7 +397,7 @@ const ArtistProfile = props => {
               <Image source={idea} style={styles.ideaimage} />
               <View>
                 <Text style={{ fontWeight: '700', color: '#2F3A58' }}>Share an idea</Text>
-                <Text>I have a suggestion or feature request</Text>
+                <Text style={{ color: theme.darkModeText, width: '90%' }}>I have a suggestion or feature request</Text>
               </View>
               <Image source={faq} style={styles.faqimage} />
             </View>
@@ -424,7 +413,7 @@ const ArtistProfile = props => {
               <Image source={bug} style={styles.ideaimage} />
               <View>
                 <Text style={{ fontWeight: '700', color: '#2F3A58' }}>Report a bug</Text>
-                <Text>Something isn't working as expected</Text>
+                <Text style={{ color: theme.darkModeText, width: '90%' }}>Something isn't working as expected</Text>
               </View>
               <Image source={faq} style={styles.faqimage} />
             </View>
