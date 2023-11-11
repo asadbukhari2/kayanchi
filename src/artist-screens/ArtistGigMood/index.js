@@ -101,8 +101,6 @@ const ArtistGigMood = () => {
       const formData = objectToFormData(data);
 
       dispatch(publishSimpleGig(formData, auth.userDetails.token));
-
-      // dispatch(saveToken({token: 'anyvalue'}));
     } else {
       showMessage({
         type: 'warning',

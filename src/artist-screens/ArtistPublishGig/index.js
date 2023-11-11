@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { StyleSheet, Text, View, Animated, TouchableOpacity, Image, StatusBar, ScrollView } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -9,6 +9,7 @@ import { ConsumerSubCatCard, Button, Tabs } from '../../components';
 import SliderComponent from '../../components/Slider';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
+import { getCertificates, getExperiences } from '../../redux/actions/commonActions';
 const beauty = require('../../assets/beautician.png');
 const share = require('../../assets/share.png');
 const ondemand = require('../../assets/ondemand.png');
@@ -135,8 +136,9 @@ const ArtistPublishGig = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
+  console.log(auth.userDetails.token);
 
-  const { followers, title, level, rating, rating_count, bio } = auth.userDetails.profile;
+  const { followers, title, level, rating, rating_count, bio } = auth.profile;
   const { name } = auth.user;
 
   const handleSliderChange = newValue => {
@@ -192,6 +194,12 @@ const ArtistPublishGig = () => {
   const handleGoToHome = () => {
     dispatch({ type: 'SIGN_UP_SUCCESS_TOKEN_SET' });
   };
+
+  useEffect(() => {
+    dispatch(getCertificates(auth.userDetails.token));
+    dispatch(getExperiences(auth.userDetails.token));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -289,7 +297,7 @@ const ArtistPublishGig = () => {
                       fontFamily: fonts.robo_reg,
                       textAlign: 'center',
                     }}>
-                    Narmeen is taking orders on-demand
+                    {name} is taking orders on-demand
                   </Text>
                 </View>
               </View>
@@ -314,7 +322,7 @@ const ArtistPublishGig = () => {
                       fontFamily: fonts.robo_reg,
                       color: '#747474',
                     }}>
-                    Narmeen will either host or visit you
+                    {name} will either host or visit you
                   </Text>
                 </View>
               </View>

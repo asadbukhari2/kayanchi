@@ -11,8 +11,10 @@ function handleResponse(response) {
   return response;
 }
 
-function get(url) {
-  const accessToken = store.getState().auth?.token;
+function get(url, token) {
+  console.log('request', url);
+
+  const accessToken = store.getState().auth?.token || token;
   const headers = {
     'Content-Type': 'application/json',
     authorization: `Bearer ${accessToken}`,
@@ -77,7 +79,7 @@ function _delete(url) {
 }
 
 function put(url, data) {
-  console.log(store.getState().auth?.userDetails);
+  console.log(store.getState().auth?.userDetails.user);
   const accessToken = store.getState().auth?.token || store.getState().auth?.userDetails?.token;
   const headers = {
     'Content-Type': 'application/json',

@@ -7,7 +7,7 @@ const initialState = {
 import { PUBLISH_GIG, PUBLISH_GIG_ERROR, PUBLISH_GIG_SUCCESS } from '../constants/constants';
 
 const reducer = (state = initialState, action) => {
-  console.log(action, 'reducer_token');
+  // console.log(action, 'reducer_token');
   switch (action.type) {
     case PUBLISH_GIG:
       return {

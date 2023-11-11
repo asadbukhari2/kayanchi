@@ -31,7 +31,7 @@ import {
 } from '../constants/constants';
 
 const reducer = (state = initialState, action) => {
-  console.log(action, 'reducer_token');
+  // console.log(action, 'reducer_token');
   switch (action.type) {
     case SAVE_USER_DATA:
       return {
