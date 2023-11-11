@@ -63,7 +63,7 @@ const ArtistWelcome = () => {
         </View>
         <View style={styles.btnText}>
           <Button title="Continue with mobile number" onPress={() => navigation.navigate('ArtistNumberSignUp')} />
-          {/* <Button title="dummy button" onPress={() => navigation.navigate('ArtistPublishGig')} /> */}
+          <Button title="dummy button" onPress={() => navigation.navigate('ArtistPublishGig')} />
         </View>
       </View>
     </SafeAreaView>

@@ -27,6 +27,8 @@ const InputText = props => {
     removeInput,
     underlineColorAndroid,
     underlineColorIOS,
+    required,
+    label,
   } = props;
 
   const [isSecured, setIsSecured] = useState(secured);
@@ -35,7 +37,22 @@ const InputText = props => {
     <View style={[styles.container, containerStyle]}>
       {stepCount && <Text style={styles.step}>STEP {stepCount} OF 2</Text>}
       {mainLabel && <Text style={[styles.labelText, mainLabelStyle]}>{mainLabel}</Text>}
-      {subLabel && <Text style={styles.subLabel}>{subLabel}</Text>}
+      {subLabel && (
+        <Text style={styles.subLabel}>
+          {subLabel}{' '}
+          {required && (
+            <Text style={{ color: '#29AAE2', fontSize: 16, position: 'absolute', top: 7, left: 90 }}>*</Text>
+          )}
+        </Text>
+      )}
+      {label && (
+        <Text style={styles.label}>
+          {label}
+          {required && (
+            <Text style={{ color: '#29AAE2', fontSize: 16, position: 'absolute', top: 7, left: 90 }}>*</Text>
+          )}
+        </Text>
+      )}
       {!removeInput && (
         <View style={[{ flexDirection: 'row', marginTop: heightToDp(2.5) }, inputMarginTop]}>
           {input ? (
@@ -52,6 +69,7 @@ const InputText = props => {
               secureTextEntry={isSecured}
               underlineColorAndroid={underlineColorAndroid}
               underlineColorIOS={underlineColorIOS}
+              {...props}
             />
           ) : (
             <TouchableOpacity
@@ -116,6 +134,13 @@ const styles = StyleSheet.create({
     fontFamily: fonts.robo_reg,
     color: theme.darkBlack,
     marginTop: heightToDp(2.2),
+  },
+  label: {
+    // paddingHorizontal: widthToDp(4),
+    paddingTop: 15,
+    color: '#747474',
+    fontSize: 16,
+    fontFamily: fonts.robo_med,
   },
 });
 

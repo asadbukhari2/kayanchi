@@ -87,7 +87,7 @@ const ContainerWorkCertificate = ({
           <Image source={AddMore} style={{ width: 20, height: 20 }} />
         </TouchableOpacity>
       </View>
-      <View style={styles.separator}></View>
+      <View style={styles.separator} />
       <View style={styles.DiplomaConatiner}>
         <Image source={imageSource} style={{ width: 50, height: 50, marginLeft: 10 }} />
         <View style={{ flex: 1, marginLeft: 10 }}>

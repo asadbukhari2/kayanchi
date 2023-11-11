@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { StyleSheet, Text, View, Animated, TouchableOpacity, Image, StatusBar, ScrollView } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -9,11 +9,13 @@ import { Tabs } from '../../components';
 import EditableField from '../../components/EditableField';
 import ContainerWorkCertificate from './Components/ContainerWorkCertificate';
 import Gallery from '../../assets/Gallery.png';
-import ContainerExperience from './Components/ContainerExperience';
 import ImageCropPicker from 'react-native-image-crop-picker';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { updateProfile } from '../../redux/actions';
+import CertificationModalForm from '../../components/CertificationModalForm';
+import WorkModalForm from '../../components/WrokModalForm';
+import { getCertificates } from '../../redux/actions/commonActions';
 
 const dummy = require('../../assets/dummy.png');
 const beauty = require('../../assets/beautician.png');
@@ -63,13 +65,11 @@ const headerFinalHeight = heightToDp(25);
 
 const ArtistUpdateProfile = () => {
   const [subHeading, setSubHeading] = useState('');
-  const [tab, setTab] = useState('');
-
-  const dispatch = useDispatch();
-
-  const auth = useSelector(state => state.auth);
-  const { title, level, bio } = auth.profile;
-  const { name } = auth.user;
+  const [isCertModalVisible, setIsCertModalVisible] = useState(false);
+  const [isExpModalVisible, setIsExpModalVisible] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [isWrokEdit, setIsWorkEdit] = useState(false);
+  const [data, setData] = useState(null);
 
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [isEditingDescription, setIsEditingDescription] = useState(false);
@@ -77,13 +77,24 @@ const ArtistUpdateProfile = () => {
   const [image1, setImage1] = useState();
   const [image2, setImage2] = useState();
   const [image3, setImage3] = useState();
+
+  const certLoading = useSelector(state => state.common.certLoading);
+  const expLoading = useSelector(state => state.common.expLoading);
+  const certificates = useSelector(state => state.common.certificates);
+  const experience = useSelector(state => state.common.experience);
+
+  const auth = useSelector(state => state.auth);
+  const { title, level, bio } = auth.profile;
+  const { name } = auth.user;
+
   const [inputValue, setInputValue] = useState(title);
   const [description, setDescription] = useState(bio);
 
   const [selectedTab, setSelectedTab] = useState(null);
 
+  const dispatch = useDispatch();
+
   const handleTabSelection = tabData => {
-    console.log('Selected Tab:', tabData);
     setSelectedTab(tabData);
   };
   const handleEditTitle = () => {
@@ -121,11 +132,11 @@ const ArtistUpdateProfile = () => {
     extrapolate: 'clamp',
   });
 
-  const translateYOffset = 5; // Adjust this value to control the space from the top
+  const translateYOffset = 5;
 
   const translateName = scrollY.interpolate({
     inputRange: [0, offset / 2, offset],
-    outputRange: [0, translateYOffset, -widthToDp(5)], // Add translateYOffset
+    outputRange: [0, translateYOffset, -widthToDp(5)],
     extrapolate: 'clamp',
   });
 
@@ -146,6 +157,27 @@ const ArtistUpdateProfile = () => {
     outputRange: [1, 1],
     extrapolate: 'clamp',
   });
+
+  const toggleModal = () => {
+    setData(null);
+    setIsEdit(false);
+    setIsCertModalVisible(!isCertModalVisible);
+  };
+  const toggleExperieceModal = () => {
+    setData(null);
+    setIsEdit(false);
+    setIsExpModalVisible(!isExpModalVisible);
+  };
+  const editCertModal = e => {
+    setData(e);
+    setIsEdit(true);
+    setIsCertModalVisible(!isCertModalVisible);
+  };
+  const editExpModal = e => {
+    setData(e);
+    setIsWorkEdit(true);
+    setIsExpModalVisible(!isExpModalVisible);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -243,38 +275,44 @@ const ArtistUpdateProfile = () => {
           limitText="0/100"
         />
 
-        {/* Diploma */}
         <ContainerWorkCertificate
           title="Certifications & Diploma"
-          imageSource={dummy} // Add the correct image source
-          subtitle="Diploma in Hair, Scalp & Color Science"
-          details="Loreal Paris"
-          date="Issued Date 2023"
+          imageSource={dummy}
+          toggleModal={toggleModal}
+          toggleEditModal={editCertModal}
+          data={certificates}
+          as={1}
+        />
+
+        <ContainerWorkCertificate
+          title="Work Experience"
+          imageSource={dummy}
+          toggleModal={toggleExperieceModal}
+          toggleEditModal={editExpModal}
+          data={experience}
+          as={2}
+        />
+
+        <CertificationModalForm
+          isModalVisible={isCertModalVisible}
+          toggleModal={toggleModal}
           modalHeading="Add diploma & Certificate"
           modalsubHeading="Complete your verification to activate your gig on the marketplace"
           modaltitle="Name"
           modaltitle2="Issuing Organization"
+          edit={isEdit}
+          data={data}
         />
-        <ContainerExperience
-          title="Work Experience"
-          imageSource={dummy} // Add the correct image source
-          subtitle="Make Up artist and Founder"
-          details="A&I Studio"
-          date="Nov 2023 - present"
-          country="Lahore, Pakistan"
+        <WorkModalForm
+          isModalVisible={isExpModalVisible}
+          toggleModal={toggleExperieceModal}
           modalHeading="Add Experience"
           modalsubHeading="Complete your verification to activate your gig on the marketplace"
           modaltitle="Job Title"
           modaltitle2="Company Name"
+          edit={isWrokEdit}
+          data={data}
         />
-        {/* <ContainerWorkCertificate
-          title="Work Experience"
-          imageSource={dummy} // Add the correct image source
-          subtitle="Make Up artist and Founder"
-          details="A&I Studio"
-          date="Nov 2023 - present"
-          country="Lahore, Pakistan"
-        /> */}
 
         {/* <View style={styles.Diploma}>
           <View style={styles.gigContainer}>
@@ -330,7 +368,7 @@ const ArtistUpdateProfile = () => {
               fontFamily: fonts.robo_reg,
               fontSize: 14,
             }}>
-            Check out Narmeen 's best work
+            Check out {name}'s best work
           </Text>
         </View>
         <View>
@@ -343,7 +381,6 @@ const ArtistUpdateProfile = () => {
               ImageCropPicker.openPicker({
                 cropping: false,
               }).then(image => {
-                console.log(image);
                 setImage1(image);
               });
             }}
@@ -362,7 +399,6 @@ const ArtistUpdateProfile = () => {
               ImageCropPicker.openPicker({
                 cropping: false,
               }).then(image => {
-                console.log(image);
                 setImage2(image);
               });
             }}
@@ -381,7 +417,6 @@ const ArtistUpdateProfile = () => {
               ImageCropPicker.openPicker({
                 cropping: false,
               }).then(image => {
-                console.log(image);
                 setImage3(image);
               });
             }}

@@ -12,10 +12,6 @@ export const publishSimpleGig = (body, token) => async dispatch => {
   if (res.status >= 200 && res.status < 300) {
     res = await res.json();
 
-    // showMessage({
-    //   message: 'Gig Published!',
-    //   type: 'success',
-    // });
     dispatch({
       type: PUBLISH_GIG_SUCCESS,
       payload: res,

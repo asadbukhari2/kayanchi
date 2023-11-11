@@ -68,7 +68,6 @@ export default function ArtistKnownFor() {
   const isSignUp = useSelector(state => state.auth.isSignUp);
   const isLoading = useSelector(state => state.auth.isLoading);
   const categories = useSelector(state => state.common.categories);
-  console.log({ isLoading });
 
   useEffect(() => {
     setSkills(categories);
@@ -106,8 +105,7 @@ export default function ArtistKnownFor() {
         };
       });
 
-      dispatch(SIGNUP({ ...dataToSave, type_login: 'artist', known_for: knf }));
-      navigation.navigate('ArtistOnBoardingWelcome');
+      dispatch(SIGNUP({ ...dataToSave, type_login: 'artist', known_for: knf, title }));
     }
   };
 
