@@ -23,8 +23,8 @@ export default function Performance({ PerformanceData }) {
 
 const styles = StyleSheet.create({
   imageSource: {
-    width: 40,
-    height: 40,
+    width: 55,
+    height: 55,
     resizeMode: 'contain',
     marginLeft: widthToDp(10),
     marginTop: heightToDp(2),

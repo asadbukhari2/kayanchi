@@ -15,6 +15,7 @@ import ModalContent from '../../components/ModalContent';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Progress from 'react-native-progress';
 import LatestBookingCard from './components/LatestBookingCard';
+import Comission from './components/Comission';
 const theme = useTheme();
 //images import
 const timer = require('../../assets/timer.png');
@@ -145,21 +146,6 @@ const DATA = [
   },
 ];
 
-const ModalData = [
-  {
-    id: 'gig',
-    modalImageSource: images.CreateGig,
-    modalDescription: 'Basic gig allows you to offer services in snigle category only',
-    modalTitle: 'Create a Gig',
-  },
-  {
-    id: 'promo',
-    modalImageSource: images.CreatePromo,
-    modalDescription: 'Promotional are mix of your gigs and any additional service you want to offer',
-    modalTitle: 'Create a Promo',
-  },
-];
-
 const insightData = [
   {
     title: 'Impression',
@@ -193,7 +179,7 @@ const PerformanceData = [
   },
   {
     percantage: '92%',
-    title: 'Avaiabiltiy Rate',
+    title: 'Availabilty Rate',
     Description: 'You completed 32 out of 36 jobs',
     imageLink: availability,
   },
@@ -206,50 +192,37 @@ const orderSummary = [
     imageSource: pending,
   },
   {
-    bookingCount: 5,
+    bookingCount: 10,
     status: 'Bookings Confirmed',
     imageSource: confirmed,
   },
   {
-    bookingCount: 5,
+    bookingCount: 4,
     status: 'Bookings Completed',
     imageSource: completed,
   },
 ];
 
 const ArtistHome = props => {
-  const [searchKeyword, setSearchKeyword] = useState('');
   const [service, setService] = useState([]);
   const [artist, setArtist] = useState([]);
   const auth = useSelector(state => state.auth);
-
+  const navigation = useNavigation();
   console.log(auth.user);
-  const { name } = auth.user;
-
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const [sliderValue, setSliderValue] = useState(50);
-
-  const handleSliderChange = newValue => {
-    setSliderValue(newValue);
-  };
+  // const { name } = auth.user;
+  const name = 'Zohaib';
 
   const handleOrder = () => {
-    props.navigation.navigate('ArtistOrderStack', {
+    navigation.navigate('ArtistOrderStack', {
       screen: 'ArtistOrders',
     });
   };
   const handleButtonPress = () => {
-    // setIsModalVisible(true);
-    props.navigation.navigate('ArtistHomeStack', { screen: 'ArtistGig' });
-  };
-
-  const closeModal = () => {
-    setIsModalVisible(false);
+    navigation.navigate('ArtistGig');
   };
 
   const handleInfoIconPress = () => {
-    props.navigation.navigate('ArtistHomeStack', { screen: 'ArtistRankUp' });
+    navigation.navigate('ArtistHomeStack', { screen: 'ArtistRankUp' });
   };
 
   // const getService = async () => {
@@ -274,7 +247,7 @@ const ArtistHome = props => {
   // };
   const getService = async () => {
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 500));
       setService(dummyServiceData);
     } catch (error) {
       console.log(error);
@@ -283,7 +256,7 @@ const ArtistHome = props => {
 
   const getArtist = async () => {
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 500));
       setArtist(dummyArtistData);
     } catch (error) {
       console.log(error);
@@ -317,7 +290,7 @@ const ArtistHome = props => {
                   width: 20,
                   resizeMode: 'contain',
                   marginRight: 5,
-                  marginLeft: 5,
+                  marginLeft: 10,
                 }}
               />
               <Text
@@ -378,48 +351,6 @@ const ArtistHome = props => {
           />
         </LinearGradient>
 
-        {/* The Modal */}
-        <Modal visible={isModalVisible} animationType="slide" transparent={true} onRequestClose={closeModal}>
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              <TouchableOpacity onPress={closeModal} style={styles.closeIconContainer}>
-                <Feather name="x" size={24} color="black" />
-              </TouchableOpacity>
-
-              {ModalData.map((data, index) => (
-                <View style={[styles.modalElement]} key={index}>
-                  <View
-                    style={[
-                      data.id === 'gig' ? { backgroundColor: '#416245' } : { backgroundColor: theme.primary },
-                      {
-                        width: widthToDp(60),
-                        padding: 15,
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        borderRadius: 10,
-                      },
-                    ]}>
-                    <Text style={styles.modalText}>{data.modalTitle}</Text>
-                    <Text style={styles.modalDescription}>{data.modalDescription}</Text>
-                  </View>
-                  <View>
-                    <Image source={data.modalImageSource} style={styles.imageModal} />
-                  </View>
-                </View>
-              ))}
-            </View>
-          </View>
-        </Modal>
-
-        {/* <SearchBox
-          value={searchKeyword}
-          onChange={txt => setSearchKeyword(txt)}
-          placeholder={'Artist, salon, or service…'}
-          onSearch={() =>
-            props.navigation.navigate('HomeStack', {screen: 'Search'})
-          }
-        /> */}
-
         {/* latest Order */}
 
         <View style={styles.latestOrder}>
@@ -442,135 +373,142 @@ const ArtistHome = props => {
             </TouchableOpacity>
           </View>
 
-          <View style={{ flexDirection: 'row' }}>
-            {orders.map((order, index) => (
-              <View key={index} style={styles.orderContainer}>
-                <View
-                  style={{
-                    paddingHorizontal: widthToDp(3),
-                    paddingBottom: 5,
-                    backgroundColor: 'white',
-                    paddingTop: heightToDp(3),
-                    borderRadius: 15,
-                    elevation: 2,
-                    shadowOffset: {
-                      width: 0,
-                      height: 10,
-                    },
-                    shadowOpacity: 1,
-                    shadowRadius: 50,
-                  }}>
-                  <View>
-                    <View style={styles.orderDetails}>
-                      <Image source={order.imageLink} style={styles.OrderImage} />
-                      <Text style={styles.latestbutton}>On-Demand</Text>
-                    </View>
+          <FlatList
+            data={orders}
+            keyExtractor={order => order.name}
+            horizontal
+            renderItem={order => {
+              return (
+                <View style={styles.orderContainer}>
+                  <View
+                    style={{
+                      paddingHorizontal: widthToDp(3),
+                      paddingBottom: 5,
+                      backgroundColor: 'white',
+                      paddingTop: heightToDp(3),
+                      borderRadius: 15,
+                      elevation: 2,
+                      shadowOffset: {
+                        width: 0,
+                        height: 10,
+                      },
+                      shadowOpacity: 1,
+                      shadowRadius: 50,
+                    }}>
                     <View>
-                      <Text style={[styles.headingName, { marginTop: 7, marginBottom: 3 }]}>{order.name}</Text>
-                      <View style={{ flexDirection: 'row' }}>
-                        <Text>{order.status}</Text>
-                        <Image
-                          source={information}
+                      <View style={styles.orderDetails}>
+                        <Image source={order.item.imageLink} style={styles.OrderImage} />
+                        <Text style={styles.latestbutton}>On-Demand</Text>
+                      </View>
+                      <View>
+                        <Text style={[styles.headingName, { marginTop: 7, marginBottom: 3 }]}>{order.item.name}</Text>
+                        <View style={{ flexDirection: 'row' }}>
+                          <Text style={{ color: theme.darkModeText, fontFamily: fonts.hk_regular }}>
+                            {order.item.status}
+                          </Text>
+                          <Image
+                            source={information}
+                            style={{
+                              height: 15,
+                              width: 15,
+                              marginLeft: widthToDp(2),
+                            }}
+                          />
+                        </View>
+                        <Text
+                          style={[
+                            {
+                              // marginVertical: 5,
+                              color: '#0F2851',
+                              fontFamily: fonts.robo_med,
+                            },
+                          ]}>
+                          SERVICES: Rs {order.item.serviceCost}
+                        </Text>
+                        <Text style={{ color: theme.greyText }}>Foot Massage 3x</Text>
+                        {order.item.services.map((service, serviceIndex) => {
+                          if (serviceIndex < 1) {
+                            return <Text key={serviceIndex}>{service}</Text>;
+                          } else if (serviceIndex === 1) {
+                            const remainingServices = order.item.services.length - 1;
+                            return (
+                              <TouchableOpacity
+                                key={serviceIndex}
+                                onPress={() => {
+                                  console.log('Touchable link pressed!');
+                                }}>
+                                <Text style={{ color: theme.darkModeText }}>
+                                  and
+                                  <Text
+                                    style={{
+                                      color: '#32aee3',
+                                    }}>{` ${remainingServices} more service(s)`}</Text>
+                                </Text>
+                              </TouchableOpacity>
+                            );
+                          }
+                          return null; // If more than the maximum services are shown, don't render them
+                        })}
+                        <Text
+                          style={[
+                            {
+                              color: '#0F2851',
+                              textTransform: 'uppercase',
+                              marginTop: 5,
+                              marginBottom: 3,
+                              fontFamily: fonts.robo_med,
+                            },
+                          ]}>
+                          Travelling to:
+                        </Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                          <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
+                          <Text style={{ color: '#32aee3', marginLeft: 5 }}>{order.item.salonAddress}</Text>
+                        </View>
+                        <View
                           style={{
-                            height: 15,
-                            width: 15,
-                            marginLeft: widthToDp(2),
-                          }}
-                        />
-                      </View>
-                      <Text
-                        style={[
-                          {
-                            marginVertical: 5,
-                            color: '#0F2851',
-                            fontFamily: fonts.robo_med,
-                          },
-                        ]}>
-                        SERVICES: Rs {order.serviceCost}
-                      </Text>
-                      {order.services.map((service, serviceIndex) => {
-                        const maxServicesToShow = 1;
-
-                        if (serviceIndex < maxServicesToShow) {
-                          return <Text key={serviceIndex}>{service}</Text>;
-                        } else if (serviceIndex === maxServicesToShow) {
-                          const remainingServices = order.services.length - maxServicesToShow;
-                          return (
-                            <TouchableOpacity
-                              key={serviceIndex}
-                              onPress={() => {
-                                console.log('Touchable link pressed!');
-                              }}>
-                              <Text>
-                                and
-                                <Text
-                                  style={{
-                                    color: '#32aee3',
-                                  }}>{` ${remainingServices} more service(s)`}</Text>
-                              </Text>
-                            </TouchableOpacity>
-                          );
-                        }
-                        return null; // If more than the maximum services are shown, don't render them
-                      })}
-                      <Text
-                        style={[
-                          {
-                            color: '#0F2851',
-                            textTransform: 'uppercase',
-                            marginTop: 5,
-                            marginBottom: 3,
-                            fontFamily: fonts.robo_med,
-                          },
-                        ]}>
-                        Travelling to:
-                      </Text>
-                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
-                        <Text style={{ color: '#32aee3', marginLeft: 5 }}>{order.salonAddress}</Text>
-                      </View>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          // justifyContent: 'center',
-                          alignItems: 'center',
-                          paddingBottom: 10,
-                        }}>
-                        <Text style={[{ color: '#0F2851', fontFamily: fonts.robo_reg }]}>Arriving in: </Text>
-                        <Text style={{ color: theme.primary, fontSize: 12 }}>{order.arrivalTime}</Text>
+                            flexDirection: 'row',
+                            // justifyContent: 'center',
+                            alignItems: 'center',
+                            paddingBottom: 10,
+                          }}>
+                          <Text style={[{ color: '#0F2851', fontFamily: fonts.robo_reg }]}>Arriving in: </Text>
+                          <Text style={{ color: theme.primary, fontSize: 12 }}>{order.item.arrivalTime}</Text>
+                        </View>
                       </View>
                     </View>
                   </View>
-                </View>
 
-                <View style={[styles.buttons, { width: '100%', alignSelf: 'center' }]}>
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: 'rgba(58, 58, 58, 0.05)',
-                      borderBottomLeftRadius: 10,
-                      width: '50%',
-                      top: -10,
-                    }}
-                    onPress={() =>
-                      props.navigation.navigate('ArtistOrderStack', {
-                        screen: 'ArtistTimeline',
-                      })
-                    }>
-                    <Text style={[styles.buttonText]}>View</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: '#FFFFFF',
-                      borderBottomRightRadius: 10,
-                      width: '50%',
-                      top: -10,
-                    }}>
-                    <Text style={styles.buttonText}>Cancel</Text>
-                  </TouchableOpacity>
+                  {/* // TODO: placing of buttons is not correct */}
+                  <View style={[styles.buttons, { width: '100%', alignSelf: 'center' }]}>
+                    <TouchableOpacity
+                      style={{
+                        backgroundColor: 'rgba(58, 58, 58, 0.05)',
+                        borderBottomLeftRadius: 10,
+                        width: '50%',
+                        top: -10,
+                      }}
+                      onPress={() =>
+                        props.navigation.navigate('ArtistOrderStack', {
+                          screen: 'ArtistTimeline',
+                        })
+                      }>
+                      <Text style={[styles.buttonText]}>View</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={{
+                        backgroundColor: '#FFFFFF',
+                        borderBottomRightRadius: 10,
+                        width: '50%',
+                        top: -10,
+                      }}>
+                      <Text style={styles.buttonText}>Cancel</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-              </View>
-            ))}
-          </View>
+              );
+            }}
+          />
         </View>
 
         {/* order summary */}
@@ -580,7 +518,7 @@ const ArtistHome = props => {
               marginLeft: widthToDp(5),
               color: '#677790',
               fontFamily: fonts.robo_med,
-              marginTop: widthToDp(16),
+              marginTop: widthToDp(2),
               marginBottom: 5,
             }}>
             Order Summary
@@ -670,17 +608,6 @@ const ArtistHome = props => {
               Expert
             </Text>
           </View>
-          {/* done till here by me (bilal) */}
-
-          {/* <SliderComponent
-            min={0}
-            max={100}
-            value={sliderValue}
-            onChange={handleSliderChange}
-            colorSlider="#29AAE2"
-            start="New"
-            end="Expert"
-          /> */}
         </View>
 
         {/* Performance */}
@@ -732,6 +659,7 @@ const ArtistHome = props => {
 
           <Insights insightData={insightData} />
         </View>
+        <Comission />
       </ScrollView>
     </SafeAreaView>
   );
@@ -937,7 +865,8 @@ const styles = StyleSheet.create({
   OrderSummaryContainer: {
     // paddingTop: heightToDp(5),
     borderRadius: 20,
-    paddingVertical: heightToDp(8),
+    paddingTop: heightToDp(8),
+    paddingBottom: heightToDp(3),
     backgroundColor: 'white',
     marginHorizontal: widthToDp(1),
     paddingHorizontal: widthToDp(3),
@@ -953,7 +882,8 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   bookingCount: {
-    fontSize: 24,
+    fontSize: 27,
+    color: theme.darkModeText,
     fontFamily: fonts.hk_bold,
     // lineHeight:31.27
   },

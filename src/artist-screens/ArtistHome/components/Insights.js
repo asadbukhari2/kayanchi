@@ -1,19 +1,19 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { widthToDp, heightToDp } from '../../../utils/Dimensions';
-import { fonts } from '../../../utils/theme';
+import { fonts, useTheme } from '../../../utils/theme';
 
 const impression = require('../../../assets/impressions.png');
 
 const leftArrow = require('../../../assets/left.png');
 const rightArrow = require('../../../assets/right.png');
-
+const theme = useTheme();
 export default function Insights({ insightData }) {
   return (
     <View style={styles.insight}>
       <View style={[styles.insightDetail, { marginVertical: 10 }]}>
         <View>
-          <Text>Insights</Text>
+          <Text style={{ color: theme.greyText, fontFamily: fonts.hk_bold, fontSize: 18 }}>Insights</Text>
         </View>
         <View style={styles.arrowDetail}>
           <Image source={leftArrow} style={styles.arrow} />
