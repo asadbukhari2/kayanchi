@@ -153,6 +153,7 @@ const TabStack = () => (
     <Stack.Screen
       name="ArtistGig"
       component={ArtistGig}
+      // component={ArtistCreateGig}
       options={{
         headerShown: false,
       }}

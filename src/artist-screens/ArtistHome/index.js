@@ -533,7 +533,7 @@ const ArtistHome = props => {
               marginVertical: 4,
             }}>
             {orderSummary.map(item => (
-              <View style={styles.OrderSummaryContainer}>
+              <View style={styles.OrderSummaryContainer} key={item.bookingCount}>
                 <Text style={styles.bookingCount}>{item.bookingCount}</Text>
                 <Text
                   style={{

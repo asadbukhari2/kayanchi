@@ -32,8 +32,9 @@ const ArtistProfile = props => {
   const [modalNavigation, setModalNavigation] = useState(null);
 
   const dispatch = useDispatch();
-  const user = useSelector(state => state.auth.userDetails);
-
+  const user = useSelector(state => state.auth.user);
+  const profile = useSelector(state => state.auth.profile);
+  console.log(profile, 'hg');
   const toggleSwitch = () => {
     setIsEnabled(previousState => !previousState);
   };
@@ -227,7 +228,11 @@ const ArtistProfile = props => {
                 screen: 'ArtistYourProfile',
               });
             }}>
-            <Image source={require('../../assets/profile.png')} style={styles.userImg} />
+            {user.profile_image_url ? (
+              <Image source={{ uri: user.profile_image_url }} style={styles.userImg} />
+            ) : (
+              <Image source={require('../../assets/profile.png')} style={styles.userImg} />
+            )}
           </TouchableWithoutFeedback>
           <View style={styles.userDetailsView}>
             <Text style={styles.userName}>{user?.name}</Text>
@@ -244,7 +249,7 @@ const ArtistProfile = props => {
                 <Text
                   // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
                   style={[styles.artistLocation]}>
-                  {'  Beautician '}
+                  {' ' + profile?.title + ' '}
                 </Text>
 
                 <View style={[styles.dotContainer]}>
@@ -257,7 +262,7 @@ const ArtistProfile = props => {
                 <Text
                   // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
                   style={[styles.artistLocation]}>
-                  {' New'}
+                  {' ' + profile?.level}
                 </Text>
               </View>
             </View>
@@ -532,7 +537,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.robo_bold,
     fontSize: 20,
     lineHeight: 26,
-    color: theme.profileBlueText,
+    color: theme.darkBlack,
   },
   userContact: {
     fontFamily: fonts.gothic_regular,
