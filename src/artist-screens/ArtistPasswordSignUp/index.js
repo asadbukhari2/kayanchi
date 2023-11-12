@@ -196,12 +196,18 @@ const styles = StyleSheet.create({
   },
   pickerOuterView: {
     width: width,
-    // backgroundColor: theme.,
     alignItems: 'center',
+    paddingVertical: 250,
+    position: 'absolute',
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
   pickerDone: {
-    padding: heightToDp(4.5),
-    alignSelf: 'flex-end',
+    paddingVertical: heightToDp(4),
+    paddingHorizontal: widthToDp(15),
+    marginTop: 24,
+    alignSelf: 'center',
+    backgroundColor: theme.primary,
+    borderRadius: 10,
   },
 });
 

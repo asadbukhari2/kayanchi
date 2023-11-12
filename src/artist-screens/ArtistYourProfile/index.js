@@ -414,7 +414,6 @@ const styles = StyleSheet.create({
     lineHeight: 21.28,
     marginLeft: 16,
     marginRight: 8.67,
-    marginRight: 5,
   },
   starIcon: {
     fontSize: heightToDp(4.7),

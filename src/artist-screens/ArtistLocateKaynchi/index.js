@@ -9,7 +9,6 @@ import { fonts, useTheme } from '../../utils/theme';
 import { DATA } from './Location';
 import Modal from 'react-native-modal';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import { TextInput } from '../../components';
 import googlemap from '../../assets/googlemap.png';
@@ -75,20 +74,19 @@ const ArtistLocateKaynchi = props => {
       <View style={styles.bottomView}>
         <View style={styles.line} />
         <View style={styles.locationtxt}>
-          <Image source={googlemap} style={{ width: 28, height: 34, resizeMode: 'contain' }} />
-          <View>
+          <Image source={googlemap} style={{ width: 28, height: 28, resizeMode: 'contain' }} />
+          <View style={{ marginLeft: widthToDp(3) }}>
             <Text
               style={{
                 fontFamily: fonts.hk_bold,
                 fontSize: 20,
                 lineHeight: 24,
                 color: theme.lightBlack,
-                // marginLeft: widthToDp(6.7),
-                marginTop: heightToDp(4),
+                // marginTop: heightToDp(4),
               }}>
-              {'A 39 Block 3 Gulshan e Iqbal'}
+              A 39 Block 3 Gulshan e Iqbal
             </Text>
-            <Text>Karachi</Text>
+            <Text style={{ color: theme.greyText }}>Karachi</Text>
           </View>
         </View>
         <TextInput
@@ -99,12 +97,12 @@ const ArtistLocateKaynchi = props => {
             backgroundColor: '#ECECEC',
             borderRadius: 5,
             padding: 10,
-            marginBottom: heightToDp(4),
+            marginBottom: heightToDp(1),
           }}
           underlineColorAndroid="transparent"
           underlineColorIOS="transparent"
         />
-        <View style={styles.separator}></View>
+        <View style={styles.separator} />
 
         <TextInput
           input={text => setName(text)}
@@ -114,7 +112,7 @@ const ArtistLocateKaynchi = props => {
             backgroundColor: '#ECECEC',
             borderRadius: 5,
             padding: 10,
-            marginBottom: heightToDp(20),
+            marginBottom: heightToDp(30),
           }}
           underlineColorAndroid="transparent"
           underlineColorIOS="transparent"
@@ -163,17 +161,17 @@ const ArtistLocateKaynchi = props => {
                   title={item.title}
                   source={item.source}
                   onPress={() => setPreferenceStatus(item.title)}
-                  titleStyle={preferenceStatus == item.title ? null : { color: theme.lightBlack }}
-                  imgStyle={preferenceStatus == item.title ? null : { tintColor: theme.lightBlack }}
+                  titleStyle={preferenceStatus === item.title ? null : { color: theme.lightBlack }}
+                  imgStyle={preferenceStatus === item.title ? null : { tintColor: theme.lightBlack }}
                   containerStyle={
-                    preferenceStatus == item.title
+                    preferenceStatus === item.title
                       ? null
                       : {
                           borderWidth: 1,
                           borderColor: 'rgba(132, 102, 140, 0.15)',
                         }
                   }
-                  gradients={preferenceStatus == item.title ? null : ['rgba(0,0,0,0.1)', theme.background]}
+                  gradients={preferenceStatus === item.title ? null : ['rgba(0,0,0,0.1)', theme.background]}
                 />
               );
             })}
@@ -193,14 +191,14 @@ export default ArtistLocateKaynchi;
 
 const styles = StyleSheet.create({
   bottomView: {
-    backgroundColor: theme.homeBackground,
+    backgroundColor: theme.background,
     position: 'absolute',
     bottom: 0,
     width: width,
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
   },
-  locationtxt: { flexDirection: 'row', alignItems: 'center', marginLeft: widthToDp(4) },
+  locationtxt: { flexDirection: 'row', alignItems: 'center', marginLeft: widthToDp(4), marginVertical: 12 },
   line: {
     width: widthToDp(9),
     height: heightToDp(0.9),
@@ -209,14 +207,14 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: heightToDp(3.5),
   },
-  btn: { marginTop: 20 },
+  btn: { marginVertical: 20 },
   searchBox: {
     elevation: 0,
     marginTop: heightToDp(6.7),
   },
   modalMainView: {
     // height: height * 0.515,
-    backgroundColor: theme.homeBackground,
+    backgroundColor: theme.background,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
   },

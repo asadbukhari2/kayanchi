@@ -209,8 +209,7 @@ const ArtistHome = props => {
   const auth = useSelector(state => state.auth);
   const navigation = useNavigation();
   console.log(auth.user);
-  // const { name } = auth.user;
-  const name = 'Zohaib';
+  const { name } = auth.user;
 
   const handleOrder = () => {
     navigation.navigate('ArtistOrderStack', {
@@ -383,7 +382,7 @@ const ArtistHome = props => {
                   <View
                     style={{
                       paddingHorizontal: widthToDp(3),
-                      paddingBottom: 5,
+                      paddingBottom: 45,
                       backgroundColor: 'white',
                       paddingTop: heightToDp(3),
                       borderRadius: 15,
@@ -425,10 +424,14 @@ const ArtistHome = props => {
                           ]}>
                           SERVICES: Rs {order.item.serviceCost}
                         </Text>
-                        <Text style={{ color: theme.greyText }}>Foot Massage 3x</Text>
+
                         {order.item.services.map((service, serviceIndex) => {
                           if (serviceIndex < 1) {
-                            return <Text key={serviceIndex}>{service}</Text>;
+                            return (
+                              <Text key={serviceIndex} style={{ color: theme.greyText }}>
+                                {service}
+                              </Text>
+                            );
                           } else if (serviceIndex === 1) {
                             const remainingServices = order.item.services.length - 1;
                             return (
@@ -480,7 +483,7 @@ const ArtistHome = props => {
                   </View>
 
                   {/* // TODO: placing of buttons is not correct */}
-                  <View style={[styles.buttons, { width: '100%', alignSelf: 'center' }]}>
+                  <View style={styles.buttons}>
                     <TouchableOpacity
                       style={{
                         backgroundColor: 'rgba(58, 58, 58, 0.05)',
@@ -773,12 +776,14 @@ const styles = StyleSheet.create({
   buttons: {
     flexDirection: 'row',
     alignItems: 'center',
+    width: '100%',
+    alignSelf: 'center',
     backgroundColor: '#F7F7F8',
     borderRadius: 5,
     position: 'absolute',
-    bottom: -55,
-    zIndex: -1,
-    paddingTop: 30,
+    bottom: -13,
+    zIndex: 1,
+    paddingTop: 10,
     shadowColor: '#3A3A3A0D',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
@@ -789,7 +794,7 @@ const styles = StyleSheet.create({
     color: '#32aee3',
     textAlign: 'center',
     paddingHorizontal: 10,
-    paddingTop: 35,
+    paddingTop: 10,
     paddingBottom: 15,
     borderWidth: 0.5,
     borderColor: '#eeeeee',
@@ -896,7 +901,7 @@ const styles = StyleSheet.create({
   },
   buttonicon: {
     width: 30,
-    hieght: 30,
+    height: 30,
     marginRight: 10,
   },
   headingName: {
@@ -936,11 +941,10 @@ const styles = StyleSheet.create({
     color: '#0F2851',
   },
   orderContainer: {
-    // backgroundColor: 'white',
     width: widthToDp(44),
     marginRight: 10,
     // width: (width * 0.91) / 2,
-    // paddingTop: heightToDp(3),
+    paddingTop: heightToDp(1),
     borderRadius: 10,
   },
   btn: {
@@ -956,7 +960,7 @@ const styles = StyleSheet.create({
     paddingLeft: widthToDp(6.5),
   },
   latestOrder: {
-    margin: widthToDp(5),
+    padding: widthToDp(5),
   },
   icon: {
     fontSize: heightToDp(5),

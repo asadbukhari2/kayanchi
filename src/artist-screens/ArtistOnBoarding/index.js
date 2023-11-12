@@ -164,7 +164,7 @@ const ArtistOnBoarding = () => {
               </View>
             )}
             {selectedItem.key === 4 && (
-              <Button title="Let's go" onPress={handleNextScreen} btnStyle={{ marginTop: heightToDp(4) }} />
+              <Button title="Let's go" onPress={handleNextScreen} btnStyle={{ marginVertical: heightToDp(4) }} />
             )}
           </>
         ) : null}
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     borderRadius: 9 / 2,
   },
   indicatorView: { marginHorizontal: 24, marginTop: heightToDp(4) },
-  row: { flexDirection: 'row', alignItems: 'center' },
+  row: { flexDirection: 'row', alignItems: 'center', marginBottom: 12 },
   img: {
     height: heightToDp(70),
     width: widthToDp(70),

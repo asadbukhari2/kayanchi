@@ -1,24 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Switch, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header, Button } from '../../components';
-import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { useTheme, fonts } from '../../utils/theme';
-import back from '../../assets/back.png';
+
 import arrowupcolor from '../../assets/arrowupcolor.png';
 import arrowdowncolor from '../../assets/arrowdowncolor.png';
-import ImageCropPicker from 'react-native-image-crop-picker';
+
 import ToggleSwitch from 'toggle-switch-react-native';
+import { FlatList } from 'react-native-gesture-handler';
 
 const theme = useTheme();
 
 const daysOfWeek = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
 
-const ArtistBookingSlots = props => {
-  const [selectedDay, setSelectedDay] = useState(null);
+const ArtistBookingSlots = () => {
+  const [selectedDay, setSelectedDay] = useState('Mo');
   const [selectedTimeSlots, setSelectedTimeSlots] = useState([]);
-  const [image, setImage] = useState();
+
   const [isPrivate, setIsPrivate] = useState(false);
   const [timePeriod, setTimePeriod] = useState('AM');
   const [showNewSlot, setShowNewSlot] = useState(false);
@@ -70,7 +71,6 @@ const ArtistBookingSlots = props => {
             <Header title={'Manage Booking slots'} backBtn />
           </View>
         </View>
-
         <View
           style={{
             flexDirection: 'row',
@@ -89,11 +89,11 @@ const ArtistBookingSlots = props => {
           It's very important that you set your daily available timings so your clients can book you as per your
           availability.
         </Text>
-
         <Text
           style={{
             marginHorizontal: widthToDp(4),
             textTransform: 'uppercase',
+            color: theme.greyText,
             paddingVertical: 8,
             marginTop: 5,
             fontFamily: fonts.hk_bold,
@@ -110,49 +110,54 @@ const ArtistBookingSlots = props => {
             </TouchableOpacity>
           ))}
         </View>
-
         <View style={styles.timeSlot}>
           <Text
             style={{
               fontFamily: fonts.hk_bold,
               color: '#67718C',
             }}>
-            Your Time Slots
+            YOUR TIME SLOTS
           </Text>
           <Text
             style={{
               fontFamily: fonts.hk_bold,
               color: '#67718C',
             }}>
-            Active
+            ACTIVE
           </Text>
         </View>
 
         {/* time slot */}
-        <View style={styles.timeSlotContent}>
-          <Text
-            style={{
-              ...styles.time,
-              backgroundColor: isPrivate ? theme.primary : 'white',
-              color: isPrivate ? '#ffffff' : '#000000',
-            }}>
-            7:30-8:30 PM
-          </Text>
-          {/* <Text style={styles.time}>7:30-8:30 PM</Text> */}
-          <View style={styles.active}>
-            <TouchableOpacity>
-              <Feather name="x" size={24} color="black" style={{ paddingHorizontal: widthToDp(4), paddingTop: 10 }} />
-            </TouchableOpacity>
-            <View style={styles.switchContainer}>
-              <ToggleSwitch
-                isOn={isPrivate}
-                style={{ height: 20, marginRight: 10 }}
-                value={isPrivate}
-                onColor="#84668C"
-                offColor="#9A9A9A"
-                size="small"
-                onToggle={handlePrivateImage}
-              />
+        <View style={{ marginBottom: 12 }}>
+          <View style={styles.timeSlotContent}>
+            <Text
+              style={{
+                ...styles.time,
+                backgroundColor: isPrivate ? theme.primary : 'white',
+                color: isPrivate ? '#ffffff' : '#000000',
+              }}>
+              7:30-8:30 PM
+            </Text>
+            <View style={styles.active}>
+              <TouchableOpacity>
+                <Feather
+                  name="x"
+                  size={18}
+                  color="black"
+                  style={{ paddingHorizontal: widthToDp(4), paddingTop: 10, paddingBottom: 6 }}
+                />
+              </TouchableOpacity>
+              <View style={styles.switchContainer}>
+                <ToggleSwitch
+                  isOn={isPrivate}
+                  style={{ height: 20, marginRight: 10 }}
+                  value={isPrivate}
+                  onColor="#84668C"
+                  offColor="#9A9A9A"
+                  size="small"
+                  onToggle={handlePrivateImage}
+                />
+              </View>
             </View>
           </View>
         </View>
@@ -163,20 +168,22 @@ const ArtistBookingSlots = props => {
               style={styles.input}
               placeholder="00:00"
               value={newSlotStart}
+              placeholderTextColor={theme.greyText}
               onChangeText={text => setNewSlotStart(text)}
             />
-            <Text>to</Text>
+            <Text style={{ color: theme.greyText }}>to</Text>
             <TextInput
               style={styles.input}
               placeholder="00:00"
               value={newSlotEnd}
+              placeholderTextColor={theme.greyText}
               onChangeText={text => setNewSlotEnd(text)}
             />
             <View style={{ justifyContent: 'center' }}>
               <TouchableOpacity onPress={toggleTimePeriod}>
                 <Image source={arrowupcolor} style={{ width: 12, height: 8, marginLeft: 5 }} />
               </TouchableOpacity>
-              <Text style={{ paddingVertical: 5 }}>{timePeriod}</Text>
+              <Text style={{ paddingVertical: 5, color: theme.greyText }}>{timePeriod}</Text>
               <TouchableOpacity onPress={toggleTimePeriod}>
                 <Image source={arrowdowncolor} style={{ width: 12, height: 8, marginLeft: 5 }} />
               </TouchableOpacity>
@@ -203,11 +210,11 @@ const ArtistBookingSlots = props => {
             </TouchableOpacity>
           </View>
         )}
-
-        <TouchableOpacity onPress={() => setShowNewSlot(true)}>
-          <Text style={styles.btnnew}>+ Add a new Time slot</Text>
-        </TouchableOpacity>
-
+        {!showNewSlot && (
+          <TouchableOpacity onPress={() => setShowNewSlot(true)}>
+            <Text style={styles.btnnew}>+ Add a new Time slot</Text>
+          </TouchableOpacity>
+        )}
         <View style={styles.btn}>
           <Button title="Confirm" />
         </View>
@@ -228,15 +235,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F7F7F7',
-    paddingTop: heightToDp(7),
+    paddingTop: heightToDp(2),
   },
   time: {
-    // backgroundColor: theme.primary,
     color: '#ffffff',
-    paddingVertical: 5,
-    paddingHorizontal: 15,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     borderRadius: 10,
-    marginBottom: 15,
   },
   btn: { marginTop: 15 },
   daysOfWeekContainer: {
@@ -253,6 +258,8 @@ const styles = StyleSheet.create({
   timeSlotContent: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
     marginHorizontal: widthToDp(4),
   },
   active: { flexDirection: 'row', alignItems: 'center' },
@@ -285,7 +292,7 @@ const styles = StyleSheet.create({
   selectedDayText: {
     color: 'white',
   },
-  newSlotContainer: { flexDirection: 'row', alignItems: 'center' },
+  newSlotContainer: { flexDirection: 'row', alignItems: 'center', marginVertical: 12 },
   timeSlot: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -297,5 +304,6 @@ const styles = StyleSheet.create({
     width: 50,
     borderRadius: 10,
     marginHorizontal: widthToDp(4),
+    color: theme.darkBlack,
   },
 });

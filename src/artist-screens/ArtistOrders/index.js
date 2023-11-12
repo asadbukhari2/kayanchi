@@ -114,7 +114,7 @@ const ArtistOrders = props => {
       // Cleanup function: Mark the component as unmounted when it's being unmounted
       isMounted = false;
     };
-  }, [activeTab, orders]);
+  }, [activeTab]);
 
   const handleTabChange = tab => {
     setActiveTab(tab);

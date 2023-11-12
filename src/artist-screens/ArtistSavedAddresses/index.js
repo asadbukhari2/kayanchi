@@ -13,15 +13,11 @@ const DATA = [
   {
     area: 'DHA phase 6, Itehad lane 8',
     address: '402, building 14c, ittehad lane 8, DH...',
-    artistName: 'Narmeen Iqbal',
-    artistContact: '92 333 0310876',
     lastOrder: '25th May 2021',
   },
   {
     area: 'DHA phase 6, Itehad lane 8',
     address: '402, building 14c, ittehad lane 8, DH...',
-    artistName: 'Narmeen Iqbal',
-    artistContact: '92 333 0310876',
     lastOrder: '25th May 2021',
   },
 ];
@@ -31,7 +27,7 @@ const ArtistSavedAddresses = props => {
     <SafeAreaView style={GLOBAL_STYLES.containerHome}>
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: heightToDp(30) }}>
         <Header backBtnGrey />
-        <Text style={GLOBAL_STYLES.title}>{'Saved addresses'}</Text>
+        <Text style={GLOBAL_STYLES.title}>Saved addresses</Text>
         <AddNewBtn
           title={'Add an address'}
           iconColor={theme.counterGrey}
@@ -39,21 +35,11 @@ const ArtistSavedAddresses = props => {
           onPress={() => props.navigation.navigate('ArtistProfileStack', { screen: 'ArtistLocateKaynchi' })}
         />
         {DATA.map((item, index) => {
-          return (
-            <Address
-              area={item.area}
-              address={item.address}
-              artistName={item.artistName}
-              artistContact={item.artistContact}
-              lastOrder={item.lastOrder}
-            />
-          );
+          return <Address area={item.area} address={item.address} lastOrder={item.lastOrder} />;
         })}
       </ScrollView>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default ArtistSavedAddresses;

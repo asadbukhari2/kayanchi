@@ -12,7 +12,8 @@ const StartUp = () => {
   return (
     <SafeAreaView style={styles.main}>
       <Image source={require('../assets/logoStart.png')} resizeMode="contain" style={styles.logo} />
-      <Text style={styles.heading}>Grooming for Everyone</Text>
+      <Text style={styles.heading}>Grooming for</Text>
+      <Text style={styles.heading}>Everyone</Text>
       <Image source={require('../assets/startUpPeople.png')} resizeMode="contain" style={styles.img} />
       <Button
         title="Get Started"

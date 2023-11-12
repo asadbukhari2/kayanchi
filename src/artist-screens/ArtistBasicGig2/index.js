@@ -148,6 +148,8 @@ const ArtistGig2 = () => {
           <TextInput
             style={styles.priceField}
             value={amount}
+            placeholder="500"
+            placeholderTextColor={'#8D8A94'}
             onChangeText={e => setAmount(e)}
             keyboardType="number-pad"
           />

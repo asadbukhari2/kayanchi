@@ -4,8 +4,8 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { fonts, useTheme } from '../../utils/theme';
 import { width, heightToDp, widthToDp, height } from '../../utils/Dimensions';
-import { Tabs } from '../../components';
-
+import { Header, Tabs } from '../../components';
+import back from '../../assets/back.png';
 import EditableField from '../../components/EditableField';
 import ContainerWorkCertificate from './Components/ContainerWorkCertificate';
 import Gallery from '../../assets/Gallery.png';
@@ -16,6 +16,7 @@ import { updateProfile } from '../../redux/actions';
 import CertificationModalForm from '../../components/CertificationModalForm';
 import WorkModalForm from '../../components/WrokModalForm';
 import { getCertificates } from '../../redux/actions/commonActions';
+import { useNavigation } from '@react-navigation/native';
 
 const dummy = require('../../assets/dummy.png');
 const beauty = require('../../assets/beautician.png');
@@ -77,7 +78,7 @@ const ArtistUpdateProfile = () => {
   const [image1, setImage1] = useState();
   const [image2, setImage2] = useState();
   const [image3, setImage3] = useState();
-
+  const navigation = useNavigation();
   const certLoading = useSelector(state => state.common.certLoading);
   const expLoading = useSelector(state => state.common.expLoading);
   const certificates = useSelector(state => state.common.certificates);
@@ -186,10 +187,13 @@ const ArtistUpdateProfile = () => {
         style={{
           height: getStatusBarHeight(),
           backgroundColor: '#000',
-          zIndex: 100000,
+          zIndex: 99,
         }}
       />
       <Animated.View style={[styles.header, { height: headerHeight, transform: [{ translateY: opacity }] }]}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={{ paddingHorizontal: 24, paddingVertical: 6 }}>
+          <Image source={back} resizeMode="contain" />
+        </TouchableOpacity>
         <Animated.View style={[{ transform: [{ translateY: opacityHeader }] }]}>
           {/* <Header backBtnWhite /> */}
         </Animated.View>

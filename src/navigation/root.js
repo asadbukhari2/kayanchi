@@ -7,6 +7,8 @@ import ConsumerMainStack from './ConsumerMainStack';
 import ArtistAuthStack from './ArtistAuthStack';
 import ConsumerAuthStack from './ConsumerAuthStack';
 import InitStack from './InitStack';
+import { ArtistPromoMainPage, ArtistPublishGig } from '../artist-screens';
+import { ConsumerGigMainPage } from '../consumer-screens';
 
 export default function Root() {
   const auth = useSelector(state => state.auth);
@@ -18,16 +20,16 @@ export default function Root() {
   console.log('-=-=-=-=-', isArtist, isConsumer, auth?.token?.length > 0);
   // dispatch({ type: 'SIGN_OUT' });
 
-  return <ArtistMainStack />;
-  // return !auth.token && isArtist ? (
-  //   <ArtistAuthStack />
-  // ) : auth.token && isArtist ? (
-  //   <ArtistMainStack />
-  // ) : !auth.token && isConsumer ? (
-  //   <ConsumerAuthStack />
-  // ) : auth.token && isConsumer ? (
-  //   <ConsumerMainStack />
-  // ) : (
-  //   <InitStack />
-  // );
+  // return <ArtistMainStack />;
+  return !auth.token && isArtist ? (
+    <ArtistAuthStack />
+  ) : auth.token && isArtist ? (
+    <ArtistMainStack />
+  ) : !auth.token && isConsumer ? (
+    <ConsumerAuthStack />
+  ) : auth.token && isConsumer ? (
+    <ConsumerMainStack />
+  ) : (
+    <InitStack />
+  );
 }

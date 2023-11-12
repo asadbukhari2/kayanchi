@@ -429,7 +429,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: widthToDp(3),
     marginTop: 20,
   },
-  pickerDone: { height: 50, alignItems: 'center', justifyContent: 'center' },
+  pickerOuterView: {
+    width: width,
+    alignItems: 'center',
+    paddingVertical: 250,
+    position: 'absolute',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  pickerDone: {
+    paddingVertical: heightToDp(4),
+    paddingHorizontal: widthToDp(15),
+    marginTop: 24,
+    alignSelf: 'center',
+    backgroundColor: theme.primary,
+    borderRadius: 10,
+  },
   textInput: {
     backgroundColor: '#ebe8ec',
     borderBottomColor: '#ebe8ec',

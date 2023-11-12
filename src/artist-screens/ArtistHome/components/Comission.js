@@ -28,11 +28,12 @@ const Comission = () => {
           marginVertical: 12,
         }}>
         <LinearGradient
-          colors={['green', 'red']}
+          colors={['green', 'yellow', 'red']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
+          locations={[0, 0.5, 1]}
           style={{ width: '100%', borderRadius: 50 }}>
-          <View style={{ width: '100%', height: 13 }} />
+          <View style={{ width: '100%', height: 11 }} />
         </LinearGradient>
         <View style={{ height: 8 }}>
           <View style={styles.arrow} />
@@ -72,7 +73,8 @@ const styles = StyleSheet.create({
     transform: [{ rotate: '-135deg' }],
     position: 'absolute',
     top: 8,
-    right: 100, // adjust this to move arrow according to number line
+    right: widthToDp(-2), // adjust this to move arrow according to number line MAX 40 to -45
+    // -2 for center
   },
 });
 

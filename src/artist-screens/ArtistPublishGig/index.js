@@ -489,7 +489,9 @@ const ArtistPublishGig = () => {
           <View style={styles.promotionalContainer}>
             <Text style={styles.promotionHeading}>Promotional Offers</Text>
             <Text style={styles.promotionaltxt}>Create more than one basic gig to activate promotional offers</Text>
-            <Text style={styles.promotionalbtn}>Make another gig</Text>
+            <Text style={styles.promotionalbtn} onPress={() => navigation.navigate('ArtistCreateGig')}>
+              Make another gig
+            </Text>
           </View>
           <Tabs selectedTab={txt => setSubHeading(txt)} DATA={DATA} />
         </View>

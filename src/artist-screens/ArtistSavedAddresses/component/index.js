@@ -6,7 +6,7 @@ import { heightToDp, width } from '../../../utils/Dimensions';
 const theme = useTheme();
 
 const ArtistSavedAddresses = props => {
-  const { area, address, artistName, artistContact, lastOrder, onEdit } = props;
+  const { area, address, lastOrder, onEdit } = props;
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -17,9 +17,6 @@ const ArtistSavedAddresses = props => {
       </View>
       <Text style={styles.heading}>{'Address'}</Text>
       <Text style={styles.value}>{address}</Text>
-      <Text style={styles.heading}>{'Artist'}</Text>
-      <Text style={styles.value}>{artistName}</Text>
-      <Text style={styles.value}>{artistContact}</Text>
       <Text style={[styles.value, { color: theme.linkTxt, marginVertical: heightToDp(4.5) }]}>
         {'Last order ' + lastOrder}
       </Text>
