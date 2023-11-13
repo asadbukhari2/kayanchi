@@ -6,7 +6,7 @@ import { heightToDp, width, widthToDp, height } from '../../utils/Dimensions';
 import { fonts, useTheme, images } from '../../utils/theme';
 import Feather from 'react-native-vector-icons/Feather';
 import { useSelector } from 'react-redux';
-import api from '../../utils/APIservice';
+import api, { Fetch } from '../../utils/APIservice';
 import SliderComponent from '../../components/Slider';
 import { useNavigation } from '@react-navigation/native'; // Import the navigation hook
 import Insights from './components/Insights';
@@ -16,6 +16,9 @@ import LinearGradient from 'react-native-linear-gradient';
 import * as Progress from 'react-native-progress';
 import LatestBookingCard from './components/LatestBookingCard';
 import Comission from './components/Comission';
+import { showMessage } from 'react-native-flash-message';
+import OrderSummary from './components/orderSummary';
+import Earning from './components/Earnings';
 const theme = useTheme();
 //images import
 const timer = require('../../assets/timer.png');
@@ -25,9 +28,7 @@ const pending = require('../../assets/pending.png');
 const completed = require('../../assets/completed.png');
 const confirmed = require('../../assets/confirmed.png');
 const information = require('../../assets/information.png');
-const completion = require('../../assets/Completion.png');
-const punctuality = require('../../assets/Punctuality.png');
-const availability = require('../../assets/Availabilty.png');
+
 const leftArrow = require('../../assets/left.png');
 const rightArrow = require('../../assets/right.png');
 const upArrow = require('../../assets/up.png');
@@ -146,45 +147,6 @@ const DATA = [
   },
 ];
 
-const insightData = [
-  {
-    title: 'Impression',
-    count: '955',
-    imageLink: impression,
-  },
-  {
-    title: 'Clicks',
-    count: '16',
-    imageLink: impression,
-  },
-  {
-    title: 'Conversions',
-    count: '0.21%',
-    imageLink: impression,
-  },
-];
-
-const PerformanceData = [
-  {
-    percantage: '92%',
-    title: 'Completion Rate',
-    Description: 'You completed 32 out of 36 jobs',
-    imageLink: completion,
-  },
-  {
-    percantage: '87%',
-    title: 'Punctuality',
-    Description: 'You completed 32 out of 36 jobs',
-    imageLink: punctuality,
-  },
-  {
-    percantage: '92%',
-    title: 'Availabilty Rate',
-    Description: 'You completed 32 out of 36 jobs',
-    imageLink: availability,
-  },
-];
-
 const orderSummary = [
   {
     bookingCount: 5,
@@ -206,6 +168,7 @@ const orderSummary = [
 const ArtistHome = props => {
   const [service, setService] = useState([]);
   const [artist, setArtist] = useState([]);
+
   const auth = useSelector(state => state.auth);
   const navigation = useNavigation();
   console.log(auth.user);
@@ -223,6 +186,48 @@ const ArtistHome = props => {
   const handleInfoIconPress = () => {
     navigation.navigate('ArtistHomeStack', { screen: 'ArtistRankUp' });
   };
+
+  // const fetchInsights = async _ => {
+  //   // setLoading(true);
+  //   // const res = await GET_INSIGHTS(_);
+  //   // const result = [];
+  //   // Object.entries(res).forEach(([k, v]) => {
+  //   //   let key = k.split('_').join(' ');
+  //   //   key = key[0].toUpperCase() + key.slice(1);
+  //   //   console.log(key);
+  //   //   result.push({ title: key, count: v });
+  //   // });
+
+  //   // setInsightsData(result);
+  //   // setLoading(false);
+
+  //   try {
+  //     let res = await Fetch.get(`/api/insights/${_}`);
+  //     if (res.status >= 200 && res.status < 300) {
+  //       res = await res.json();
+  //       const result = [];
+  //       Object.entries(res).forEach(([k, v]) => {
+  //         let key = k.split('_').join(' ');
+  //         key = key[0].toUpperCase() + key.slice(1);
+  //         console.log(key);
+  //         result.push({ title: key, count: v });
+  //       });
+  //       console.log(result);
+  //     } else {
+  //       const { message } = await res.json();
+  //       showMessage({
+  //         message: message,
+  //         type: 'danger',
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchInsights(30);
+  // }, []);
 
   // const getService = async () => {
   //   try {
@@ -515,39 +520,7 @@ const ArtistHome = props => {
         </View>
 
         {/* order summary */}
-        <View>
-          <Text
-            style={{
-              marginLeft: widthToDp(5),
-              color: '#677790',
-              fontFamily: fonts.robo_med,
-              marginTop: widthToDp(2),
-              marginBottom: 5,
-            }}>
-            Order Summary
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              marginHorizontal: widthToDp(3),
-              marginVertical: 4,
-            }}>
-            {orderSummary.map(item => (
-              <View style={styles.OrderSummaryContainer} key={item.bookingCount}>
-                <Text style={styles.bookingCount}>{item.bookingCount}</Text>
-                <Text
-                  style={{
-                    color: '#677790',
-                    fontSize: 14,
-                    fontFamily: fonts.robo_reg,
-                  }}>
-                  {item.status}
-                </Text>
-                <Image source={item.imageSource} style={styles.orderSummaryImage} />
-              </View>
-            ))}
-          </View>
-        </View>
+        <OrderSummary orderSummary={orderSummary} />
 
         {/* Rank up */}
 
@@ -625,43 +598,14 @@ const ArtistHome = props => {
             }}>
             Your Performance metrices
           </Text>
-          <Performance PerformanceData={PerformanceData} />
+          <Performance />
         </View>
 
         {/* Earning */}
+        <Earning />
+        {/* Insights */}
+        <Insights />
 
-        <View>
-          <View style={styles.EarningDetail}>
-            <View>
-              <Text style={[styles.heading, { marginVertical: 10 }]}>Earnings</Text>
-            </View>
-            <View style={styles.arrowDetail}>
-              <Image source={leftArrow} style={styles.arrow} />
-              <Text
-                style={{
-                  marginHorizontal: widthToDp(5),
-                  color: '#0F2851',
-                  fontFamily: fonts.hk_medium,
-                }}>
-                Last Month
-              </Text>
-              <Image source={rightArrow} style={styles.arrow} />
-            </View>
-          </View>
-
-          <View style={styles.EarningConatiner}>
-            <View style={styles.hostingContainer}>
-              <Text style={styles.hostingHeading}>Hosting Orders</Text>
-              <Image source={upArrow} style={styles.arrow} />
-            </View>
-            <View style={styles.TotalEarned}>
-              <Text style={styles.EarnedAmount}>Rs 48,700</Text>
-              <Text style={{ textAlign: 'right', color: '#677790', fontSize: 12 }}>Total Earned</Text>
-            </View>
-          </View>
-
-          <Insights insightData={insightData} />
-        </View>
         <Comission />
       </ScrollView>
     </SafeAreaView>
@@ -768,11 +712,7 @@ const styles = StyleSheet.create({
     margin: widthToDp(5),
     borderRadius: 20,
   },
-  EarningDetail: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginHorizontal: widthToDp(5),
-  },
+
   buttons: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -811,14 +751,7 @@ const styles = StyleSheet.create({
   },
   arrow: { height: 12, width: 12, resizeMode: 'contain' },
   arrowDetail: { flexDirection: 'row', alignItems: 'center' },
-  orderSummaryImage: {
-    width: 20,
-    height: 20,
-    position: 'absolute',
-    right: 8,
-    top: 8,
-    resizeMode: 'contain',
-  },
+
   hostingContainer: {
     backgroundColor: theme.primary,
     flexDirection: 'row',
@@ -843,19 +776,7 @@ const styles = StyleSheet.create({
     marginHorizontal: widthToDp(5),
     // width: (width * 0.91) / 2,
   },
-  TotalEarned: {
-    backgroundColor: 'white',
-    borderRadius: 10,
-    width: widthToDp(44),
-    paddingVertical: widthToDp(7),
-    paddingHorizontal: widthToDp(3),
-  },
-  EarnedAmount: {
-    fontSize: 22,
-    color: theme.primary,
-    textAlign: 'right',
-    fontFamily: fonts.hk_bold,
-  },
+
   insight: {
     backgroundColor: 'white',
     margin: widthToDp(5),
@@ -867,16 +788,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 7,
   },
-  OrderSummaryContainer: {
-    // paddingTop: heightToDp(5),
-    borderRadius: 20,
-    paddingTop: heightToDp(8),
-    paddingBottom: heightToDp(3),
-    backgroundColor: 'white',
-    marginHorizontal: widthToDp(1),
-    paddingHorizontal: widthToDp(3),
-    width: widthToDp(29.4),
-  },
+
   orderDetails: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -886,12 +798,7 @@ const styles = StyleSheet.create({
     width: 30,
     resizeMode: 'contain',
   },
-  bookingCount: {
-    fontSize: 27,
-    color: theme.darkModeText,
-    fontFamily: fonts.hk_bold,
-    // lineHeight:31.27
-  },
+
   hostedHeading: {
     fontSize: 16,
     textAlign: 'center',
