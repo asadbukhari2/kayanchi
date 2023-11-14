@@ -195,10 +195,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   pickerOuterView: {
-    width: width,
+    width: '100%',
     alignItems: 'center',
-    paddingVertical: 250,
-    position: 'absolute',
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   pickerDone: {

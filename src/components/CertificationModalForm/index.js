@@ -230,18 +230,16 @@ const CertificationModalForm = ({
             onSwipeComplete={() => setIssueModalVisible(!issueModalVisible)}
             swipeDirection={['down']}>
             <View style={styles.pickerOuterView}>
-              <View style={{ backgroundColor: theme.dark }}>
-                <DatePicker
-                  date={pickerDate}
-                  androidVariant="nativeAndroid"
-                  textColor={theme.background}
-                  mode="date"
-                  maximumDate={new Date()}
-                  onDateChange={v => {
-                    setPickerDate(v);
-                  }}
-                />
-              </View>
+              <DatePicker
+                date={pickerDate}
+                androidVariant="nativeAndroid"
+                textColor={theme.background}
+                mode="date"
+                maximumDate={new Date()}
+                onDateChange={v => {
+                  setPickerDate(v);
+                }}
+              />
             </View>
 
             <TouchableOpacity
@@ -250,7 +248,7 @@ const CertificationModalForm = ({
                 setIssueDate(pickerDate);
                 setIssueModalVisible(false);
               }}
-              style={[styles.pickerDone, { backgroundColor: theme.darkBlack, width: '100%' }]}>
+              style={[styles.pickerDone, { width: '100%' }]}>
               <Text style={[styles.genTxt, { fontSize: 16, textAlign: 'center', color: 'white' }]}>Done</Text>
             </TouchableOpacity>
           </ReactNativeModal>
@@ -299,17 +297,15 @@ const CertificationModalForm = ({
             onSwipeComplete={() => setExpiryModalVisible(!expiryModalVisible)}
             swipeDirection={['down']}>
             <View style={styles.pickerOuterView}>
-              <View style={{ backgroundColor: theme.dark }}>
-                <DatePicker
-                  date={pickerDate}
-                  androidVariant="nativeAndroid"
-                  textColor={theme.background}
-                  mode="date"
-                  onDateChange={v => {
-                    setPickerDate(v);
-                  }}
-                />
-              </View>
+              <DatePicker
+                date={pickerDate}
+                androidVariant="nativeAndroid"
+                textColor={theme.background}
+                mode="date"
+                onDateChange={v => {
+                  setPickerDate(v);
+                }}
+              />
             </View>
 
             <TouchableOpacity
@@ -318,7 +314,7 @@ const CertificationModalForm = ({
                 setExpiryDate(pickerDate);
                 setExpiryModalVisible(false);
               }}
-              style={[styles.pickerDone, { backgroundColor: theme.darkBlack, width: '100%' }]}>
+              style={[styles.pickerDone, { width: '100%' }]}>
               <Text style={[styles.genTxt, { fontSize: 16, textAlign: 'center', color: 'white' }]}>Done</Text>
             </TouchableOpacity>
           </ReactNativeModal>
@@ -425,7 +421,7 @@ const styles = StyleSheet.create({
     width: 200,
     marginTop: 10,
   },
-  pickerDone: { height: 50, alignItems: 'center', justifyContent: 'center' },
+  pickerDone: { height: 50, alignItems: 'center', justifyContent: 'center', backgroundColor: theme.primary },
   gigContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -500,4 +496,9 @@ const styles = StyleSheet.create({
     color: '#747474',
   },
   subheading3: { color: '#67718C', paddingHorizontal: widthToDp(4) },
+  pickerOuterView: {
+    width: '100%',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
 });
