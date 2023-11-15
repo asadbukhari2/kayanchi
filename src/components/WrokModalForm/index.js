@@ -251,18 +251,16 @@ const WorkModalForm = ({
             onSwipeComplete={() => setIssueModalVisible(!issueModalVisible)}
             swipeDirection={['down']}>
             <View style={styles.pickerOuterView}>
-              <View style={{ backgroundColor: theme.dark }}>
-                <DatePicker
-                  date={pickerDate}
-                  androidVariant="nativeAndroid"
-                  textColor={theme.background}
-                  mode="date"
-                  maximumDate={new Date()}
-                  onDateChange={v => {
-                    setPickerDate(v);
-                  }}
-                />
-              </View>
+              <DatePicker
+                date={pickerDate}
+                androidVariant="nativeAndroid"
+                textColor={theme.background}
+                mode="date"
+                maximumDate={new Date()}
+                onDateChange={v => {
+                  setPickerDate(v);
+                }}
+              />
             </View>
             <TouchableOpacity
               activeOpacity={0.7}
@@ -270,7 +268,7 @@ const WorkModalForm = ({
                 setIssueDate(pickerDate);
                 setIssueModalVisible(false);
               }}
-              style={[styles.pickerDone, { backgroundColor: theme.darkBlack, width: '100%' }]}>
+              style={[styles.pickerDone, { width: '100%' }]}>
               <Text style={[styles.genTxt, { fontSize: 16, textAlign: 'center', color: 'white' }]}>Done</Text>
             </TouchableOpacity>
           </ReactNativeModal>
@@ -337,7 +335,7 @@ const WorkModalForm = ({
                 setExpiryDate(pickerDate);
                 setExpiryModalVisible(false);
               }}
-              style={[styles.pickerDone, { backgroundColor: theme.darkBlack, width: '100%' }]}>
+              style={[styles.pickerDone, { width: '100%' }]}>
               <Text style={[styles.genTxt, { fontSize: 16, textAlign: 'center', color: 'white' }]}>Done</Text>
             </TouchableOpacity>
           </ReactNativeModal>
@@ -400,16 +398,13 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   pickerOuterView: {
-    width: width,
+    width: '100%',
     alignItems: 'center',
-    paddingVertical: 250,
-    position: 'absolute',
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   pickerDone: {
     paddingVertical: heightToDp(4),
     paddingHorizontal: widthToDp(15),
-    marginTop: 24,
     alignSelf: 'center',
     backgroundColor: theme.primary,
     borderRadius: 10,

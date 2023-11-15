@@ -266,18 +266,16 @@ const ContainerWorkCertificate = ({
                 </TouchableOpacity>
               </View>
               <View style={styles.pickerOuterView}>
-                <View style={{ backgroundColor: theme.dark }}>
-                  <DatePicker
-                    date={pickerDate}
-                    androidVariant="nativeAndroid"
-                    textColor={theme.background}
-                    mode="date"
-                    maximumDate={new Date()}
-                    onDateChange={date => {
-                      setPickerDate(date);
-                    }}
-                  />
-                </View>
+                <DatePicker
+                  date={pickerDate}
+                  androidVariant="nativeAndroid"
+                  textColor={theme.background}
+                  mode="date"
+                  maximumDate={new Date()}
+                  onDateChange={date => {
+                    setPickerDate(date);
+                  }}
+                />
               </View>
             </ReactNativeModal>
             <View style={{ marginTop: 10 }}>
@@ -333,18 +331,16 @@ const ContainerWorkCertificate = ({
                 </TouchableOpacity>
               </View>
               <View style={styles.pickerOuterView}>
-                <View style={{ backgroundColor: theme.dark }}>
-                  <DatePicker
-                    date={pickerDate}
-                    androidVariant="nativeAndroid"
-                    textColor={theme.background}
-                    mode="date"
-                    maximumDate={new Date()}
-                    onDateChange={date => {
-                      setPickerDate(date);
-                    }}
-                  />
-                </View>
+                <DatePicker
+                  date={pickerDate}
+                  androidVariant="nativeAndroid"
+                  textColor={theme.background}
+                  mode="date"
+                  maximumDate={new Date()}
+                  onDateChange={date => {
+                    setPickerDate(date);
+                  }}
+                />
               </View>
             </ReactNativeModal>
             <View>
@@ -421,7 +417,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 10,
   },
-  input: { backgroundColor: 'red' },
   titleContainer: {
     marginTop: 10,
     backgroundColor: 'white',
@@ -475,7 +470,6 @@ const styles = StyleSheet.create({
   subheading: { fontSize: 16, color: '#333333', fontFamily: fonts.robo_med },
   subheading2: {
     fontSize: 16,
-    color: '#333333',
     paddingHorizontal: widthToDp(4),
     color: '#67718C',
   },
@@ -522,4 +516,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: widthToDp(4),
   },
   subheading3: { color: '#67718C', paddingHorizontal: widthToDp(4) },
+  pickerOuterView: {
+    width: width,
+    alignItems: 'center',
+    paddingVertical: 250,
+    position: 'absolute',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  pickerDone: {
+    paddingVertical: heightToDp(4),
+    paddingHorizontal: widthToDp(15),
+    marginTop: 24,
+    alignSelf: 'center',
+    backgroundColor: theme.primary,
+    borderRadius: 10,
+  },
 });

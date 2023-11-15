@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { widthToDp } from '../../../utils/Dimensions';
 import { fonts, useTheme } from '../../../utils/theme';
 
@@ -23,7 +23,7 @@ const limitOptions = [
 const typeOptions = [
   { title: 'Total', value: 0 },
   { title: 'Booking', value: 1 },
-  { title: 'hosting', value: 2 },
+  { title: 'Hosting', value: 2 },
 ];
 
 const Earning = React.memo(() => {
@@ -78,11 +78,20 @@ const Earning = React.memo(() => {
         </View>
         <View style={styles.arrowDetail}>
           <TouchableOpacity
+            disabled={limitIndex === 0}
             onPress={() => {
               handleArrowClick('left');
             }}
             style={{ padding: 5 }}>
-            <Image source={leftArrow} style={styles.arrow} />
+            <Text
+              style={{
+                color: limitIndex !== 0 ? theme.primary : theme.greyText,
+                fontSize: 16,
+                fontWeight: 'bold',
+                padding: 4,
+              }}>
+              {'<'}
+            </Text>
           </TouchableOpacity>
 
           <Text
@@ -94,8 +103,19 @@ const Earning = React.memo(() => {
             {limitOptions[limitIndex].title}
           </Text>
 
-          <TouchableOpacity onPress={() => handleArrowClick('right')} style={{ padding: 5 }}>
-            <Image source={rightArrow} style={styles.arrow} />
+          <TouchableOpacity
+            disabled={limitIndex === limitOptions.length - 1}
+            onPress={() => handleArrowClick('right')}
+            style={{ padding: 5 }}>
+            <Text
+              style={{
+                color: limitIndex !== limitOptions.length - 1 ? theme.primary : theme.greyText,
+                fontSize: 16,
+                fontWeight: 'bold',
+                padding: 4,
+              }}>
+              {'>'}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -113,6 +133,7 @@ const Earning = React.memo(() => {
           {dropdownVisible && (
             <FlatList
               data={typeOptions}
+              contentContainerStyle={{ flexGrow: 1 }}
               keyExtractor={item => item.value.toString()}
               renderItem={({ item }) => (
                 <TouchableOpacity onPress={() => handleTypeClick(item.value)}>
@@ -149,7 +170,6 @@ const styles = StyleSheet.create({
     fontFamily: fonts.hk_bold,
     color: '#2F3A58',
   },
-  arrow: { height: 12, width: 12, resizeMode: 'contain' },
   arrowDetail: { flexDirection: 'row', alignItems: 'center' },
   EarningConatiner: {
     flexDirection: 'row',
@@ -170,6 +190,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: 'white',
     fontFamily: fonts.robo_bold,
+    marginRight: 12,
   },
 
   TotalEarned: {
@@ -187,19 +208,20 @@ const styles = StyleSheet.create({
   },
   dropdownList: {
     position: 'absolute',
-    top: 40, // Adjust the position as needed
-    left: 0,
+    top: 0, // Adjust the position as needed
+    left: 80,
+    width: 100,
     backgroundColor: 'white',
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: theme.primary,
     borderRadius: 5,
-    maxHeight: 150,
+    // maxHeight: 150,
     zIndex: 99,
   },
   dropdownItem: {
-    padding: 10,
+    padding: 8,
     fontSize: 16,
-    zIndex: 99,
+    color: theme.greyText,
   },
 });
 
