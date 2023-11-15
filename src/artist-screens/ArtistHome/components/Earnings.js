@@ -62,6 +62,7 @@ const Earning = React.memo(() => {
   const [selectedType, setSelectedType] = useState(typeOptions[0]);
 
   const handleTypeClick = value => {
+    console.log(value);
     setSelectedType(typeOptions.find(option => option.value === value));
     setDropdownVisible(false);
   };
@@ -144,7 +145,9 @@ const Earning = React.memo(() => {
             />
           )}
 
-          <TouchableOpacity onPress={() => setDropdownVisible(!dropdownVisible)}>
+          <TouchableOpacity
+            onPress={() => setDropdownVisible(!dropdownVisible)}
+            style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
             <Text style={styles.hostingHeading}>{selectedType.title}</Text>
             <Image source={upArrow} style={styles.arrow} />
           </TouchableOpacity>
@@ -165,6 +168,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginHorizontal: widthToDp(5),
   },
+  arrow: { height: 20, width: 20 },
   heading: {
     fontSize: 34,
     fontFamily: fonts.hk_bold,

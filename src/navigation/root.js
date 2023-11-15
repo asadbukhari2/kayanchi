@@ -20,16 +20,16 @@ export default function Root() {
   console.log('-=-=-=-=-', isArtist, isConsumer, auth?.token?.length > 0);
   // dispatch({ type: 'SIGN_OUT' });
 
-  // return <ArtistKnownFor />;
-  return !auth.token && isArtist ? (
-    <ArtistAuthStack />
-  ) : auth.token && isArtist ? (
-    <ArtistMainStack />
-  ) : !auth.token && isConsumer ? (
-    <ConsumerAuthStack />
-  ) : auth.token && isConsumer ? (
-    <ConsumerMainStack />
-  ) : (
-    <InitStack />
-  );
+  return <ArtistAuthStack />;
+  // return !auth.token && isArtist ? (
+  //   <ArtistAuthStack />
+  // ) : auth.token && isArtist ? (
+  //   <ArtistMainStack />
+  // ) : !auth.token && isConsumer ? (
+  //   <ConsumerAuthStack />
+  // ) : auth.token && isConsumer ? (
+  //   <ConsumerMainStack />
+  // ) : (
+  //   <InitStack />
+  // );
 }
