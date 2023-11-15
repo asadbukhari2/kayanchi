@@ -11,6 +11,7 @@ const Tabs = props => {
 
   useEffect(() => {
     selectedTab(DATA.map((item, index) => (index === selected ? item.name : null)));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
 
   return DATA ? (
@@ -28,7 +29,8 @@ const Tabs = props => {
             style={[
               styles.btnView,
               {
-                borderColor: selected === index ? theme.primary : theme.inputText,
+                borderColor: selected === index ? theme.primary : 'none',
+                borderBottomWidth: selected === index ? 1 : 0,
               },
               btnStyle,
             ]}>
@@ -57,11 +59,10 @@ const Tabs = props => {
   ) : null;
 };
 
-export default Tabs;
+export default React.memo(Tabs);
 
 const styles = StyleSheet.create({
   btnView: {
-    borderBottomWidth: 1,
     justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',

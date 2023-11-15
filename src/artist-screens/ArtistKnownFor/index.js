@@ -106,6 +106,7 @@ export default function ArtistKnownFor() {
       });
 
       dispatch(SIGNUP({ ...dataToSave, type_login: 'artist', known_for: knf, title }));
+      isSignUp === true ? navigation.navigate('ArtistOnBoardingWelcome') : '';
     }
   };
 
@@ -136,7 +137,7 @@ export default function ArtistKnownFor() {
         />
 
         <View style={styles.genView}>
-          {skills.map(item => {
+          {skills?.map(item => {
             return (
               <View key={item.name}>
                 <TouchableOpacity onPress={() => toggleSkill(item)} activeOpacity={0.7}>
@@ -162,7 +163,7 @@ export default function ArtistKnownFor() {
                     </Text>
                   </View>
 
-                  <View style={styles.iconContainer}>
+                  {/* <View style={styles.iconContainer}>
                     <View style={styles.iconWrapper}>
                       <Image
                         source={{
@@ -173,34 +174,35 @@ export default function ArtistKnownFor() {
                       />
                       <Text style={styles.iconText}>{item.message}</Text>
                     </View>
-                  </View>
-                  {/* <View style={styles.iconContainer}>
-                    {item?.icons.map((imagePath, index) => (
-                      <View key={index} style={styles.iconWrapper}>
-                        <Image source={imagePath} resizeMode="contain" style={{ width: 50, height: 50 }} />
-                        <Text style={styles.iconText}>{item.message[index]}</Text>
-                      </View>
-                    ))}
                   </View> */}
+                  <View style={styles.iconContainer}>
+                    {item.image_urls &&
+                      item?.image_urls.map((imagePath, index) => (
+                        <View key={index} style={styles.iconWrapper}>
+                          <Image source={imagePath} resizeMode="contain" style={{ width: 50, height: 50 }} />
+                          {/* <Text style={styles.iconText}>{item.message[index]}</Text> */}
+                        </View>
+                      ))}
+                  </View>
                 </TouchableOpacity>
               </View>
             );
           })}
         </View>
-        {isSignUp ? (
+        {/* {isSignUp ? (
           <Button
             title="Continue"
             btnStyle={[styles.btn, { marginTop: heightToDp(10) }]}
             onPress={() => navigation.navigate('ArtistOnBoardingWelcome')}
           />
-        ) : (
-          <Button
-            title={isLoading ? 'Loading...' : 'Continue'}
-            // disable={isLoading}
-            btnStyle={[styles.btn, { marginTop: heightToDp(10) }]}
-            onPress={createAccount}
-          />
-        )}
+        ) : ( */}
+        <Button
+          title={isLoading ? 'Loading...' : 'Continue'}
+          disable={isLoading}
+          btnStyle={[styles.btn, { marginTop: heightToDp(10) }]}
+          onPress={createAccount}
+        />
+        {/* )} */}
       </ScrollView>
     </SafeAreaView>
   );

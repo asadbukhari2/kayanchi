@@ -27,3 +27,22 @@ export const isPasswordStrong = password => {
   // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&!*_])[A-Za-z\d@#$%^&!*_]+$/;
   // return passwordRegex.test(password);
 };
+
+export const convertMinutesToRange = minutes => {
+  if (minutes < 60) {
+    // If less than 60 minutes, use it as it is
+    return `Takes ${minutes} min`;
+  } else {
+    // If 60 minutes or more, convert to hours and minutes
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+
+    if (remainingMinutes === 0) {
+      return `Takes ${hours} hour${hours > 1 ? 's' : ''}`;
+    } else if (remainingMinutes > 0 && remainingMinutes <= 30) {
+      return `Takes ${hours} hour${hours > 1 ? 's' : ''} ${remainingMinutes} min`;
+    } else {
+      return `Takes ${hours}-${hours + 1} hours`;
+    }
+  }
+};

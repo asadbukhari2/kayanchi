@@ -5,6 +5,9 @@ import {
   GET_CATEGORIES_DATA,
   GET_CERTIFICATES_DATA,
   GET_EXPERIENCE_DATA,
+  GET_SERVICES,
+  GET_SERVICES_DATA,
+  GET_SERVICES_ERROR,
 } from '../constants/constants';
 
 export const getCategory = () => async dispatch => {
@@ -20,10 +23,6 @@ export const getCategory = () => async dispatch => {
   if (res.status >= 200 && res.status < 300) {
     res = await res.json();
 
-    // showMessage({
-    //   message: 'Fetched!',
-    //   type: 'success',
-    // });
     dispatch({
       type: GET_CATEGORIES_DATA,
       payload: res.categories,
@@ -85,6 +84,36 @@ export const getExperiences = token => async dispatch => {
       payload: res,
     });
   } else {
+    const { message } = await res.json();
+    showMessage({
+      message: message,
+      type: 'danger',
+    });
+
+    throw new Error(message ?? 'Something went wrong');
+  }
+};
+export const getServices = (id, token) => async dispatch => {
+  dispatch({
+    type: GET_SERVICES,
+  });
+  dispatch({
+    type: GET_SERVICES_DATA,
+    payload: [],
+  });
+
+  let res = await Fetch.get(`/api/artistview/${id}`, token);
+  if (res.status >= 200 && res.status < 300) {
+    res = await res.json();
+
+    dispatch({
+      type: GET_SERVICES_DATA,
+      payload: res.services['basic services'],
+    });
+  } else {
+    dispatch({
+      type: GET_SERVICES_ERROR,
+    });
     const { message } = await res.json();
     showMessage({
       message: message,

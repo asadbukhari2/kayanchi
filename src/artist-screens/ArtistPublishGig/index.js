@@ -9,7 +9,7 @@ import { ConsumerSubCatCard, Button, Tabs } from '../../components';
 import SliderComponent from '../../components/Slider';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCertificates, getExperiences } from '../../redux/actions/commonActions';
+import { getCertificates, getExperiences, getServices } from '../../redux/actions/commonActions';
 const beauty = require('../../assets/beautician.png');
 const share = require('../../assets/share.png');
 const ondemand = require('../../assets/ondemand.png');
@@ -21,124 +21,32 @@ const LocationAway = require('../../assets/LocationAway.png');
 
 const theme = useTheme();
 
-const hair = require('../../assets/HairDark.png');
-const face = require('../../assets/FaceDark.png');
-const waxing = require('../../assets/BodyDark.png');
-const Massages = require('../../assets/SpaDark.png');
-const Botox = require('../../assets/TreatDark.png');
-
-const orderSummary = [
-  {
-    bookingCount: 5,
-    status: 'Bookings Pending',
-    imageSource: share,
-  },
-  {
-    bookingCount: 5,
-    status: 'Bookings Confirmed',
-    imageSource: share,
-  },
-  {
-    bookingCount: 5,
-    status: 'Bookings Completed',
-    imageSource: share,
-  },
-];
-
-const DATA2 = [
-  {
-    cat: 'Hair cut',
-    price: 'Pkr 1500',
-    time: 'Takes 2-3 hours',
-    details:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum suscipit enim eget libero dictumeuismod. Proin vel sem eget diam scelerisque tristique. Pellentesque nec dolor .',
-  },
-  {
-    cat: 'Hydra facial',
-    price: 'Pkr 1500',
-    time: 'Takes 2-3 hours',
-    details:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum suscipit enim eget libero dictumeuismod. Proin vel sem eget diam scelerisque tristique. Pellentesque nec dolor .',
-  },
-  {
-    cat: 'Hydra facial',
-    price: 'Pkr 1500',
-    time: 'Takes 2-3 hours',
-    details:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum suscipit enim eget libero dictumeuismod. Proin vel sem eget diam scelerisque tristique. Pellentesque nec dolor .',
-  },
-  {
-    cat: 'Hydra facial',
-    price: 'Pkr 1500',
-    time: 'Takes 2-3 hours',
-    details:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum suscipit enim eget libero dictumeuismod. Proin vel sem eget diam scelerisque tristique. Pellentesque nec dolor .',
-  },
-];
-
-const DATA1 = [
-  {
-    title: 'Personality Girl Event',
-    dateFrom: 'June 10',
-    dateTo: 'June 25',
-    price: 'Rs 2500',
-  },
-  {
-    title: 'Personality Girl Event',
-    dateFrom: 'June 10',
-    dateTo: 'June 25',
-    price: 'Rs 2500',
-  },
-];
-
-const DATA = [
-  {
-    name: 'Hair',
-    imageLink: hair,
-  },
-  {
-    name: 'Face',
-    imageLink: face,
-  },
-  {
-    name: 'Body',
-    imageLink: waxing,
-  },
-  {
-    name: 'Spa',
-    imageLink: Massages,
-  },
-  {
-    name: 'Treat',
-    imageLink: Botox,
-  },
-];
-
-const STATUS_RADIO = [
-  {
-    source: require('../../assets/hosting4.png'),
-    title: "I'm hosting",
-  },
-  {
-    source: require('../../assets/travelling4.png'),
-    title: "I'm travelling",
-  },
-];
-
 const headerHeight = heightToDp(57.5);
 const headerFinalHeight = heightToDp(25);
 
 const ArtistPublishGig = () => {
+  const [tabsData, setTabsData] = useState([]);
   const [subHeading, setSubHeading] = useState('');
 
   const [sliderValue, setSliderValue] = useState(33);
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const { services, categories } = useSelector(state => state.common);
   const auth = useSelector(state => state.auth);
-  console.log(auth.userDetails.token);
 
-  const { followers, title, level, rating, rating_count, bio } = auth.profile;
+  const {
+    followers,
+    title,
+    level,
+    rating,
+    rating_count,
+    bio,
+    hosting_mood,
+    travel_mood,
+    availability_status,
+    artist_id,
+  } = auth.profile;
   const { name } = auth.user;
 
   const handleSliderChange = newValue => {
@@ -195,11 +103,42 @@ const ArtistPublishGig = () => {
     dispatch({ type: 'SIGN_UP_SUCCESS_TOKEN_SET' });
   };
 
+  const handleTabButtonClick = txt => {
+    setSubHeading(txt);
+    const filtered = services.filter(_ => txt.includes(_.category_name));
+
+    const data = filtered[0]?.category_services?.map(_ => {
+      const d = {
+        name: _.name,
+        price: _.amount,
+        time: _.duration,
+        details: _.description,
+        discountPercentage: _.discount_percentage,
+        discountedPrice: _.discounted_price,
+        isDiscount: _.is_discount,
+        isHosting: _.is_hosting,
+        isTravelling: _.is_travelling,
+        id: _.id,
+        catName: _.category.name,
+      };
+
+      return d;
+    });
+
+    data ? setTabsData(data) : setTabsData([]);
+  };
+
   useEffect(() => {
     dispatch(getCertificates(auth.userDetails.token));
     dispatch(getExperiences(auth.userDetails.token));
+    dispatch(getServices(artist_id, auth.userDetails.token));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    services.length > 0 && handleTabButtonClick(categories[0].name);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categories]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -297,7 +236,18 @@ const ArtistPublishGig = () => {
                       fontFamily: fonts.robo_reg,
                       textAlign: 'center',
                     }}>
-                    {name} is taking orders on-demand
+                    {name} is taking orders
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 9,
+                      color: '#747474',
+                      fontFamily: fonts.robo_reg,
+                      textAlign: 'center',
+                    }}>
+                    {availability_status?.map((_, id) => {
+                      return `${_.split('_').join(' ')}${availability_status.length - 1 !== id ? ', ' : ''}`;
+                    })}
                   </Text>
                 </View>
               </View>
@@ -322,7 +272,7 @@ const ArtistPublishGig = () => {
                       fontFamily: fonts.robo_reg,
                       color: '#747474',
                     }}>
-                    {name} will either host or visit you
+                    {name} will {hosting_mood ? 'host you' : travel_mood ? 'visit you' : 'either host or visit you'}
                   </Text>
                 </View>
               </View>
@@ -424,7 +374,7 @@ const ArtistPublishGig = () => {
               marginHorizontal: widthToDp(5),
               marginTop: heightToDp(5),
               backgroundColor: '#ffffff',
-              // marginLeft:5,
+
               borderRadius: 10,
             }}>
             <View>
@@ -493,21 +443,33 @@ const ArtistPublishGig = () => {
               Make another gig
             </Text>
           </View>
-          <Tabs selectedTab={txt => setSubHeading(txt)} DATA={DATA} />
+        </View>
+
+        <View style={{ borderBottomWidth: 1, borderColor: theme.inputText }}>
+          <Tabs selectedTab={handleTabButtonClick} DATA={categories} />
         </View>
 
         <View style={{ marginTop: heightToDp(4.5) }}>
-          {DATA2.map((item, index) => {
-            return (
-              <ConsumerSubCatCard
-                key={index}
-                cat={item.cat}
-                price={item.price}
-                time={item.time}
-                details={item.details}
-              />
-            );
-          })}
+          {tabsData.length > 0 ? (
+            tabsData.map((item, index) => {
+              return (
+                <>
+                  <ConsumerSubCatCard
+                    key={index}
+                    cat={item.name}
+                    price={item.price}
+                    time={item.time}
+                    details={item.details}
+                    discountPercentage={item.discountPercentage}
+                    discountedPrice={item.discountedPrice}
+                    {...item}
+                  />
+                </>
+              );
+            })
+          ) : (
+            <Text style={{ color: theme.inputText }}>No Record Found</Text>
+          )}
         </View>
         <Button
           title="Go to home"
@@ -515,70 +477,6 @@ const ArtistPublishGig = () => {
           onPress={handleGoToHome}
         />
       </ScrollView>
-      {/* <Modal
-        coverScreen={false}
-        isVisible={modalVisible}
-        style={{flex: 1, margin: 0, justifyContent: 'flex-end'}}
-        onSwipeComplete={() => setModalVisible(!modalVisible)}
-        swipeDirection={['down']}>
-        <View style={styles.modalMainView}>
-          <Image
-            source={require('../../assets/onBoarding.png')}
-            style={styles.modalImg}
-          />
-
-          <View style={styles.modalTxtView}>
-            <Text style={styles.modalTitle}>Travelling or hosting?</Text>
-            <Text style={styles.modalNormalTxt}>
-              Please choose Hosting or Travelling to conitnue with the order
-              process
-            </Text>
-          </View>
-
-          <View style={styles.radioContainer}>
-            {STATUS_RADIO.map((item, index) => {
-              return (
-                <GradientRadio
-                  key={index}
-                  title={item.title}
-                  source={item.source}
-                  onPress={() => setPreferenceStatus(item.title)}
-                  titleStyle={
-                    preferenceStatus == item.title
-                      ? null
-                      : {color: theme.lightBlack}
-                  }
-                  imgStyle={
-                    preferenceStatus == item.title
-                      ? null
-                      : {tintColor: theme.lightBlack}
-                  }
-                  containerStyle={
-                    preferenceStatus == item.title
-                      ? null
-                      : {
-                          borderWidth: 1,
-                          borderColor: 'rgba(132, 102, 140, 0.15)',
-                        }
-                  }
-                  gradients={
-                    preferenceStatus == item.title
-                      ? null
-                      : ['rgba(0,0,0,0.1)', theme.background]
-                  }
-                />
-              );
-            })}
-          </View>
-          <Button
-            title={'Go to Home'}
-            btnStyle={{position: 'absolute', bottom: heightToDp(5.5)}}
-            onPress={() =>
-              props.navigation.navigate('ArtistHomeStack', {screen: 'ArtistGigMainPage'})
-            }
-          />
-        </View>
-      </Modal> */}
     </SafeAreaView>
   );
 };
@@ -701,7 +599,6 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     borderRadius: 50,
-    // width: widthToDp(12.5),
     padding: 8,
     justifyContent: 'center',
   },

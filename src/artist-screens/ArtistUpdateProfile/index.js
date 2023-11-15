@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { StyleSheet, Text, View, Animated, TouchableOpacity, Image, StatusBar, ScrollView } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { fonts, useTheme } from '../../utils/theme';
 import { width, heightToDp, widthToDp, height } from '../../utils/Dimensions';
-import { Header, Tabs } from '../../components';
+import { Tabs } from '../../components';
 import back from '../../assets/back.png';
 import EditableField from '../../components/EditableField';
 import ContainerWorkCertificate from './Components/ContainerWorkCertificate';
@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateProfile } from '../../redux/actions';
 import CertificationModalForm from '../../components/CertificationModalForm';
 import WorkModalForm from '../../components/WrokModalForm';
-import { getCertificates } from '../../redux/actions/commonActions';
+
 import { useNavigation } from '@react-navigation/native';
 
 const dummy = require('../../assets/dummy.png');
@@ -56,6 +56,10 @@ const DATATabs = [
     imageLink: Massages,
   },
   {
+    name: 'Spa',
+    imageLink: Massages,
+  },
+  {
     name: 'Treat',
     imageLink: Botox,
   },
@@ -78,9 +82,9 @@ const ArtistUpdateProfile = () => {
   const [image1, setImage1] = useState();
   const [image2, setImage2] = useState();
   const [image3, setImage3] = useState();
+  const [images, setImages] = useState([hair, face, waxing, Botox]);
   const navigation = useNavigation();
-  const certLoading = useSelector(state => state.common.certLoading);
-  const expLoading = useSelector(state => state.common.expLoading);
+
   const certificates = useSelector(state => state.common.certificates);
   const experience = useSelector(state => state.common.experience);
 
@@ -194,14 +198,10 @@ const ArtistUpdateProfile = () => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={{ paddingHorizontal: 24, paddingVertical: 6 }}>
           <Image source={back} resizeMode="contain" />
         </TouchableOpacity>
-        <Animated.View style={[{ transform: [{ translateY: opacityHeader }] }]}>
-          {/* <Header backBtnWhite /> */}
-        </Animated.View>
+        <Animated.View style={[{ transform: [{ translateY: opacityHeader }] }]} />
         <View style={styles.headerMain}>
-          {/* <Text style={styles.artistLocation}>{'3.2 kms away from you'}</Text> */}
           <View style={styles.centerDiv}>
             <Animated.Text
-              // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
               style={[styles.artistName, { transform: [{ translateX: translateName }, { scale: scaleName }] }]}>
               {name ?? 'Narmeen Iqbal'}
             </Animated.Text>
@@ -318,52 +318,6 @@ const ArtistUpdateProfile = () => {
           data={data}
         />
 
-        {/* <View style={styles.Diploma}>
-          <View style={styles.gigContainer}>
-            <Text style={styles.heading}>Certifications & Diploma</Text>
-            <Image source={AddMore} style={{width: 20, height: 20}} />
-          </View>
-          <View style={styles.separator}></View>
-          <View style={styles.DiplomaConatiner}>
-            <Image
-              source={dummy}
-              style={{width: 50, height: 50, marginLeft: 10}}
-            />
-            <View style={{flex: 1, marginLeft: 10}}>
-              <Text style={styles.subheading}>
-                Diploma in Hair, Scalp & Color Science
-              </Text>
-              <Text>Loreal Paris</Text>
-              <Text>Issued Date 2023</Text>
-            </View>
-            <View style={{marginRight: 10}}>
-              <Feather style={{color: '#193356', fontSize: 18}} name="edit-2" />
-            </View>
-          </View>
-        </View> */}
-        {/* work experience */}
-        {/* <View style={styles.Diploma}>
-          <View style={styles.gigContainer}>
-            <Text style={styles.heading}>Work Experience</Text>
-            <Image source={AddMore} style={{width: 20, height: 20}} />
-          </View>
-          <View style={styles.separator}></View>
-          <View style={styles.DiplomaConatiner}>
-            <Image
-              source={dummy}
-              style={{width: 50, height: 50, marginLeft: 10}}
-            />
-            <View style={{flex: 1, marginLeft: 10}}>
-              <Text style={styles.subheading}>Make Up artist and Founder </Text>
-              <Text>A&I Studio</Text>
-              <Text>Nov 2023 - present</Text>
-              <Text>Lahore, Pakistan</Text>
-            </View>
-            <View style={{marginRight: 10}}>
-              <Feather style={{color: '#193356', fontSize: 18}} name="edit-2" />
-            </View>
-          </View>
-        </View> */}
         <View style={{ marginLeft: widthToDp(5) }}>
           <Text style={[styles.welcomeTxt, { paddingTop: 7 }]}>Portfolio</Text>
           <Text
@@ -379,8 +333,17 @@ const ArtistUpdateProfile = () => {
           <Tabs selectedTab={txt => setSubHeading(txt)} DATA={DATATabs} />
         </View>
 
-        <View style={styles.parentUpload}>
-          <TouchableOpacity
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.parentUpload}>
+          {images.map((image, index) => (
+            <View key={index} style={styles.imageWrapper}>
+              <Image source={image} style={styles.image} />
+            </View>
+          ))}
+        </ScrollView>
+
+        {/* <View style={styles.parentUpload}>
+          <Tabs selectedTab={txt => setSubHeading(txt)} DATA={DATATabs} /> */}
+        {/* <TouchableOpacity
             onPress={() => {
               ImageCropPicker.openPicker({
                 cropping: false,
@@ -397,44 +360,8 @@ const ArtistUpdateProfile = () => {
               </View>
             )}
             <Text style={styles.uploadText}>Upload</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              ImageCropPicker.openPicker({
-                cropping: false,
-              }).then(image => {
-                setImage2(image);
-              });
-            }}
-            activeOpacity={0.9}>
-            {image2 ? (
-              <Image source={{ uri: image2.path }} style={styles.upload} />
-            ) : (
-              <View style={styles.upload}>
-                <Image source={Gallery} />
-              </View>
-            )}
-            <Text style={styles.uploadText}>Upload</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              ImageCropPicker.openPicker({
-                cropping: false,
-              }).then(image => {
-                setImage3(image);
-              });
-            }}
-            activeOpacity={0.9}>
-            {image3 ? (
-              <Image source={{ uri: image3.path }} style={styles.upload} />
-            ) : (
-              <View style={styles.upload}>
-                <Image source={Gallery} />
-              </View>
-            )}
-            <Text style={styles.uploadText}>Upload</Text>
-          </TouchableOpacity>
-        </View>
+          </TouchableOpacity> */}
+        {/* </View> */}
       </ScrollView>
     </SafeAreaView>
   );
@@ -449,37 +376,43 @@ const styles = StyleSheet.create({
   },
 
   parentUpload: {
-    width: widthToDp(90),
-    marginLeft: widthToDp(5),
     marginTop: 10,
-    marginHorizontal: 10,
-    paddingBottom: 40,
-    flex: 0,
+    paddingBottom: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  upload: {
-    backgroundColor: '#FFFFFF',
+  // upload: {
+  //   backgroundColor: '#FFFFFF',
+  //   width: 100,
+  //   height: 100,
+  //   borderRadius: 10,
+  //   flex: 0,
+  //   flexDirection: 'column',
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   resizeMode: 'cover',
+  // },
+  // uploadText: {
+  //   textAlign: 'center',
+
+  //   fontSize: 14,
+  //   // marginHorizontal: 24,
+  //   fontFamily: fonts.robo_reg,
+  //   marginTop: 8,
+  //   lineHeight: 22,
+  //   color: '#1682D6',
+  // },
+  imageWrapper: {
+    marginHorizontal: 8,
+  },
+  image: {
     width: 100,
     height: 100,
-    borderRadius: 10,
-    flex: 0,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
     resizeMode: 'cover',
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: '#ddd',
   },
-  uploadText: {
-    textAlign: 'center',
-
-    fontSize: 14,
-    // marginHorizontal: 24,
-    fontFamily: fonts.robo_reg,
-    marginTop: 8,
-    lineHeight: 22,
-    color: '#1682D6',
-  },
-
   genRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',

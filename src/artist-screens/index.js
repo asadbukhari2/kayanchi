@@ -67,6 +67,7 @@ import ArtistGrooming from './ArtistGrooming';
 import ArtistGroomingDone from './ArtistGroomingDone';
 import ArtistFinishedTimeline from './ArtistFinishedTimeline';
 import ArtistCancelledTimeline from './ArtistCancelledTimeline';
+import ArtistGlowMakeUp from './ArtistGlowMakeUp';
 export {
   ArtistWelcome,
   ArtistHome,
@@ -137,4 +138,5 @@ export {
   ArtistGroomingDone,
   ArtistFinishedTimeline,
   ArtistCancelledTimeline,
+  ArtistGlowMakeUp,
 };

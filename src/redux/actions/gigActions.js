@@ -47,3 +47,21 @@ export const verify = async (body, token) => {
     throw new Error(message ?? 'Something went wrong');
   }
 };
+
+export const getGigById = async (id, token) => {
+  let res = await Fetch.get(`/api/service/${id}`, token);
+
+  if (res.status >= 200 && res.status < 300) {
+    res = await res.json();
+    return res;
+  } else {
+    const { message } = await res.json();
+
+    showMessage({
+      message: message,
+      type: 'danger',
+    });
+
+    throw new Error(message ?? 'Something went wrong');
+  }
+};

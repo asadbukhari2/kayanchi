@@ -34,7 +34,7 @@ const ContainerWorkCertificate = ({ as, imageSource, title, data = [], toggleEdi
 
       {as === 1 &&
         data.map(_ => (
-          <View style={styles.DiplomaConatiner} key={_.name}>
+          <View style={styles.DiplomaConatiner} key={_.id}>
             <Image source={_.image_url || imageSource} style={{ width: 50, height: 50, marginLeft: 10 }} />
             <View style={{ flex: 1, marginLeft: 10 }}>
               <Text style={styles.subheading}>{_.name}</Text>
@@ -63,7 +63,7 @@ const ContainerWorkCertificate = ({ as, imageSource, title, data = [], toggleEdi
         ))}
       {as === 2 &&
         data.map(_ => (
-          <View style={styles.DiplomaConatiner} key={_.job_title}>
+          <View style={styles.DiplomaConatiner} key={_.id}>
             <Image source={_.image_url || imageSource} style={{ width: 50, height: 50, marginLeft: 10 }} />
             <View style={{ flex: 1, marginLeft: 10 }}>
               <Text style={styles.subheading}>{_.job_title}</Text>

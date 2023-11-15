@@ -5,6 +5,8 @@ const initialState = {
   expLoading: false,
   certificates: [],
   experience: [],
+  serviceLoading: false,
+  services: [],
 };
 
 import {
@@ -12,6 +14,9 @@ import {
   GET_CATEGORIES_DATA,
   GET_CERTIFICATES_DATA,
   GET_EXPERIENCE_DATA,
+  GET_SERVICES,
+  GET_SERVICES_DATA,
+  GET_SERVICES_ERROR,
 } from '../constants/constants';
 
 const reducer = (state = initialState, action) => {
@@ -51,6 +56,23 @@ const reducer = (state = initialState, action) => {
         ...state,
         experience: action.payload,
         expLoading: false,
+      };
+    case GET_SERVICES:
+      return {
+        ...state,
+        serviceLoading: true,
+      };
+    case GET_SERVICES_DATA:
+      return {
+        ...state,
+        services: action.payload,
+        serviceLoading: false,
+      };
+    case GET_SERVICES_ERROR:
+      return {
+        ...state,
+        services: [],
+        serviceLoading: false,
       };
 
     default:

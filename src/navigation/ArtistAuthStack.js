@@ -16,6 +16,7 @@ import {
   ArtistKnownFor,
   ArtistPublishGig,
   ArtistUpdateProfile,
+  ArtistGlowMakeUp,
 } from '../artist-screens';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -45,6 +46,7 @@ export default class ArtistAuthStack extends Component {
         <Stack.Screen name="ArtistVerification" component={ArtistVerification} />
         <Stack.Screen name="ArtistPublishGig" component={ArtistPublishGig} />
         <Stack.Screen name="ArtistUpdateProfile" component={ArtistUpdateProfile} />
+        <Stack.Screen name="ArtistGlowMakeUp" component={ArtistGlowMakeUp} />
         {/* end */}
       </Stack.Navigator>
     );

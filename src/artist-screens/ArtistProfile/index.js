@@ -335,7 +335,7 @@ const ArtistProfile = props => {
         <View style={styles.btnView}>
           {MAIN.map((item, index) => {
             return (
-              <View style={{ marginTop: index > 0 ? heightToDp(4.5) : 0 }}>
+              <View style={{ marginTop: index > 0 ? heightToDp(4.5) : 0 }} key={item.title}>
                 <Row icon={item.icon} title={item.title} onPress={item.onPress} />
               </View>
             );
@@ -345,7 +345,7 @@ const ArtistProfile = props => {
         <View style={styles.btnView}>
           {PAYMENTS.map((item, index) => {
             return (
-              <View style={{ marginTop: index > 0 ? heightToDp(4.5) : 0 }}>
+              <View style={{ marginTop: index > 0 ? heightToDp(4.5) : 0 }} key={item.title}>
                 <Row icon={item.icon} title={item.title} onPress={item.onPress} />
               </View>
             );
@@ -355,7 +355,7 @@ const ArtistProfile = props => {
         <View style={styles.btnView}>
           {MYKAYNCHI.map((item, index) => {
             return (
-              <View style={{ marginTop: index > 0 ? 16 : 0 }}>
+              <View style={{ marginTop: index > 0 ? 16 : 0 }} key={item.title}>
                 <Row onPress={item.onPress} icon={item.icon} title={item.title} />
               </View>
             );

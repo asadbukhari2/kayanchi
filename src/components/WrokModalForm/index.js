@@ -17,33 +17,6 @@ const theme = useTheme();
 
 const calendar = require('../../assets/calendar.png');
 const hair = require('../../assets/hair.png');
-const face = require('../../assets/face.png');
-const waxing = require('../../assets/body.png');
-const Massages = require('../../assets/spa.png');
-const Botox = require('../../assets/treatment.png');
-
-const Category = [
-  {
-    name: 'Hair',
-    imageLink: hair,
-  },
-  {
-    name: 'Face',
-    imageLink: face,
-  },
-  {
-    name: 'Body',
-    imageLink: waxing,
-  },
-  {
-    name: 'Spa',
-    imageLink: Massages,
-  },
-  {
-    name: 'Treatments',
-    imageLink: Botox,
-  },
-];
 
 const WorkModalForm = ({
   isModalVisible,
@@ -93,10 +66,10 @@ const WorkModalForm = ({
         formData.append('location', location);
         formData.append('category_id', category);
         formData.append('currently_working', isSelected);
-        formData.append('start_date', moment(issueDate).format('DD-MM-YYYY'));
+        formData.append('start_date', moment(issueDate).format('MM-DD-YYYY'));
         formData.append(
           'end_date',
-          isSelected ? moment(new Date()).format('DD-MM-YYYY') : moment(expiryDate).format('DD-MM-YYYY'),
+          isSelected ? moment(new Date()).format('MM-DD-YYYY') : moment(expiryDate).format('MM-DD-YYYY'),
         );
 
         res = await Fetch.postFormData('/api/experience/', formData, auth.token);
@@ -106,25 +79,22 @@ const WorkModalForm = ({
           company_name: orgName,
           currently_working: isSelected,
           category_id: category,
-          start_date: moment(issueDate).format('DD-MM-YYYY'),
-          end_date: isSelected ? moment(new Date()).format('DD-MM-YYYY') : moment(expiryDate).format('DD-MM-YYYY'),
+          start_date: moment(issueDate).format('MM-DD-YYYY'),
+          end_date: isSelected ? moment(new Date()).format('MM-DD-YYYY') : moment(expiryDate).format('MM-DD-YYYY'),
         };
         res = await Fetch.put(`/api/experience/${data.id}`, body, auth.token);
-        console.log(res);
       }
       if (res.status >= 200 && res.status < 300) {
         res = await res.json();
         dispatch(getExperiences(auth.token));
         toggleModal();
       } else {
-        const { message } = await res.json();
-
+        const error = await res.json();
+        toggleModal();
         showMessage({
-          message: message,
-          type: 'danger',
+          type: 'warning',
+          message: error,
         });
-
-        throw new Error(message ?? 'Something went wrong');
       }
     }
   };

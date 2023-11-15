@@ -5,6 +5,8 @@ import { fonts, useTheme } from '../../utils/theme';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import Counter from '../Counter';
+import { useNavigation } from '@react-navigation/native';
+import { convertMinutesToRange } from '../../utils/helper';
 
 const host = require('../../assets/hostborwn.png');
 const car = require('../../assets/car_brown.png');
@@ -12,52 +14,49 @@ const car = require('../../assets/car_brown.png');
 const theme = useTheme();
 
 const ConsumerSubCatCard = props => {
-  const { price, details, cat, time } = props;
-  const [count, setCount] = useState(0);
+  const {
+    price,
+    cat,
+    time,
+    discountPercentage,
+    discountedPrice,
+    isDiscount,
+    isTravelling,
+    isHosting,
+    id,
+    details,
+    catName,
+  } = props;
+
   const [showMore, setShowMore] = useState(false);
 
-  const increment = () => {
-    setCount(count + 1);
-  };
-
-  const decrement = () => {
-    if (count > 0) {
-      setCount(count - 1);
-    }
-  };
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
       <View style={styles.shownView}>
         <View>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: widthToDp(3) }}>
-            <Text style={styles.catName}>{cat}</Text>
-            <Text
-              style={{
-                paddingHorizontal: heightToDp(2),
-                paddingVertical: heightToDp(0.5),
-                backgroundColor: '#fae5ff',
-                borderRadius: 10,
-                marginLeft: 5,
-                color: '#2F3A58',
-                fontFamily: fonts.robo_med,
-                fontSize: 12,
-              }}>
-              20% off
-            </Text>
+            <Text style={styles.catName}>{cat.trim()}</Text>
+            {isDiscount && (
+              <Text
+                style={{
+                  paddingHorizontal: heightToDp(2),
+                  paddingVertical: heightToDp(0.5),
+                  backgroundColor: '#fae5ff',
+                  borderRadius: 10,
+                  marginLeft: 5,
+                  color: '#2F3A58',
+                  fontFamily: fonts.robo_med,
+                  fontSize: 12,
+                }}>
+                {discountPercentage}% off
+              </Text>
+            )}
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: widthToDp(3) }}>
-            <Text style={styles.priceTxt}>{price}</Text>
-            <Text
-              style={{
-                color: '#9A9A9A',
-                fontSize: 10,
-                fontFamily: fonts.hk_medium,
-                textDecorationLine: 'line-through',
-                marginTop: heightToDp(2),
-                marginLeft: 5,
-              }}>
-              Rs 2,000
+            <Text style={isDiscount ? styles.discountPrice : styles.priceTxt}>
+              Rs {isDiscount ? discountedPrice : price}
             </Text>
           </View>
         </View>
@@ -69,14 +68,29 @@ const ConsumerSubCatCard = props => {
           justifyContent: 'space-between',
           marginTop: 16,
         }}>
-        <Text style={[styles.secondRow]}>{time}</Text>
+        <Text style={[styles.secondRow]}>{convertMinutesToRange(time)}</Text>
 
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={() => setShowMore(!showMore)}
+          onPress={() => {
+            navigation.navigate('ArtistGlowMakeUp', {
+              price,
+              cat,
+              time,
+              discountPercentage,
+              discountedPrice,
+              isDiscount,
+              isTravelling,
+              isHosting,
+              id,
+              details,
+              catName,
+            });
+            setShowMore(!showMore);
+          }}
           style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Image source={car} style={styles.iconStyle} />
-          <Image source={host} style={styles.iconStyle} />
+          {isTravelling && <Image source={car} style={styles.iconStyle} />}
+          {isHosting && <Image source={host} style={styles.iconStyle} />}
           <Text style={[styles.secondRowTxt, { color: theme.linkTxt }]}>View</Text>
         </TouchableOpacity>
       </View>
@@ -113,7 +127,14 @@ const styles = StyleSheet.create({
     lineHeight: 19.2,
     color: '#1583D8',
   },
-
+  discountPrice: {
+    color: '#9A9A9A',
+    fontSize: 10,
+    fontFamily: fonts.hk_medium,
+    textDecorationLine: 'line-through',
+    marginTop: heightToDp(2),
+    marginLeft: 5,
+  },
   iconStyle: {
     width: 17.1,
     height: 15.43,

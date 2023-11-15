@@ -40,6 +40,8 @@ function post(url, body, token) {
   return fetch(BASE_URL + url, requestOptions).then(res => handleResponse(res));
 }
 function postFormData(url, body, token) {
+  console.log(url, body, token);
+
   const accessToken = store.getState().auth?.token || token;
   const headers = {
     authorization: `Bearer ${accessToken}`,
