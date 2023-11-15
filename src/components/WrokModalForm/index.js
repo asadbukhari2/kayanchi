@@ -247,7 +247,6 @@ const WorkModalForm = ({
           <ReactNativeModal
             coverScreen={true}
             isVisible={issueModalVisible}
-            style={styles.modal}
             onSwipeComplete={() => setIssueModalVisible(!issueModalVisible)}
             swipeDirection={['down']}>
             <View style={styles.pickerOuterView}>
@@ -312,22 +311,19 @@ const WorkModalForm = ({
           <ReactNativeModal
             coverScreen={true}
             isVisible={expiryModalVisible}
-            style={styles.modal}
             onSwipeComplete={() => setExpiryModalVisible(!expiryModalVisible)}
             swipeDirection={['down']}>
             <View style={styles.pickerOuterView}>
-              <View style={{ backgroundColor: theme.dark }}>
-                <DatePicker
-                  date={pickerDate}
-                  androidVariant="nativeAndroid"
-                  textColor={theme.background}
-                  mode="date"
-                  maximumDate={new Date()}
-                  onDateChange={v => {
-                    setPickerDate(v);
-                  }}
-                />
-              </View>
+              <DatePicker
+                date={pickerDate}
+                androidVariant="nativeAndroid"
+                textColor={theme.background}
+                mode="date"
+                maximumDate={new Date()}
+                onDateChange={v => {
+                  setPickerDate(v);
+                }}
+              />
             </View>
             <TouchableOpacity
               activeOpacity={0.7}
@@ -401,6 +397,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
+    borderRadius: 10,
   },
   pickerDone: {
     paddingVertical: heightToDp(4),

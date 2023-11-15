@@ -12,6 +12,7 @@ const initialState = {
   user: null,
   signUpUserData: null,
   categories: null,
+  portfolio: null,
 };
 
 import {
@@ -28,6 +29,8 @@ import {
   SAVE_TOKEN,
   SET_IS_ARTIST,
   SET_IS_CONSUMER,
+  GET_PORTFOLIO_DATA,
+  GET_PORTFOLIO_ERROR,
 } from '../constants/constants';
 
 const reducer = (state = initialState, action) => {
@@ -119,6 +122,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         profile: action.payload,
+      };
+    case GET_PORTFOLIO_DATA:
+      return {
+        ...state,
+        portfolio: action.payload,
+      };
+    case GET_PORTFOLIO_ERROR:
+      return {
+        ...state,
+        portfolio: action.payload.error,
       };
     case 'TEST_UPDATE_IS_ARTIST':
       return {

@@ -24,7 +24,7 @@ const ArtistBasicGig = () => {
   const categories = useSelector(state => state.common.categories);
   const route = useRoute();
   const clickHandler = () => {
-    if (!name || !selectedCategory || selectedAudience.length < 0) {
+    if (!name || !selectedCategory || !selectedAudience.length > 0) {
       showMessage({
         type: 'warning',
         message: 'Enter Values',
@@ -41,6 +41,7 @@ const ArtistBasicGig = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      {/* <ScrollView> */}
       <View
         style={{
           flex: 0,
@@ -175,6 +176,7 @@ const ArtistBasicGig = () => {
       </View>
 
       <Button title={'Continue'} btnStyle={styles.btn} onPress={clickHandler} />
+      {/* </ScrollView> */}
     </SafeAreaView>
   );
 };

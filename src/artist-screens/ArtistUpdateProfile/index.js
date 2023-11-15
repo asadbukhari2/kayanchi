@@ -1,5 +1,15 @@
 import React, { useState, useRef } from 'react';
-import { StyleSheet, Text, View, Animated, TouchableOpacity, Image, StatusBar, ScrollView } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Animated,
+  TouchableOpacity,
+  Image,
+  StatusBar,
+  ScrollView,
+  ImageBackground,
+} from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { fonts, useTheme } from '../../utils/theme';
@@ -8,8 +18,6 @@ import { Tabs } from '../../components';
 import back from '../../assets/back.png';
 import EditableField from '../../components/EditableField';
 import ContainerWorkCertificate from './Components/ContainerWorkCertificate';
-import Gallery from '../../assets/Gallery.png';
-import ImageCropPicker from 'react-native-image-crop-picker';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { updateProfile } from '../../redux/actions';
@@ -25,6 +33,7 @@ const hair = require('../../assets/HairDark.png');
 const face = require('../../assets/FaceDark.png');
 const waxing = require('../../assets/BodyDark.png');
 const Massages = require('../../assets/SpaDark.png');
+const eye_face = require('../../assets/eye_face.png');
 const Botox = require('../../assets/TreatDark.png');
 
 const theme = useTheme();
@@ -38,35 +47,10 @@ const DATA = [
   },
 ];
 
-const DATATabs = [
-  {
-    name: 'Hair',
-    imageLink: hair,
-  },
-  {
-    name: 'Face',
-    imageLink: face,
-  },
-  {
-    name: 'Body',
-    imageLink: waxing,
-  },
-  {
-    name: 'Spa',
-    imageLink: Massages,
-  },
-  {
-    name: 'Spa',
-    imageLink: Massages,
-  },
-  {
-    name: 'Treat',
-    imageLink: Botox,
-  },
-];
-
 const headerHeight = heightToDp(57.5);
 const headerFinalHeight = heightToDp(25);
+
+const dummyImages = [hair, face, waxing, Botox];
 
 const ArtistUpdateProfile = () => {
   const [subHeading, setSubHeading] = useState('');
@@ -79,9 +63,6 @@ const ArtistUpdateProfile = () => {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [isEditingDescription, setIsEditingDescription] = useState(false);
 
-  const [image1, setImage1] = useState();
-  const [image2, setImage2] = useState();
-  const [image3, setImage3] = useState();
   const [images, setImages] = useState([hair, face, waxing, Botox]);
   const navigation = useNavigation();
 
@@ -89,8 +70,10 @@ const ArtistUpdateProfile = () => {
   const experience = useSelector(state => state.common.experience);
 
   const auth = useSelector(state => state.auth);
+  const { categories } = useSelector(state => state.common);
   const { title, level, bio } = auth.profile;
   const { name } = auth.user;
+  const portfolio = auth.portfolio;
 
   const [inputValue, setInputValue] = useState(title);
   const [description, setDescription] = useState(bio);
@@ -137,7 +120,7 @@ const ArtistUpdateProfile = () => {
     extrapolate: 'clamp',
   });
 
-  const translateYOffset = 5;
+  const translateYOffset = 0;
 
   const translateName = scrollY.interpolate({
     inputRange: [0, offset / 2, offset],
@@ -184,6 +167,21 @@ const ArtistUpdateProfile = () => {
     setIsExpModalVisible(!isExpModalVisible);
   };
 
+  const handleTabButtonClick = txt => {
+    // console.log(txt);
+    setSubHeading(txt);
+    let arrayToMap = [];
+    txt.forEach(_ => {
+      const filtered = portfolio.find(obj => obj.hasOwnProperty(_));
+      if (filtered) {
+        arrayToMap = Object.values(filtered)[0];
+        // console.log(Object.values(filtered));
+      }
+    });
+    // console.log({ arrayToMap });
+    setImages(arrayToMap);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar animated={true} backgroundColor="#000" barStyle={'light-content'} showHideTransition={'fade'} />
@@ -194,7 +192,9 @@ const ArtistUpdateProfile = () => {
           zIndex: 99,
         }}
       />
+
       <Animated.View style={[styles.header, { height: headerHeight, transform: [{ translateY: opacity }] }]}>
+        {/* <ImageBackground source={eye_face} style={{ flex: 1, resizeMode: 'cover', width: '100%', height: '100%' }}> */}
         <TouchableOpacity onPress={() => navigation.goBack()} style={{ paddingHorizontal: 24, paddingVertical: 6 }}>
           <Image source={back} resizeMode="contain" />
         </TouchableOpacity>
@@ -246,6 +246,7 @@ const ArtistUpdateProfile = () => {
             </Animated.View>
           </View>
         </View>
+        {/* </ImageBackground> */}
       </Animated.View>
 
       <ScrollView
@@ -330,15 +331,21 @@ const ArtistUpdateProfile = () => {
           </Text>
         </View>
         <View>
-          <Tabs selectedTab={txt => setSubHeading(txt)} DATA={DATATabs} />
+          <Tabs selectedTab={handleTabButtonClick} DATA={categories} />
         </View>
 
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.parentUpload}>
-          {images.map((image, index) => (
-            <View key={index} style={styles.imageWrapper}>
-              <Image source={image} style={styles.image} />
-            </View>
-          ))}
+          {images.length > 0
+            ? images.map((image, index) => (
+                <View key={index} style={styles.imageWrapper}>
+                  <Image source={image} style={styles.image} />
+                </View>
+              ))
+            : dummyImages.map((image, index) => (
+                <View key={index} style={styles.imageWrapper}>
+                  <Image source={image} style={styles.image} />
+                </View>
+              ))}
         </ScrollView>
 
         {/* <View style={styles.parentUpload}>

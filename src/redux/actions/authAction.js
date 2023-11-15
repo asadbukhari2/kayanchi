@@ -55,7 +55,7 @@ export const EMAIL_LOGIN =
     }
   };
 
-export const SIGNUP = data => async dispatch => {
+export const SIGNUP = (data, navigation) => async dispatch => {
   dispatch({
     type: SIGN_UP,
   });
@@ -72,6 +72,7 @@ export const SIGNUP = data => async dispatch => {
       type: SIGN_UP_SUCCESS,
       payload: res,
     });
+    navigation.navigate('ArtistOnBoardingWelcome');
   } else if (res.status >= 500) {
     showMessage({
       message: 'Server Issues',

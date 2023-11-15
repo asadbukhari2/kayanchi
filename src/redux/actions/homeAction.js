@@ -1,18 +1,4 @@
-import {
-  SIGN_IN,
-  SIGN_IN_SUCCESS,
-  SIGN_UP_FAILED,
-  SIGN_UP_SUCCESS,
-  SIGN_IN_FAILED,
-  SEND_OTP_FAIL,
-  SEND_OTP_SUCCESS,
-  SAVE_USER_DATA,
-  SAVE_TOKEN,
-  SET_IS_ARTIST,
-  SIGN_UP,
-} from '../constants/constants';
 import { showMessage } from 'react-native-flash-message';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Fetch } from '../../utils/APIservice';
 
 export const GET_INSIGHTS = async limit => {
@@ -62,8 +48,16 @@ export const GET_ARTIST_METRICES = async id => {
     throw new Error(message ?? 'Something went wrong');
   }
 };
-export const GET_ARTIST_EARNING = async limit => {
-  let res = await Fetch.get(`/api/earning/${limit}`);
+export const GET_ARTIST_EARNING = async (limit, value) => {
+  const url =
+    value === 0
+      ? `/api/earning/${limit}`
+      : value === 1
+      ? `/api/earning/booking/${limit}`
+      : value === 2
+      ? `/api/earning/hosting/${limit}`
+      : '';
+  let res = await Fetch.get(url);
   if (res.status >= 200 && res.status < 300) {
     res = await res.json();
 

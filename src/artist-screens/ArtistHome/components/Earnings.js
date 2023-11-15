@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { widthToDp } from '../../../utils/Dimensions';
 import { fonts, useTheme } from '../../../utils/theme';
 
-import { GET_ARTIST_EARNING, GET_INSIGHTS } from '../../../redux/actions/homeAction';
-import { Modal } from 'react-native-paper';
+import { GET_ARTIST_EARNING } from '../../../redux/actions/homeAction';
+
 import { FlatList } from 'react-native-gesture-handler';
 
-const impression = require('../../../assets/impressions.png');
-
-const leftArrow = require('../../../assets/left.png');
-const rightArrow = require('../../../assets/right.png');
 const upArrow = require('../../../assets/up.png');
 
 const theme = useTheme();
@@ -29,15 +25,18 @@ const typeOptions = [
 const Earning = React.memo(() => {
   const [loading, setLoading] = useState(true);
   const [limitIndex, setLimitIndex] = useState(0);
-  const [type, setType] = useState(1);
+  const [type, setType] = useState(0);
   const [amount, setAmount] = useState(0);
-  const [insightsData, setInsightsData] = useState([]);
 
-  const fetchInsights = async _ => {
+  const fetchInsights = async (_, __) => {
     setLoading(true);
-    const res = await GET_ARTIST_EARNING(_);
-    console.log(res);
-    setAmount(res.total_earnings);
+    const res = await GET_ARTIST_EARNING(_, __);
+
+    if (res.total_earnings) {
+      setAmount(res.total_earnings);
+    } else {
+      setAmount('0');
+    }
     const result = [];
     Object.entries(res).forEach(([k, v]) => {
       let key = k.split('_').join(' ');
@@ -46,7 +45,6 @@ const Earning = React.memo(() => {
       result.push({ title: key, count: v });
     });
 
-    setInsightsData(result);
     setLoading(false);
   };
 
@@ -62,14 +60,14 @@ const Earning = React.memo(() => {
   const [selectedType, setSelectedType] = useState(typeOptions[0]);
 
   const handleTypeClick = value => {
-    console.log(value);
+    setType(value);
     setSelectedType(typeOptions.find(option => option.value === value));
     setDropdownVisible(false);
   };
-  console.log(type);
+
   useEffect(() => {
-    fetchInsights(limitOptions[limitIndex].value);
-  }, [limitIndex]);
+    fetchInsights(limitOptions[limitIndex].value, type);
+  }, [limitIndex, type]);
 
   return (
     <>
@@ -87,7 +85,7 @@ const Earning = React.memo(() => {
             <Text
               style={{
                 color: limitIndex !== 0 ? theme.primary : theme.greyText,
-                fontSize: 16,
+                fontSize: 22,
                 fontWeight: 'bold',
                 padding: 4,
               }}>
@@ -111,7 +109,7 @@ const Earning = React.memo(() => {
             <Text
               style={{
                 color: limitIndex !== limitOptions.length - 1 ? theme.primary : theme.greyText,
-                fontSize: 16,
+                fontSize: 22,
                 fontWeight: 'bold',
                 padding: 4,
               }}>
@@ -123,14 +121,6 @@ const Earning = React.memo(() => {
 
       <View style={styles.EarningConatiner}>
         <View style={styles.hostingContainer}>
-          {/* <Text style={styles.hostingHeading}>{typeOptions[type].title}</Text>
-          <TouchableOpacity
-            onPress={() => {
-              handleTypeClick(typeOptions[type].value);
-            }}>
-            <Image source={upArrow} style={styles.arrow} />
-          </TouchableOpacity> */}
-
           {dropdownVisible && (
             <FlatList
               data={typeOptions}
@@ -147,14 +137,23 @@ const Earning = React.memo(() => {
 
           <TouchableOpacity
             onPress={() => setDropdownVisible(!dropdownVisible)}
-            style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
             <Text style={styles.hostingHeading}>{selectedType.title}</Text>
             <Image source={upArrow} style={styles.arrow} />
           </TouchableOpacity>
         </View>
 
         <View style={styles.TotalEarned}>
-          <Text style={styles.EarnedAmount}>Rs {amount || 0}</Text>
+          {loading ? (
+            <View style={{ alignItems: 'center' }}>
+              <View
+                style={{ width: 150, height: 20, backgroundColor: '#e0e0e0', marginBottom: 10, borderRadius: 10 }}
+              />
+            </View>
+          ) : (
+            <Text style={styles.EarnedAmount}>Rs {amount || 0}</Text>
+          )}
+
           <Text style={{ textAlign: 'right', color: '#677790', fontSize: 12 }}>Total Earned</Text>
         </View>
       </View>

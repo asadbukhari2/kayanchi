@@ -7,9 +7,6 @@ import { GET_INSIGHTS } from '../../../redux/actions/homeAction';
 
 const impression = require('../../../assets/impressions.png');
 
-const leftArrow = require('../../../assets/left.png');
-const rightArrow = require('../../../assets/right.png');
-
 const theme = useTheme();
 
 const limitOptions = [
@@ -52,7 +49,7 @@ const Insights = React.memo(() => {
 
   return (
     <View style={styles.insight}>
-      <View style={[styles.insightDetail, { marginVertical: 10 }]}>
+      <View style={styles.insightDetail}>
         <View>
           <Text
             style={{ color: theme.greyText, fontFamily: fonts.hk_bold, fontSize: 18 }}
@@ -68,7 +65,15 @@ const Insights = React.memo(() => {
               handleArrowClick('left');
             }}
             style={{ padding: 5 }}>
-            <Image source={leftArrow} style={styles.arrow} />
+            <Text
+              style={{
+                color: limitIndex !== 0 ? theme.primary : theme.greyText,
+                fontSize: 20,
+                fontWeight: 'bold',
+                padding: 4,
+              }}>
+              {'<'}
+            </Text>
           </TouchableOpacity>
 
           <Text
@@ -81,7 +86,15 @@ const Insights = React.memo(() => {
           </Text>
 
           <TouchableOpacity onPress={() => handleArrowClick('right')} style={{ padding: 5 }}>
-            <Image source={rightArrow} style={styles.arrow} />
+            <Text
+              style={{
+                color: limitIndex !== limitOptions.length - 1 ? theme.primary : theme.greyText,
+                fontSize: 20,
+                fontWeight: 'bold',
+                padding: 4,
+              }}>
+              {'>'}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -137,6 +150,7 @@ const styles = StyleSheet.create({
   },
   insightDetail: {
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
   },
   arrow: { height: 12, width: 12, resizeMode: 'contain' },

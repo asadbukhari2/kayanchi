@@ -8,6 +8,8 @@ import {
   GET_SERVICES,
   GET_SERVICES_DATA,
   GET_SERVICES_ERROR,
+  GET_PORTFOLIO_ERROR,
+  GET_PORTFOLIO_DATA,
 } from '../constants/constants';
 
 export const getCategory = () => async dispatch => {
@@ -121,5 +123,31 @@ export const getServices = (id, token) => async dispatch => {
     });
 
     throw new Error(message ?? 'Something went wrong');
+  }
+};
+export const getPortfolio = token => async dispatch => {
+  try {
+    let res = await Fetch.get('/api/portfolio/myportfolio/', token);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      console.log(res);
+      dispatch({
+        type: GET_PORTFOLIO_DATA,
+        payload: res,
+      });
+    } else {
+      dispatch({
+        type: GET_PORTFOLIO_ERROR,
+      });
+      const { message } = await res.json();
+      showMessage({
+        message: message,
+        type: 'danger',
+      });
+
+      throw new Error(message ?? 'Something went wrong');
+    }
+  } catch (error) {
+    console.log('getPortfolio', error);
   }
 };

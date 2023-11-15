@@ -225,7 +225,6 @@ const CertificationModalForm = ({
           <ReactNativeModal
             coverScreen={true}
             isVisible={issueModalVisible}
-            style={styles.modal}
             onSwipeComplete={() => setIssueModalVisible(!issueModalVisible)}
             swipeDirection={['down']}>
             <View style={styles.pickerOuterView}>
@@ -292,7 +291,6 @@ const CertificationModalForm = ({
           <ReactNativeModal
             coverScreen={true}
             isVisible={expiryModalVisible}
-            style={styles.modal}
             onSwipeComplete={() => setExpiryModalVisible(!expiryModalVisible)}
             swipeDirection={['down']}>
             <View style={styles.pickerOuterView}>
@@ -338,9 +336,9 @@ const CertificationModalForm = ({
                 <View style={styles.categoryItem}>
                   <Image
                     source={
-                      item.image
+                      item.icon
                         ? {
-                            uri: item.image,
+                            uri: item.icon,
                           }
                         : hair
                     }
@@ -425,14 +423,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    // paddingRight: widthToDp(5),
     marginHorizontal: widthToDp(3),
   },
   heading: {
     fontSize: 18,
     color: '#2F3A58',
     fontFamily: fonts.hk_bold,
-    // paddingHorizontal: widthToDp(4),
     paddingVertical: heightToDp(3),
   },
   headingModal: {
@@ -440,7 +436,7 @@ const styles = StyleSheet.create({
     color: '#2F3A58',
     fontFamily: fonts.hk_bold,
     paddingHorizontal: widthToDp(4),
-    // paddingHorizontal: widthToDp(4),
+
     paddingVertical: heightToDp(3),
   },
   subheading: { fontSize: 16, color: '#333333', fontFamily: fonts.robo_med },
@@ -499,5 +495,6 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
+    borderRadius: 10,
   },
 });

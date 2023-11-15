@@ -48,26 +48,27 @@ const ArtistGigMood = () => {
 
   const auth = useSelector(state => state.auth);
   const loading = useSelector(state => state.gig.loading);
-  const gigDetails = useSelector(state => state.gig.gigDetails);
 
   function objectToFormData(data) {
     const formData = new FormData();
 
     for (const key in data) {
       const value = data[key];
-
+      console.log(value, key);
       if (data.hasOwnProperty(key)) {
         if (key === 'service_images') {
           console.log(value);
           value.forEach(ele => {
-            const obj = {
-              uri: ele?.path,
-              type: 'image/jpg',
-              name: ele?.path.split('/').pop(),
-            };
-            formData.append(key, obj);
+            if (ele !== null) {
+              const obj = {
+                uri: ele?.path,
+                type: 'image/jpg',
+                name: ele?.path.split('/').pop(),
+              };
+              formData.append(key, obj);
+            }
           });
-        } else if (key === 'hosting_image') {
+        } else if (key === 'hosting_image' && value !== null) {
           formData.append(key, { uri: value.path, type: 'image/jpg', name: value.path.split('/').pop() });
         } else if (key === 'category_id' || key === 'duration' || key === 'amount') {
           formData.append(key, value);
@@ -100,8 +101,7 @@ const ArtistGigMood = () => {
 
       const formData = objectToFormData(data);
 
-      dispatch(publishSimpleGig(formData, auth.userDetails.token));
-      gigDetails ? navigation.navigate('ArtistVerification') : '';
+      dispatch(publishSimpleGig(formData, auth.userDetails.token, navigation));
     } else {
       showMessage({
         type: 'warning',

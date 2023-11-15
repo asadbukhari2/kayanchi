@@ -9,53 +9,8 @@ import { useNavigation } from '@react-navigation/native';
 import { SIGNUP } from '../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { showMessage } from 'react-native-flash-message';
-import { getCategory } from '../../redux/actions/commonActions';
 
 const theme = useTheme();
-
-// const skills = [
-//   {
-//     name: 'Hair',
-//     icons: [
-//       require('../../assets/Haircut.png'),
-//       require('../../assets/Haircolor.png'),
-//       require('../../assets/Styling.png'),
-//     ],
-//     message: ['Haircut', 'Hair Color', 'Styling'],
-//   },
-//   {
-//     name: 'Face',
-//     icons: [
-//       require('../../assets/Makeup.png'),
-//       require('../../assets/EyeLashes.png'),
-//       require('../../assets/Facials.png'),
-//     ],
-//     message: ['Makeup', 'EyeLashes', 'Facials'],
-//   },
-//   {
-//     name: 'Body',
-//     icons: [
-//       require('../../assets/Waxing.png'),
-//       require('../../assets/Pedicure.png'),
-//       require('../../assets/Medicure.png'),
-//     ],
-//     message: ['Waxing', 'Pedicure', 'Medicure'],
-//   },
-//   {
-//     name: 'Spa',
-//     icons: [
-//       require('../../assets/Massages.png'),
-//       require('../../assets/Oiling.png'),
-//       require('../../assets/Cupping.png'),
-//     ],
-//     message: ['Massages', 'Oiling', 'Cupping'],
-//   },
-//   {
-//     name: 'Treatments',
-//     icons: [require('../../assets/Botox.png'), require('../../assets/Fillers.png'), require('../../assets/Laser.png')],
-//     message: ['Botox', 'Fillers', 'Laser'],
-//   },
-// ];
 
 export default function ArtistKnownFor() {
   const navigation = useNavigation();
@@ -65,21 +20,13 @@ export default function ArtistKnownFor() {
 
   const dispatch = useDispatch();
   const dataToSave = useSelector(state => state.auth.signUpUserData);
-  const isSignUp = useSelector(state => state.auth.isSignUp);
+
   const isLoading = useSelector(state => state.auth.isLoading);
   const categories = useSelector(state => state.common.categories);
 
   useEffect(() => {
     setSkills(categories);
   }, [categories]);
-
-  // const toggleSkill = skillName => {
-  //   if (selectedSkills.includes(skillName)) {
-  //     setSelectedSkills(prevSkills => prevSkills.filter(skill => skill !== skillName));
-  //   } else {
-  //     setSelectedSkills(prevSkills => [...prevSkills, skillName]);
-  //   }
-  // };
 
   const toggleSkill = skill => {
     const skillIndex = selectedSkills.findIndex(selectedSkill => selectedSkill.name === skill.name);
@@ -105,8 +52,7 @@ export default function ArtistKnownFor() {
         };
       });
 
-      dispatch(SIGNUP({ ...dataToSave, type_login: 'artist', known_for: knf, title }));
-      isSignUp === true ? navigation.navigate('ArtistOnBoardingWelcome') : '';
+      dispatch(SIGNUP({ ...dataToSave, type_login: 'artist', known_for: knf, title }, navigation));
     }
   };
 
@@ -180,7 +126,7 @@ export default function ArtistKnownFor() {
                       item?.image_urls.map((imagePath, index) => (
                         <View key={index} style={styles.iconWrapper}>
                           <Image source={imagePath} resizeMode="contain" style={{ width: 50, height: 50 }} />
-                          {/* <Text style={styles.iconText}>{item.message[index]}</Text> */}
+                          {/* <Text style={styles.iconText}>po</Text> */}
                         </View>
                       ))}
                   </View>
@@ -189,20 +135,13 @@ export default function ArtistKnownFor() {
             );
           })}
         </View>
-        {/* {isSignUp ? (
-          <Button
-            title="Continue"
-            btnStyle={[styles.btn, { marginTop: heightToDp(10) }]}
-            onPress={() => navigation.navigate('ArtistOnBoardingWelcome')}
-          />
-        ) : ( */}
+
         <Button
           title={isLoading ? 'Loading...' : 'Continue'}
           disable={isLoading}
           btnStyle={[styles.btn, { marginTop: heightToDp(10) }]}
           onPress={createAccount}
         />
-        {/* )} */}
       </ScrollView>
     </SafeAreaView>
   );
@@ -212,12 +151,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.background,
-    // paddingTop: heightToDp(7),
   },
   btn: {
     marginBottom: heightToDp(3.5),
-    // position: 'absolute',
-    // bottom: heightToDp(1.5),
   },
   genTxt: {
     fontFamily: fonts.hk_bold,

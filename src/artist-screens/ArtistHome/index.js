@@ -1,68 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { View, Image, StyleSheet, FlatList, Text, TextInput, TouchableOpacity, ScrollView, Modal } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Image, StyleSheet, FlatList, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button, Header, HomeCard, SearchBox } from '../../components';
+import { Button } from '../../components';
 import { heightToDp, width, widthToDp, height } from '../../utils/Dimensions';
-import { fonts, useTheme, images } from '../../utils/theme';
-import Feather from 'react-native-vector-icons/Feather';
+import { fonts, useTheme } from '../../utils/theme';
 import { useSelector } from 'react-redux';
-import api, { Fetch } from '../../utils/APIservice';
-import SliderComponent from '../../components/Slider';
 import { useNavigation } from '@react-navigation/native'; // Import the navigation hook
 import Insights from './components/Insights';
 import Performance from './components/Performance';
-import ModalContent from '../../components/ModalContent';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Progress from 'react-native-progress';
-import LatestBookingCard from './components/LatestBookingCard';
 import Comission from './components/Comission';
-import { showMessage } from 'react-native-flash-message';
 import OrderSummary from './components/orderSummary';
 import Earning from './components/Earnings';
+import { Fetch } from '../../utils/APIservice';
 const theme = useTheme();
 //images import
 const timer = require('../../assets/timer.png');
 const carBrown = require('../../assets/car_brown.png');
 const location = require('../../assets/Path.png');
-const pending = require('../../assets/pending.png');
-const completed = require('../../assets/completed.png');
-const confirmed = require('../../assets/confirmed.png');
 const information = require('../../assets/information.png');
 
-const leftArrow = require('../../assets/left.png');
-const rightArrow = require('../../assets/right.png');
-const upArrow = require('../../assets/up.png');
-const impression = require('../../assets/impressions.png');
 const host_green = require('../../assets/host_green.png');
-const CreateGig = require('../../assets/CreateGig.png');
-const CreatePromo = require('../../assets/CreatePromo.png');
-
-const dummyServiceData = [
-  {
-    name: 'Hair Styling',
-    address_text: '123 Main St',
-    verified: true,
-    popular: true,
-  },
-  {
-    name: 'Nail Art',
-    address_text: '456 Broadway Ave',
-    verified: false,
-    popular: true,
-  },
-  {
-    name: 'Makeup Artist',
-    address_text: '789 Elm Rd',
-    verified: true,
-    popular: false,
-  },
-  {
-    name: 'Massage Therapy',
-    address_text: '101 Oak Lane',
-    verified: false,
-    popular: false,
-  },
-];
 
 const orders = [
   {
@@ -85,93 +44,11 @@ const orders = [
   },
 ];
 
-const dummyArtistData = [
-  {
-    name: 'John Doe',
-    location: 'New York, NY',
-    subText: 'Specializes in Hair Styling',
-    verified: true,
-    popular: true,
-  },
-  {
-    name: 'Jane Smith',
-    location: 'Los Angeles, CA',
-    subText: 'Specializes in Makeup Artistry',
-    verified: true,
-    popular: false,
-  },
-  {
-    name: 'Alex Johnson',
-    location: 'Chicago, IL',
-    subText: 'Specializes in Nail Art',
-    verified: true,
-    popular: false,
-  },
-  {
-    name: 'Emily Wilson',
-    location: 'Houston, TX',
-    subText: 'Specializes in Massage Therapy',
-    verified: false,
-    popular: false,
-  },
-];
-
-const DATA = [
-  {
-    mainText: 'Rizwan Noor',
-    location: true,
-    subText: 'Tariq Road',
-    verified: true,
-    popular: true,
-  },
-  {
-    mainText: 'Rizwan Noor',
-    location: true,
-    subText: 'Tariq Road',
-    verified: true,
-    popular: false,
-  },
-  {
-    mainText: 'Rizwan Noor',
-    location: true,
-    subText: 'Tariq Road',
-    verified: true,
-    popular: false,
-  },
-  {
-    mainText: 'Rizwan Noor',
-    location: true,
-    subText: 'Tariq Road',
-    verified: true,
-    popular: false,
-  },
-];
-
-const orderSummary = [
-  {
-    bookingCount: 5,
-    status: 'Bookings Pending',
-    imageSource: pending,
-  },
-  {
-    bookingCount: 10,
-    status: 'Bookings Confirmed',
-    imageSource: confirmed,
-  },
-  {
-    bookingCount: 4,
-    status: 'Bookings Completed',
-    imageSource: completed,
-  },
-];
-
 const ArtistHome = props => {
-  const [service, setService] = useState([]);
-  const [artist, setArtist] = useState([]);
-
+  const [progress, setProgress] = useState(1);
   const auth = useSelector(state => state.auth);
   const navigation = useNavigation();
-  console.log(auth.user);
+
   const { name } = auth.user;
 
   const handleOrder = () => {
@@ -187,89 +64,22 @@ const ArtistHome = props => {
     navigation.navigate('ArtistHomeStack', { screen: 'ArtistRankUp' });
   };
 
-  // const fetchInsights = async _ => {
-  //   // setLoading(true);
-  //   // const res = await GET_INSIGHTS(_);
-  //   // const result = [];
-  //   // Object.entries(res).forEach(([k, v]) => {
-  //   //   let key = k.split('_').join(' ');
-  //   //   key = key[0].toUpperCase() + key.slice(1);
-  //   //   console.log(key);
-  //   //   result.push({ title: key, count: v });
-  //   // });
-
-  //   // setInsightsData(result);
-  //   // setLoading(false);
-
-  //   try {
-  //     let res = await Fetch.get(`/api/insights/${_}`);
-  //     if (res.status >= 200 && res.status < 300) {
-  //       res = await res.json();
-  //       const result = [];
-  //       Object.entries(res).forEach(([k, v]) => {
-  //         let key = k.split('_').join(' ');
-  //         key = key[0].toUpperCase() + key.slice(1);
-  //         console.log(key);
-  //         result.push({ title: key, count: v });
-  //       });
-  //       console.log(result);
-  //     } else {
-  //       const { message } = await res.json();
-  //       showMessage({
-  //         message: message,
-  //         type: 'danger',
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchInsights(30);
-  // }, []);
-
-  // const getService = async () => {
-  //   try {
-  //     const res = await api.get('/api/service');
-
-  //     console.log(res.data);
-  //     setService(res.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // const getArtist = async () => {
-  //   try {
-  //     const res = await api.get('/api/users/artists');
-
-  //     console.log(res.data);
-  //     setArtist(res.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  const getService = async () => {
-    try {
-      await new Promise(resolve => setTimeout(resolve, 500));
-      setService(dummyServiceData);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getArtist = async () => {
-    try {
-      await new Promise(resolve => setTimeout(resolve, 500));
-      setArtist(dummyArtistData);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
-    getService();
-    getArtist();
+    const fetchProfile = async () => {
+      try {
+        const response = await Fetch.get('/api/profile/myprofile/', auth.userDetails.token);
+        const result = await response.json();
+
+        const clampedValue = Math.min(100, Math.max(0, result.level_count));
+
+        const mappedValue = clampedValue / 100;
+
+        setProgress(mappedValue);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchProfile();
   }, []);
 
   return (
@@ -336,13 +146,7 @@ const ArtistHome = props => {
         </View>
 
         {/* create a gig button */}
-        {/* <Button
-          title="Create a new gig"
-          btnStyle={{backgroundColor: '#644874'}}
-          image={timer}
-          imageStyle={styles.buttonicon}
-          onPress={handleButtonPress} // Call the handleButtonPress function when the button is pressed
-        /> */}
+
         <LinearGradient
           colors={['#84668C', '#42275A']} // Define the gradient colors
           style={{ borderRadius: 25, marginHorizontal: widthToDp(5) }}>
@@ -430,11 +234,11 @@ const ArtistHome = props => {
                           SERVICES: Rs {order.item.serviceCost}
                         </Text>
 
-                        {order.item.services.map((service, serviceIndex) => {
+                        {order.item.services.map((_, serviceIndex) => {
                           if (serviceIndex < 1) {
                             return (
                               <Text key={serviceIndex} style={{ color: theme.greyText }}>
-                                {service}
+                                {_}
                               </Text>
                             );
                           } else if (serviceIndex === 1) {
@@ -487,7 +291,6 @@ const ArtistHome = props => {
                     </View>
                   </View>
 
-                  {/* // TODO: placing of buttons is not correct */}
                   <View style={styles.buttons}>
                     <TouchableOpacity
                       style={{
@@ -520,7 +323,7 @@ const ArtistHome = props => {
         </View>
 
         {/* order summary */}
-        <OrderSummary orderSummary={orderSummary} />
+        <OrderSummary />
 
         {/* Rank up */}
 
@@ -558,7 +361,7 @@ const ArtistHome = props => {
             marginVertical: heightToDp(2),
           }}>
           <Progress.Bar
-            progress={0.5}
+            progress={progress}
             height={10}
             width={widthToDp(90)}
             color={'#29AAE2'}

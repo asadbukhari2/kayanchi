@@ -41,7 +41,7 @@ const ArtistGig2 = () => {
   };
 
   const handleContinue = () => {
-    if (description && duration && amount && images.length === 3) {
+    if (description && duration && amount) {
       navigation.navigate('ArtistGigMood', {
         category_id,
         target_audience,

@@ -9,7 +9,7 @@ import { ConsumerSubCatCard, Button, Tabs } from '../../components';
 import SliderComponent from '../../components/Slider';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCertificates, getExperiences, getServices } from '../../redux/actions/commonActions';
+import { getCertificates, getExperiences, getPortfolio, getServices } from '../../redux/actions/commonActions';
 const beauty = require('../../assets/beautician.png');
 const share = require('../../assets/share.png');
 const ondemand = require('../../assets/ondemand.png');
@@ -35,18 +35,8 @@ const ArtistPublishGig = () => {
   const { services, categories } = useSelector(state => state.common);
   const auth = useSelector(state => state.auth);
 
-  const {
-    followers,
-    title,
-    level,
-    rating,
-    rating_count,
-    bio,
-    hosting_mood,
-    travel_mood,
-    availability_status,
-    artist_id,
-  } = auth.profile;
+  const { followers, title, level, rating, rating_count, bio, hosting_mood, travel_mood, availability_status } =
+    auth.profile;
   const { name } = auth.user;
 
   const handleSliderChange = newValue => {
@@ -131,7 +121,7 @@ const ArtistPublishGig = () => {
   useEffect(() => {
     dispatch(getCertificates(auth.userDetails.token));
     dispatch(getExperiences(auth.userDetails.token));
-    dispatch(getServices(artist_id, auth.userDetails.token));
+    dispatch(getPortfolio(auth.userDetails.token));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

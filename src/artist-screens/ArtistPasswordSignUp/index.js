@@ -104,7 +104,32 @@ const ArtistPasswordSignUp = () => {
         onInputPress={toggleModal}
       />
 
-      <ReactNativeModal isVisible={modalVisible}>
+      <ReactNativeModal coverScreen={true} isVisible={modalVisible} swipeDirection={['down']}>
+        <View style={styles.pickerOuterView}>
+          <DatePicker
+            date={pickerDate}
+            androidVariant="nativeAndroid"
+            textColor={theme.background}
+            mode="date"
+            maximumDate={new Date()}
+            onDateChange={v => {
+              setPickerDate(v);
+            }}
+          />
+        </View>
+
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => {
+            setDob(pickerDate);
+            toggleModal();
+          }}
+          style={[styles.pickerDone, { width: '100%' }]}>
+          <Text style={[styles.genTxt, { fontSize: 16, textAlign: 'center', color: 'white' }]}>Done</Text>
+        </TouchableOpacity>
+      </ReactNativeModal>
+
+      {/* <ReactNativeModal isVisible={modalVisible}>
         <View style={styles.modal}>
           <View style={styles.pickerOuterView}>
             <DatePicker
@@ -123,7 +148,7 @@ const ArtistPasswordSignUp = () => {
             </TouchableOpacity>
           </View>
         </View>
-      </ReactNativeModal>
+      </ReactNativeModal> */}
 
       <View style={styles.genView}>
         {Gender.map(item => {
@@ -163,13 +188,10 @@ const styles = StyleSheet.create({
   bottomView: {
     width: width,
     marginTop: heightToDp(15),
-    // position: 'absolute',
-    // bottom: heightToDp(5.5),
     alignItems: 'center',
     alignSelf: 'center',
   },
   genTxt: {
-    // fontSize: fonts.robo_reg,
     fontSize: 14,
     lineHeight: 16.41,
     color: theme.background,
@@ -188,21 +210,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 24,
   },
-  modal: {
-    flex: 1,
-    margin: 0,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-  },
+
   pickerOuterView: {
     width: '100%',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
+    borderRadius: 10,
   },
   pickerDone: {
     paddingVertical: heightToDp(4),
     paddingHorizontal: widthToDp(15),
-    marginTop: 24,
+
     alignSelf: 'center',
     backgroundColor: theme.primary,
     borderRadius: 10,

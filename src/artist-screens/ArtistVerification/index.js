@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header, Button } from '../../components';
@@ -10,7 +10,8 @@ import approval from '../../assets/approval.png';
 import { PermissionsAndroid } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { verify } from '../../redux/actions/gigActions';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getServices } from '../../redux/actions/commonActions';
 
 async function requestCameraPermission() {
   try {
@@ -34,8 +35,9 @@ const ArtistVerification = () => {
   const [image, setImage] = useState();
   const [cnic, setCnic] = useState();
   const [nadraCard, setNadraCard] = useState();
-
+  const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
+  const { artist_id } = auth.profile;
   const navigation = useNavigation();
 
   const handleVerification = (type, img) => {
@@ -91,6 +93,11 @@ const ArtistVerification = () => {
       </View>
     );
   };
+
+  useEffect(() => {
+    dispatch(getServices(artist_id, auth.userDetails.token));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
