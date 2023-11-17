@@ -127,7 +127,7 @@ export default function ArtistPromoGig2(props) {
               <Image source={{ uri: image1.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
-                <Image source={Gallery}></Image>
+                <Image source={Gallery} />
               </View>
             )}
             <Text style={styles.uploadText}>Upload</Text>
@@ -146,7 +146,7 @@ export default function ArtistPromoGig2(props) {
               <Image source={{ uri: image2.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
-                <Image source={Gallery}></Image>
+                <Image source={Gallery} />
               </View>
             )}
             <Text style={styles.uploadText}>Upload</Text>
@@ -165,7 +165,7 @@ export default function ArtistPromoGig2(props) {
               <Image source={{ uri: image3.path }} style={styles.upload} />
             ) : (
               <View style={styles.upload}>
-                <Image source={Gallery}></Image>
+                <Image source={Gallery} />
               </View>
             )}
             <Text style={styles.uploadText}>Upload</Text>
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F7F7F7',
-    paddingTop: heightToDp(8),
+    // paddingTop: heightToDp(8),
   },
   parentUpload: {
     width: widthToDp(90),

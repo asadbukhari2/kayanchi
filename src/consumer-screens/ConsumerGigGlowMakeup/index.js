@@ -61,6 +61,7 @@ export default function ConsumerGigGlowMakeup() {
             flexDirection: 'row',
             marginHorizontal: widthToDp(5),
             marginVertical: 5,
+            alignItems: 'center',
           }}>
           <Text style={{ fontFamily: fonts.robo_reg, color: '#67718C', fontSize: 16 }}>Takes 2-3 hours</Text>
           <Image source={clockcolor} style={{ width: 23, height: 17, marginLeft: 5 }} />
@@ -71,13 +72,14 @@ export default function ConsumerGigGlowMakeup() {
             flexDirection: 'row',
             alignItems: 'center',
             marginHorizontal: widthToDp(5),
+            marginVertical: 4,
           }}>
           {data.map((item, index) => (
             <View
               key={index}
               style={{
                 flexDirection: 'row',
-                backgroundColor: '#84668C',
+                backgroundColor: item.name === 'Hair' ? '#84668C' : theme.brown,
                 paddingVertical: heightToDp(2),
                 paddingHorizontal: widthToDp(4),
                 borderRadius: 20,
@@ -96,13 +98,20 @@ export default function ConsumerGigGlowMakeup() {
             </View>
           ))}
         </View>
-        <View style={styles.separator}></View>
-        <Text style={{ marginHorizontal: widthToDp(5), fontSize: 14, color: '#67718C', fontFamily: fonts.robo_reg }}>
+        <View style={styles.separator} />
+        <Text
+          style={{
+            marginHorizontal: widthToDp(5),
+            fontSize: 16,
+            color: '#67718C',
+            fontFamily: fonts.robo_reg,
+            marginVertical: 12,
+          }}>
           Unlock your radiant beauty with personalized Glow Makeup service. As a skilled makeup artist, I'll accentuate
           your unique features, giving you a captivating glow that enhances your natural charm. Get ready to stand out
           and feel confident.
         </Text>
-        <View style={styles.separator}></View>
+        <View style={styles.separator} />
 
         <View
           style={{
@@ -110,6 +119,7 @@ export default function ConsumerGigGlowMakeup() {
             alignItems: 'center',
             justifyContent: 'space-between',
             marginHorizontal: widthToDp(5),
+            marginVertical: 12,
           }}>
           <Text style={{ color: '#84668C', fontSize: 24, fontFamily: fonts.hk_bold }}>Rs 5,000</Text>
           <Feather
@@ -123,14 +133,18 @@ export default function ConsumerGigGlowMakeup() {
             }}
           />
         </View>
-        <View style={styles.separator}></View>
+        <View style={styles.separator} />
         <View
           style={{
             flexDirection: 'row',
             marginHorizontal: widthToDp(5),
             justifyContent: 'space-between',
+            alignItems: 'center',
+            marginVertical: 12,
           }}>
-          <Text style={{ width: widthToDp(60), fontFamily: fonts.robo_reg }}>Rizwan can only host you </Text>
+          <Text style={{ width: widthToDp(60), fontFamily: fonts.robo_reg, color: theme.greyText }}>
+            Rizwan can only host you{' '}
+          </Text>
           <Image source={hostingBlue} style={styles.images} />
         </View>
       </View>
@@ -140,7 +154,7 @@ export default function ConsumerGigGlowMakeup() {
           bottom: heightToDp(5),
           marginHorizontal: widthToDp(5),
         }}>
-        {/* <Button title="Continue" /> */}
+        <Button title="Continue" />
       </View>
     </SafeAreaView>
   );
@@ -165,8 +179,9 @@ const styles = StyleSheet.create({
     zIndex: 1, // Ensure the header button is above the image
   },
   images: {
-    width: 25,
-    height: 25,
+    width: 30,
+    height: 30,
+    marginRight: 6,
   },
   indicatorView: {
     marginHorizontal: widthToDp(5),

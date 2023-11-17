@@ -692,7 +692,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 50,
     position: 'absolute',
-    right: -210,
+    right: -240,
     bottom: 0,
   },
   modalMainView: {

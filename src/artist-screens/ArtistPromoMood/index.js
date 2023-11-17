@@ -6,7 +6,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header, Button } from '../../components';
 import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { useTheme, fonts } from '../../utils/theme';
-import iButton from '../../assets/ibutton.png';
 
 import back from '../../assets/back.png';
 import travelling from '../../assets/travelling.png';
@@ -18,23 +17,27 @@ import HostMoodImage from '../../assets/car-front.png';
 
 import LinearGradient from 'react-native-linear-gradient';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveToken } from '../../redux/actions';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const theme = useTheme();
-
+const modeData = [
+  {
+    id: 'travel',
+    image: HostMoodImage,
+    heading: 'Travel',
+    desc: "to client's",
+  },
+  {
+    id: 'host',
+    image: TravelMoodImage,
+    heading: 'Host',
+    desc: 'the client',
+  },
+];
 const ArtistPromoMood = props => {
   const [image, setImage] = useState();
   const [isPrivate, setIsPrivate] = useState(false);
+  const [gigMood, setGigMood] = useState('');
 
-  const handlePrivateImage = () => {
-    setIsPrivate(previousState => !previousState);
-  };
-  const { navigation, route } = props;
-  // const {data} = route.params;
-
-  // console.log(data);
-  const dispatch = useDispatch();
   const user = useSelector(state => state.auth);
   useEffect(() => {
     console.log(user);
@@ -46,58 +49,55 @@ const ArtistPromoMood = props => {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <View
-          style={{
-            flex: 0,
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginLeft: widthToDp(5),
-            width: widthToDp(90),
-          }}>
-          <Image source={back}></Image>
-          <View style={{ marginLeft: -20 }}>
-            <Header title={'Promo mood'} />
-          </View>
+      <View
+        style={{
+          flex: 0,
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginLeft: widthToDp(5),
+          width: widthToDp(90),
+        }}>
+        <Image source={back} />
+        <View style={{ marginLeft: -20 }}>
+          <Header title={'Promo mood'} />
         </View>
+      </View>
+      <ScrollView>
         <Text style={styles.gigVersionAsk}>From this Promo - would you like to</Text>
         <View style={styles.gigVersion}>
-          <Text style={styles.title}>{'Travel, host or both?'}</Text>
+          <Text style={styles.title}>Travel, host or both?</Text>
         </View>
 
-        <Text style={styles.warning}>{'Choose between travelling, hosting or both mood(s) for this gig.  '}</Text>
-        <Text style={styles.warning2}>{'Learn more about traveling and hosting moods.'}</Text>
+        <Text style={styles.warning}>Choose between travelling, hosting or both mood(s) for this gig.</Text>
+        <Text style={styles.warning2}>Learn more about traveling and hosting moods.</Text>
 
         <View style={styles.parentMood}>
           <View style={styles.mood}>
-            <LinearGradient
-              colors={[theme.primary, theme.primary]}
-              style={styles.childMood}
-              start={{ x: 1, y: 0.5 }}
-              end={{ x: 1, y: 0.5 }}>
-              <Image source={HostMoodImage} style={{ height: 30, width: 30, resizeMode: 'contain' }}></Image>
-              <Text style={styles.childMoodHead}>Travel</Text>
-              <Text style={styles.childMoodBody}>to client’s</Text>
-            </LinearGradient>
-            <LinearGradient
-              colors={[theme.primary, theme.primary]}
-              style={styles.childMood}
-              start={{ x: 1, y: 0.5 }}
-              end={{ x: 1, y: 0.5 }}>
-              <Image source={TravelMoodImage}></Image>
-              <Text style={styles.childMoodHead}>Host</Text>
-              <Text style={styles.childMoodBody}>the client</Text>
-            </LinearGradient>
+            {modeData.map(mood => {
+              return (
+                <TouchableOpacity onPress={() => setGigMood(mood.id)} key={mood.id}>
+                  <LinearGradient
+                    colors={gigMood === mood.id ? ['#86C0E9', '#2764AE'] : ['#696969', '#AEAEAE']}
+                    style={styles.childMood}
+                    start={{ x: 1, y: 0.5 }}
+                    end={{ x: 1, y: 0.5 }}>
+                    <Image source={mood.image} style={{ height: 30, width: 30, resizeMode: 'contain' }} />
+                    <Text style={styles.childMoodHead}>{mood.heading}</Text>
+                    <Text style={styles.childMoodBody}>{mood.desc}</Text>
+                  </LinearGradient>
+                </TouchableOpacity>
+              );
+            })}
           </View>
         </View>
         <View style={styles.serviceDuration}>
-          <Text style={styles.title2}>{'Default Travelling cost'}</Text>
-          <Image source={travelling}></Image>
-          <View style={styles.childServiceDuration}></View>
+          <Text style={styles.title2}>Default Travelling cost</Text>
+          <Image source={travelling} />
+          <View style={styles.childServiceDuration} />
         </View>
 
         <Text style={styles.warning}>
-          {'Budget your travel cost within the city. Offer travel for free, to get more orders.'}
+          Budget your travel cost within the city. Offer travel for free, to get more orders.
         </Text>
         <View
           style={{
@@ -105,31 +105,29 @@ const ArtistPromoMood = props => {
             justifyContent: 'space-between',
             alignContent: 'center',
           }}>
-          <Text style={styles.warning}>{'Offer free travel'}</Text>
+          <Text style={styles.warning}>Offer free travel</Text>
           <View style={styles.switchContainer}>
             <ToggleSwitch
-              isOn={false}
+              isOn={isPrivate}
               style={{ height: 20, marginRight: 10 }}
-              value={isPrivate}
               onColor="#84668C"
               offColor="#9A9A9A"
               size="small"
-              onToggle={handlePrivateImage}
+              value={gigMood === 'host' ? false : isPrivate}
+              disabled={gigMood === 'host'}
+              onToggle={isOn => setIsPrivate(isOn)}
             />
-
-            {/* <Switch
-              value={isPrivate}
-
-              onValueChange={handlePrivateImage}
-              thumbColor={isPrivate ? theme.primary : '#eee'}
-              trackColor={{false: 'grey', true: 'grey'}}
-              style={styles.switch}
-            /> */}
           </View>
         </View>
 
         <View style={styles.parentPrice}>
-          <TextInput style={styles.priceField} placeholder="100-1000"></TextInput>
+          <TextInput
+            style={styles.priceField}
+            placeholder="100-1000"
+            placeholderTextColor={'#8D8A94'}
+            editable={gigMood !== 'host' && !isPrivate}
+            keyboardType="number-pad"
+          />
         </View>
 
         <View style={styles.gigVersion}>
@@ -164,7 +162,7 @@ const ArtistPromoMood = props => {
           ) : (
             <View>
               <View style={styles.upload}>
-                <Image source={galleryBig}></Image>
+                <Image source={galleryBig} />
                 <Text style={styles.uploadText}>Upload</Text>
               </View>
             </View>
@@ -201,16 +199,12 @@ const styles = StyleSheet.create({
     flex: 0,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
   },
   mood: {
-    // borderColor: "red",
-    // borderWidth: 1,
     width: width * 0.9,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // alignItems:"s"
   },
   childMood: {
     // borderColor: "blue",
@@ -225,13 +219,10 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   childMoodHead: {
-    fontFamily: 'Roboto',
-    fontStyle: 'normal',
-    fontWeight: '500',
-    fontSize: 14,
-    // lineHeight: 16,
+    fontWeight: 'bold',
+    fontSize: 15,
     color: 'white',
-    marginTop: 15,
+    marginTop: 10,
   },
   childMoodBody: {
     fontFamily: 'Roboto',
@@ -240,7 +231,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     // lineHeight: 16,
     color: 'white',
-    marginTop: 10,
+    marginTop: 4,
   },
 
   parentUpload: {
@@ -278,7 +269,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginHorizontal: 24,
     fontFamily: fonts.robo_reg,
-    color: theme.darkGray,
+    color: theme.greyText,
     marginTop: 8,
     lineHeight: 18.75,
   },
@@ -286,7 +277,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginHorizontal: 24,
     fontFamily: fonts.robo_reg,
-    color: theme.darkGray,
     marginTop: 8,
     marginBottom: 20,
     lineHeight: 18.75,
@@ -339,13 +329,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     fontFamily: fonts.robo_reg,
     color: '#8D8A94',
-    marginTop: 8,
     lineHeight: 22,
   },
   container: {
     flex: 1,
     backgroundColor: theme.white,
-    paddingTop: heightToDp(7),
   },
   skipView: {
     position: 'absolute',
