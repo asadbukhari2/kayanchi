@@ -5,8 +5,7 @@ import { fonts, useTheme } from '../../utils/theme';
 import { heightToDp, widthToDp, height, width } from '../../utils/Dimensions';
 import Feather from 'react-native-vector-icons/Feather';
 import LinearGradient from 'react-native-linear-gradient'; // Import the LinearGradient component
-import Modal from 'react-native-modal';
-import { TextInput } from '../../components';
+
 const AddMore = require('../../assets/addMore.png');
 const theme = useTheme();
 
@@ -56,7 +55,7 @@ export default function ArtistPromoMainPage(props) {
         <LinearGradient
           colors={['#668C6A', '#3E5F41']} // Define your gradient colors here
           style={styles.Discount}>
-          <View style={{ flexDirection: 'row' }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <Text style={styles.text}>Add Discount</Text>
             <Feather style={{ color: '#193356', fontSize: 18, marginLeft: 10 }} name="edit-2" />
           </View>
@@ -82,16 +81,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.background,
-    paddingTop: heightToDp(8),
   },
   imageContainer: {
     justifyContent: 'center', // Center vertically
     alignItems: 'center', // Center horizontally
   },
-
   btn: {
-    //   position: 'absolute',
-    //   bottom: heightToDp(5),
     marginVertical: widthToDp(5),
   },
   heading: {
@@ -121,6 +116,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     fontSize: 12,
     marginRight: 15,
+    color: theme.dark,
   },
   subHeading: {
     fontSize: 16,

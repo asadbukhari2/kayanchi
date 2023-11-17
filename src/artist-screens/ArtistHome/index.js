@@ -80,7 +80,7 @@ const ArtistHome = props => {
       }
     };
     fetchProfile();
-  }, []);
+  }, [auth.userDetails.token]);
 
   return (
     <SafeAreaView style={styles.container}>

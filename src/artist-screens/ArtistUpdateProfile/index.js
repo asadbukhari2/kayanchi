@@ -585,7 +585,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     position: 'absolute',
     bottom: 0,
-    right: -200,
+    right: -240,
   },
   centerDiv: { flexDirection: 'row', alignItems: 'center' },
 

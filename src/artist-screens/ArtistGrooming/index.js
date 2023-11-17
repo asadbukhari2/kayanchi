@@ -10,7 +10,8 @@ const carBrown = require('../../assets/car_brown.png');
 const host_green = require('../../assets/host_green.png');
 const information = require('../../assets/information.png');
 const location = require('../../assets/Path.png');
-import { fonts } from '../../utils/theme';
+import { fonts, useTheme } from '../../utils/theme';
+const theme = useTheme();
 const orders = [
   {
     name: 'John Doe',
@@ -66,7 +67,7 @@ export default function ArtistGrooming(props) {
           </Text>
           <View style={styles.timeContainer}>
             <Image source={clockcolor} style={styles.clockImage} />
-            <Text>60:00 min</Text>
+            <Text style={{ color: theme.primary, fontWeight: 'bold', fontSize: 16 }}>60:00 min</Text>
           </View>
         </View>
         <View>
@@ -101,7 +102,11 @@ export default function ArtistGrooming(props) {
                         const maxServicesToShow = 1;
 
                         if (serviceIndex < maxServicesToShow) {
-                          return <Text key={serviceIndex}>{service}</Text>;
+                          return (
+                            <Text key={serviceIndex} style={{ color: theme.greyText }}>
+                              {service}
+                            </Text>
+                          );
                         } else if (serviceIndex === maxServicesToShow) {
                           const remainingServices = order.services.length - maxServicesToShow;
                           return (
@@ -186,7 +191,7 @@ export default function ArtistGrooming(props) {
         <Text
           style={{
             color: '#67718C',
-            marginHorizontal: widthToDp(20),
+            marginHorizontal: widthToDp(22),
             textAlign: 'center',
             marginVertical: 15,
             fontFamily: fonts.robo_reg,

@@ -50,6 +50,7 @@ const theme = useTheme();
 export default function ArtistPromoGig1(props) {
   const [name, setName] = useState('');
   const [gender, setGender] = useState('');
+  const [category, setCategory] = useState('');
 
   const handleClick = () => {
     props.navigation.navigate('ArtistHomeStack', {
@@ -96,12 +97,12 @@ export default function ArtistPromoGig1(props) {
         <View style={styles.genRow}>
           {Category.slice(0, 3).map(item => (
             <TouchableOpacity
-              onPress={() => setGender(item.name)}
+              onPress={() => setCategory(item.name)}
               activeOpacity={0.7}
               style={[
                 styles.genBtn,
                 {
-                  backgroundColor: gender === item.name ? theme.primary : theme.genderGrey,
+                  backgroundColor: category === item.name ? theme.primary : theme.genderGrey,
                 },
               ]}
               key={item.name}>
@@ -116,12 +117,12 @@ export default function ArtistPromoGig1(props) {
         <View style={[styles.genRow, { justifyContent: 'flex-start' }]}>
           {Category.slice(3, 5).map(item => (
             <TouchableOpacity
-              onPress={() => setGender(item.name)}
+              onPress={() => setCategory(item.name)}
               activeOpacity={0.7}
               style={[
                 styles.genBtn,
                 {
-                  backgroundColor: gender === item.name ? theme.primary : theme.genderGrey,
+                  backgroundColor: category === item.name ? theme.primary : theme.genderGrey,
                 },
                 { marginRight: widthToDp(5) },
                 { width: widthToDp(34.5) },
@@ -197,7 +198,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F7F7F7',
-    paddingTop: heightToDp(8),
+    // paddingTop: heightToDp(8),
   },
   genRow: {
     flexDirection: 'row',

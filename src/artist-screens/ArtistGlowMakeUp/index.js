@@ -3,21 +3,18 @@ import { SafeAreaView, View, Text, ImageBackground, StyleSheet, Image } from 're
 import { fonts, useTheme } from '../../utils/theme';
 import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { Button, Header } from '../../components';
-import Feather from 'react-native-vector-icons/Feather';
+
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { convertMinutesToRange } from '../../utils/helper';
 
-const clinic_image = require('../../assets/clinic_image.png');
 const clockcolor = require('../../assets/clockcolor.png');
 const ondemand = require('../../assets/ondemand.png');
-const treatment = require('../../assets/treatment.png');
-const eye_face = require('../../assets/eye_face.png');
-const hostingBlue = require('../../assets/hostingBlue.png');
 
-const waxing = require('../../assets/body.png');
+const eye_face = require('../../assets/eye_face.png');
+
 const hair = require('../../assets/hair.png');
-const hairStyle = require('../../assets/hairStyle.png');
+
 const theme = useTheme();
 
 export default function ArtistGlowMakeUp() {
@@ -170,6 +167,7 @@ export default function ArtistGlowMakeUp() {
           }}
         />
       </View>
+      <Button title="Continue" />
     </SafeAreaView>
   );
 }

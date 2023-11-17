@@ -25,7 +25,6 @@ const orders = [
 
 export default function ArtistGroomingDone(props) {
   const [modalVisible, setModalVisible] = useState(true);
-  const [rating, setRating] = useState(null);
   const [selectedRating, setSelectedRating] = useState(null);
 
   const onClose = () => {
@@ -52,7 +51,7 @@ export default function ArtistGroomingDone(props) {
         <View>
           <Text style={styles.heading}>Grooming done</Text>
           <Text style={{ color: '#67718C', textAlign: 'center', marginBottom: 10 }}>
-            Great work! Off to the next one!{' '}
+            Great work! Off to the next one!
           </Text>
         </View>
 
@@ -81,7 +80,11 @@ export default function ArtistGroomingDone(props) {
                         const maxServicesToShow = 1;
 
                         if (serviceIndex < maxServicesToShow) {
-                          return <Text key={serviceIndex}>{service}</Text>;
+                          return (
+                            <Text key={serviceIndex} style={{ color: theme.greyText }}>
+                              {service}
+                            </Text>
+                          );
                         } else if (serviceIndex === maxServicesToShow) {
                           const remainingServices = order.services.length - maxServicesToShow;
                           return (
@@ -106,7 +109,7 @@ export default function ArtistGroomingDone(props) {
 
                   <View>
                     <View style={styles.orderDetails}>
-                      <Text>
+                      <Text style={{ color: theme.dark }}>
                         was
                         <Text style={{ color: '#84668C' }}> HOSTING</Text>
                       </Text>
@@ -116,7 +119,7 @@ export default function ArtistGroomingDone(props) {
                     <Text style={{ color: '#29AAE2' }}>
                       3.5 kms <Text style={{ color: '#0F2851' }}>away for you </Text>{' '}
                     </Text>
-                    <Text style={styles.textBold}>Hosting at:</Text>
+                    <Text style={[styles.textBold, { marginVertical: 6 }]}>HOSTING AT:</Text>
                     <View style={{ flexDirection: 'row' }}>
                       <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
                       <Text style={{ color: '#32aee3' }}>{order.salonAddress}</Text>
@@ -140,7 +143,10 @@ export default function ArtistGroomingDone(props) {
             activeOpacity={0.7}
             onPress={() => setModalVisible(false)}
             style={{ padding: heightToDp(4.5), position: 'absolute', right: 0 }}>
-            <Feather name={'x'} style={{ fontSize: 20, color: theme.backIcon }} />
+            <Feather
+              name={'x'}
+              style={{ fontSize: 20, color: theme.backIcon, backgroundColor: '#ddd', borderRadius: 50, padding: 3 }}
+            />
           </TouchableOpacity>
           <Text style={styles.title}>Rate This client</Text>
           <View
@@ -162,7 +168,7 @@ export default function ArtistGroomingDone(props) {
               </TouchableOpacity>
             ))}
           </View>
-          {selectedRating !== null && <Text style={styles.selectedRatingText}>{selectedRating}</Text>}
+          {selectedRating !== null && <Text style={styles.selectedRatingText}>{selectedRating}.0</Text>}
           <View style={styles.btnTxt}>
             <Button title="Back to home" onPress={groomingDoneHandler} />
           </View>
@@ -185,7 +191,13 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   btnTxt: { marginVertical: 15 },
-  selectedRatingText: { textAlign: 'center', color: '#747474', fontFamily: fonts.hk_bold },
+  selectedRatingText: {
+    textAlign: 'center',
+    color: '#747474',
+    fontSize: 18,
+    fontFamily: fonts.hk_bold,
+    marginVertical: 12,
+  },
   imageContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -240,7 +252,7 @@ const styles = StyleSheet.create({
     // width: widthToDp(44),
     marginHorizontal: widthToDp(5),
     // width: (width * 0.91) / 2,
-    paddingVertical: heightToDp(5),
+    paddingVertical: heightToDp(4),
     paddingHorizontal: widthToDp(1),
     borderRadius: 10,
   },
@@ -266,8 +278,11 @@ const styles = StyleSheet.create({
   headingName: {
     fontSize: 18,
     fontFamily: fonts.robo_bold,
+    color: theme.dark,
   },
   textBold: {
     fontWeight: 'bold',
+    fontSize: 13,
+    color: theme.dark,
   },
 });
