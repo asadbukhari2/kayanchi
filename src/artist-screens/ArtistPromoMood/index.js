@@ -17,6 +17,9 @@ import HostMoodImage from '../../assets/car-front.png';
 
 import LinearGradient from 'react-native-linear-gradient';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { publishSimpleGig } from '../../redux/actions/gigActions';
+import { showMessage } from 'react-native-flash-message';
 
 const theme = useTheme();
 const modeData = [
@@ -35,17 +38,85 @@ const modeData = [
 ];
 const ArtistPromoMood = props => {
   const [image, setImage] = useState();
-  const [isPrivate, setIsPrivate] = useState(false);
   const [gigMood, setGigMood] = useState('');
 
-  const user = useSelector(state => state.auth);
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+  const [isFree, setIsFree] = useState(false);
+
+  const [travelFee, setTravelFee] = useState(0);
+
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const route = useRoute();
+
+  const auth = useSelector(state => state.auth);
+  const loading = useSelector(state => state.gig.loading);
+
+  function objectToFormData(data) {
+    const formData = new FormData();
+
+    for (const key in data) {
+      const value = data[key];
+      console.log(value, key);
+      if (data.hasOwnProperty(key)) {
+        if (key === 'service_images') {
+          console.log(value);
+          value.forEach(ele => {
+            if (ele !== null) {
+              const obj = {
+                uri: ele?.path,
+                type: 'image/jpg',
+                name: ele?.path.split('/').pop(),
+              };
+              formData.append(key, obj);
+            }
+          });
+        } else if (key === 'hosting_image' && value !== null) {
+          formData.append(key, { uri: value.path, type: 'image/jpg', name: value.path.split('/').pop() });
+        } else if (key === 'category_id' || key === 'duration' || key === 'amount') {
+          formData.append(key, value);
+        } else {
+          formData.append(key, JSON.stringify(value));
+        }
+      }
+    }
+
+    return formData;
+  }
 
   const gotoArtist = async () => {
-    // dispatch(saveToken({token: 'anyvalue'}));
-    props.navigation.navigate('ArtistHomeStack', { screen: 'ArtistVerification' });
+    if (gigMood && image) {
+      const data = {
+        ...route.params,
+        is_travelling: gigMood === 'travel',
+        is_hosting: gigMood === 'host',
+        offer_free_travel: gigMood === 'host' ? false : isFree,
+        travelling_cost: isFree || gigMood === 'host' ? 0 : travelFee,
+        hosting_image: image,
+        is_discount: false,
+        is_active: true,
+        is_promotional: false,
+        discount_percentage: 0,
+        additional_services: [],
+        promo_services: [],
+        target_audience: route.params.target_audience.splice(0, 1),
+      };
+
+      const formData = objectToFormData(data);
+
+      dispatch(
+        publishSimpleGig(
+          formData,
+          auth.userDetails.token,
+          navigation,
+          auth.isAllowedToMain ? 'ArtistHome' : 'isAllowedToMain',
+        ),
+      );
+    } else {
+      showMessage({
+        type: 'warning',
+        message: 'Fill Form and verify inputs',
+      });
+    }
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -63,9 +134,9 @@ const ArtistPromoMood = props => {
         </View>
       </View>
       <ScrollView>
-        <Text style={styles.gigVersionAsk}>From this Promo - would you like to</Text>
+        <Text style={styles.gigVersionAsk}>For this gig - would you like to</Text>
         <View style={styles.gigVersion}>
-          <Text style={styles.title}>Travel, host or both?</Text>
+          <Text style={styles.title}>{'Travel, host or both?'}</Text>
         </View>
 
         <Text style={styles.warning}>Choose between travelling, hosting or both mood(s) for this gig.</Text>
@@ -90,8 +161,9 @@ const ArtistPromoMood = props => {
             })}
           </View>
         </View>
+
         <View style={styles.serviceDuration}>
-          <Text style={styles.title2}>Default Travelling cost</Text>
+          <Text style={styles.title2}>{'Default Travelling cost'}</Text>
           <Image source={travelling} />
           <View style={styles.childServiceDuration} />
         </View>
@@ -105,45 +177,44 @@ const ArtistPromoMood = props => {
             justifyContent: 'space-between',
             alignContent: 'center',
           }}>
-          <Text style={styles.warning}>Offer free travel</Text>
+          <Text style={styles.warning}>{'Offer free travel'}</Text>
+
           <View style={styles.switchContainer}>
             <ToggleSwitch
-              isOn={isPrivate}
+              isOn={isFree}
               style={{ height: 20, marginRight: 10 }}
+              value={gigMood === 'host' ? false : isFree}
               onColor="#84668C"
               offColor="#9A9A9A"
               size="small"
-              value={gigMood === 'host' ? false : isPrivate}
               disabled={gigMood === 'host'}
-              onToggle={isOn => setIsPrivate(isOn)}
+              onToggle={isOn => setIsFree(isOn)}
             />
           </View>
         </View>
-
         <View style={styles.parentPrice}>
           <TextInput
             style={styles.priceField}
-            placeholder="100-1000"
             placeholderTextColor={'#8D8A94'}
-            editable={gigMood !== 'host' && !isPrivate}
+            editable={gigMood !== 'host' && !isFree}
+            value={travelFee}
             keyboardType="number-pad"
+            onChangeText={e => setTravelFee(e)}
+            placeholder="100-1000"
           />
         </View>
 
         <View style={styles.gigVersion}>
-          <Text style={styles.title}>{'Upload pictures of your hosting spot'}</Text>
+          <Text style={styles.title}>Upload pictures of your hosting spot</Text>
         </View>
-        <Text style={styles.warning}>{'Kaynchi needs to verify your hosting spot before processing your order.'}</Text>
+        <Text style={styles.warning}>Kaynchi needs to verify your hosting spot before processing your order.</Text>
 
         <TouchableOpacity
           onPress={() => {
             ImageCropPicker.openPicker({
-              // width: width * 0.868,
-              // height: heightToDp(43.2),
               cropping: true,
-            }).then(image => {
-              console.log(image);
-              setImage(image);
+            }).then(img => {
+              setImage(img);
             });
           }}
           activeOpacity={0.9}
@@ -152,7 +223,6 @@ const ArtistPromoMood = props => {
             <Image
               source={{ uri: image.path }}
               style={{
-                elevation: 1,
                 width: widthToDp(90),
                 height: 160,
                 borderRadius: 10,
@@ -172,10 +242,9 @@ const ArtistPromoMood = props => {
         <Text style={styles.warning2}>{'Terms and conditions.'}</Text>
 
         <Button
-          title={'Publish Promo'}
+          title={!loading ? 'Publish Promo' : 'Loading...'}
           btnStyle={styles.btn}
           onPress={() => {
-            // navigation.navigate('gotoArtist');
             gotoArtist();
           }}
         />
@@ -199,12 +268,16 @@ const styles = StyleSheet.create({
     flex: 0,
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 20,
   },
   mood: {
+    // borderColor: "red",
+    // borderWidth: 1,
     width: width * 0.9,
-    flex: 1,
+    flex: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    // alignItems:"s"
   },
   childMood: {
     // borderColor: "blue",
@@ -219,15 +292,14 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   childMoodHead: {
-    fontWeight: 'bold',
-    fontSize: 15,
+    fontFamily: fonts.robo_med,
+    fontSize: 14,
+    // lineHeight: 16,
     color: 'white',
-    marginTop: 10,
+    marginTop: 8,
   },
   childMoodBody: {
-    fontFamily: 'Roboto',
-    fontStyle: 'normal',
-    fontWeight: '300',
+    fontFamily: fonts.robo_light,
     fontSize: 14,
     // lineHeight: 16,
     color: 'white',
@@ -242,7 +314,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   upload: {
-    elevation: 1,
     backgroundColor: '#FFFFFF',
     width: widthToDp(90),
     height: 160,
@@ -269,7 +340,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginHorizontal: 24,
     fontFamily: fonts.robo_reg,
-    color: theme.greyText,
+    color: theme.darkModeText,
     marginTop: 8,
     lineHeight: 18.75,
   },
@@ -277,10 +348,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginHorizontal: 24,
     fontFamily: fonts.robo_reg,
+    color: theme.blue,
     marginTop: 8,
     marginBottom: 20,
     lineHeight: 18.75,
-    color: '#1583D8',
   },
   parentPrice: {
     flex: 0,
@@ -299,7 +370,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 10,
     fontSize: 17,
-    fontFamily: fonts.robo_reg,
+    fontFamily: fonts.robo_med,
     color: '#9A9A9A',
     lineHeight: 22,
     opacity: 0.3,
@@ -313,7 +384,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     fontSize: 16,
     // marginHorizontal: 24,
-    fontFamily: fonts.robo_reg,
+    fontFamily: fonts.robo_med,
     color: '#8D8A94',
     lineHeight: 22,
   },
@@ -327,7 +398,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     fontSize: 16,
     marginHorizontal: 24,
-    fontFamily: fonts.robo_reg,
+    fontFamily: fonts.robo_med,
     color: '#8D8A94',
     lineHeight: 22,
   },
@@ -372,8 +443,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     fontFamily: fonts.robo_reg,
     color: '#67718C',
-    // marginTop: 4,
-    // lineHeight: 18.75,
   },
   title: {
     fontSize: 34,
@@ -386,7 +455,7 @@ const styles = StyleSheet.create({
   title2: {
     fontSize: 20,
     marginHorizontal: 24,
-    fontFamily: fonts.hk_bold,
+    fontFamily: '700',
     // marginTop: 23,
     lineHeight: 24,
     color: '#2F3A58',

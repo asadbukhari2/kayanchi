@@ -23,6 +23,7 @@ const ArtistBasicGig = () => {
 
   const categories = useSelector(state => state.common.categories);
   const route = useRoute();
+
   const clickHandler = () => {
     if (!name || !selectedCategory || !selectedAudience.length > 0) {
       showMessage({
@@ -41,7 +42,6 @@ const ArtistBasicGig = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <ScrollView> */}
       <View
         style={{
           flex: 0,
@@ -67,6 +67,7 @@ const ArtistBasicGig = () => {
         height={90}
         style={styles.inputField}
         value={name}
+        input
         onChangeText={e => setName(e)}
         maxLength={30}
         placeholder="Sagan / Engagement makeupx"
@@ -176,7 +177,6 @@ const ArtistBasicGig = () => {
       </View>
 
       <Button title={'Continue'} btnStyle={styles.btn} onPress={clickHandler} />
-      {/* </ScrollView> */}
     </SafeAreaView>
   );
 };

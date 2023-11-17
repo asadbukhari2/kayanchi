@@ -152,26 +152,42 @@ const TabStack = () => (
     />
     <Stack.Screen
       name="ArtistGig"
-      component={ArtistGig}
-      // component={ArtistCreateGig}
+      // component={ArtistGig}
+      component={ArtistCreateGig}
       options={{
         headerShown: false,
       }}
     />
     <Stack.Screen
+      name="ArtistBasicGig"
+      component={ArtistBasicGig}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <Stack.Screen
+      name="ArtistBasicGig2"
+      component={ArtistBasicGig2}
+      options={{
+        headerShown: false,
+      }}
+    />
+    {/* <Stack.Screen name="ArtistGigMood" component={ArtistGigMood} /> */}
+
+    {/* <Stack.Screen
       name="ArtistGigInfo"
       component={ArtistGigInfo}
       options={{
         headerShown: false,
       }}
-    />
-    <Stack.Screen
+    /> */}
+    {/* <Stack.Screen
       name="ArtistGigDescription"
       component={ArtistGigDescription}
       options={{
         headerShown: false,
       }}
-    />
+    /> */}
     <Stack.Screen
       name="ArtistGigMood"
       component={ArtistGigMood}
@@ -179,7 +195,30 @@ const TabStack = () => (
         headerShown: false,
       }}
     />
+
     <Stack.Screen
+      name="ArtistPromoMainPage"
+      component={ArtistPromoMainPage}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <Stack.Screen
+      name="ArtistPromoGig1"
+      component={ArtistPromoGig1}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <Stack.Screen
+      name="ArtistPromoMood"
+      component={ArtistPromoMood}
+      options={{
+        headerShown: false,
+      }}
+    />
+
+    {/* <Stack.Screen
       name="ArtistPublishGig"
       component={ArtistPublishGig}
       options={{
@@ -192,7 +231,8 @@ const TabStack = () => (
       options={{
         headerShown: false,
       }}
-    />
+    /> */}
+
     <Stack.Screen
       name="ArtistProfileStack"
       component={ArtistProfileStack}
@@ -200,13 +240,7 @@ const TabStack = () => (
         headerShown: false,
       }}
     />
-    <Stack.Screen
-      name="ArtistPromoGig1"
-      component={ArtistPromoGig1}
-      options={{
-        headerShown: false,
-      }}
-    />
+
     <Stack.Screen
       name="ArtistPromoGig2"
       component={ArtistPromoGig2}
@@ -228,20 +262,7 @@ const TabStack = () => (
         headerShown: false,
       }}
     />
-    <Stack.Screen
-      name="ArtistPromoMood"
-      component={ArtistPromoMood}
-      options={{
-        headerShown: false,
-      }}
-    />
-    <Stack.Screen
-      name="ArtistPromoMainPage"
-      component={ArtistPromoMainPage}
-      options={{
-        headerShown: false,
-      }}
-    />
+
     <Stack.Screen
       name="ArtistOrderStack"
       component={ArtistOrderStack}

@@ -101,7 +101,14 @@ const ArtistGigMood = () => {
 
       const formData = objectToFormData(data);
 
-      dispatch(publishSimpleGig(formData, auth.userDetails.token, navigation));
+      dispatch(
+        publishSimpleGig(
+          formData,
+          auth.userDetails.token,
+          navigation,
+          auth.isAllowedToMain ? 'ArtistHome' : 'isAllowedToMain',
+        ),
+      );
     } else {
       showMessage({
         type: 'warning',
@@ -235,22 +242,12 @@ const ArtistGigMood = () => {
 
         <Text style={styles.warning2}>Terms and conditions.</Text>
 
-        {/* {!gigDetails ? ( */}
         <Button
           title={!loading ? 'Publish Gig' : 'Loading...'}
           disabled={loading}
           btnStyle={styles.btn}
           onPress={gotoArtist}
         />
-        {/* ) : (
-          <Button
-            title="Continue"
-            btnStyle={styles.btn}
-            onPress={() => {
-              navigation.navigate('ArtistVerification');
-            }}
-          />
-        )} */}
       </ScrollView>
     </SafeAreaView>
   );

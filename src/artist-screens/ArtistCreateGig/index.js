@@ -29,16 +29,19 @@ export default function ArtistGig() {
   const navigation = useNavigation();
   const [selectedContainer, setSelectedContainer] = useState(null);
   const user = useSelector(state => state.auth.user);
+  const gigsCount = useSelector(state => state.gig.gigsCount);
+
+  console.log(gigsCount);
 
   const handleContainerClick = containerId => {
     setSelectedContainer(containerId);
   };
-  console.log(selectedContainer);
+
   const handleContinueClick = () => {
     if (selectedContainer === 'gig') {
       navigation.navigate('ArtistBasicGig', { is_promotional: false });
     } else if (selectedContainer === 'promo') {
-      navigation.navigate('ArtistBasicGig2', { is_promotional: true });
+      navigation.navigate('ArtistPromoMainPage', { is_promotional: true });
     } else {
       showMessage({
         message: 'Please Select type',
@@ -46,9 +49,10 @@ export default function ArtistGig() {
       });
     }
   };
+
   return (
     <SafeAreaView style={styles.container}>
-      <Header title="Create gig" />
+      <Header title="Create Menu" />
       <ScrollView>
         <View>
           <Text style={styles.heading}>Hey {user?.name}</Text>
@@ -70,8 +74,8 @@ export default function ArtistGig() {
               <TouchableWithoutFeedback
                 key={index}
                 onPress={() => handleContainerClick(data.id)}
-                disabled={data.id === 'promo'}>
-                <View style={[styles.modalElement]}>
+                disabled={data.id === 'promo' && gigsCount < 1}>
+                <View style={styles.modalElement}>
                   <View
                     style={[
                       {
@@ -82,7 +86,7 @@ export default function ArtistGig() {
                               : theme.primary
                             : data.id === 'promo'
                             ? '#BAAED3'
-                            : '#A0CDA3', // Use the lighter shade here
+                            : '#A0CDA3',
                       },
                       {
                         width: widthToDp(60),
@@ -189,7 +193,6 @@ const styles = StyleSheet.create({
   },
   modalText: {
     fontSize: 18,
-    // fontWeight: 'bold',
     fontFamily: fonts.robo_med,
     color: 'white',
   },

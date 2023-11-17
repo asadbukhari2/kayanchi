@@ -273,17 +273,17 @@ const Artist = props => {
                   title={item.title}
                   source={item.source}
                   onPress={() => setPreferenceStatus(item.title)}
-                  titleStyle={preferenceStatus == item.title ? null : { color: theme.lightBlack }}
-                  imgStyle={preferenceStatus == item.title ? null : { tintColor: theme.lightBlack }}
+                  titleStyle={preferenceStatus === item.title ? null : { color: theme.lightBlack }}
+                  imgStyle={preferenceStatus === item.title ? null : { tintColor: theme.lightBlack }}
                   containerStyle={
-                    preferenceStatus == item.title
+                    preferenceStatus === item.title
                       ? null
                       : {
                           borderWidth: 1,
                           borderColor: 'rgba(132, 102, 140, 0.15)',
                         }
                   }
-                  gradients={preferenceStatus == item.title ? null : ['rgba(0,0,0,0.1)', theme.background]}
+                  gradients={preferenceStatus === item.title ? null : ['rgba(0,0,0,0.1)', theme.background]}
                 />
               );
             })}

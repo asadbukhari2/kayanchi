@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from '../../components';
 import { heightToDp, width, widthToDp, height } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native'; // Import the navigation hook
 import Insights from './components/Insights';
 import Performance from './components/Performance';
@@ -14,6 +14,7 @@ import Comission from './components/Comission';
 import OrderSummary from './components/orderSummary';
 import Earning from './components/Earnings';
 import { Fetch } from '../../utils/APIservice';
+import { getGigsOfUser } from '../../redux/actions/gigActions';
 const theme = useTheme();
 //images import
 const timer = require('../../assets/timer.png');
@@ -49,6 +50,8 @@ const ArtistHome = props => {
   const auth = useSelector(state => state.auth);
   const navigation = useNavigation();
 
+  const dispatch = useDispatch();
+
   const { name } = auth.user;
 
   const handleOrder = () => {
@@ -80,6 +83,8 @@ const ArtistHome = props => {
       }
     };
     fetchProfile();
+    dispatch(getGigsOfUser());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth.userDetails.token]);
 
   return (

@@ -2,174 +2,145 @@ import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Image, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { Button, Header, TextInput } from '../../components';
 import { useTheme, fonts } from '../../utils/theme';
-import { height, width, heightToDp, widthToDp } from '../../utils/Dimensions';
+import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import Gallery from '../../assets/Gallery.png';
-import back from '../../assets/back.png';
+
 import ImageCropPicker from 'react-native-image-crop-picker';
+import { useRoute } from '@react-navigation/native';
+import { showMessage } from 'react-native-flash-message';
 
-const data = ['20% Commision', '5 Gigs', '2 Promos'];
-
-const hair = require('../../assets/hair.png');
-const face = require('../../assets/face.png');
-const waxing = require('../../assets/body.png');
-const Massages = require('../../assets/spa.png');
-const Botox = require('../../assets/treatment.png');
-const Gender = [
-  {
-    name: 'Female',
-  },
-  {
-    name: 'Male',
-  },
-  {
-    name: 'Non Binary',
-  },
-];
-
-const Category = [
-  {
-    name: '30 mins +',
-  },
-  {
-    name: '1 hour +',
-  },
-  {
-    name: '2 hour +',
-  },
+const timeLimits = [
+  { label: '30 mins +', value: '30' },
+  { label: '1 hour +', value: '60' },
+  { label: '2 hour +', value: '120' },
 ];
 
 const theme = useTheme();
 export default function ArtistPromoGig2(props) {
-  const [name, setName] = useState('');
-  const [time, setTime] = useState('');
-  const [image1, setImage1] = useState();
-  const [image2, setImage2] = useState();
-  const [image3, setImage3] = useState();
+  const [duration, setDuration] = useState();
+  const [amount, setAmount] = useState(0);
+  const [images, setImages] = useState([null, null, null]);
+  const route = useRoute();
+  const { category_id, target_audience, name } = route.params;
+
+  const handleImageSelection = index => {
+    ImageCropPicker.openPicker({
+      cropping: true,
+    }).then(image => {
+      console.log(image);
+      const updatedImages = [...images];
+      updatedImages[index] = image;
+
+      setImages(updatedImages);
+    });
+  };
+
   const handleClick = () => {
-    props.navigation.navigate('ArtistHomeStack', { screen: 'ArtistPromoMood' });
+    if (duration && amount) {
+      props.navigation.navigate('ArtistPromoMood', {
+        category_id,
+        target_audience,
+        name,
+        amount,
+        duration,
+        service_images: images,
+      });
+    } else {
+      showMessage({
+        type: 'warning',
+        message: 'Fill All fields',
+      });
+    }
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <Header backBtn title="Promo gig info" />
       <ScrollView>
-        <View>
-          <Text style={[styles.welcomeTxt, { paddingTop: 7 }]}>Promo duration</Text>
-          <Text style={styles.subheading}>The estimated time of the service, from start to end. </Text>
+        <View style={styles.gigVersion}>
+          <Text style={styles.title}>Promo duration</Text>
         </View>
-        <View style={styles.genRow}>
-          {Category.slice(0, 3).map(item => (
-            <TouchableOpacity
-              onPress={() => {
-                console.log('Clicked:', item.name);
+        <Text style={styles.warning}>The estimated time of the service, from start to end.</Text>
 
-                setTime(item.name);
-              }}
-              activeOpacity={0.7}
-              style={[
-                styles.genBtn,
-                {
-                  backgroundColor: time === item.name ? theme.primary : theme.genderGrey,
-                },
-              ]}
-              key={item.name}>
-              <View style={styles.categoryItem}>
-                <Text style={styles.genTxt}>{item.name}</Text>
-              </View>
+        <View
+          style={{
+            flex: 0,
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}>
+          <View
+            style={{
+              width: widthToDp(90),
+              flex: 0,
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+            }}>
+            {timeLimits.map(item => {
+              return (
+                <TouchableOpacity
+                  key={item.value}
+                  onPress={() => setDuration(item.value)}
+                  style={{
+                    width: 100,
+                    height: 35,
+                    flex: 0,
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: 30,
+                    backgroundColor: duration === item.value ? '#84668C' : '#9A9A9A',
+                    marginRight: 7,
+                    marginTop: 10,
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      fontFamily: fonts.robo_reg,
+                      color: 'white',
+                      lineHeight: 16,
+                    }}>
+                    {item.label}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        </View>
+
+        <View style={styles.gigVersion}>
+          <Text style={styles.title}>Promo amount</Text>
+        </View>
+        <Text style={styles.txt}>Price your promo.</Text>
+        <View style={styles.parentPrice}>
+          <TextInput
+            style={styles.priceField}
+            value={amount}
+            input
+            placeholder="500"
+            placeholderTextColor={'#8D8A94'}
+            onChangeText={e => setAmount(e)}
+            keyboardType="number-pad"
+          />
+          <Text style={styles.pkr}>Pkr</Text>
+        </View>
+
+        <View style={styles.gigVersion}>
+          <Text style={styles.title}>Promo pictures</Text>
+        </View>
+        <Text style={styles.txt}>Uplod pictures of your past work for this service from your gallery. (Optional)</Text>
+        <View style={styles.parentUpload}>
+          {images.map((image, index) => (
+            <TouchableOpacity key={index} onPress={() => handleImageSelection(index)} activeOpacity={0.9}>
+              {image ? (
+                <Image source={{ uri: image.path }} style={styles.upload} />
+              ) : (
+                <View style={styles.upload}>
+                  <Image source={Gallery} />
+                </View>
+              )}
+              <Text style={styles.uploadText}>Upload</Text>
             </TouchableOpacity>
           ))}
-        </View>
-
-        <View>
-          <Text style={[styles.welcomeTxt, { paddingTop: widthToDp(4) }]}>Promo Price</Text>
-          <Text style={styles.subheading}>Price your service.</Text>
-          <TextInput
-            input={text => setName(text)}
-            placeholder={'5000'}
-            inputBoxStyle={{
-              backgroundColor: '#ebe8ec',
-              borderBottomColor: '#ebe8ec',
-              padding: 10,
-              height: heightToDp(13),
-              borderRadius: 10,
-              textAlignVertical: 'top',
-            }}
-          />
-          <Text
-            style={{
-              fontSize: 17,
-              color: '#9A9A9A',
-              fontFamily: fonts.robo_reg,
-              position: 'absolute',
-              bottom: 15,
-              right: 35,
-            }}>
-            Pkr
-          </Text>
-        </View>
-
-        <Text style={[styles.welcomeTxt, { paddingTop: widthToDp(4) }]}>Promo Pictures</Text>
-        <Text style={styles.subheading}>
-          Upload pictures of your past work for this service from your gallery. (Optional)
-        </Text>
-        <View style={styles.parentUpload}>
-          <TouchableOpacity
-            onPress={() => {
-              ImageCropPicker.openPicker({
-                cropping: true,
-              }).then(image => {
-                console.log(image);
-                setImage1(image);
-              });
-            }}
-            activeOpacity={0.9}>
-            {image1 ? (
-              <Image source={{ uri: image1.path }} style={styles.upload} />
-            ) : (
-              <View style={styles.upload}>
-                <Image source={Gallery} />
-              </View>
-            )}
-            <Text style={styles.uploadText}>Upload</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              ImageCropPicker.openPicker({
-                cropping: true,
-              }).then(image => {
-                console.log(image);
-                setImage2(image);
-              });
-            }}
-            activeOpacity={0.9}>
-            {image2 ? (
-              <Image source={{ uri: image2.path }} style={styles.upload} />
-            ) : (
-              <View style={styles.upload}>
-                <Image source={Gallery} />
-              </View>
-            )}
-            <Text style={styles.uploadText}>Upload</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              ImageCropPicker.openPicker({
-                cropping: true,
-              }).then(image => {
-                console.log(image);
-                setImage3(image);
-              });
-            }}
-            activeOpacity={0.9}>
-            {image3 ? (
-              <Image source={{ uri: image3.path }} style={styles.upload} />
-            ) : (
-              <View style={styles.upload}>
-                <Image source={Gallery} />
-              </View>
-            )}
-            <Text style={styles.uploadText}>Upload</Text>
-          </TouchableOpacity>
         </View>
 
         <View style={{ marginVertical: heightToDp(5) }}>
@@ -183,8 +154,7 @@ export default function ArtistPromoGig2(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F7F7F7',
-    // paddingTop: heightToDp(8),
+    backgroundColor: theme.white,
   },
   parentUpload: {
     width: widthToDp(90),
@@ -216,47 +186,102 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     color: '#1682D6',
   },
+  gigVersion: {
+    marginTop: 30,
+  },
 
-  genRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: width * 0.91,
-    alignSelf: 'center',
-
-    marginTop: heightToDp(4.5),
-  },
-  genView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: width * 0.91,
-    alignSelf: 'center',
-    marginTop: heightToDp(4.5),
-    color: '#ffffff',
-  },
-  genTxt: { color: '#ffffff', marginLeft: 6 },
-  categoryItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  genBtn: {
-    // flex: 1,
-    width: widthToDp(27.5),
-    height: heightToDp(9.7),
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 24,
-    color: '#ffffff',
-  },
-  welcomeTxt: {
-    fontSize: 34,
-    color: '#2F3A58',
-    fontFamily: fonts.hk_bold,
-    paddingHorizontal: widthToDp(7),
-  },
-  subheading: {
-    color: '#67718C',
-    paddingHorizontal: widthToDp(7),
+  warning: {
+    fontSize: 14,
+    marginHorizontal: 24,
     fontFamily: fonts.robo_reg,
+    color: '#8D8A94',
+    marginTop: 8,
+    lineHeight: 18.75,
+  },
+  parentPrice: {
+    flex: 0,
+    flexDirection: 'row',
+    backgroundColor: '#EBE8EC',
+    borderRadius: 8,
+    marginLeft: widthToDp(5),
+    marginRight: widthToDp(5),
+    marginTop: 10,
+  },
+  pkr: {
+    width: widthToDp(20),
+    borderRadius: 10,
+    marginTop: 10,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    fontSize: 17,
+    fontFamily: fonts.robo_med,
+    color: '#242424',
+    lineHeight: 22,
+    opacity: 0.3,
+  },
+  priceField: {
+    backgroundColor: '#EBE8EC',
+    width: widthToDp(75),
+    // marginLeft: widthToDp(5),
+    borderRadius: 8,
+    // paddingVertical: 5,
+    paddingHorizontal: 10,
     fontSize: 16,
+    // marginHorizontal: 24,
+    fontFamily: fonts.robo_med,
+    color: '#8D8A94',
+    lineHeight: 22,
+  },
+  inputField: {
+    backgroundColor: 'white',
+    width: widthToDp(90),
+    marginLeft: widthToDp(5),
+    borderRadius: 10,
+    marginTop: 10,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    fontSize: 16,
+    marginHorizontal: 24,
+    fontFamily: fonts.robo_med,
+    color: '#8D8A94',
+    lineHeight: 22,
+  },
+
+  skipView: {
+    position: 'absolute',
+    bottom: heightToDp(23),
+    alignSelf: 'center',
+  },
+  btn: {
+    marginTop: 40,
+    // position: 'absolute',
+    bottom: heightToDp(5.5),
+  },
+  img: {
+    resizeMode: 'cover',
+    height: heightToDp(59.95),
+    width: widthToDp(67.9),
+    alignSelf: 'center',
+    marginTop: heightToDp(6.7),
+  },
+  skip: {
+    fontSize: 14,
+    fontFamily: fonts.robo_reg,
+    lineHeight: 16.41,
+    color: theme.linkTxt,
+  },
+  txt: {
+    fontSize: 16,
+    marginHorizontal: 24,
+    fontFamily: fonts.robo_reg,
+    color: '#67718C',
+    marginTop: 8,
+    lineHeight: 18.75,
+  },
+  title: {
+    fontSize: 24,
+    marginHorizontal: 24,
+    fontFamily: fonts.robo_med,
+    color: theme.lightBlack,
   },
 });

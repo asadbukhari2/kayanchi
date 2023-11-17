@@ -3,51 +3,55 @@ import { SafeAreaView, StyleSheet, Image, Text, View, ScrollView, TouchableWitho
 import { Button, Header } from '../../components';
 import { useTheme, images, fonts } from '../../utils/theme';
 import { width, heightToDp, widthToDp, height } from '../../utils/Dimensions';
+import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import { showMessage } from 'react-native-flash-message';
 
-const data = ['20% Commision', '5 Gigs', '2 Promos'];
 const theme = useTheme();
 
 const ModalData = [
   {
     id: 'gig',
     modalImageSource: images.CreateGig,
-    modalDescription: 'Basic gigs allow you to offer one kind of service only.',
+    modalDescription: 'Basic gigs allow you to offer services in a single category only.',
     modalTitle: 'Create a Gig',
   },
   {
     id: 'promo',
     modalImageSource: images.CreatePromo,
-    modalDescription: 'Promotions are a mix of your gigs and any additional service you want to offer.',
+    modalDescription:
+      'Promo gig offers are multi-category packaged deals that a you can create in response to general requirements of Clients.',
     modalTitle: 'Create a Promo',
   },
 ];
 
-export default function ArtistGig(props) {
+export default function ArtistGig() {
+  const navigation = useNavigation();
   const [selectedContainer, setSelectedContainer] = useState(null);
+  const user = useSelector(state => state.auth.user);
 
   const handleContainerClick = containerId => {
-    console.log(containerId);
     setSelectedContainer(containerId);
   };
-
   const handleContinueClick = () => {
-    console.log('seelcted', props);
     if (selectedContainer === 'gig') {
-      props.navigation.navigate('ArtistHomeStack', {
-        screen: 'ArtistGigInfo',
-      });
+      navigation.navigate('ArtistGigInfo', { is_promotional: false });
     } else if (selectedContainer === 'promo') {
-      props.navigation.navigate('ArtistHomeStack', {
-        screen: 'ArtistPromoMainPage',
+      navigation.navigate('ArtistPromoMainPage', { is_promotional: true });
+    } else {
+      showMessage({
+        message: 'Please Select type',
+        type: 'warning',
       });
     }
   };
+
   return (
     <SafeAreaView style={styles.container}>
+      <Header title="Create Menu" />
       <ScrollView>
         <View>
-          <Text style={styles.welcomeTxt}>Create Menu</Text>
-          <Text style={styles.heading}>Hey Narmeen!</Text>
+          <Text style={styles.heading}>Hey {user?.name}</Text>
           <Text
             style={{
               fontFamily: fonts.robo_reg,
@@ -63,14 +67,12 @@ export default function ArtistGig(props) {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             {ModalData.map((data, index) => (
-              <TouchableWithoutFeedback key={index} onPress={() => handleContainerClick(data.id)}>
-                <View
-                  style={[
-                    styles.modalElement,
-                    // selectedContainer === data.id
-                    //   ? {backgroundColor: 'pink'}
-                    //   : null,
-                  ]}>
+              <TouchableWithoutFeedback
+                key={index}
+                onPress={() => handleContainerClick(data.id)}
+                // disabled={data.id === 'promo'}
+              >
+                <View style={styles.modalElement}>
                   <View
                     style={[
                       {
@@ -81,13 +83,13 @@ export default function ArtistGig(props) {
                               : theme.primary
                             : data.id === 'promo'
                             ? '#BAAED3'
-                            : '#A0CDA3', // Use the lighter shade here
+                            : '#A0CDA3',
                       },
                       {
                         width: widthToDp(60),
                         padding: 15,
                         flexDirection: 'column',
-                        justifyContent: 'space-between',
+                        justifyContent: 'space-around',
                         borderRadius: 10,
                       },
                     ]}>
@@ -179,27 +181,25 @@ const styles = StyleSheet.create({
   modalElement: {
     backgroundColor: 'white',
     width: width * 0.91,
-    height: (height * 0.91) / 4, // Set a fixed height or remove this line if you want it to adjust based on content
-    // paddingVertical: 20,
-    // paddingHorizontal: 10,
+    height: (height * 0.91) / 4,
     flexDirection: 'row',
     alignItems: 'center',
+    overflow: 'visible',
+    justifyContent: 'center',
     borderRadius: 10,
     marginTop: 10,
   },
   modalText: {
     fontSize: 18,
-    // fontWeight: 'bold',
     fontFamily: fonts.robo_med,
-    marginBottom: 20,
     color: 'white',
   },
   modalDescription: {
-    fontSize: 12,
+    fontSize: 14,
     color: '#D5D5D5',
     fontFamily: fonts.robo_reg,
-    textAlign: 'justify',
-    paddingRight: widthToDp(10),
+    textAlign: 'left',
+    paddingRight: widthToDp(5),
   },
   buttontext: { marginVertical: heightToDp(5) },
 });

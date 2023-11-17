@@ -1,8 +1,15 @@
 import { showMessage } from 'react-native-flash-message';
 import { Fetch } from '../../utils/APIservice';
-import { PUBLISH_GIG, PUBLISH_GIG_ERROR, PUBLISH_GIG_SUCCESS } from '../constants/constants';
+import {
+  GET_GIGS_ERROR,
+  GET_GIGS_SUCCESS,
+  GIG,
+  PUBLISH_GIG,
+  PUBLISH_GIG_ERROR,
+  PUBLISH_GIG_SUCCESS,
+} from '../constants/constants';
 
-export const publishSimpleGig = (body, token, navigation) => async dispatch => {
+export const publishSimpleGig = (body, token, navigation, screen) => async dispatch => {
   dispatch({
     type: PUBLISH_GIG,
   });
@@ -21,7 +28,9 @@ export const publishSimpleGig = (body, token, navigation) => async dispatch => {
         message: 'Published',
         type: 'success',
       });
-      navigation.navigate('ArtistVerification');
+      setTimeout(() => {
+        navigation.navigate(screen);
+      }, 500);
     } else {
       const { message } = await res.json();
       dispatch({
@@ -78,6 +87,41 @@ export const getGigById = async (id, token) => {
       });
 
       throw new Error(message ?? 'Something went wrong');
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getGigsOfUser = token => async dispatch => {
+  dispatch({
+    type: GIG,
+  });
+
+  try {
+    let res = await Fetch.get('/api/service/user', token);
+
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      // console.log(res);
+
+      dispatch({
+        type: GET_GIGS_SUCCESS,
+        payload: res,
+      });
+
+      return res;
+    } else {
+      const { message } = await res.json();
+
+      showMessage({
+        message: message,
+        type: 'danger',
+      });
+      dispatch({
+        type: GET_GIGS_ERROR,
+        payload: res,
+      });
     }
   } catch (error) {
     console.log(error);
