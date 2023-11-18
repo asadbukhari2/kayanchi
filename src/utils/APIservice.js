@@ -80,8 +80,8 @@ function _delete(url) {
   return fetch(BASE_URL + url, requestOptions).then(res => handleResponse(res));
 }
 
-function put(url, data) {
-  console.log(store.getState().auth?.userDetails.user);
+function put(url, data, token) {
+  console.log(url);
   const accessToken = store.getState().auth?.token || store.getState().auth?.userDetails?.token;
   const headers = {
     'Content-Type': 'application/json',

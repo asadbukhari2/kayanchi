@@ -30,7 +30,8 @@ export const publishSimpleGig = (body, token, navigation, screen) => async dispa
       });
       setTimeout(() => {
         navigation.navigate(screen);
-      }, 500);
+        screen === 'ArtistHome' && dispatch(getGigsOfUser());
+      }, 50);
     } else {
       const { message } = await res.json();
       dispatch({
@@ -121,6 +122,27 @@ export const getGigsOfUser = token => async dispatch => {
       dispatch({
         type: GET_GIGS_ERROR,
         payload: res,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const addDiscount = async (id, data, token) => {
+  try {
+    let res = await Fetch.put(`/api/service/discount/add/${id}`, data, token);
+
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      console.log(res);
+
+      return res;
+    } else {
+      const { message } = await res.json();
+
+      showMessage({
+        message: message,
+        type: 'danger',
       });
     }
   } catch (error) {

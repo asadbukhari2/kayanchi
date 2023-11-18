@@ -26,7 +26,7 @@ export default function Root() {
   console.log('-=-=-=-=-', isArtist, isConsumer, auth?.token?.length > 0);
   // dispatch({ type: 'SIGN_OUT' });
 
-  // return <ArtistBasicGig />;
+  // return <ConsumerGigMainPage />;
   return !auth.token && isArtist ? (
     <ArtistAuthStack />
   ) : auth.token && isArtist ? (

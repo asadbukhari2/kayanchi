@@ -27,6 +27,7 @@ import {
   ArtistPromoMainPage,
   ArtistOrderSetting,
   ArtistLocateKaynchi,
+  ArtistGigMainPage,
 } from '../artist-screens';
 import { heightToDp, widthToDp } from '../utils/Dimensions';
 
@@ -66,7 +67,7 @@ const MyTabs = () => {
         }}
       />
       <Tab.Screen
-        name="Home1"
+        name="ArtistOrder"
         component={ArtistOrderStack}
         options={{
           tabBarIcon: ({ color, focused, size }) => (
@@ -84,9 +85,10 @@ const MyTabs = () => {
           tabBarLabel: () => null,
         }}
       />
+
       <Tab.Screen
-        name="ArtistProfile"
-        component={ArtistLocateKaynchi}
+        name="ArtistGigMainPage"
+        component={ArtistGigMainPage}
         options={{
           tabBarIcon: ({ color, focused, size }) => (
             <Image
@@ -104,7 +106,7 @@ const MyTabs = () => {
         }}
       />
       <Tab.Screen
-        name="ArtistProfile2"
+        name="ArtistProfile"
         component={ArtistProfile}
         options={{
           tabBarIcon: ({ color, focused, size }) => (
@@ -211,6 +213,13 @@ const TabStack = () => (
       }}
     />
     <Stack.Screen
+      name="ArtistPromoGig2"
+      component={ArtistPromoGig2}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <Stack.Screen
       name="ArtistPromoMood"
       component={ArtistPromoMood}
       options={{
@@ -241,13 +250,6 @@ const TabStack = () => (
       }}
     />
 
-    <Stack.Screen
-      name="ArtistPromoGig2"
-      component={ArtistPromoGig2}
-      options={{
-        headerShown: false,
-      }}
-    />
     <Stack.Screen
       name="ArtistYourOrders"
       component={ArtistYourOrders}

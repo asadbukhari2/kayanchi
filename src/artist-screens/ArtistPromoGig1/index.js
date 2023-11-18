@@ -23,20 +23,20 @@ export default function ArtistPromoGig1() {
   const route = useRoute();
 
   const clickHandler = () => {
-    // if (!name || !selectedCategory || !selectedAudience.length > 0) {
-    //   showMessage({
-    //     type: 'warning',
-    //     message: 'Enter Values',
-    //   });
-    // } else {
-    navigation.navigate('ArtistPromoGig2', {
-      category_id: selectedCategory.id,
-      target_audience: selectedAudience,
-      description,
-      name,
-      ...route.params,
-    });
-    // }
+    if (!name || !selectedCategory || !description || !selectedAudience.length > 0) {
+      showMessage({
+        type: 'warning',
+        message: 'Enter Values',
+      });
+    } else {
+      navigation.navigate('ArtistPromoGig2', {
+        category_id: selectedCategory.id,
+        target_audience: selectedAudience,
+        description,
+        name,
+        ...route.params,
+      });
+    }
   };
 
   return (

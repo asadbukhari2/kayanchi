@@ -15,6 +15,7 @@ import OrderSummary from './components/orderSummary';
 import Earning from './components/Earnings';
 import { Fetch } from '../../utils/APIservice';
 import { getGigsOfUser } from '../../redux/actions/gigActions';
+import { getCategory } from '../../redux/actions/commonActions';
 const theme = useTheme();
 //images import
 const timer = require('../../assets/timer.png');
@@ -84,6 +85,7 @@ const ArtistHome = props => {
     };
     fetchProfile();
     dispatch(getGigsOfUser());
+    dispatch(getCategory());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth.userDetails.token]);
 

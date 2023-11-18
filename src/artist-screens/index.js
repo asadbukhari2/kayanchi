@@ -68,6 +68,8 @@ import ArtistGroomingDone from './ArtistGroomingDone';
 import ArtistFinishedTimeline from './ArtistFinishedTimeline';
 import ArtistCancelledTimeline from './ArtistCancelledTimeline';
 import ArtistGlowMakeUp from './ArtistGlowMakeUp';
+import ArtistGigMainPage from './ArtistGigMainPage';
+
 export {
   ArtistWelcome,
   ArtistHome,
@@ -139,4 +141,5 @@ export {
   ArtistFinishedTimeline,
   ArtistCancelledTimeline,
   ArtistGlowMakeUp,
+  ArtistGigMainPage,
 };

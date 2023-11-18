@@ -84,6 +84,7 @@ const reducer = (state = initialState, action) => {
         userDetails: action.payload,
         user: action.payload,
         isLoading: false,
+        isAllowedToMain: true,
       };
     case SIGN_IN_FAILED:
       return {

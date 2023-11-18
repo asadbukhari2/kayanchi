@@ -31,8 +31,6 @@ export default function ArtistGig() {
   const user = useSelector(state => state.auth.user);
   const gigsCount = useSelector(state => state.gig.gigsCount);
 
-  console.log(gigsCount);
-
   const handleContainerClick = containerId => {
     setSelectedContainer(containerId);
   };

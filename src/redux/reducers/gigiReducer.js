@@ -3,7 +3,7 @@ const initialState = {
   gigDetails: null,
   error: null,
   gigs: [],
-  gigsCount: null,
+  // gigsCount: null,
 };
 
 import {
@@ -44,14 +44,14 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         gigs: action.payload,
-        gigsCount: action.payload.length,
+        // gigsCount: action.payload.length,
         loading: false,
       };
     case GET_GIGS_ERROR:
       return {
         ...state,
         error: action.payload.error,
-        gigsCount: 0,
+        // gigsCount: 0,
         loading: false,
       };
 

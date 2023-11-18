@@ -23,6 +23,8 @@ export default function ArtistPromoGig2(props) {
   const route = useRoute();
   const { category_id, target_audience, name } = route.params;
 
+  console.log(route.params);
+
   const handleImageSelection = index => {
     ImageCropPicker.openPicker({
       cropping: true,
@@ -44,6 +46,7 @@ export default function ArtistPromoGig2(props) {
         amount,
         duration,
         service_images: images,
+        ...route.params,
       });
     } else {
       showMessage({

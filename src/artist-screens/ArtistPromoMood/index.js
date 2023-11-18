@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Switch, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native';
 import ToggleSwitch from 'toggle-switch-react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header, Button } from '../../components';
-import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { useTheme, fonts } from '../../utils/theme';
 
 import back from '../../assets/back.png';
@@ -56,10 +56,8 @@ const ArtistPromoMood = props => {
 
     for (const key in data) {
       const value = data[key];
-      console.log(value, key);
       if (data.hasOwnProperty(key)) {
         if (key === 'service_images') {
-          console.log(value);
           value.forEach(ele => {
             if (ele !== null) {
               const obj = {
@@ -82,7 +80,7 @@ const ArtistPromoMood = props => {
 
     return formData;
   }
-
+  console.log(route.params);
   const gotoArtist = async () => {
     if (gigMood && image) {
       const data = {
@@ -94,10 +92,9 @@ const ArtistPromoMood = props => {
         hosting_image: image,
         is_discount: false,
         is_active: true,
-        is_promotional: false,
+        is_promotional: true,
         discount_percentage: 0,
         additional_services: [],
-        promo_services: [],
         target_audience: route.params.target_audience.splice(0, 1),
       };
 
@@ -108,7 +105,7 @@ const ArtistPromoMood = props => {
           formData,
           auth.userDetails.token,
           navigation,
-          auth.isAllowedToMain ? 'ArtistHome' : 'isAllowedToMain',
+          auth.isAllowedToMain ? 'ArtistHome' : 'ArtistVerification',
         ),
       );
     } else {

@@ -29,6 +29,7 @@ const InputText = props => {
     underlineColorIOS,
     required,
     label,
+    icon,
   } = props;
 
   const [isSecured, setIsSecured] = useState(secured);
@@ -80,9 +81,17 @@ const InputText = props => {
             </TouchableOpacity>
           )}
           {secured && (
-            <TouchableOpacity onPress={() => setIsSecured(!isSecured)} activeOpacity={0.7} style={styles.iconView}>
+            <TouchableOpacity
+              onPress={() => setIsSecured(!isSecured)}
+              activeOpacity={0.7}
+              style={styles.secureIconView}>
               <Feather name={isSecured ? 'eye-off' : 'eye'} style={{ fontSize: 16, color: theme.backIcon }} />
             </TouchableOpacity>
+          )}
+          {icon && (
+            <View style={styles.iconView}>
+              <Feather name={icon} style={{ fontSize: 16, color: theme.backIcon }} />
+            </View>
           )}
         </View>
       )}
@@ -95,8 +104,13 @@ const styles = StyleSheet.create({
     width: width * 0.91,
     alignSelf: 'center',
   },
+  secureIconView: {
+    paddingHorizontal: widthToDp(0),
+    justifyContent: 'center',
+    borderBottomColor: theme.inputBottom,
+    borderBottomWidth: 1,
+  },
   iconView: {
-    paddingHorizontal: widthToDp(2),
     justifyContent: 'center',
     borderBottomColor: theme.inputBottom,
     borderBottomWidth: 1,

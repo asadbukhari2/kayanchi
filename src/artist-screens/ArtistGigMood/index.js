@@ -106,7 +106,7 @@ const ArtistGigMood = () => {
           formData,
           auth.userDetails.token,
           navigation,
-          auth.isAllowedToMain ? 'ArtistHome' : 'isAllowedToMain',
+          auth.isAllowedToMain ? 'ArtistHome' : 'ArtistVerification',
         ),
       );
     } else {

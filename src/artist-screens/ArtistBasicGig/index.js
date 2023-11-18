@@ -94,6 +94,7 @@ const ArtistBasicGig = () => {
           {categories.map(item => {
             return (
               <TouchableOpacity
+                key={item.name}
                 onPress={() => setSelectedCategory(item)}
                 style={{
                   width: 100,
