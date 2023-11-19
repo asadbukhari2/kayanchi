@@ -22,6 +22,7 @@ export default function ArtistGigMainPage(props) {
   const [modalVisible, setModalVisible] = useState(false);
 
   const [gigName, setGigName] = useState('');
+  const [gig, setGig] = useState('');
   const [percentage, setPercentage] = useState(0);
 
   const { gigs } = useSelector(state => state.gig);
@@ -36,11 +37,13 @@ export default function ArtistGigMainPage(props) {
   };
 
   const handleAddDiscount = item => {
-    setGigName(item);
+    setGigName(item.name);
+    setGig(item);
     setModalVisible(true);
   };
   const handleEditDiscount = item => {
-    setGigName(item);
+    setGigName(item.name);
+    setGig(item);
     setPercentage(item.discount_percentage);
     setModalVisible(true);
   };
@@ -55,7 +58,7 @@ export default function ArtistGigMainPage(props) {
       discount_percentage: percentage,
     };
 
-    addDiscount(gigName.id, data);
+    addDiscount(gig.id, data);
     dispatch(getGigsOfUser());
   };
 
@@ -65,7 +68,9 @@ export default function ArtistGigMainPage(props) {
 
       <View style={styles.gigContainer}>
         <Text style={styles.heading}>Basic gigs</Text>
-        <Image source={AddMore} style={{ width: 20, height: 20 }} />
+        <TouchableOpacity onPress={() => props.navigation.navigate('ArtistBasicGig')}>
+          <Image source={AddMore} style={{ width: 20, height: 20 }} />
+        </TouchableOpacity>
       </View>
       <Text style={styles.description}>Choose the active gigs that you want to continue with this promo deal</Text>
       <FlatList
@@ -104,7 +109,9 @@ export default function ArtistGigMainPage(props) {
 
       <View style={styles.gigContainer}>
         <Text style={styles.heading}>Promos</Text>
-        <Image source={AddMore} style={{ width: 20, height: 20 }} />
+        <TouchableOpacity onPress={() => props.navigation.navigate('ArtistPromoMainPage')}>
+          <Image source={AddMore} style={{ width: 20, height: 20 }} />
+        </TouchableOpacity>
       </View>
       <Text style={styles.description}>Choose the active gigs that you want to continue with this promo deal</Text>
       <FlatList
@@ -153,7 +160,7 @@ export default function ArtistGigMainPage(props) {
           </TouchableOpacity>
 
           <View style={styles.modalTxtView}>
-            <Text style={styles.modalTitle}>{gigName?.name.replace(/["']/g, '')}</Text>
+            <Text style={styles.modalTitle}>{gigName?.replace(/["']/g, '')}</Text>
             <Text style={styles.modalNormalTxt}>Enter your discount and offer more move value to your clients.</Text>
             <Text style={styles.modalNormalTxt2}>Commonly offered </Text>
 
@@ -177,7 +184,6 @@ export default function ArtistGigMainPage(props) {
           <TextInput
             style={styles.priceField}
             value={percentage}
-            // input={!percentage ? true : false}
             input
             placeholder="10"
             placeholderTextColor={'#8D8A94'}

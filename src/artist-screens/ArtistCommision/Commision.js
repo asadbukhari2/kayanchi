@@ -3,8 +3,10 @@ import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Header } from '../../components';
 import { useNavigation } from '@react-navigation/native';
-import { fonts } from '../../utils/theme';
+import { fonts, useTheme } from '../../utils/theme';
 import { heightToDp } from '../../utils/Dimensions';
+
+const theme = useTheme();
 
 const Commision = () => {
   const navigation = useNavigation();
@@ -42,6 +44,7 @@ const styles = StyleSheet.create({
   text: {
     marginVertical: 6,
     fontSize: 16,
+    color: theme.dark,
   },
   btn: {
     marginTop: 40,

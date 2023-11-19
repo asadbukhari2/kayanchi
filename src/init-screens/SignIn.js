@@ -48,7 +48,7 @@ const SignIn = () => {
       <TextInput
         style={styles.input}
         placeholder="Email or Mobile"
-        value={formData.phone}
+        value={formData.phone.toLowerCase()}
         onChangeText={e => setFormData({ ...formData, phone: e })}
         placeholderTextColor={'#8D8A94'}
       />

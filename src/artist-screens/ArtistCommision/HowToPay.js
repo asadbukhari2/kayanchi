@@ -51,13 +51,16 @@ const styles = StyleSheet.create({
     color: '#0F2851',
   },
   text: {
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: 'normal',
     marginVertical: 12,
+    color: theme.dark,
   },
   heading2: {
     fontWeight: 'bold',
     fontSize: 16,
     marginVertical: 12,
+    color: theme.dark,
   },
   green: {
     color: 'green',
@@ -71,6 +74,7 @@ const styles = StyleSheet.create({
   para: {
     marginVertical: 6,
     fontSize: 16,
+    color: theme.dark,
   },
   btn: {
     marginTop: 40,
