@@ -9,6 +9,7 @@ import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Import the icon library
 import Feather from 'react-native-vector-icons/Feather';
 import { fonts, useTheme } from '../../utils/theme';
+import { useNavigation } from '@react-navigation/native';
 
 const theme = useTheme();
 const orders = [
@@ -23,10 +24,10 @@ const orders = [
   },
 ];
 
-export default function ArtistGroomingDone(props) {
+export default function ArtistGroomingDone() {
   const [modalVisible, setModalVisible] = useState(true);
   const [selectedRating, setSelectedRating] = useState(null);
-
+  const navigation = useNavigation();
   const onClose = () => {
     setModalVisible(false);
   };
@@ -39,7 +40,7 @@ export default function ArtistGroomingDone(props) {
   };
 
   const groomingDoneHandler = () => {
-    props.navigation.navigate('ArtistHomeStack');
+    navigation.navigate('ArtistHomeStack');
   };
 
   return (
@@ -60,7 +61,7 @@ export default function ArtistGroomingDone(props) {
             <View key={index} style={styles.orderContainer}>
               <TouchableOpacity
                 onPress={() =>
-                  props.navigation.navigate('ArtistProfileStack', {
+                  navigation.navigate('ArtistProfileStack', {
                     screen: 'ArtistWhyCancel',
                   })
                 }>
@@ -130,6 +131,11 @@ export default function ArtistGroomingDone(props) {
             </View>
           ))}
         </View>
+        <Button
+          title="Continue to Orders"
+          btnStyle={{ marginVertical: 24 }}
+          onPress={() => navigation.navigate('ArtistOrders')}
+        />
       </ScrollView>
 
       <Modal

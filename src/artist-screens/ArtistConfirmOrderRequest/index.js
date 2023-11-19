@@ -59,16 +59,11 @@ export default function ArtistConfirmOrderRequest(props) {
       color: '#67718C',
     };
   };
-  const handlePrivateImage = () => {
-    setIsPrivate(previousState => !previousState);
-  };
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <View>
-          <Header backBtn />
-        </View>
+        <Header backBtn />
         <View>
           <MapView
             initialRegion={{
@@ -141,7 +136,7 @@ export default function ArtistConfirmOrderRequest(props) {
             <Text style={{ color: '#67718C', fontSize: 14 }}>7:30 - 8:30</Text>
           </View>
           <CircularProgressBar
-            progress={80}
+            progress={70}
             radius={40}
             strokeWidth={3}
             color="#84668C"
@@ -154,25 +149,18 @@ export default function ArtistConfirmOrderRequest(props) {
             <Text style={{ fontSize: 12, color: '#67718C' }}>Travel Cost</Text>
             <Text style={{ color: '#84668C', fontWeight: '400' }}>Rs 1000</Text>
           </View>
+          <Text style={{ color: theme.greyText }}>Offer free travel</Text>
           <View style={{ flexDirection: 'row', marginTop: 15 }}>
-            <Text>Offer free travel</Text>
             <View style={styles.switchContainer}>
               <ToggleSwitch
-                isOn={false}
+                isOn={isPrivate}
                 style={{ height: 20, marginRight: 10 }}
                 value={isPrivate}
                 onColor="#84668C"
                 offColor="#9A9A9A"
                 size="small"
-                onToggle={handlePrivateImage}
+                onToggle={isOn => setIsPrivate(isOn)}
               />
-              {/* <Switch
-                value={isPrivate}
-                onValueChange={handlePrivateImage}
-                thumbColor={isPrivate ? 'white' : '#eee'}
-                trackColor={{false: 'grey', true: '#1583D8'}}
-                style={styles.switch}
-              /> */}
             </View>
           </View>
         </View>
@@ -205,13 +193,13 @@ export default function ArtistConfirmOrderRequest(props) {
         <View style={styles.timeContainer2}>
           <Text style={styles.timereach}>Time to reach</Text>
           <TouchableOpacity onPress={() => handleTimePress('20m')} style={[styles.time, getTimeStyles('20m')]}>
-            <Text>20m</Text>
+            <Text style={{ color: getTimeStyles('20m').color }}>20m</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => handleTimePress('40m')} style={[styles.time, getTimeStyles('40m')]}>
-            <Text>40m</Text>
+            <Text style={{ color: getTimeStyles('40m').color }}>40m</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => handleTimePress('60m')} style={[styles.time, getTimeStyles('60m')]}>
-            <Text>60m</Text>
+            <Text style={{ color: getTimeStyles('60m').color }}>60m</Text>
           </TouchableOpacity>
         </View>
 
@@ -240,7 +228,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F7F7F7',
-    paddingTop: heightToDp(7),
   },
   orderContainer: {
     backgroundColor: 'white',
@@ -299,6 +286,7 @@ const styles = StyleSheet.create({
   timeContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'flex-end',
     marginHorizontal: widthToDp(4),
   },
   indicatorView: {

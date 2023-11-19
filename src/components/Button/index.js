@@ -14,7 +14,6 @@ const Button = props => {
       activeOpacity={0.7}
       onPress={onPress}
       style={[styles.container, btnStyle, disable && { backgroundColor: 'grey', pointerEvents: 'none' }]}>
-      {/* {icon && <Icon name={icon} size={20}  color={blue} />} */}
       {image && <Image source={image} style={imageStyle} resizeMode="contain" />}
       <Text style={[styles.txt, titleStyle]}>{title}</Text>
     </TouchableOpacity>

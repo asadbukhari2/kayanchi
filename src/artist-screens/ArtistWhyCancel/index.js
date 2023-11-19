@@ -7,6 +7,7 @@ import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { useTheme, fonts } from '../../utils/theme';
 import back from '../../assets/back.png';
 import { RadioButton } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 
 const theme = useTheme();
 const faqData = [
@@ -18,7 +19,7 @@ const ArtistWhyCancel = props => {
   const [name, setName] = useState('');
   const [checked, setChecked] = useState('first');
   const [selectedQuestion, setSelectedQuestion] = useState(null);
-
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
       <View
@@ -49,7 +50,7 @@ const ArtistWhyCancel = props => {
                     justifyContent: 'space-between',
                     alignItems: 'center',
                   }}>
-                  <Text>{item.question}</Text>
+                  <Text style={{ color: theme.dark }}>{item.question}</Text>
                   <RadioButton value={item.id} />
                 </View>
               </RadioButton.Group>
@@ -63,6 +64,7 @@ const ArtistWhyCancel = props => {
           multiline
           placeholder="Please tell us anything that you think will help the situation for us."
           value={name}
+          placeholderTextColor={theme.greyText}
           onChangeText={setName}
           style={styles.input}
         />
@@ -72,7 +74,7 @@ const ArtistWhyCancel = props => {
         title={'Confirm Cancellation'}
         btnStyle={styles.btn}
         onPress={() => {
-          props.navigation.navigate('ArtistPublishGig');
+          navigation.navigate('ArtistOrders');
         }}
       />
     </SafeAreaView>
@@ -137,6 +139,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingLeft: 10,
     marginBottom: 20,
+    color: theme.dark,
   },
   centeredContainer: {
     flexDirection: 'column',

@@ -1,19 +1,23 @@
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { fonts, useTheme } from '../../../utils/theme';
 import LinearGradient from 'react-native-linear-gradient';
 import Entypo from 'react-native-vector-icons/Entypo';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import { widthToDp } from '../../../utils/Dimensions';
+import { useNavigation } from '@react-navigation/native';
 const theme = useTheme();
 const Comission = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
         <View style={{ flexDirection: 'row' }}>
           <Text style={styles.heading}>Kaynchi's Comission</Text>
           <Text style={styles.beta}>BETA</Text>
-          <Image source={require('../../../assets/information.png')} style={{ height: 20, width: 20 }} />
+          <TouchableOpacity onPress={() => navigation.navigate('ArtistCommision')}>
+            <Image source={require('../../../assets/information.png')} style={{ height: 20, width: 20 }} />
+          </TouchableOpacity>
         </View>
         <View>
           <Text style={{ color: theme.greyText, fontSize: 16 }}>-15500</Text>

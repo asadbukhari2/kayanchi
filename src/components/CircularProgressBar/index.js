@@ -1,7 +1,8 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Svg, Text, Circle } from 'react-native-svg';
-
+import { useTheme } from '../../utils/theme';
+const theme = useTheme();
 const CircularProgressBar = ({ progress, radius, strokeWidth, color, textStyle }) => {
   const circumference = 2 * Math.PI * radius;
   const progressOffset = circumference - (progress / 100) * circumference;
@@ -16,7 +17,7 @@ const CircularProgressBar = ({ progress, radius, strokeWidth, color, textStyle }
           cx={radius}
           cy={radius}
           r={radius - strokeWidth / 2}
-          stroke="#E6E6E6"
+          stroke={theme.primary}
           strokeWidth={strokeWidth}
           strokeLinejoin
           fill="transparent"
@@ -28,7 +29,7 @@ const CircularProgressBar = ({ progress, radius, strokeWidth, color, textStyle }
           cx={radius}
           cy={radius}
           r={radius - strokeWidth / 2}
-          stroke="#84668C"
+          stroke="#E6E6E6"
           fill="transparent"
           strokeWidth={strokeWidth}
           strokeDasharray={circumference}

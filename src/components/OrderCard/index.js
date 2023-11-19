@@ -55,7 +55,7 @@ const OrderCard = ({ order, navigation }) => {
 
                 if (serviceIndex < maxServicesToShow) {
                   return (
-                    <Text key={serviceIndex} style={{ color: '#677790', fontFamily: fonts.robo_reg }}>
+                    <Text key={serviceIndex} style={{ color: theme.greyText, fontFamily: fonts.robo_reg }}>
                       {service}
                     </Text>
                   );
@@ -134,7 +134,7 @@ const OrderCard = ({ order, navigation }) => {
                       <Text style={{ color: '#32aee3' }}>{order.salonAddress}</Text>
                     </View>
                   </View>
-                  <Image source={order.imageLink} style={styles.OrderImage} />
+                  <Image source={order.imageLink} style={styles.OrderImage} resizeMode="contain" />
                 </View>
 
                 <Text style={styles.orderStatus}>{order.status}</Text>
@@ -206,10 +206,10 @@ const OrderCard = ({ order, navigation }) => {
               <MultiButton
                 title={'Rate'}
                 btnStyle={{
-                  backgroundColor: '#9A9A9A',
+                  backgroundColor: '#eee',
                   height: heightToDp(10.5),
                 }}
-                titleStyle={{ fontFamily: fonts.hk_medium }}
+                titleStyle={{ fontFamily: fonts.hk_medium, color: theme.dark }}
                 onPress={GroomingDoneHandler}
               />
             </View>
@@ -265,11 +265,12 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   orderStatus: {
-    backgroundColor: '#668C6A',
-    color: 'white',
+    backgroundColor: '#eee',
+    color: theme.dark,
     paddingVertical: 5,
     paddingHorizontal: 10,
     width: widthToDp(25),
+    textAlign: 'center',
     borderRadius: 20,
     marginTop: 15,
     marginBottom: 5,
@@ -300,10 +301,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   OrderImage: {
-    height: 25,
-    width: 25,
-    resizeMode: 'contain',
-    // marginHorizontal: 10,
+    height: 30,
+    width: 30,
+    marginHorizontal: 10,
   },
   latestbutton: {
     backgroundColor: '#a77246',

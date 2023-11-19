@@ -145,16 +145,7 @@ const ArtistProfile = props => {
         }),
     },
     {
-      icon: (
-        <Image
-          source={require('../../assets/location.png')}
-          style={{
-            width: widthToDp(4.5),
-            height: heightToDp(4.5),
-            resizeMode: 'contain',
-          }}
-        />
-      ),
+      icon: <SimpleLineIcons name={'location-pin'} style={{ fontSize: 18, color: theme.primary }} />,
       title: 'Your saved addresses',
       // onPress: () => props.navigation.navigate('ArtistSavedAddresses'),
       onPress: () =>
@@ -163,7 +154,7 @@ const ArtistProfile = props => {
         }),
     },
     {
-      icon: <SimpleLineIcons name={'bell'} style={{ fontSize: 16, color: theme.primary }} />,
+      icon: <SimpleLineIcons name={'bell'} style={{ fontSize: 18, color: theme.primary }} />,
       title: 'Notifications',
       onPress: () =>
         props.navigation.navigate('ArtistProfileStack', {
@@ -197,7 +188,7 @@ const ArtistProfile = props => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             paddingLeft: widthToDp(4),
-            marginTop: heightToDp(12.2),
+            marginTop: heightToDp(5.2),
           }}>
           <Image source={kyanchiIcon} style={{ width: 50, height: 50, resizeMode: 'contain' }} />
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -441,7 +432,6 @@ const ArtistProfile = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.homeBackground,
   },
   ideaimage: { width: 24, height: 26, resizeMode: 'contain' },
   feedbackContainer: {

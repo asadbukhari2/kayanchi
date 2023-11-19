@@ -30,6 +30,8 @@ import {
   ArtistGigMainPage,
 } from '../artist-screens';
 import { heightToDp, widthToDp } from '../utils/Dimensions';
+import Commision from '../artist-screens/ArtistCommision/Commision';
+import HowToPay from '../artist-screens/ArtistCommision/HowToPay';
 
 const Stack = createNativeStackNavigator();
 const RootStack = createNativeStackNavigator();
@@ -160,6 +162,9 @@ const TabStack = () => (
         headerShown: false,
       }}
     />
+
+    <Stack.Screen name="ArtistCommision" component={Commision} options={{ headerShown: false }} />
+    <Stack.Screen name="ArtistHowToPay" component={HowToPay} options={{ headerShown: false }} />
     <Stack.Screen
       name="ArtistBasicGig"
       component={ArtistBasicGig}
