@@ -130,7 +130,11 @@ const ArtistFinishedTimeline = props => {
                         const maxServicesToShow = 1;
 
                         if (serviceIndex < maxServicesToShow) {
-                          return <Text key={serviceIndex}>{service}</Text>;
+                          return (
+                            <Text key={serviceIndex} style={{ color: theme.greyText }}>
+                              {service}
+                            </Text>
+                          );
                         } else if (serviceIndex === maxServicesToShow) {
                           const remainingServices = order.services.length - maxServicesToShow;
                           return (
@@ -163,7 +167,10 @@ const ArtistFinishedTimeline = props => {
 
                   <View>
                     <View style={styles.orderDetails}>
-                      <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>HOSTING</Text>
+                      <Text style={{ color: theme.greyText }}>
+                        is
+                        <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}> HOSTING</Text>
+                      </Text>
                       <Image source={order.imageLink} style={styles.OrderImage} />
                     </View>
                     <Text style={{ color: '#29AAE2' }}>
@@ -173,7 +180,7 @@ const ArtistFinishedTimeline = props => {
                       style={{
                         color: '#0F2851',
                         fontFamily: fonts.robo_med,
-                        marginVertical: 5,
+                        marginTop: 12,
                         textTransform: 'uppercase',
                       }}>
                       Hosting at:
@@ -230,11 +237,9 @@ const styles = StyleSheet.create({
   },
   orderContainer: {
     backgroundColor: 'white',
-    // width: widthToDp(44),
     marginHorizontal: widthToDp(5),
     marginTop: 20,
     marginBottom: 20,
-    // width: (width * 0.91) / 2,
     paddingVertical: heightToDp(5),
     paddingHorizontal: widthToDp(1),
     borderRadius: 10,

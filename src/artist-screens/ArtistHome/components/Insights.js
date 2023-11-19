@@ -142,6 +142,7 @@ const styles = StyleSheet.create({
     margin: widthToDp(5),
     borderRadius: 10,
     padding: 10,
+    zIndex: -1,
   },
   impressionDetail: {
     flexDirection: 'row',

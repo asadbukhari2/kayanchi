@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginHorizontal: widthToDp(5),
   },
-  arrow: { height: 20, width: 20 },
+  arrow: { height: 10, width: 20 },
   heading: {
     fontSize: 34,
     fontFamily: fonts.hk_bold,
@@ -202,6 +202,7 @@ const styles = StyleSheet.create({
     width: widthToDp(44),
     paddingVertical: widthToDp(7),
     paddingHorizontal: widthToDp(3),
+    zIndex: -1,
   },
   EarnedAmount: {
     fontSize: 22,
@@ -211,9 +212,9 @@ const styles = StyleSheet.create({
   },
   dropdownList: {
     position: 'absolute',
-    top: 0, // Adjust the position as needed
-    left: 80,
-    width: 100,
+    top: 60, // Adjust the position as needed
+    left: 60, // set this to set its left position
+    width: 153, // set this to set list width
     backgroundColor: 'white',
     borderWidth: 1,
     borderColor: theme.primary,

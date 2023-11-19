@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Switch, ScrollView } from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Header, Button } from '../../components';
-import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { Header } from '../../components';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { useTheme, fonts } from '../../utils/theme';
-import back from '../../assets/back.png';
-// import { OrderCard } from '../../components';
+
 import OrderCard from '../../components/OrderCard';
+import { useNavigation } from '@react-navigation/native';
 const carBrown = require('../../assets/car_brown.png');
 const host_green = require('../../assets/host_green.png');
-const information = require('../../assets/information.png');
-const location = require('../../assets/Path.png');
 
 const theme = useTheme();
 
@@ -70,14 +68,15 @@ const orders = [
     cancelReason: ' Order Cancelled by customer service',
   },
 ];
-const ArtistOrders = props => {
+const ArtistOrders = () => {
   const [name, setName] = useState('');
-  const [activeTab, setActiveTab] = useState('Active');
+  const [activeTab, setActiveTab] = useState('New');
   const [activeOrders, setActiveOrders] = useState([]);
   const [newOrders, setNewOrders] = useState([]);
   const [cancelledOrders, setCancelledOrders] = useState([]);
   const [completedOrders, setCompletedOrders] = useState([]);
   const [displayedOrders, setDisplayedOrders] = useState([]);
+  const navigation = useNavigation();
   console.log('display', displayedOrders);
 
   useEffect(() => {
@@ -148,6 +147,21 @@ const ArtistOrders = props => {
           <Text style={styles.heading}>My Orders </Text>
         </View>
 
+        <View style={styles.btnContainer2}>
+          {/* // * Check it thoroughly after API integration */}
+          <TouchableOpacity onPress={() => handleTabChange('New')}>
+            <Text style={[styles.tabText, activeTab === 'New' && styles.activeTab]}>New</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleTabChange('Active')}>
+            <Text style={[styles.tabText, activeTab === 'Active' && styles.activeTab]}>Active</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleTabChange('Completed')}>
+            <Text style={[styles.tabText, activeTab === 'Completed' && styles.activeTab]}>Completed</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleTabChange('Cancelled')}>
+            <Text style={[styles.tabText, activeTab === 'Cancelled' && styles.activeTab]}>Cancelled</Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.btnContainer}>
           <View>
             <TouchableOpacity>
@@ -170,24 +184,9 @@ const ArtistOrders = props => {
             </TouchableOpacity>
           </View>
         </View>
-
-        <View style={styles.btnContainer2}>
-          <TouchableOpacity onPress={() => handleTabChange('Active')} style={styles.tabButton}>
-            <Text style={[styles.tabText, activeTab === 'Active' && styles.activeTab]}>New</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleTabChange('New')} style={styles.tabButton}>
-            <Text style={[styles.tabText, activeTab === 'New' && styles.activeTab]}>Active</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleTabChange('Completed')} style={styles.tabButton}>
-            <Text style={[styles.tabText, activeTab === 'Completed' && styles.activeTab]}>Completed</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleTabChange('Cancelled')} style={styles.tabButton}>
-            <Text style={[styles.tabText, activeTab === 'Cancelled' && styles.activeTab]}>Cancelled</Text>
-          </TouchableOpacity>
-        </View>
         <View>
           {displayedOrders.map((order, index) => (
-            <OrderCard key={index} order={order} navigation={props.navigation} />
+            <OrderCard key={index} order={order} navigation={navigation} />
           ))}
         </View>
       </ScrollView>
@@ -213,7 +212,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginHorizontal: widthToDp(5),
-    marginVertical: 10,
+    marginVertical: 8,
     backgroundColor: 'white',
   },
   tabText: {
@@ -259,7 +258,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F7F7F7',
-    paddingTop: heightToDp(7),
+    paddingTop: heightToDp(2),
   },
   orderContainer: {
     backgroundColor: 'white',
