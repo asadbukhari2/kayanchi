@@ -1,51 +1,73 @@
-import React, { useRef, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import MapView from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Modalize } from 'react-native-modalize';
-import { Button, GradientRadio, SearchBox } from '../../components';
-import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { Button } from '../../components';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
-import { DATA } from './Location';
-import Modal from 'react-native-modal';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Feather from 'react-native-vector-icons/Feather';
+// import Modal from 'react-native-modal';
+// import AntDesign from 'react-native-vector-icons/AntDesign';
+// import Feather from 'react-native-vector-icons/Feather';
 import { TextInput } from '../../components';
 import googlemap from '../../assets/googlemap.png';
+import Geolocation from '@react-native-community/geolocation';
+import { saveAddress } from '../../redux/actions';
 
 const theme = useTheme();
 
-const STATUS_RADIO = [
-  {
-    source: require('../../assets/hosting4.png'),
-    title: "I'm hosting",
-  },
-  {
-    source: require('../../assets/travelling4.png'),
-    title: "I'm travelling",
-  },
-];
+// const STATUS_RADIO = [
+//   {
+//     source: require('../../assets/hosting4.png'),
+//     title: "I'm hosting",
+//   },
+//   {
+//     source: require('../../assets/travelling4.png'),
+//     title: "I'm travelling",
+//   },
+// ];
 
 const ArtistLocateKaynchi = props => {
-  const modalizeRef = useRef(null);
+  const [floor, setFloor] = useState('');
   const [name, setName] = useState('');
-  const [preferenceStatus, setPreferenceStatus] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
+  // const [preferenceStatus, setPreferenceStatus] = useState('');
+  // const [modalVisible, setModalVisible] = useState(false);
+  const [userLocation, setUserLocation] = useState(null);
 
-  const onOpen = () => {
-    modalizeRef.current?.open();
-  };
+  useEffect(() => {
+    // Get user's current location
+    Geolocation.getCurrentPosition(
+      position => {
+        console.log(position);
+        const { latitude, longitude } = position.coords;
+        setUserLocation({ latitude, longitude });
+      },
+      error => console.log('Error getting location:', error),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+    );
+  }, []);
 
   const map_style = [
     {
       elementType: 'labels.icon',
       stylers: [
         {
-          visibility: 'off',
+          visibility: 'on',
         },
       ],
     },
   ];
+
+  const handleMarkerPress = itm => {};
+  const handleSavePress = () => {
+    const data = {
+      text: name + ' ' + floor,
+      city: 'Lahore',
+      country: 'Pakistan',
+      ...userLocation,
+    };
+
+    saveAddress(data);
+  };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -58,18 +80,27 @@ const ArtistLocateKaynchi = props => {
         }}
         style={{ flex: 1 }}
         customMapStyle={map_style}>
-        {DATA.map((item, index) => {
-          return (
-            <MapView.Marker
-              key={index}
-              coordinate={{ latitude: item.lat, longitude: item.long }}
-              title={item.title}
-              description={item.description}
-              image={item.img}>
-              <MapView.Callout tooltip onPress={() => setModalVisible(true)} />
-            </MapView.Marker>
-          );
-        })}
+        {/* {DATA.map((item, index) => { */}
+        {/* return ( */}
+        {userLocation && (
+          <MapView.Marker
+            // key={index}
+            coordinate={{ latitude: userLocation?.latitude, longitude: userLocation?.longitude }}
+            title={'My Location'}
+            description={'You are here'}
+            image={googlemap}
+            onPress={e => handleMarkerPress(e)}>
+            <MapView.Callout
+              tooltip
+              // onPress={() => {
+              //   setModalVisible(true);
+              //   console.log('polo');
+              // }}
+            />
+          </MapView.Marker>
+        )}
+        {/* ); */}
+        {/* })} */}
       </MapView>
       <View style={styles.bottomView}>
         <View style={styles.line} />
@@ -82,7 +113,6 @@ const ArtistLocateKaynchi = props => {
                 fontSize: 20,
                 lineHeight: 24,
                 color: theme.lightBlack,
-                // marginTop: heightToDp(4),
               }}>
               A 39 Block 3 Gulshan e Iqbal
             </Text>
@@ -105,7 +135,7 @@ const ArtistLocateKaynchi = props => {
         <View style={styles.separator} />
 
         <TextInput
-          input={text => setName(text)}
+          input={text => setFloor(text)}
           placeholder={'Floor/Unit#'}
           inputBoxStyle={{
             borderBottomColor: '#f3f0f3',
@@ -119,9 +149,10 @@ const ArtistLocateKaynchi = props => {
         />
       </View>
       <View style={styles.btn}>
-        <Button title="Save" />
+        <Button title="Save" onPress={handleSavePress} />
       </View>
-      <Modal
+      {/* not using */}
+      {/* <Modal
         coverScreen={false}
         isVisible={modalVisible}
         style={{ flex: 1, margin: 0, justifyContent: 'flex-end' }}
@@ -153,7 +184,6 @@ const ArtistLocateKaynchi = props => {
               alignItems: 'center',
               justifyContent: 'space-around',
             }}>
-            {/* <View style={styles.radioContainer}> */}
             {STATUS_RADIO.map((item, index) => {
               return (
                 <GradientRadio
@@ -175,14 +205,13 @@ const ArtistLocateKaynchi = props => {
                 />
               );
             })}
-            {/* </View> */}
           </View>
           <TouchableOpacity style={{ alignSelf: 'center', marginBottom: 25 }}>
             <Text style={[styles.statusTxt, { color: theme.genderGrey }]}>Swipe to view profile</Text>
           </TouchableOpacity>
           <Button title={'Continue'} btnStyle={{ marginBottom: heightToDp(5.5) }} />
         </View>
-      </Modal>
+      </Modal> */}
     </SafeAreaView>
   );
 };

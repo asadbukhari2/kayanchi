@@ -10,6 +10,8 @@ import {
   SAVE_TOKEN,
   SET_IS_ARTIST,
   SIGN_UP,
+  GET_MY_PROFILE,
+  GET_USER_DETAIL,
 } from '../constants/constants';
 import { showMessage } from 'react-native-flash-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -107,6 +109,61 @@ export const updateProfile = data => async dispatch => {
       message: message || 'Something Went Wrong',
       type: 'danger',
     });
+  }
+};
+
+export const getMyProfile = () => async dispatch => {
+  let res = await Fetch.get('/api/profile/myprofile/');
+
+  if (res.status >= 200 && res.status < 300) {
+    res = await res.json();
+
+    dispatch({
+      type: GET_MY_PROFILE,
+      payload: res,
+    });
+  } else {
+    const { message } = await res.json();
+    showMessage({
+      message: message || 'Something Went Wrong',
+      type: 'danger',
+    });
+  }
+};
+export const updateUserDetail = async data => {
+  try {
+    let res = await Fetch.put('/api/users/profileDetails/1', data);
+
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+    } else {
+      const { message } = await res.json();
+      showMessage({
+        message: message || 'Something Went Wrong',
+        type: 'danger',
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getUserDetail = id => async dispatch => {
+  try {
+    let res = await Fetch.get(`/api/users/${id}`);
+
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      dispatch({ type: GET_USER_DETAIL, payload: res });
+    } else {
+      const { message } = await res.json();
+      showMessage({
+        message: message || 'Something Went Wrong',
+        type: 'danger',
+      });
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
 

@@ -5,9 +5,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { images, useTheme } from '../utils/theme';
 import { ArtistHomeStack, ArtistProfileStack, ArtistOrderStack } from './Navigation';
 import {
-  Home,
-  LocateKaynchi,
-  Profile,
   ArtistHome,
   ArtistProfile,
   ArtistCreateGig,
@@ -16,17 +13,11 @@ import {
   ArtistGigMood,
   ArtistYourOrders,
   ArtistRankUp,
-  ArtistGig,
-  ArtistGigInfo,
-  ArtistGigDescription,
-  ArtistPublishGig,
-  ArtistVerification,
   ArtistPromoGig1,
   ArtistPromoGig2,
   ArtistPromoMood,
   ArtistPromoMainPage,
   ArtistOrderSetting,
-  ArtistLocateKaynchi,
   ArtistGigMainPage,
 } from '../artist-screens';
 import { heightToDp, widthToDp } from '../utils/Dimensions';
@@ -34,7 +25,6 @@ import Commision from '../artist-screens/ArtistCommision/Commision';
 import HowToPay from '../artist-screens/ArtistCommision/HowToPay';
 
 const Stack = createNativeStackNavigator();
-const RootStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const theme = useTheme();

@@ -12,14 +12,16 @@ const ArtistSavedAddresses = props => {
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <Text style={styles.area}>{area}</Text>
         <TouchableOpacity activeOpacity={0.7} onPress={onEdit}>
-          <Text style={styles.editTxt}>{'Edit'}</Text>
+          <Text style={styles.editTxt}>Edit</Text>
         </TouchableOpacity>
       </View>
-      <Text style={styles.heading}>{'Address'}</Text>
+      <Text style={styles.heading}>Address</Text>
       <Text style={styles.value}>{address}</Text>
-      <Text style={[styles.value, { color: theme.linkTxt, marginVertical: heightToDp(4.5) }]}>
-        {'Last order ' + lastOrder}
-      </Text>
+      {lastOrder && (
+        <Text style={[styles.value, { color: theme.linkTxt, marginVertical: heightToDp(4.5) }]}>
+          {'Last order ' + lastOrder}
+        </Text>
+      )}
     </View>
   );
 };

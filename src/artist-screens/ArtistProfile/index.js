@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, ScrollView, View, Image, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import Modal from 'react-native-modal';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { fonts, useTheme } from '../../utils/theme';
-import { heightToDp, width, widthToDp, height } from '../../utils/Dimensions';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
@@ -34,7 +34,7 @@ const ArtistProfile = props => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
   const profile = useSelector(state => state.auth.profile);
-  console.log(profile, 'hg');
+
   const toggleSwitch = () => {
     setIsEnabled(previousState => !previousState);
   };
@@ -237,24 +237,12 @@ const ArtistProfile = props => {
                 }}
               />
               <View style={[styles.centerDiv, { paddingTop: 5 }]}>
-                <Text
-                  // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
-                  style={[styles.artistLocation]}>
-                  {' ' + profile?.title + ' '}
-                </Text>
+                <Text style={[styles.artistLocation]}>{' ' + profile?.title + ' '}</Text>
 
                 <View style={[styles.dotContainer]}>
-                  <Text
-                    // onTextLayout={e => setRatingWidth(e.nativeEvent.lines[0].width)}
-                    style={[styles.artistRating, { color: theme.primary }]}>
-                    {'.'}
-                  </Text>
+                  <Text style={[styles.artistRating, { color: theme.primary }]}>{'.'}</Text>
                 </View>
-                <Text
-                  // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
-                  style={[styles.artistLocation]}>
-                  {' ' + profile?.level}
-                </Text>
+                <Text style={[styles.artistLocation]}>{' ' + profile?.level}</Text>
               </View>
             </View>
           </View>

@@ -15,7 +15,7 @@ import HostMoodImage from '../../assets/car-front.png';
 const information = require('../../assets/information.png');
 import LinearGradient from 'react-native-linear-gradient';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveToken } from '../../redux/actions';
+import { getAvailableDays, getBookingSlots, saveToken } from '../../redux/actions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MultiButton from '../../components/MultiButton';
 
@@ -36,10 +36,6 @@ const ArtistOrderSetting = props => {
 
   // console.log(data);
   const dispatch = useDispatch();
-  const user = useSelector(state => state.auth);
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
 
   const gotoArtist = async () => {
     // dispatch(saveToken({token: 'anyvalue'}));
@@ -47,6 +43,13 @@ const ArtistOrderSetting = props => {
       screen: 'ArtistVerification',
     });
   };
+
+  useEffect(() => {
+    dispatch(getAvailableDays());
+    dispatch(getBookingSlots());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -59,10 +62,6 @@ const ArtistOrderSetting = props => {
             width: widthToDp(90),
           }}>
           <Header backBtn title="Order Setting" />
-          {/* <Image source={back}></Image> */}
-          <View style={{ marginLeft: -20 }}>
-            <Header title={'Order Settings'} />
-          </View>
         </View>
 
         <View style={{ flexDirection: 'row' }}>

@@ -3,7 +3,6 @@ const initialState = {
   gigDetails: null,
   error: null,
   gigs: [],
-  // gigsCount: null,
 };
 
 import {
@@ -16,7 +15,6 @@ import {
 } from '../constants/constants';
 
 const reducer = (state = initialState, action) => {
-  // console.log(action, 'reducer_token');
   switch (action.type) {
     case PUBLISH_GIG:
       return {
@@ -44,14 +42,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         gigs: action.payload,
-        // gigsCount: action.payload.length,
         loading: false,
       };
     case GET_GIGS_ERROR:
       return {
         ...state,
         error: action.payload.error,
-        // gigsCount: 0,
         loading: false,
       };
 

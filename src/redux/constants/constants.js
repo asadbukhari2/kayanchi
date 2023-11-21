@@ -36,3 +36,8 @@ export const GET_PORTFOLIO_DATA = 'GET_PORTFOLIO_DATA';
 export const GIG = 'GIG';
 export const GET_GIGS_SUCCESS = 'GET_GIGS_SUCCESS';
 export const GET_GIGS_ERROR = 'GET_GIGS_ERROR';
+
+export const GET_MY_PROFILE = 'GET_MY_PROFILE';
+export const GET_USER_DETAIL = 'GET_USER_DETAIL';
+export const GET_AVAILABLE_DAYS = 'GET_AVAILABLE_DAYS';
+export const GET_BOOKING_SLOTS = 'GET_BOOKING_SLOTS';

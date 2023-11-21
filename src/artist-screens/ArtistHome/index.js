@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { View, Image, StyleSheet, FlatList, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from '../../components';
@@ -13,9 +13,7 @@ import * as Progress from 'react-native-progress';
 import Comission from './components/Comission';
 import OrderSummary from './components/orderSummary';
 import Earning from './components/Earnings';
-import { Fetch } from '../../utils/APIservice';
-import { getGigsOfUser } from '../../redux/actions/gigActions';
-import { getCategory } from '../../redux/actions/commonActions';
+import { getMyProfile, getGigsOfUser, getCategory } from '../../redux/actions';
 const theme = useTheme();
 //images import
 const timer = require('../../assets/timer.png');
@@ -47,13 +45,13 @@ const orders = [
 ];
 
 const ArtistHome = props => {
-  const [progress, setProgress] = useState(1);
   const auth = useSelector(state => state.auth);
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
 
   const { name } = auth.user;
+  const profileLevelCount = auth.profileLevelCount;
 
   const handleOrder = () => {
     navigation.navigate('ArtistOrderStack', {
@@ -67,25 +65,12 @@ const ArtistHome = props => {
   const handleInfoIconPress = () => {
     navigation.navigate('ArtistHomeStack', { screen: 'ArtistRankUp' });
   };
+  console.log({ profileLevelCount });
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const response = await Fetch.get('/api/profile/myprofile/', auth.userDetails.token);
-        const result = await response.json();
-
-        const clampedValue = Math.min(100, Math.max(0, result.level_count));
-
-        const mappedValue = clampedValue / 100;
-
-        setProgress(mappedValue);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchProfile();
     dispatch(getGigsOfUser());
     dispatch(getCategory());
+    dispatch(getMyProfile());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth.userDetails.token]);
 
@@ -368,7 +353,7 @@ const ArtistHome = props => {
             marginVertical: heightToDp(2),
           }}>
           <Progress.Bar
-            progress={progress}
+            progress={profileLevelCount}
             height={10}
             width={widthToDp(90)}
             color={'#29AAE2'}

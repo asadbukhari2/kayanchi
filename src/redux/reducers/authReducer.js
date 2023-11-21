@@ -9,6 +9,7 @@ const initialState = {
   isAllowedToMain: false,
   userDetails: null,
   profile: null,
+  profileLevelCount: null,
   user: null,
   signUpUserData: null,
   categories: null,
@@ -31,6 +32,8 @@ import {
   SET_IS_CONSUMER,
   GET_PORTFOLIO_DATA,
   GET_PORTFOLIO_ERROR,
+  GET_MY_PROFILE,
+  GET_USER_DETAIL,
 } from '../constants/constants';
 
 const reducer = (state = initialState, action) => {
@@ -123,6 +126,19 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         profile: action.payload,
+      };
+    case GET_MY_PROFILE:
+      const clampedValue = Math.min(100, Math.max(0, action.payload.level_count));
+      const mappedValue = clampedValue / 100;
+      return {
+        ...state,
+        profile: action.payload.profile,
+        profileLevelCount: state.profileLevelCount ? state.profileLevelCount : mappedValue,
+      };
+    case GET_USER_DETAIL:
+      return {
+        ...state,
+        user: action.payload,
       };
     case GET_PORTFOLIO_DATA:
       return {

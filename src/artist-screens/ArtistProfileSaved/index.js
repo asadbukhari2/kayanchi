@@ -1,53 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button, Header, TextInput } from '../../components';
-import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator, Image, ScrollView } from 'react-native';
+import { Button, Header } from '../../components';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import { fonts, useTheme } from '../../utils/theme';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Assuming you want to use FontAwesome icons, you can change it to any other supported icon library.
-import { showMessage } from 'react-native-flash-message';
+
+import { useSelector } from 'react-redux';
 
 const whatsappphone = require('../../assets/whatsappphone.png');
 const theme = useTheme();
 
 export default function ArtistProfileSaved(props) {
-  const [skills, setSkills] = useState([]);
-  const [name, setName] = useState('');
+  const auth = useSelector(state => state.auth);
 
-  const [loading, setLoading] = useState(false);
+  const { email, name, phone_number } = auth.user;
 
-  const SkillsHandler = async () => {
-    navigation.navigate('ArtistOnBoardingWelcome');
-    // try {
-    //   const res = await api.post('/api/users/verifypassword', {
-    //     email,
-    //     phone_number,
-    //     password,
-    //   });
-    //   setLoading(true);
-    //   console.log(email, password, res.data, 'EMAIL/PASSWORD');
-    //   console.log(res.data);
-    // if (res.status == 200) {
-    //   dispatch(saveUserData(res.data));
-    //   dispatch(saveToken(res.data));
-    //   showMessage({
-    //     message: 'Logged in successfully!',
-    //     type: 'success',
-    //   });
-    //   navigation.navigate('OnBoardingWelcome');
-    // } else {
-    //   showMessage({
-    //     message: res.data.message,
-    //     type: 'danger',
-    //   });
-    // }
-    // } catch (error) {
-    //   showMessage({
-    //     message: error?.message,
-    //     type: 'warning',
-    //   });
-    //   console.log(error);
-    // }
+  const editClickHandler = () => {
+    props.navigation.navigate('ArtistPersonalDetails');
   };
 
   return (
@@ -59,91 +29,49 @@ export default function ArtistProfileSaved(props) {
           <View style={styles.personalContainer}>
             <View style={{ paddingLeft: widthToDp(4) }}>
               <Text style={styles.subheading}>Name</Text>
-              <Text>Marmeen Iqbal</Text>
+              <Text style={styles.infoText}>{name}</Text>
             </View>
             <View>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={() =>
-                  props.navigation.navigate('ArtistProfileStack', {
-                    screen: 'ArtistPersonalDetails',
-                  })
-                }
-                style={{ padding: heightToDp(2.9) }}>
-                <Icon
-                  name={'pencil'}
-                  style={[styles.icon, { backgroundColor: '#EEEEEE', padding: 8, borderRadius: 20 }]}
-                />
+              <TouchableOpacity activeOpacity={0.7} onPress={editClickHandler} style={{ padding: heightToDp(2.9) }}>
+                <Icon name={'pencil'} style={styles.icon} />
               </TouchableOpacity>
             </View>
           </View>
-          <View style={styles.separator}></View>
+          <View style={styles.separator} />
 
           <View style={styles.personalContainer}>
             <View style={{ paddingLeft: widthToDp(4) }}>
               <Text style={styles.subheading}>Email</Text>
-              <Text>Marmeen@pk.com</Text>
+              <Text style={styles.infoText}>{email}</Text>
             </View>
             <View>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={() =>
-                  props.navigation.navigate('ArtistProfileStack', {
-                    screen: 'ArtistPersonalDetails',
-                  })
-                }
-                style={{ padding: heightToDp(2.9) }}>
-                <Icon
-                  name={'pencil'}
-                  style={[styles.icon, { backgroundColor: '#EEEEEE', padding: 8, borderRadius: 20 }]}
-                />
+              <TouchableOpacity activeOpacity={0.7} onPress={editClickHandler} style={{ padding: heightToDp(2.9) }}>
+                <Icon name={'pencil'} style={styles.icon} />
               </TouchableOpacity>
             </View>
           </View>
-          <View style={styles.separator}></View>
+          <View style={styles.separator} />
 
           <View style={styles.personalContainer}>
             <View style={{ paddingLeft: widthToDp(4) }}>
               <Text style={styles.subheading}>Mobile Number</Text>
-              <Text>0332 1234567</Text>
+              <Text style={styles.infoText}>{phone_number ?? '0000-00000000'}</Text>
             </View>
             <View>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={() =>
-                  props.navigation.navigate('ArtistProfileStack', {
-                    screen: 'ArtistPersonalDetails',
-                  })
-                }
-                style={{ padding: heightToDp(2.9) }}>
-                <Icon
-                  name={'pencil'}
-                  style={[styles.icon, { backgroundColor: '#EEEEEE', padding: 8, borderRadius: 20 }]}
-                />
+              <TouchableOpacity activeOpacity={0.7} onPress={editClickHandler} style={{ padding: heightToDp(2.9) }}>
+                <Icon name={'pencil'} style={styles.icon} />
               </TouchableOpacity>
             </View>
           </View>
-          <View style={styles.separator}></View>
+          <View style={styles.separator} />
           <View style={styles.personalContainer}>
             <View style={{ paddingLeft: widthToDp(4) }}>
               <Text style={[styles.subheading]}>Your default address</Text>
-              <Text style={{ width: widthToDp(54) }}>
-                House B91, Street 2, DHA Phase VI, Ithehad commercial Lane 8 Karachi
-              </Text>
+              <Text style={[{ width: widthToDp(54) }, styles.infoText]}>Not available</Text>
             </View>
             <View>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={() =>
-                  props.navigation.navigate('ArtistProfileStack', {
-                    screen: 'ArtistPersonalDetails',
-                  })
-                }
-                style={{ padding: heightToDp(2.9) }}>
-                <Icon
-                  name={'pencil'}
-                  style={[styles.icon, { backgroundColor: '#EEEEEE', padding: 8, borderRadius: 20 }]}
-                />
+              <TouchableOpacity activeOpacity={0.7} onPress={editClickHandler} style={{ padding: heightToDp(2.9) }}>
+                <Icon name={'pencil'} style={styles.icon} />
               </TouchableOpacity>
             </View>
           </View>
@@ -158,7 +86,6 @@ export default function ArtistProfileSaved(props) {
           btnStyle={[styles.btn, { marginTop: heightToDp(10), backgroundColor: '#668C6A' }]}
           image={whatsappphone}
           imageStyle={styles.iconStyles}
-          onPress={SkillsHandler}
         />
       </ScrollView>
     </SafeAreaView>
@@ -173,28 +100,26 @@ const styles = StyleSheet.create({
   btn: {
     marginBottom: heightToDp(3.5),
     color: '#668C6A',
-    // position: 'absolute',
-    // bottom: heightToDp(1.5),
   },
   genTxt: {
     fontSize: fonts.robo_reg,
-    fontSize: 14,
     lineHeight: 16.41,
     color: theme.background,
   },
+  infoText: {
+    color: theme.dark,
+  },
+  icon: { backgroundColor: '#EEEEEE', padding: 14, borderRadius: 50, color: theme.primary, fontSize: 18 },
   genView: {
     width: width * 0.91,
     alignSelf: 'center',
     marginTop: heightToDp(4.5),
-
-    // marginTopightToDp(8.5),
   },
   iconStyles: {
     width: 25,
     height: 25,
     marginRight: 10,
     resizeMode: 'contain',
-    // , position: 'absolute', left: widthToDp(5)
   },
   headingtxt: {
     color: '#677790',
@@ -205,7 +130,6 @@ const styles = StyleSheet.create({
   personalContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // backgroundColor: 'white',
     marginHorizontal: widthToDp(5),
   },
   personalMain: {
@@ -222,18 +146,17 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontSize: 40,
-    color: '#0F2851',
+    color: theme.darkBlue,
     paddingLeft: widthToDp(4),
     fontFamily: fonts.hk_bold,
   },
   subheading: {
-    color: '#84668C',
+    color: theme.primary,
     fontSize: 16,
     paddingTop: 10,
     fontFamily: fonts.robo_bold,
   },
   genBtn: {
-    //   width: widthToDp(27.5),
     height: heightToDp(9.7),
     alignItems: 'center',
     justifyContent: 'center',

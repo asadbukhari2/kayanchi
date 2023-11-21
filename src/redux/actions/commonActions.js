@@ -10,6 +10,8 @@ import {
   GET_SERVICES_ERROR,
   GET_PORTFOLIO_ERROR,
   GET_PORTFOLIO_DATA,
+  GET_AVAILABLE_DAYS,
+  GET_BOOKING_SLOTS,
 } from '../constants/constants';
 
 export const getCategory = () => async dispatch => {
@@ -149,5 +151,186 @@ export const getPortfolio = token => async dispatch => {
     }
   } catch (error) {
     console.log('getPortfolio', error);
+  }
+};
+export const getSavedAddresses = async token => {
+  try {
+    let res = await Fetch.get('/api/address/myaddress', token);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+
+      return res;
+    } else {
+      const { message } = await res.json();
+      showMessage({
+        message: message,
+        type: 'danger',
+      });
+
+      throw new Error(message ?? 'Something went wrong');
+    }
+  } catch (error) {
+    console.log('getSavedAddresses', error);
+  }
+};
+export const saveAddress = async (data, token) => {
+  try {
+    let res = await Fetch.post('/api/address/', data, token);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      return res;
+    } else {
+      const { message } = await res.json();
+      showMessage({
+        message: message,
+        type: 'danger',
+      });
+
+      throw new Error(message ?? 'Something went wrong');
+    }
+  } catch (error) {
+    console.log('saveAddress', error);
+  }
+};
+
+export const getAvailableDays = token => async dispatch => {
+  try {
+    let res = await Fetch.get('/api/available_day/mydays', token);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+
+      dispatch({
+        type: GET_AVAILABLE_DAYS,
+        payload: res.days,
+      });
+    } else {
+      const { message } = await res.json();
+      showMessage({
+        message: message,
+        type: 'danger',
+      });
+    }
+  } catch (error) {
+    console.log('getAvailableDays', error);
+  }
+};
+export const addAvailableDays = (data, token) => async dispatch => {
+  try {
+    let res = await Fetch.put('/api/available_day/add', data, token);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+
+      dispatch({
+        type: GET_AVAILABLE_DAYS,
+        payload: res.days,
+      });
+    } else {
+      const { message } = await res.json();
+      showMessage({
+        message: message,
+        type: 'danger',
+      });
+    }
+  } catch (error) {
+    console.log('getAvailableDays', error);
+  }
+};
+export const removeAvailableDays = token => async dispatch => {
+  try {
+    let res = await Fetch.put('/api/available_day/remove', token);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+
+      dispatch({
+        type: GET_AVAILABLE_DAYS,
+        payload: res.days,
+      });
+    } else {
+      const { message } = await res.json();
+      showMessage({
+        message: message,
+        type: 'danger',
+      });
+    }
+  } catch (error) {
+    console.log('getAvailableDays', error);
+  }
+};
+
+export const getBookingSlots = token => async dispatch => {
+  try {
+    let res = await Fetch.get('/api/bookingSlot/myslots', token);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      console.log(res, '[[[[');
+      dispatch({
+        type: GET_BOOKING_SLOTS,
+        payload: res,
+      });
+    } else {
+      const { message } = await res.json();
+      showMessage({
+        message: message,
+        type: 'danger',
+      });
+    }
+  } catch (error) {
+    console.log('getBookingSlots', error);
+  }
+};
+
+export const toogleBookingSlot = (id, data, token) => async dispatch => {
+  try {
+    let res = await Fetch.put(`/api/bookingSlot/toggleActiveSlot/${id}`, data, token);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+
+      dispatch(getBookingSlots());
+    } else {
+      const { message } = await res.json();
+      showMessage({
+        message: message,
+        type: 'danger',
+      });
+    }
+  } catch (error) {
+    console.log('toogleBookingSlot', error);
+  }
+};
+
+export const removeBookingSlot = (id, token) => async dispatch => {
+  try {
+    let res = await Fetch.put(`/api/bookingSlot/${id}`, token);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+
+      dispatch(getBookingSlots());
+    } else {
+      const { message } = await res.json();
+      showMessage({
+        message: message,
+        type: 'danger',
+      });
+    }
+  } catch (error) {
+    console.log('toogleBookingSlot', error);
+  }
+};
+export const addBookingSlot = (data, token) => async dispatch => {
+  try {
+    let res = await Fetch.post('api/bookingSlot/', data, token);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      console.log(res);
+      // dispatch(getBookingSlots());
+    } else {
+      const { message } = await res.json();
+      showMessage({
+        message: message,
+        type: 'danger',
+      });
+    }
+  } catch (error) {
+    console.log('addBookingSlot', error);
   }
 };

@@ -7,6 +7,8 @@ const initialState = {
   experience: [],
   serviceLoading: false,
   services: [],
+  availableDays: [],
+  bookingSlots: [],
 };
 
 import {
@@ -17,10 +19,11 @@ import {
   GET_SERVICES,
   GET_SERVICES_DATA,
   GET_SERVICES_ERROR,
+  GET_AVAILABLE_DAYS,
+  GET_BOOKING_SLOTS,
 } from '../constants/constants';
 
 const reducer = (state = initialState, action) => {
-  // console.log(action, 'reducer_token');
   switch (action.type) {
     case GET_CATEGORIES:
       return {
@@ -73,6 +76,16 @@ const reducer = (state = initialState, action) => {
         ...state,
         services: [],
         serviceLoading: false,
+      };
+    case GET_AVAILABLE_DAYS:
+      return {
+        ...state,
+        availableDays: action.payload,
+      };
+    case GET_BOOKING_SLOTS:
+      return {
+        ...state,
+        bookingSlots: action.payload,
       };
 
     default:

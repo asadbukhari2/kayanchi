@@ -12,7 +12,7 @@ function handleResponse(response) {
 }
 
 function get(url, token) {
-  console.log('request', url);
+  console.log('request:get', url);
 
   const accessToken = store.getState().auth?.token || token;
   const headers = {
@@ -27,6 +27,7 @@ function get(url, token) {
 }
 
 function post(url, body, token) {
+  console.log('request:post', url);
   const accessToken = store.getState().auth?.token || token;
   const headers = {
     'Content-Type': 'application/json',
@@ -39,8 +40,9 @@ function post(url, body, token) {
   };
   return fetch(BASE_URL + url, requestOptions).then(res => handleResponse(res));
 }
+
 function postFormData(url, body, token) {
-  console.log(url, body, token);
+  console.log('request:postFormData', url);
 
   const accessToken = store.getState().auth?.token || token;
   const headers = {
@@ -55,6 +57,7 @@ function postFormData(url, body, token) {
 }
 
 function upload(url, formData) {
+  console.log('request:upload', url);
   const accessToken = store.getState().auth?.token;
   const headers = {
     authorization: `Bearer ${accessToken}`,
@@ -68,6 +71,7 @@ function upload(url, formData) {
 }
 
 function _delete(url) {
+  console.log('request:delete', url);
   const accessToken = store.getState().auth?.token;
   const headers = {
     'Content-Type': 'application/json',
@@ -81,7 +85,7 @@ function _delete(url) {
 }
 
 function put(url, data, token) {
-  console.log(url);
+  console.log('request:put', url, data);
   const accessToken = store.getState().auth?.token || store.getState().auth?.userDetails?.token;
   const headers = {
     'Content-Type': 'application/json',
