@@ -19,6 +19,7 @@ import {
   ArtistPromoMainPage,
   ArtistOrderSetting,
   ArtistGigMainPage,
+  ArtistInviteFriends,
 } from '../artist-screens';
 import { heightToDp, widthToDp } from '../utils/Dimensions';
 import Commision from '../artist-screens/ArtistCommision/Commision';
@@ -217,6 +218,13 @@ const TabStack = () => (
     <Stack.Screen
       name="ArtistPromoMood"
       component={ArtistPromoMood}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <Stack.Screen
+      name="ArtistInviteFriends"
+      component={ArtistInviteFriends}
       options={{
         headerShown: false,
       }}

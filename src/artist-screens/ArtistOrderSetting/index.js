@@ -1,22 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Switch, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header, Button } from '../../components';
-import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { useTheme, fonts } from '../../utils/theme';
 
 import travelling from '../../assets/travelling.png';
-import galleryBig from '../../assets/galleryBig.png';
-import ImageCropPicker from 'react-native-image-crop-picker';
 import ToggleSwitch from 'toggle-switch-react-native';
 
 import TravelMoodImage from '../../assets/travel.png';
 import HostMoodImage from '../../assets/car-front.png';
 const information = require('../../assets/information.png');
 import LinearGradient from 'react-native-linear-gradient';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAvailableDays, getBookingSlots, saveToken } from '../../redux/actions';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch } from 'react-redux';
+import { getAvailableDays, getBookingSlots } from '../../redux/actions';
 import MultiButton from '../../components/MultiButton';
 
 const booking = require('../../assets/booking.png');
@@ -25,24 +22,17 @@ const ondemand = require('../../assets/ondemand.png');
 const theme = useTheme();
 
 const ArtistOrderSetting = props => {
-  const [image, setImage] = useState();
   const [availability, setAvailability] = useState('Booking Only');
   const [isPrivate, setIsPrivate] = useState(false);
 
   const handlePrivateImage = () => {
     setIsPrivate(previousState => !previousState);
   };
-  const { navigation, route } = props;
-  // const {data} = route.params;
 
-  // console.log(data);
   const dispatch = useDispatch();
 
   const gotoArtist = async () => {
-    // dispatch(saveToken({token: 'anyvalue'}));
-    props.navigation.navigate('ArtistHomeStack', {
-      screen: 'ArtistVerification',
-    });
+    props.navigation.navigate('ArtistProfile');
   };
 
   useEffect(() => {
@@ -127,7 +117,7 @@ const ArtistOrderSetting = props => {
         </View>
 
         <Text style={styles.warning}>
-          {'Choose between travelling to the client or having them at your place. You can do both.'}
+          Choose between travelling to the client or having them at your place. You can do both.
         </Text>
         <View style={styles.parentMood}>
           <View style={styles.mood}>
@@ -152,13 +142,13 @@ const ArtistOrderSetting = props => {
           </View>
         </View>
         <View style={styles.serviceDuration}>
-          <Text style={styles.title2}>{'Default Travelling cost'}</Text>
+          <Text style={styles.title2}>Default Travelling cost</Text>
           <Image source={travelling} resizeMode="contain" />
           <View style={styles.childServiceDuration} />
         </View>
 
         <Text style={styles.warning}>
-          {'Budget your travel cost within the city. Offer travel for free, to get more orders.'}
+          Budget your travel cost within the city. Offer travel for free, to get more orders.
         </Text>
         <View
           style={{
@@ -186,11 +176,11 @@ const ArtistOrderSetting = props => {
         </View>
         <View style={styles.serviceDuration}>
           <Text style={styles.title2}>
-            {'Minimum Order Value'} <Text style={{ fontFamily: fonts.robo_light }}>(MOV)</Text>
+            Minimum Order Value <Text style={{ fontFamily: fonts.robo_light }}>(MOV)</Text>
           </Text>
         </View>
 
-        <Text style={styles.warning}>{"Set a minimum amount below which you won't accept order"}</Text>
+        <Text style={styles.warning}>Set a minimum amount below which you won't accept order</Text>
 
         <View style={[styles.parentPrice, { marginTop: 10 }]}>
           <TextInput style={styles.priceField} placeholder="0" placeholderTextColor={theme.genderGrey} />

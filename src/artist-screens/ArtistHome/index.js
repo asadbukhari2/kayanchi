@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { View, Image, StyleSheet, FlatList, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Image, FlatList, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from '../../components';
-import { heightToDp, width, widthToDp, height } from '../../utils/Dimensions';
+import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native'; // Import the navigation hook
@@ -14,7 +14,8 @@ import Comission from './components/Comission';
 import OrderSummary from './components/orderSummary';
 import Earning from './components/Earnings';
 import { getMyProfile, getGigsOfUser, getCategory } from '../../redux/actions';
-const theme = useTheme();
+import makeStyle from './home.styles';
+
 //images import
 const timer = require('../../assets/timer.png');
 const carBrown = require('../../assets/car_brown.png');
@@ -45,12 +46,16 @@ const orders = [
 ];
 
 const ArtistHome = props => {
+  const theme = useTheme();
+  const styles = makeStyle(theme);
   const auth = useSelector(state => state.auth);
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
 
   const { name } = auth.user;
+  const { hosting_mood, travel_mood, availability_status } = auth.profile;
+
   const profileLevelCount = auth.profileLevelCount;
 
   const handleOrder = () => {
@@ -63,9 +68,8 @@ const ArtistHome = props => {
   };
 
   const handleInfoIconPress = () => {
-    navigation.navigate('ArtistHomeStack', { screen: 'ArtistRankUp' });
+    navigation.navigate('ArtistRankUp');
   };
-  console.log({ profileLevelCount });
 
   useEffect(() => {
     dispatch(getGigsOfUser());
@@ -79,8 +83,14 @@ const ArtistHome = props => {
       <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 90 }}>
         <View style={styles.logoView}>
           <Image source={require('../../assets/KAYNCHI.png')} style={styles.logo} />
-          <Text style={styles.text}>Get 15% off</Text>
         </View>
+        <TouchableOpacity
+          style={styles.invite}
+          onPress={() => {
+            navigation.navigate('ArtistInviteFriends');
+          }}>
+          <Text style={styles.text}>Get 15% off</Text>
+        </TouchableOpacity>
         {/* welcome text and icons */}
         <View style={styles.welcome}>
           <View>
@@ -108,15 +118,35 @@ const ArtistHome = props => {
               </Text>
             </View>
             <View style={styles.icons}>
-              <View style={[styles.iconConatiner, { backgroundColor: '#ebebeb' }]}>
-                <Image source={require('../../assets/host_grey.png')} style={styles.iconStyle} />
+              <View style={[styles.iconConatiner, { backgroundColor: hosting_mood ? theme.linkTxt : '#ebebeb' }]}>
+                <Image
+                  source={hosting_mood ? require('../../assets/host.png') : require('../../assets/host_grey.png')}
+                  style={styles.iconStyle}
+                />
               </View>
-              <View style={[styles.iconConatiner, { backgroundColor: '#1583d8' }]}>
-                <Image source={require('../../assets/car.png')} style={styles.iconStyle} />
+              <View style={[styles.iconConatiner, { backgroundColor: travel_mood ? theme.linkTxt : '#ebebeb' }]}>
+                <Image
+                  source={travel_mood ? require('../../assets/car.png') : require('../../assets/car-grey.png')}
+                  style={styles.iconStyle}
+                />
               </View>
-              <View style={[styles.iconConatiner, { backgroundColor: '#a77246' }]}>
-                <Image source={require('../../assets/ondemand.png')} style={styles.iconStyle} />
-              </View>
+              {availability_status &&
+                availability_status.length > 0 &&
+                availability_status?.map(_ => (
+                  <View
+                    key={_}
+                    style={[
+                      styles.iconConatiner,
+                      { backgroundColor: _ === 'on_demand' ? theme.brown : theme.seaGreen },
+                    ]}>
+                    <Image
+                      source={
+                        _ === 'on_demand' ? require('../../assets/ondemand.png') : require('../../assets/booking.png')
+                      }
+                      style={styles.iconStyle}
+                    />
+                  </View>
+                ))}
             </View>
           </View>
         </View>
@@ -406,278 +436,5 @@ const ArtistHome = props => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: theme.homeBackground,
-  },
-
-  modalElement: {
-    backgroundColor: 'white',
-    width: width * 0.91,
-    height: (height * 0.91) / 4.5, // Set a fixed height or remove this line if you want it to adjust based on content
-    // paddingVertical: 20,
-    // paddingHorizontal: 10,
-    flexDirection: 'row',
-    borderRadius: 10,
-    marginTop: 20,
-  },
-  modalText: {
-    fontSize: 18,
-    fontFamily: fonts.robo_bold,
-    marginBottom: 20,
-    color: 'white',
-  },
-  modalDescription: {
-    fontSize: 12,
-    color: 'white',
-    textAlign: 'justify',
-    paddingRight: widthToDp(17),
-  },
-
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Transparent black background
-  },
-  modalContent: {
-    padding: 20,
-    borderRadius: 10,
-    alignItems: 'center',
-    paddingTop: 20,
-  },
-  imageModal: {
-    width: 80,
-    height: 100,
-    resizeMode: 'contain',
-    marginTop: heightToDp(5),
-    marginLeft: 10,
-  },
-  closeIconContainer: {
-    backgroundColor: '#EEEEEE',
-    borderRadius: 20,
-    position: 'absolute',
-    right: 20,
-    top: 5,
-  },
-
-  welcome: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginHorizontal: widthToDp(5),
-  },
-  logoView: {
-    flexDirection: 'row',
-    height: heightToDp(24),
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  logo: {
-    width: widthToDp(29.5),
-    height: heightToDp(7),
-    marginTop: heightToDp(2),
-    resizeMode: 'contain',
-  },
-  icons: {
-    flexDirection: 'row',
-    marginTop: 5,
-  },
-  iconStyle: {
-    height: 20,
-    width: 20,
-    resizeMode: 'contain',
-  },
-  separator: {
-    height: 1,
-    backgroundColor: 'yellow',
-    marginVertical: 5,
-  },
-  iconConatiner: {
-    marginTop: 5,
-    margin: 5,
-    borderRadius: 50,
-    padding: 5,
-  },
-  hosted: {
-    backgroundColor: 'white',
-    padding: heightToDp(8),
-    margin: widthToDp(5),
-    borderRadius: 20,
-  },
-
-  buttons: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '100%',
-    alignSelf: 'center',
-    backgroundColor: '#F7F7F8',
-    borderRadius: 5,
-    position: 'absolute',
-    bottom: -13,
-    zIndex: 1,
-    paddingTop: 10,
-    shadowColor: '#3A3A3A0D',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 2,
-    elevation: 2, // For Android
-  },
-  buttonText: {
-    color: '#32aee3',
-    textAlign: 'center',
-    paddingHorizontal: 10,
-    paddingTop: 10,
-    paddingBottom: 15,
-    borderWidth: 0.5,
-    borderColor: '#eeeeee',
-  },
-  textBold: {
-    fontWeight: '700',
-  },
-  // buttonOrder:{
-  //   width: (width * .91)/2
-  // },
-  insightDetail: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  arrow: { height: 12, width: 12, resizeMode: 'contain' },
-  arrowDetail: { flexDirection: 'row', alignItems: 'center' },
-
-  hostingContainer: {
-    backgroundColor: theme.primary,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    // padding: 15,
-
-    paddingVertical: widthToDp(5),
-    paddingHorizontal: widthToDp(4),
-    borderRadius: 10,
-    marginRight: 10,
-    width: widthToDp(44),
-  },
-  hostingHeading: {
-    fontSize: 24,
-    color: 'white',
-    // fontWeight: 'bold',
-    fontFamily: fonts.robo_bold,
-  },
-  EarningConatiner: {
-    flexDirection: 'row',
-    marginHorizontal: widthToDp(5),
-    // width: (width * 0.91) / 2,
-  },
-
-  insight: {
-    backgroundColor: 'white',
-    margin: widthToDp(5),
-    borderRadius: 10,
-    padding: 10,
-  },
-  impressionDetail: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 7,
-  },
-
-  orderDetails: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  OrderImage: {
-    height: 30,
-    width: 30,
-    resizeMode: 'contain',
-  },
-
-  hostedHeading: {
-    fontSize: 16,
-    textAlign: 'center',
-    // fontWeight: '700',
-    color: '#0F2851',
-    fontFamily: fonts.robo_bold,
-  },
-  buttonicon: {
-    width: 30,
-    height: 30,
-    marginRight: 10,
-  },
-  headingName: {
-    fontSize: 20,
-    fontFamily: fonts.hk_bold,
-    color: '#0F2851',
-  },
-  heading: {
-    fontSize: 34,
-    fontFamily: fonts.hk_bold,
-    color: '#2F3A58',
-  },
-  text: {
-    backgroundColor: '#587c5c',
-    color: 'white',
-    padding: 5,
-    fontSize: 10,
-    fontFamily: fonts.robo_med,
-    borderRadius: 20,
-    position: 'absolute',
-    right: widthToDp(5),
-    top: heightToDp(10),
-  },
-  latestbutton: {
-    backgroundColor: '#a77246',
-    padding: 5,
-    color: 'white',
-    fontSize: 12,
-    textTransform: 'uppercase',
-    paddingLeft: widthToDp(3),
-    paddingRight: widthToDp(3),
-    borderRadius: 50,
-  },
-  welcomeTxt: {
-    fontSize: 34,
-    fontFamily: fonts.hk_bold,
-    color: '#0F2851',
-  },
-  orderContainer: {
-    width: widthToDp(44),
-    marginRight: 10,
-    // width: (width * 0.91) / 2,
-    paddingTop: heightToDp(1),
-    borderRadius: 10,
-  },
-  btn: {
-    position: 'absolute',
-    bottom: heightToDp(5.5),
-  },
-  inputBox: {
-    flex: 1,
-    fontSize: heightToDp(4.5),
-    fontFamily: fonts.robo_reg,
-    lineHeight: 18.75,
-    color: theme.darkBlack,
-    paddingLeft: widthToDp(6.5),
-  },
-  latestOrder: {
-    padding: widthToDp(5),
-  },
-  icon: {
-    fontSize: heightToDp(5),
-    padding: heightToDp(4.5),
-    color: theme.primary,
-  },
-  title: {
-    fontFamily: fonts.hk_medium,
-    fontSize: 20,
-    lineHeight: 24,
-    color: theme.lightBlack,
-    width: width * 0.868,
-    alignSelf: 'center',
-    marginVertical: heightToDp(1.5),
-  },
-});
 
 export default ArtistHome;
