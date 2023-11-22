@@ -12,12 +12,51 @@ const whatsappphone = require('../../assets/whatsappphone.png');
 const theme = useTheme();
 
 export default function ArtistProfileSaved(props) {
+
   const auth = useSelector(state => state.auth);
 
   const { email, name, phone_number } = auth.user;
 
   const editClickHandler = () => {
     props.navigation.navigate('ArtistPersonalDetails');
+
+  const [skills, setSkills] = useState([]);
+  const [name, setName] = useState('');
+  const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
+  const user = useSelector(state => state.auth.user);
+  const SkillsHandler = async () => {
+    navigation.navigate('ArtistOnBoardingWelcome');
+    // try {
+    //   const res = await api.post('/api/users/verifypassword', {
+    //     email,
+    //     phone_number,
+    //     password,
+    //   });
+    //   setLoading(true);
+    //   console.log(email, password, res.data, 'EMAIL/PASSWORD');
+    //   console.log(res.data);
+    // if (res.status == 200) {
+    //   dispatch(saveUserData(res.data));
+    //   dispatch(saveToken(res.data));
+    //   showMessage({
+    //     message: 'Logged in successfully!',
+    //     type: 'success',
+    //   });
+    //   navigation.navigate('OnBoardingWelcome');
+    // } else {
+    //   showMessage({
+    //     message: res.data.message,
+    //     type: 'danger',
+    //   });
+    // }
+    // } catch (error) {
+    //   showMessage({
+    //     message: error?.message,
+    //     type: 'warning',
+    //   });
+    //   console.log(error);
+    // }
   };
 
   return (
@@ -29,11 +68,26 @@ export default function ArtistProfileSaved(props) {
           <View style={styles.personalContainer}>
             <View style={{ paddingLeft: widthToDp(4) }}>
               <Text style={styles.subheading}>Name</Text>
-              <Text style={styles.infoText}>{name}</Text>
+         <Icon name={'pencil'} style={styles.icon} />
+
+              <Text style={{ color: theme.greyText }}>{user.name}</Text>
             </View>
             <View>
-              <TouchableOpacity activeOpacity={0.7} onPress={editClickHandler} style={{ padding: heightToDp(2.9) }}>
-                <Icon name={'pencil'} style={styles.icon} />
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() =>
+                  navigation.navigate('ArtistProfileStack', {
+                    screen: 'ArtistPersonalDetails',
+                  })
+                }
+                style={{ padding: heightToDp(2.9) }}>
+                <Icon
+                  name={'pencil'}
+                  color={theme.primary}
+                  size={16}
+                  style={[styles.icon, { backgroundColor: '#eee', padding: 8, borderRadius: 20 }]}
+                />
+
               </TouchableOpacity>
             </View>
           </View>
@@ -42,11 +96,25 @@ export default function ArtistProfileSaved(props) {
           <View style={styles.personalContainer}>
             <View style={{ paddingLeft: widthToDp(4) }}>
               <Text style={styles.subheading}>Email</Text>
-              <Text style={styles.infoText}>{email}</Text>
+
+              <Text style={{ color: theme.greyText }}>{user.email}</Text>
             </View>
             <View>
-              <TouchableOpacity activeOpacity={0.7} onPress={editClickHandler} style={{ padding: heightToDp(2.9) }}>
-                <Icon name={'pencil'} style={styles.icon} />
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() =>
+                  navigation.navigate('ArtistProfileStack', {
+                    screen: 'ArtistPersonalDetails',
+                  })
+                }
+                style={{ padding: heightToDp(2.9) }}>
+                <Icon
+                  name={'pencil'}
+                  color={theme.primary}
+                  size={16}
+                  style={[styles.icon, { backgroundColor: '#eee', padding: 8, borderRadius: 20 }]}
+                />
+
               </TouchableOpacity>
             </View>
           </View>
@@ -55,11 +123,25 @@ export default function ArtistProfileSaved(props) {
           <View style={styles.personalContainer}>
             <View style={{ paddingLeft: widthToDp(4) }}>
               <Text style={styles.subheading}>Mobile Number</Text>
-              <Text style={styles.infoText}>{phone_number ?? '0000-00000000'}</Text>
+              {/* // TODO: Phone number */}
+              {/* <Text style={{ color: theme.greyText }}>{user.phone_number}</Text> */}
             </View>
             <View>
-              <TouchableOpacity activeOpacity={0.7} onPress={editClickHandler} style={{ padding: heightToDp(2.9) }}>
-                <Icon name={'pencil'} style={styles.icon} />
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() =>
+                  navigation.navigate('ArtistProfileStack', {
+                    screen: 'ArtistPersonalDetails',
+                  })
+                }
+                style={{ padding: heightToDp(2.9) }}>
+                <Icon
+                  name={'pencil'}
+                  color={theme.primary}
+                  size={16}
+                  style={[styles.icon, { backgroundColor: '#eee', padding: 8, borderRadius: 20 }]}
+                />
+
               </TouchableOpacity>
             </View>
           </View>
@@ -67,11 +149,27 @@ export default function ArtistProfileSaved(props) {
           <View style={styles.personalContainer}>
             <View style={{ paddingLeft: widthToDp(4) }}>
               <Text style={[styles.subheading]}>Your default address</Text>
-              <Text style={[{ width: widthToDp(54) }, styles.infoText]}>Not available</Text>
+
+              <Text style={{ width: widthToDp(54), color: theme.greyText }}>
+                House B91, Street 2, DHA Phase VI, Ithehad commercial Lane 8 Karachi
+              </Text>
             </View>
             <View>
-              <TouchableOpacity activeOpacity={0.7} onPress={editClickHandler} style={{ padding: heightToDp(2.9) }}>
-                <Icon name={'pencil'} style={styles.icon} />
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() =>
+                  navigation.navigate('ArtistProfileStack', {
+                    screen: 'ArtistPersonalDetails',
+                  })
+                }
+                style={{ padding: heightToDp(2.9) }}>
+                <Icon
+                  name={'pencil'}
+                  color={theme.primary}
+                  size={16}
+                  style={[styles.icon, { backgroundColor: '#eee', padding: 8, borderRadius: 20 }]}
+                />
+
               </TouchableOpacity>
             </View>
           </View>
@@ -102,7 +200,8 @@ const styles = StyleSheet.create({
     color: '#668C6A',
   },
   genTxt: {
-    fontSize: fonts.robo_reg,
+    fontFamily: fonts.robo_reg,
+    fontSize: 14,
     lineHeight: 16.41,
     color: theme.background,
   },
@@ -131,6 +230,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginHorizontal: widthToDp(5),
+    marginRight: widthToDp(4),
+    alignItems: 'center',
+
   },
   personalMain: {
     backgroundColor: 'white',
@@ -156,30 +258,5 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     fontFamily: fonts.robo_bold,
   },
-  genBtn: {
-    height: heightToDp(9.7),
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 24,
-  },
-  emailcontaienr: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: widthToDp(4),
-  },
-  iconContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: width * 0.9, // Use the width of the parent view to adjust the icon container
-    marginTop: heightToDp(4.5),
-    marginBottom: heightToDp(4.5),
-  },
-  iconWrapper: {
-    alignItems: 'center',
-    flexDirection: 'column', // Ensure text appears below the icon
-  },
-  iconText: {
-    textTransform: 'uppercase',
-    marginTop: heightToDp(3),
-  },
-});
+
+})

@@ -10,6 +10,7 @@ import search from '../../assets/question.png';
 import resolution from '../../assets/resolution.png';
 import cancelation from '../../assets/cancelation.png';
 import faq from '../../assets/faq.png';
+import { useSelector } from 'react-redux';
 const whatsappphone = require('../../assets/whatsappphone.png');
 
 const theme = useTheme();
@@ -21,6 +22,7 @@ const faqData = [
 ];
 const ArtistHelp = props => {
   const [name, setName] = useState('');
+  const user = useSelector(state => state.auth.user);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -40,13 +42,19 @@ const ArtistHelp = props => {
 
         <View>
           <Text style={styles.heading}>
-            Hey <Text style={{ color: theme.primary }}>Rizwan,</Text>
+            Hey <Text style={{ color: theme.primary }}>{user.name},</Text>
           </Text>
           <Text style={styles.heading}>how can we help?</Text>
         </View>
         <View style={styles.inputContainer}>
           <Image source={search} style={styles.image} />
-          <TextInput placeholder="Type your question here" value={name} onChangeText={setName} style={styles.input} />
+          <TextInput
+            placeholder="Type your question here"
+            placeholderTextColor={theme.greyText}
+            value={name}
+            onChangeText={setName}
+            style={styles.input}
+          />
         </View>
         <View style={styles.containerContent}>
           <View style={styles.helpContainer}>
@@ -57,22 +65,8 @@ const ArtistHelp = props => {
                 })
               }>
               <View style={styles.centeredContainer}>
-                <Text
-                  style={{
-                    color: '#1583D8',
-                    fontSize: 14,
-                    fontFamily: fonts.sans_reg,
-                  }}>
-                  Dispute
-                </Text>
-                <Text
-                  style={{
-                    color: '#1583D8',
-                    fontSize: 14,
-                    fontFamily: fonts.sans_reg,
-                  }}>
-                  Resolution
-                </Text>
+                <Text style={styles.head}>Dispute</Text>
+                <Text style={styles.head}>Resolution</Text>
                 <Image source={resolution} style={styles.resolution} />
               </View>
             </TouchableOpacity>
@@ -85,22 +79,8 @@ const ArtistHelp = props => {
                 })
               }>
               <View style={styles.centeredContainer}>
-                <Text
-                  style={{
-                    color: '#1583D8',
-                    fontSize: 14,
-                    fontFamily: fonts.sans_reg,
-                  }}>
-                  Order
-                </Text>
-                <Text
-                  style={{
-                    color: '#1583D8',
-                    fontSize: 14,
-                    fontFamily: fonts.sans_reg,
-                  }}>
-                  Cancellation
-                </Text>
+                <Text style={styles.head}>Order</Text>
+                <Text style={styles.head}>Cancellation</Text>
                 <Image source={cancelation} style={styles.resolution} />
               </View>
             </TouchableOpacity>
@@ -114,6 +94,7 @@ const ArtistHelp = props => {
               marginBottom: 5,
               marginTop: 15,
               fontFamily: fonts.sans_reg,
+              color: theme.greyText,
             }}>
             FAQs
           </Text>
@@ -198,6 +179,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     marginLeft: 15,
+    color: theme.dark,
   },
   centeredContainer: {
     flexDirection: 'column',
@@ -217,6 +199,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: widthToDp(2),
+    marginBottom: 6,
   },
   faqimage: { width: 12, height: 12, resizeMode: 'contain' },
   iconStyles: {
@@ -225,5 +208,10 @@ const styles = StyleSheet.create({
     marginRight: 10,
     resizeMode: 'contain',
     // , position: 'absolute', left: widthToDp(5)
+  },
+  head: {
+    color: '#1583D8',
+    fontSize: 14,
+    fontFamily: fonts.sans_reg,
   },
 });

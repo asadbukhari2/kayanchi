@@ -50,7 +50,8 @@ const ArtistWhyCancel = props => {
                     justifyContent: 'space-between',
                     alignItems: 'center',
                   }}>
-                  <Text style={{ color: theme.dark }}>{item.question}</Text>
+                  <Text style={{ color: theme.lightBlack }}>{item.question}</Text>
+
                   <RadioButton value={item.id} />
                 </View>
               </RadioButton.Group>
@@ -135,11 +136,11 @@ const styles = StyleSheet.create({
   input: {
     height: heightToDp(30),
     backgroundColor: 'white',
+    color: theme.dark,
     textAlignVertical: 'top',
     borderRadius: 10,
     paddingLeft: 10,
     marginBottom: 20,
-    color: theme.dark,
   },
   centeredContainer: {
     flexDirection: 'column',

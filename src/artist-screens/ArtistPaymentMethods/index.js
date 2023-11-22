@@ -62,7 +62,7 @@ const ArtistPaymentMethods = props => {
             fontSize: 40,
             marginLeft: widthToDp(5),
           }}>
-          {'Payment methods'}
+          Payment methods
         </Text>
 
         <Text
@@ -74,7 +74,7 @@ const ArtistPaymentMethods = props => {
             marginBottom: 9,
             fontFamily: fonts.robo_reg,
           }}>
-          Top up your balance in Kyanchi's wallet via EasyPaisa or JazzCash and save your time{' '}
+          Top up your balance in Kyanchi's wallet via EasyPaisa or JazzCash and save your time
         </Text>
 
         <Text
@@ -85,7 +85,7 @@ const ArtistPaymentMethods = props => {
             fontFamily: fonts.robo_reg,
             marginVertical: 5,
           }}>
-          Avaiable Kyanchi credit{' '}
+          Avaiable Kyanchi credit
         </Text>
         <Text
           style={{
@@ -97,7 +97,7 @@ const ArtistPaymentMethods = props => {
           PKR 2,000
         </Text>
 
-        {DATA.map((item, index) => {
+        {DATA.map(item => {
           return (
             <CardComponent
               titleData={item.titleData}
@@ -111,7 +111,12 @@ const ArtistPaymentMethods = props => {
         })}
 
         <Text
-          style={{ marginLeft: widthToDp(4), marginTop: heightToDp(2.7), fontFamily: fonts.sans_reg, marginTop: 25 }}>
+          style={{
+            marginLeft: widthToDp(4),
+            marginTop: heightToDp(2.7),
+            fontFamily: fonts.sans_reg,
+            color: theme.greyText,
+          }}>
           Promotions
         </Text>
         <AddNewBtn title={'Add referal code'} iconColor={'#1583D8'} titleStyle={{ color: '#1583D8' }} />

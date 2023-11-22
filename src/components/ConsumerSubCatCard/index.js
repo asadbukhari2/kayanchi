@@ -68,7 +68,7 @@ const ConsumerSubCatCard = props => {
           justifyContent: 'space-between',
           marginTop: 16,
         }}>
-        <Text style={[styles.secondRow]}>{convertMinutesToRange(time)}</Text>
+        <Text style={[styles.secondRow]}>{time}</Text>
 
         <TouchableOpacity
           activeOpacity={0.7}

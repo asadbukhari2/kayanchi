@@ -86,6 +86,7 @@ const ArtistLanguage = props => {
             fontFamily: fonts.robo_reg,
             marginLeft: widthToDp(4),
             marginRight: widthToDp(23),
+            marginTop: 12,
           }}>
           We at Kyanchi want you to understand us better
         </Text>
@@ -97,17 +98,17 @@ const ArtistLanguage = props => {
             color: '#677790',
             fontFamily: fonts.sans_reg,
           }}>
-          Choose your prefered language{' '}
+          Choose your prefered language
         </Text>
         <View style={styles.daysOfWeekContainer}>
           <RadioButton.Group onValueChange={newValue => setChecked(newValue)} value={checked}>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
               <RadioButton value="first" />
-              <Text>English</Text>
+              <Text style={{ color: theme.lightBlack, fontFamily: fonts.hk_bold }}>English</Text>
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
               <RadioButton value="second" />
-              <Text>Urdu</Text>
+              <Text style={{ color: theme.lightBlack, fontFamily: fonts.hk_bold }}>Urdu</Text>
             </View>
           </RadioButton.Group>
         </View>
