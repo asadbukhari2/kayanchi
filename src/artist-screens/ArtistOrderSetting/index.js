@@ -26,6 +26,7 @@ const theme = useTheme();
 
 const ArtistOrderSetting = props => {
   const [image, setImage] = useState();
+  const [availability, setAvailability] = useState('Booking Only');
   const [isPrivate, setIsPrivate] = useState(false);
 
   const handlePrivateImage = () => {
@@ -65,13 +66,14 @@ const ArtistOrderSetting = props => {
         </View>
 
         <View style={{ flexDirection: 'row' }}>
-          <Text style={styles.heading}>Avaliablity</Text>
+          <Text style={styles.heading}>Availability</Text>
           <Image
             source={information}
             style={{
               height: 15,
               width: 15,
-              marginLeft: widthToDp(2),
+              marginLeft: widthToDp(1),
+              marginTop: 6,
             }}
           />
         </View>
@@ -81,8 +83,18 @@ const ArtistOrderSetting = props => {
 
         <View style={styles.indicatorView}>
           <View style={styles.row}>
-            <MultiButton title={'Booking Only'} btnStyle={{ backgroundColor: '#008274' }} image={booking} disable />
-            <MultiButton title={'On-Demand'} btnStyle={{ backgroundColor: '#9A9A9A' }} image={ondemand} disable />
+            <MultiButton
+              onPress={() => setAvailability('Booking Only')}
+              title={'Booking Only'}
+              btnStyle={{ backgroundColor: availability === 'Booking Only' ? '#008274' : '#9a9a9a' }}
+              image={booking}
+            />
+            <MultiButton
+              onPress={() => setAvailability('On-Demand')}
+              title={'On-Demand'}
+              btnStyle={{ backgroundColor: availability === 'On-Demand' ? '#008274' : '#9a9a9a' }}
+              image={ondemand}
+            />
           </View>
         </View>
         <TouchableOpacity
@@ -108,7 +120,7 @@ const ArtistOrderSetting = props => {
             style={{
               height: 15,
               width: 15,
-              marginLeft: widthToDp(2),
+              marginLeft: widthToDp(1),
               marginTop: widthToDp(2),
             }}
           />
@@ -184,25 +196,6 @@ const ArtistOrderSetting = props => {
           <TextInput style={styles.priceField} placeholder="0" placeholderTextColor={theme.genderGrey} />
         </View>
 
-        <View style={styles.serviceDuration}>
-          <Text style={styles.title2}>
-            {'Sales Service Tax'} <Text style={{ fontFamily: fonts.robo_light }}>(SST)</Text>
-          </Text>
-
-          <View style={[styles.switchContainer, { marginRight: 10 }]}>
-            <ToggleSwitch
-              isOn={false}
-              style={{ height: 20, marginRight: 10 }}
-              value={isPrivate}
-              onColor="#84668C"
-              offColor="#9A9A9A"
-              size="small"
-              onToggle={handlePrivateImage}
-            />
-          </View>
-        </View>
-
-        <Text style={styles.warning}>{'Only avaiable if your annual revenue is more than 4M pkr.'}</Text>
         <Button
           title={'Confirm Settings'}
           btnStyle={styles.btn}

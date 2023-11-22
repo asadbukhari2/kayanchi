@@ -32,8 +32,8 @@ const ArtistNotifications = props => {
   return (
     <SafeAreaView style={GLOBAL_STYLES.containerHome}>
       <Header backBtnGrey />
-      <Text style={GLOBAL_STYLES.title}>{'Notifications'}</Text>
-      <Text style={styles.markRead}>{'Mark all as read'}</Text>
+      <Text style={GLOBAL_STYLES.title}>Notifications</Text>
+      <Text style={styles.markRead}>Mark all as read</Text>
       <View style={{ marginTop: heightToDp(4.5) }}>
         {DATA.map((item, index) => {
           return <Msg key={index} title={item.title} body={item.body} unRead={item.unRead} />;
@@ -50,7 +50,8 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     color: theme.linkTxt,
     marginTop: heightToDp(4.5),
-    marginLeft: widthToDp(5.5),
+    marginLeft: widthToDp(6),
+    fontWeight: 'bold',
   },
 });
 

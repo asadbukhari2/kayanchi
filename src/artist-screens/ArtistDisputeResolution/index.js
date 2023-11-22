@@ -55,7 +55,7 @@ const ArtistDisputeResolution = props => {
                       justifyContent: 'space-between',
                       alignItems: 'center',
                     }}>
-                    <Text>{item.question}</Text>
+                    <Text style={{ color: theme.dark }}>{item.question}</Text>
                     <RadioButton value={item.id} />
                   </View>
                 </RadioButton.Group>
@@ -65,11 +65,12 @@ const ArtistDisputeResolution = props => {
         </View>
 
         {selectedQuestion !== null && (
-          <View style={{ paddingHorizontal: widthToDp(4), marginTop: 10 }}>
+          <View style={{ paddingHorizontal: widthToDp(4), marginVertical: 20 }}>
             <TextInput
               multiline
               placeholder="Please tell us anything that you think will help the situation for us."
               value={name}
+              placeholderTextColor={theme.greyText}
               onChangeText={setName}
               style={styles.input}
             />
@@ -87,9 +88,6 @@ const ArtistDisputeResolution = props => {
         )}
 
         <View style={styles.refundContainer}>
-          <Text style={styles.refund}>
-            *Refundsare only applicable on digital payments prior to the start of your grooming.
-          </Text>
           <Text style={styles.refund}>We will try to resolve your dispute as soon as possible</Text>
         </View>
 
@@ -149,6 +147,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
     borderRadius: 10,
     paddingLeft: 10,
+    color: theme.dark,
   },
   centeredContainer: {
     flexDirection: 'column',
@@ -170,7 +169,7 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     fontFamily: fonts.robo_reg,
   },
-  refundContainer: { marginHorizontal: widthToDp(28) },
+  refundContainer: { marginHorizontal: widthToDp(28), marginTop: heightToDp(20) },
   faqContent: {
     // flexDirection: 'row',
     // alignItems: 'center',

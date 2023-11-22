@@ -31,7 +31,7 @@ const ArtistMyWallet = props => {
             fontFamily: fonts.robo_reg,
             marginTop: 10,
           }}>
-          {'Our wallet allows you to view, withdrawn or top up the money using digit payments'}
+          Our wallet allows you to view, withdrawn or top up the money using digit payments
         </Text>
 
         <Text
@@ -42,7 +42,7 @@ const ArtistMyWallet = props => {
             fontFamily: fonts.robo_reg,
             marginTop: 15,
           }}>
-          Avaiable Kyanchi credit{' '}
+          Avaiable Kyanchi credit
         </Text>
         <Text
           style={{
@@ -98,7 +98,6 @@ const ArtistMyWallet = props => {
               textAlign: 'center',
               color: '#1583D8',
               fontSize: 14,
-              marginTop: 10,
               fontFamily: fonts.robo_med,
               marginTop: widthToDp(10),
             }}>

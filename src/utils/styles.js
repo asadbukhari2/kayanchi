@@ -52,7 +52,7 @@ export const GLOBAL_STYLES = StyleSheet.create({
     backgroundColor: theme.homeBackground,
   },
   title: {
-    marginTop: heightToDp(5.5),
+    marginTop: heightToDp(3),
     width: width * 0.868,
     alignSelf: 'center',
     fontFamily: fonts.hk_bold,

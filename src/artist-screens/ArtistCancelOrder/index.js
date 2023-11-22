@@ -55,7 +55,9 @@ const ArtistCancelOrder = props => {
         <View>
           <Text style={styles.heading}>Select Order </Text>
         </View>
-        <Text style={{ marginLeft: widthToDp(5), marginBottom: 10 }}>{"It's very sad  that you have cancel :("}</Text>
+        <Text style={{ marginLeft: widthToDp(5), marginBottom: 10, color: theme.greyText }}>
+          {"It's very sad  that you have cancel :("}
+        </Text>
 
         <View>
           {orders.map((order, index) => (
@@ -89,7 +91,11 @@ const ArtistCancelOrder = props => {
                         const maxServicesToShow = 1;
 
                         if (serviceIndex < maxServicesToShow) {
-                          return <Text key={serviceIndex}>{service}</Text>;
+                          return (
+                            <Text key={serviceIndex} style={{ color: theme.greyText }}>
+                              {service}
+                            </Text>
+                          );
                         } else if (serviceIndex === maxServicesToShow) {
                           const remainingServices = order.services.length - maxServicesToShow;
                           return (

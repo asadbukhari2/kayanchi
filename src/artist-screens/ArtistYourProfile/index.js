@@ -20,6 +20,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Modal from 'react-native-modal';
 import SliderComponent from '../../components/Slider';
+import { useSelector } from 'react-redux';
 const beauty = require('../../assets/beautician.png');
 const share = require('../../assets/share.png');
 const ondemand = require('../../assets/ondemand.png');
@@ -98,6 +99,8 @@ const ArtistYourProfile = props => {
   const [subHeading, setSubHeading] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [sliderValue, setSliderValue] = useState(50);
+  const user = useSelector(state => state.auth.user);
+  console.log({ user });
 
   const handleSliderChange = newValue => {
     setSliderValue(newValue);
@@ -123,7 +126,7 @@ const ArtistYourProfile = props => {
 
   const translateName = scrollY.interpolate({
     inputRange: [0, offset / 2, offset],
-    outputRange: [0, translateYOffset, -widthToDp(10)], // Add translateYOffset
+    outputRange: [0, translateYOffset, widthToDp(10)], // Add translateYOffset
     extrapolate: 'clamp',
   });
 
@@ -154,18 +157,8 @@ const ArtistYourProfile = props => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar animated={true} backgroundColor="#000" barStyle={'light-content'} showHideTransition={'fade'} />
-      <View
-        style={{
-          height: getStatusBarHeight(),
-          backgroundColor: '#000',
-          // position: 'absolute',
-          // top: -getStatusBarHeight(),
-          zIndex: 100000,
-        }}
-      />
-
       <Animated.View style={[styles.header, { height: headerHeight, transform: [{ translateY: opacity }] }]}>
-        {/* <View
+        <View
           style={{
             width: width, // Set width to 100% to cover the entire width
             height: headerHeight, // Make sure to set the height explicitly
@@ -176,15 +169,15 @@ const ArtistYourProfile = props => {
             resizeMode: 'cover',
             overflow: 'hidden',
           }}>
-          <Image source={require('../../assets/profile.png')} />
+          <Image source={require('../../assets/profile.png')} style={{ width: '100%', height: '100%' }} />
         </View>
-         */}
+
         <Animated.View style={[{ transform: [{ translateY: opacityHeader }] }]}>
           <Header backBtnWhite />
         </Animated.View>
 
         <TouchableOpacity activeOpacity={0.7} style={styles.followBtn}>
-          <Text style={styles.follow}>{'View Profile'}</Text>
+          <Text style={styles.follow}>View Profile</Text>
         </TouchableOpacity>
         <View style={styles.headerMain}>
           {/* <Text style={styles.artistLocation}>{'3.2 kms away from you'}</Text> */}
@@ -192,7 +185,7 @@ const ArtistYourProfile = props => {
             <Animated.Text
               // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
               style={[styles.artistName, { transform: [{ translateX: translateName }, { scale: scaleName }] }]}>
-              {'Rizwan Noor'}
+              {user.name}
             </Animated.Text>
           </View>
           <View style={styles.centerDiv}>
@@ -213,7 +206,7 @@ const ArtistYourProfile = props => {
               <Animated.Text
                 // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
                 style={[styles.artistLocation, { transform: [{ translateY: opacity }] }]}>
-                {' Barber '}
+                Barber{' '}
               </Animated.Text>
 
               <Animated.View style={[styles.dotContainer, { transform: [{ translateY: opacity }] }]}>
@@ -231,7 +224,8 @@ const ArtistYourProfile = props => {
               <Animated.Text
                 // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
                 style={[styles.artistLocation, { transform: [{ translateY: opacity }] }]}>
-                {' Expert'}
+                {' '}
+                Expert
               </Animated.Text>
             </View>
 
@@ -262,7 +256,11 @@ const ArtistYourProfile = props => {
                     <Image source={ondemand} style={styles.orderSummaryImage} />
                   </View>
                   <Text style={styles.bookingCount}>Avaiability</Text>
-                  <Text style={{ fontSize: 9 }}>Narmeen is taking orders on-demand</Text>
+                  <Text
+                    style={[
+                      styles.subCount,
+                      { textAlign: 'center' },
+                    ]}>{`${user.name} is taking orders on-demand`}</Text>
                 </View>
               </View>
             </View>
@@ -279,7 +277,11 @@ const ArtistYourProfile = props => {
                     </View>
                   </View>
                   <Text style={styles.bookingCount}>Mood</Text>
-                  <Text style={{ fontSize: 9 }}>Narmeen will either host or visit you</Text>
+                  <Text
+                    style={[
+                      styles.subCount,
+                      { textAlign: 'center' },
+                    ]}>{`${user.name} will either host or visit you`}</Text>
                 </View>
               </View>
             </View>
@@ -292,8 +294,8 @@ const ArtistYourProfile = props => {
                       <Image source={favourites} style={{ width: 25, height: 25, resizeMode: 'contain' }} />
                     </View>
                     <View>
-                      <Text style={{ fontSize: 10 }}>Follower</Text>
-                      <Text style={{ fontSize: 10 }}>0</Text>
+                      <Text style={styles.subCount}>Follower</Text>
+                      <Text style={styles.subCount}>0</Text>
                     </View>
                   </View>
 
@@ -302,8 +304,8 @@ const ArtistYourProfile = props => {
                       <Image source={star} style={{ width: 25, height: 25, resizeMode: 'contain' }} />
                     </View>
                     <View>
-                      <Text style={{ fontSize: 10 }}>Ratings</Text>
-                      <Text style={{ fontSize: 10 }}>0 (0)</Text>
+                      <Text style={styles.subCount}>Ratings</Text>
+                      <Text style={styles.subCount}>0 (0)</Text>
                     </View>
                   </View>
 
@@ -312,8 +314,8 @@ const ArtistYourProfile = props => {
                       <Image source={LocationAway} style={{ width: 25, height: 25, resizeMode: 'contain' }} />
                     </View>
                     <View>
-                      <Text style={{ fontSize: 10 }}>0.1 kms</Text>
-                      <Text style={{ fontSize: 10 }}>away</Text>
+                      <Text style={styles.subCount}>0.1 kms</Text>
+                      <Text style={styles.subCount}>away</Text>
                     </View>
                   </View>
                 </View>
@@ -449,7 +451,6 @@ const styles = StyleSheet.create({
     width: width,
     backgroundColor: '#000',
     position: 'absolute',
-    top: getStatusBarHeight(),
     zIndex: 1,
   },
   linkTxt: {
@@ -505,6 +506,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: widthToDp(2.8),
     width: widthToDp(28.8),
     flexDirection: 'column',
+    justifyContent: 'space-around',
+    height: 140,
     alignItems: 'center',
   },
   orderDetails: {
@@ -518,7 +521,9 @@ const styles = StyleSheet.create({
   },
   bookingCount: {
     fontSize: 14,
+    marginTop: 4,
     fontFamily: fonts.robo_bold,
+    color: theme.dark,
   },
   radioOuterCircle: {
     marginRight: 17,
@@ -548,7 +553,8 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 50,
     position: 'absolute',
-    right: -110,
+    right: -210,
+    bottom: 10,
   },
   modalMainView: {
     height: height * 0.55,
@@ -610,5 +616,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 9,
     borderBottomWidth: 1,
+  },
+  subCount: {
+    fontSize: 9,
+    color: theme.greyText,
   },
 });

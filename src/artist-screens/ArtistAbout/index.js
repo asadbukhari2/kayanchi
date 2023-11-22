@@ -40,7 +40,9 @@ const ArtistAbout = props => {
         <View style={styles.faqcontainer}>
           {faqData.map(item => (
             <View style={styles.faqContent}>
-              <Text style={{ fontSize: 16 }}>{item.question}</Text>
+              <Text style={{ fontSize: 16, color: theme.lightBlack, fontFamily: fonts.hk_semiBold }}>
+                {item.question}
+              </Text>
               <Image source={faq} style={styles.faqimage} />
             </View>
           ))}
@@ -104,14 +106,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     marginHorizontal: widthToDp(4),
     paddingHorizontal: widthToDp(4),
-    paddingVertical: 10,
+    marginVertical: 16,
     borderRadius: 10,
   },
   faqContent: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: widthToDp(2),
+    paddingVertical: widthToDp(3),
   },
   faqimage: { width: 12, height: 12, resizeMode: 'contain' },
   iconStyles: {

@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
-import { AddNewBtn, Header } from '../../../components';
-import { heightToDp, widthToDp, width } from '../../../utils/Dimensions';
-import { GLOBAL_STYLES } from '../../../utils/styles';
+import { heightToDp, widthToDp } from '../../../utils/Dimensions';
+
 import { fonts, useTheme } from '../../../utils/theme';
 import logo1 from '../../../assets/logo1.png';
 import booking from '../../../assets/booking.png';
@@ -65,6 +63,7 @@ const styles = StyleSheet.create({
   promocode: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     marginTop: 20,
     paddingHorizontal: widthToDp(5),
     paddingVertical: heightToDp(5),
