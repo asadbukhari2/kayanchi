@@ -4,17 +4,14 @@ import { Button, Header, TextInput } from '../../components';
 import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { fonts, useTheme } from '../../utils/theme';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserDetail, updateUserDetail } from '../../redux/actions';
-
 
 const currentlocation = require('../../assets/currentlocation.png');
 const theme = useTheme();
 
 export default function ArtistPersonalDetails(props) {
   const auth = useSelector(state => state.auth);
-
 
   const { name: nm, email: em, phone_number, id } = auth.user;
 
@@ -31,44 +28,6 @@ export default function ArtistPersonalDetails(props) {
     await updateUserDetail(data);
     dispatch(getUserDetail(id));
     props.navigation.goBack();
-
-  const [loading, setLoading] = useState(false);
-  const user = useSelector(state => state.auth.user);
-  const SkillsHandler = async () => {
-    console.log('clicked');
-    // navigation.navigate('ArtistOnBoardingWelcome');
-    props.navigation.navigate('ArtistProfile');
-    // try {
-    //   const res = await api.post('/api/users/verifypassword', {
-    //     email,
-    //     phone_number,
-    //     password,
-    //   });
-    //   setLoading(true);
-    //   console.log(email, password, res.data, 'EMAIL/PASSWORD');
-    //   console.log(res.data);
-    // if (res.status == 200) {
-    //   dispatch(saveUserData(res.data));
-    //   dispatch(saveToken(res.data));
-    //   showMessage({
-    //     message: 'Logged in successfully!',
-    //     type: 'success',
-    //   });
-    //   navigation.navigate('OnBoardingWelcome');
-    // } else {
-    //   showMessage({
-    //     message: res.data.message,
-    //     type: 'danger',
-    //   });
-    // }
-    // } catch (error) {
-    //   showMessage({
-    //     message: error?.message,
-    //     type: 'warning',
-    //   });
-    //   console.log(error);
-    // }
-
   };
 
   return (
@@ -83,16 +42,7 @@ export default function ArtistPersonalDetails(props) {
           input={true}
           onChangeText={e => setName(e)}
           placeholder="Asad Bukhari"
-          placeholderTextColor={'#8D8A94'}          
-          inputBoxStyle={{
-            borderBottomColor: '#F1F1F1',
-            backgroundColor: '#F1F1F1',
-            borderRadius: 5,
-            padding: 10,
-            color: '#84668C',
-          }}
-          
-
+          placeholderTextColor={'#8D8A94'}
         />
 
         <View style={styles.emailcontaienr}>
@@ -124,26 +74,18 @@ export default function ArtistPersonalDetails(props) {
         <Text style={styles.subheading}>Mobile Number</Text>
 
         <TextInput
-
           style={styles.inputField}
-          value={phoneNumber}          
-          input={text => setName(text)}
-          placeholder="Enter mobile number"
-          inputBoxStyle={{
-            borderBottomColor: '#F1F1F1',
-            backgroundColor: '#F1F1F1',
-            borderRadius: 5,
-            padding: 10,
-            color: '#84668C',
-          }}
-
+          value={phoneNumber}
+          input={true}
+          onChangeText={e => setPhoneNumber(e)}
+          placeholder="03xx xxxxxxxx"
+          placeholderTextColor={'#8D8A94'}
         />
 
         <View style={styles.emailcontaienr}>
           <Text style={{ color: '#84668C', fontSize: 16, paddingTop: 10, fontFamily: fonts.robo_bold }}>
             Your default address
           </Text>
-
           <TouchableOpacity>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Image source={currentlocation} style={{ width: 12, height: 12 }} />
@@ -158,7 +100,6 @@ export default function ArtistPersonalDetails(props) {
               </Text>
             </View>
           </TouchableOpacity>
-
         </View>
 
         <TextInput
@@ -198,8 +139,8 @@ const styles = StyleSheet.create({
     marginBottom: heightToDp(3.5),
   },
   genTxt: {
-    fontFamily: fonts.robo_reg,
-    fontSize: 14,
+    fontSize: fonts.robo_reg,
+
     lineHeight: 16.41,
     color: theme.background,
   },
