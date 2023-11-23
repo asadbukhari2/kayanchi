@@ -12,6 +12,7 @@ import {
   SIGN_UP,
   GET_MY_PROFILE,
   GET_USER_DETAIL,
+  GET_PROFILE,
 } from '../constants/constants';
 import { showMessage } from 'react-native-flash-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -29,6 +30,7 @@ export const EMAIL_LOGIN =
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
       await AsyncStorage.setItem('userToken', JSON.stringify(res.token));
+      dispatch(module.exports.getMyProfile(res.token));
       showMessage({
         message: 'Logged In Successfully!',
         type: 'success',
@@ -112,8 +114,9 @@ export const updateProfile = data => async dispatch => {
   }
 };
 
-export const getMyProfile = () => async dispatch => {
-  let res = await Fetch.get('/api/profile/myprofile/');
+export const getMyProfile = token => async dispatch => {
+  dispatch({ type: GET_PROFILE, payload: true });
+  let res = await Fetch.get('/api/profile/myprofile/', token);
 
   if (res.status >= 200 && res.status < 300) {
     res = await res.json();
@@ -123,6 +126,7 @@ export const getMyProfile = () => async dispatch => {
       payload: res,
     });
   } else {
+    dispatch({ type: GET_PROFILE, payload: false });
     const { message } = await res.json();
     showMessage({
       message: message || 'Something Went Wrong',

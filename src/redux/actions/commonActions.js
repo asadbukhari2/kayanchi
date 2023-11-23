@@ -97,6 +97,7 @@ export const getExperiences = token => async dispatch => {
     throw new Error(message ?? 'Something went wrong');
   }
 };
+
 export const getServices = (id, token) => async dispatch => {
   dispatch({
     type: GET_SERVICES,
@@ -127,6 +128,7 @@ export const getServices = (id, token) => async dispatch => {
     throw new Error(message ?? 'Something went wrong');
   }
 };
+
 export const getPortfolio = token => async dispatch => {
   try {
     let res = await Fetch.get('/api/portfolio/myportfolio/', token);
@@ -153,6 +155,7 @@ export const getPortfolio = token => async dispatch => {
     console.log('getPortfolio', error);
   }
 };
+
 export const getSavedAddresses = async token => {
   try {
     let res = await Fetch.get('/api/address/myaddress', token);
@@ -173,6 +176,7 @@ export const getSavedAddresses = async token => {
     console.log('getSavedAddresses', error);
   }
 };
+
 export const saveAddress = async (data, token) => {
   try {
     let res = await Fetch.post('/api/address/', data, token);
@@ -214,6 +218,7 @@ export const getAvailableDays = token => async dispatch => {
     console.log('getAvailableDays', error);
   }
 };
+
 export const addAvailableDays = (data, token) => async dispatch => {
   try {
     let res = await Fetch.put('/api/available_day/add', data, token);
@@ -235,6 +240,7 @@ export const addAvailableDays = (data, token) => async dispatch => {
     console.log('getAvailableDays', error);
   }
 };
+
 export const removeAvailableDays = token => async dispatch => {
   try {
     let res = await Fetch.put('/api/available_day/remove', token);
@@ -262,7 +268,11 @@ export const getBookingSlots = token => async dispatch => {
     let res = await Fetch.get('/api/bookingSlot/myslots', token);
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
-      console.log(res, '[[[[');
+
+      if (typeof res === 'string') {
+        res = [];
+      }
+
       dispatch({
         type: GET_BOOKING_SLOTS,
         payload: res,
@@ -300,7 +310,7 @@ export const toogleBookingSlot = (id, data, token) => async dispatch => {
 
 export const removeBookingSlot = (id, token) => async dispatch => {
   try {
-    let res = await Fetch.put(`/api/bookingSlot/${id}`, token);
+    let res = await Fetch.delete(`/api/bookingSlot/${id}`, token);
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
 
@@ -316,9 +326,34 @@ export const removeBookingSlot = (id, token) => async dispatch => {
     console.log('toogleBookingSlot', error);
   }
 };
+
 export const addBookingSlot = (data, token) => async dispatch => {
   try {
-    let res = await Fetch.post('api/bookingSlot/', data, token);
+    let res = await Fetch.post('/api/bookingSlot/', data, token);
+    console.log(res);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      dispatch(getBookingSlots());
+    } else {
+      const e = await res.json();
+      showMessage({
+        message: e,
+        type: 'warning',
+        color: '#000',
+      });
+    }
+  } catch (error) {
+    showMessage({
+      message: error.message,
+      type: 'warning',
+    });
+    console.log('addBookingSlot', error);
+  }
+};
+
+export const updateBookingSlot = (id, data, token) => async dispatch => {
+  try {
+    let res = await Fetch.put(`/api/bookingSlot/${id}`, data, token);
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
       console.log(res);

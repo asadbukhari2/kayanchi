@@ -36,7 +36,7 @@ const ArtistSavedAddresses = props => {
           title="Add an address"
           iconColor={theme.counterGrey}
           titleStyle={{ color: theme.counterGrey }}
-          onPress={() => props.navigation.navigate('ArtistProfileStack', { screen: 'ArtistLocateKaynchi' })}
+          onPress={() => props.navigation.navigate('ArtistLocateKaynchi')}
         />
         {loading ? (
           <View style={styles.loading}>
@@ -47,10 +47,10 @@ const ArtistSavedAddresses = props => {
           address?.map(item => {
             return (
               <Address
-                key={item.text}
-                area={item.city + ', ' + item.country}
-                address={item.text}
-                lastOrder={item.lastOrder}
+                key={item.address.createdAt}
+                area={item.address.city + ', ' + item.address.country}
+                address={item.address.text}
+                lastOrder={item.latest_order}
               />
             );
           })

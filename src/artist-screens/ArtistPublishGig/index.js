@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { StyleSheet, Text, View, Animated, TouchableOpacity, Image, StatusBar, ScrollView } from 'react-native';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
+
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { fonts, useTheme } from '../../utils/theme';
 import { width, heightToDp, widthToDp, height } from '../../utils/Dimensions';
@@ -9,12 +9,12 @@ import { ConsumerSubCatCard, Button, Tabs } from '../../components';
 import SliderComponent from '../../components/Slider';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCertificates, getExperiences, getPortfolio, getServices } from '../../redux/actions/commonActions';
+import { getCertificates, getExperiences, getPortfolio } from '../../redux/actions/commonActions';
 const beauty = require('../../assets/beautician.png');
 const share = require('../../assets/share.png');
 const ondemand = require('../../assets/ondemand.png');
-const carfront = require('../../assets/car-front.png');
-const host = require('../../assets/host.png');
+const booking = require('../../assets/booking.png');
+
 const favourites = require('../../assets/favourites.png');
 const star = require('../../assets/star.png');
 const LocationAway = require('../../assets/LocationAway.png');
@@ -133,24 +133,30 @@ const ArtistPublishGig = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar animated={true} backgroundColor="#000" barStyle={'light-content'} showHideTransition={'fade'} />
-      <View
-        style={{
-          height: getStatusBarHeight(),
-          backgroundColor: '#000',
-          zIndex: 100000,
-        }}
-      />
+
       <Animated.View style={[styles.header, { height: headerHeight, transform: [{ translateY: opacity }] }]}>
+        <View
+          style={{
+            width: width, // Set width to 100% to cover the entire width
+            height: headerHeight, // Make sure to set the height explicitly
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            zIndex: -1,
+            resizeMode: 'cover',
+            overflow: 'hidden',
+          }}>
+          <Image source={require('../../assets/profile.png')} style={{ width: '100%', height: '100%' }} />
+        </View>
+
         <TouchableOpacity activeOpacity={0.7} style={styles.followBtn}>
           <Text style={styles.follow}>View Profile</Text>
         </TouchableOpacity>
         <View style={styles.headerMain}>
-          {/* <Text style={styles.artistLocation}>{'3.2 kms away from you'}</Text> */}
           <View style={styles.centerDiv}>
             <Animated.Text
-              // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
               style={[styles.artistName, { transform: [{ translateX: translateName }, { scale: scaleName }] }]}>
-              {name ?? 'Narmeen Iqbal'}
+              {name}
             </Animated.Text>
           </View>
           <View style={styles.centerDiv}>
@@ -168,10 +174,8 @@ const ArtistPublishGig = () => {
               />
             </Animated.View>
             <View style={[styles.centerDiv, { paddingTop: 5 }]}>
-              <Animated.Text
-                // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
-                style={[styles.artistLocation, { transform: [{ translateY: opacity }] }]}>
-                {' ' + title + ' ' ?? '  Beautician '}
+              <Animated.Text style={[styles.artistLocation, { transform: [{ translateY: opacity }] }]}>
+                {' ' + title + ' '}
               </Animated.Text>
 
               <Animated.View style={[styles.dotContainer, { transform: [{ translateY: opacity }] }]}>
@@ -189,9 +193,10 @@ const ArtistPublishGig = () => {
               <Animated.Text
                 // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
                 style={[styles.artistLocation, { transform: [{ translateY: opacity }] }]}>
-                {' ' + level + ' ' ?? ' New Artist'}
+                {' ' + level}
               </Animated.Text>
             </View>
+
             <Animated.View style={[styles.imageShare, { transform: [{ translateY: opacity }] }]}>
               <Image source={share} style={{ width: 20, height: 20, resizeMode: 'contain' }} />
             </Animated.View>
@@ -215,8 +220,17 @@ const ArtistPublishGig = () => {
                   marginLeft: widthToDp(4),
                 }}>
                 <View style={styles.OrderSummaryContainer}>
-                  <View style={[styles.imageContainer, { backgroundColor: '#A77246' }]}>
-                    <Image source={ondemand} style={styles.orderSummaryImage} />
+                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    {availability_status.includes('on_demand') && (
+                      <View style={[styles.imageContainer, { backgroundColor: theme.brown }]}>
+                        <Image source={ondemand} style={styles.orderSummaryImage} />
+                      </View>
+                    )}
+                    {availability_status.includes('booking_only') && (
+                      <View style={[styles.imageContainer, { backgroundColor: theme.seaGreen }]}>
+                        <Image source={booking} style={styles.orderSummaryImage} />
+                      </View>
+                    )}
                   </View>
                   <Text style={styles.bookingCount}>Avaiability</Text>
                   <Text
@@ -226,15 +240,7 @@ const ArtistPublishGig = () => {
                       fontFamily: fonts.robo_reg,
                       textAlign: 'center',
                     }}>
-                    {name} is taking orders
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 9,
-                      color: '#747474',
-                      fontFamily: fonts.robo_reg,
-                      textAlign: 'center',
-                    }}>
+                    {name} is{' '}
                     {availability_status?.map((_, id) => {
                       return `${_.split('_').join(' ')}${availability_status.length - 1 !== id ? ', ' : ''}`;
                     })}
@@ -242,16 +248,22 @@ const ArtistPublishGig = () => {
                 </View>
               </View>
             </View>
-
             <View>
               <View style={{ flexDirection: 'row', margin: widthToDp(3) }}>
                 <View style={styles.OrderSummaryContainer}>
                   <View style={{ flexDirection: 'row' }}>
-                    <View style={[styles.imageContainer, { backgroundColor: '#1583D8' }]}>
-                      <Image source={host} style={styles.orderSummaryImage} />
+                    <View
+                      style={[styles.imageContainer, { backgroundColor: hosting_mood ? theme.linkTxt : '#ebebeb' }]}>
+                      <Image
+                        source={hosting_mood ? require('../../assets/host.png') : require('../../assets/host_grey.png')}
+                        style={styles.orderSummaryImage}
+                      />
                     </View>
-                    <View style={[styles.imageContainer, { marginLeft: 5, backgroundColor: '#1583D8' }]}>
-                      <Image source={carfront} style={[styles.orderSummaryImage]} />
+                    <View style={[styles.imageContainer, { backgroundColor: travel_mood ? theme.linkTxt : '#ebebeb' }]}>
+                      <Image
+                        source={travel_mood ? require('../../assets/car.png') : require('../../assets/car-grey.png')}
+                        style={styles.orderSummaryImage}
+                      />
                     </View>
                   </View>
                   <Text style={styles.bookingCount}>Mood</Text>
@@ -578,7 +590,6 @@ const styles = StyleSheet.create({
     width: width,
     backgroundColor: '#000',
     position: 'absolute',
-    top: getStatusBarHeight(),
     zIndex: 1,
   },
   linkTxt: {
@@ -590,6 +601,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     borderRadius: 50,
     padding: 8,
+    margin: 2,
     justifyContent: 'center',
   },
   promotionTxt: {
@@ -692,7 +704,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 50,
     position: 'absolute',
-    right: -240,
+    right: -210,
     bottom: 0,
   },
   modalMainView: {

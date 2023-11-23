@@ -12,7 +12,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { GradientRadio } from '../../components';
 import Row from './component/Row';
 import { useDispatch, useSelector } from 'react-redux';
-import { signout } from '../../redux/actions';
+import { getServices, signout } from '../../redux/actions';
 import { useState } from 'react';
 import ToggleSwitch from 'toggle-switch-react-native';
 const beauty = require('../../assets/beauty_color.png');
@@ -43,6 +43,11 @@ const ArtistProfile = props => {
     setModalVisible(true);
     setModalNavigation(navigation); // Save the navigation object in the state
   };
+
+  useEffect(() => {
+    dispatch(getServices(user.id));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const socialMediaIcons = [
     { title: 'Facebook', source: facebook },

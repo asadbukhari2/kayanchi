@@ -1,7 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Text, View, Animated, TouchableOpacity, Image, StatusBar, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useTheme } from '../../utils/theme';
+import { fonts, useTheme } from '../../utils/theme';
 import { width, heightToDp, widthToDp, height } from '../../utils/Dimensions';
 import { ConsumerSubCatCard, Button, Header, Tabs } from '../../components';
 
@@ -10,81 +10,27 @@ import makeStyle from './artistyourprofile.styles';
 const beauty = require('../../assets/beautician.png');
 const share = require('../../assets/share.png');
 const ondemand = require('../../assets/ondemand.png');
-const carfront = require('../../assets/car-front.png');
-const host = require('../../assets/host.png');
+const booking = require('../../assets/booking.png');
 const favourites = require('../../assets/favourites.png');
 const star = require('../../assets/star.png');
 const LocationAway = require('../../assets/LocationAway.png');
-
-const hair = require('../../assets/HairDark.png');
-const face = require('../../assets/FaceDark.png');
-const waxing = require('../../assets/BodyDark.png');
-const Massages = require('../../assets/SpaDark.png');
-const Botox = require('../../assets/TreatDark.png');
-
-const DATA2 = [
-  {
-    cat: 'Hair cut',
-    price: 'Pkr 1500',
-    time: 'Takes 2-3 hours',
-    details:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum suscipit enim eget libero dictumeuismod. Proin vel sem eget diam scelerisque tristique. Pellentesque nec dolor .',
-  },
-  {
-    cat: 'Hydra facial',
-    price: 'Pkr 1500',
-    time: 'Takes 2-3 hours',
-    details:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum suscipit enim eget libero dictumeuismod. Proin vel sem eget diam scelerisque tristique. Pellentesque nec dolor .',
-  },
-  {
-    cat: 'Hydra facial',
-    price: 'Pkr 1500',
-    time: 'Takes 2-3 hours',
-    details:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum suscipit enim eget libero dictumeuismod. Proin vel sem eget diam scelerisque tristique. Pellentesque nec dolor .',
-  },
-  {
-    cat: 'Hydra facial',
-    price: 'Pkr 1500',
-    time: 'Takes 2-3 hours',
-    details:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum suscipit enim eget libero dictumeuismod. Proin vel sem eget diam scelerisque tristique. Pellentesque nec dolor .',
-  },
-];
-const DATA = [
-  {
-    name: 'Hair',
-    imageLink: hair,
-  },
-  {
-    name: 'Face',
-    imageLink: face,
-  },
-  {
-    name: 'Body',
-    imageLink: waxing,
-  },
-  {
-    name: 'Spa',
-    imageLink: Massages,
-  },
-  {
-    name: 'Treat',
-    imageLink: Botox,
-  },
-];
 
 const headerHeight = heightToDp(57.5);
 const headerFinalHeight = heightToDp(25);
 
 const ArtistYourProfile = props => {
+  const [tabsData, setTabsData] = useState([]);
   const [subHeading, setSubHeading] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
+  // const [modalVisible, setModalVisible] = useState(false);
 
   const theme = useTheme();
   const styles = makeStyle(theme);
-  const user = useSelector(state => state.auth.user);
+
+  const { services, categories } = useSelector(state => state.common);
+  const auth = useSelector(state => state.auth);
+  const { name } = auth.user;
+  const { followers, title, level, rating, rating_count, hosting_mood, travel_mood, availability_status } =
+    auth.profile;
 
   const scrollY = useRef(new Animated.Value(0)).current;
 
@@ -134,6 +80,37 @@ const ArtistYourProfile = props => {
     extrapolate: 'clamp',
   });
 
+  console.log(services);
+  const handleTabButtonClick = txt => {
+    setSubHeading(txt);
+    const filtered = services.filter(_ => txt.includes(_.category_name));
+
+    const data = filtered[0]?.category_services?.map(_ => {
+      const d = {
+        name: _.name,
+        price: _.amount,
+        time: _.duration,
+        details: _.description,
+        discountPercentage: _.discount_percentage,
+        discountedPrice: _.discounted_price,
+        isDiscount: _.is_discount,
+        isHosting: _.is_hosting,
+        isTravelling: _.is_travelling,
+        id: _.id,
+        catName: _.category.name,
+      };
+
+      return d;
+    });
+
+    data ? setTabsData(data) : setTabsData([]);
+  };
+
+  useEffect(() => {
+    services.length > 0 && handleTabButtonClick(categories[0].name);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categories]);
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar animated={true} backgroundColor="#000" barStyle={'light-content'} showHideTransition={'fade'} />
@@ -160,12 +137,10 @@ const ArtistYourProfile = props => {
           <Text style={styles.follow}>View Profile</Text>
         </TouchableOpacity>
         <View style={styles.headerMain}>
-          {/* <Text style={styles.artistLocation}>{'3.2 kms away from you'}</Text> */}
           <View style={styles.centerDiv}>
             <Animated.Text
-              // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
               style={[styles.artistName, { transform: [{ translateX: translateName }, { scale: scaleName }] }]}>
-              {user.name}
+              {name}
             </Animated.Text>
           </View>
           <View style={styles.centerDiv}>
@@ -183,10 +158,8 @@ const ArtistYourProfile = props => {
               />
             </Animated.View>
             <View style={[styles.centerDiv, { paddingTop: 5 }]}>
-              <Animated.Text
-                // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
-                style={[styles.artistLocation, { transform: [{ translateY: opacity }] }]}>
-                Barber{' '}
+              <Animated.Text style={[styles.artistLocation, { transform: [{ translateY: opacity }] }]}>
+                {' ' + title + ' '}
               </Animated.Text>
 
               <Animated.View style={[styles.dotContainer, { transform: [{ translateY: opacity }] }]}>
@@ -204,8 +177,7 @@ const ArtistYourProfile = props => {
               <Animated.Text
                 // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
                 style={[styles.artistLocation, { transform: [{ translateY: opacity }] }]}>
-                {' '}
-                Expert
+                {' ' + level}
               </Animated.Text>
             </View>
 
@@ -232,15 +204,31 @@ const ArtistYourProfile = props => {
                   marginLeft: widthToDp(4),
                 }}>
                 <View style={styles.OrderSummaryContainer}>
-                  <View style={[styles.imageContainer, { backgroundColor: '#A77246' }]}>
-                    <Image source={ondemand} style={styles.orderSummaryImage} />
+                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    {availability_status.includes('on_demand') && (
+                      <View style={[styles.imageContainer, { backgroundColor: theme.brown }]}>
+                        <Image source={ondemand} style={styles.orderSummaryImage} />
+                      </View>
+                    )}
+                    {availability_status.includes('booking_only') && (
+                      <View style={[styles.imageContainer, { backgroundColor: theme.seaGreen }]}>
+                        <Image source={booking} style={styles.orderSummaryImage} />
+                      </View>
+                    )}
                   </View>
                   <Text style={styles.bookingCount}>Avaiability</Text>
                   <Text
-                    style={[
-                      styles.subCount,
-                      { textAlign: 'center' },
-                    ]}>{`${user.name} is taking orders on-demand`}</Text>
+                    style={{
+                      fontSize: 9,
+                      color: '#747474',
+                      fontFamily: fonts.robo_reg,
+                      textAlign: 'center',
+                    }}>
+                    {name} is{' '}
+                    {availability_status?.map((_, id) => {
+                      return `${_.split('_').join(' ')}${availability_status.length - 1 !== id ? ', ' : ''}`;
+                    })}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -249,53 +237,115 @@ const ArtistYourProfile = props => {
               <View style={{ flexDirection: 'row', margin: widthToDp(3) }}>
                 <View style={styles.OrderSummaryContainer}>
                   <View style={{ flexDirection: 'row' }}>
-                    <View style={[styles.imageContainer, { backgroundColor: '#1583D8' }]}>
-                      <Image source={host} style={styles.orderSummaryImage} />
+                    <View
+                      style={[styles.imageContainer, { backgroundColor: hosting_mood ? theme.linkTxt : '#ebebeb' }]}>
+                      <Image
+                        source={hosting_mood ? require('../../assets/host.png') : require('../../assets/host_grey.png')}
+                        style={styles.orderSummaryImage}
+                      />
                     </View>
-                    <View style={[styles.imageContainer, { marginLeft: 5, backgroundColor: '#1583D8' }]}>
-                      <Image source={carfront} style={[styles.orderSummaryImage]} />
+                    <View style={[styles.imageContainer, { backgroundColor: travel_mood ? theme.linkTxt : '#ebebeb' }]}>
+                      <Image
+                        source={travel_mood ? require('../../assets/car.png') : require('../../assets/car-grey.png')}
+                        style={styles.orderSummaryImage}
+                      />
                     </View>
                   </View>
                   <Text style={styles.bookingCount}>Mood</Text>
                   <Text
-                    style={[
-                      styles.subCount,
-                      { textAlign: 'center' },
-                    ]}>{`${user.name} will either host or visit you`}</Text>
+                    style={{
+                      fontSize: 9,
+                      textAlign: 'center',
+                      fontFamily: fonts.robo_reg,
+                      color: '#747474',
+                    }}>
+                    {name} will {hosting_mood ? 'host you' : travel_mood ? 'visit you' : 'either host or visit you'}
+                  </Text>
                 </View>
               </View>
             </View>
-
             <View>
-              <View style={{ flexDirection: 'row', marginTop: heightToDp(3) }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  marginTop: heightToDp(3),
+                  alignItems: 'center',
+                }}>
                 <View style={styles.OrderSummaryContainer}>
-                  <View style={{ flexDirection: 'row' }}>
-                    <View style={{ paddingRight: 9 }}>
-                      <Image source={favourites} style={{ width: 25, height: 25, resizeMode: 'contain' }} />
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{ paddingRight: 7 }}>
+                      <Image source={favourites} style={{ width: 21, height: 20, resizeMode: 'cover' }} />
                     </View>
                     <View>
-                      <Text style={styles.subCount}>Follower</Text>
-                      <Text style={styles.subCount}>0</Text>
+                      <Text
+                        style={{
+                          fontSize: 9,
+                          fontFamily: fonts.robo_med,
+                          color: '#84668C',
+                        }}>
+                        Follower
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 9,
+                          fontFamily: fonts.robo_med,
+                          color: '#2F3A58',
+                        }}>
+                        {followers ?? 20}
+                      </Text>
                     </View>
                   </View>
 
-                  <View style={{ flexDirection: 'row' }}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      marginVertical: heightToDp(2.7),
+                      alignItems: 'center',
+                    }}>
                     <View style={{ paddingRight: 7 }}>
-                      <Image source={star} style={{ width: 25, height: 25, resizeMode: 'contain' }} />
+                      <Image source={star} style={{ width: 21, height: 20, resizeMode: 'cover' }} />
                     </View>
                     <View>
-                      <Text style={styles.subCount}>Ratings</Text>
-                      <Text style={styles.subCount}>0 (0)</Text>
+                      <Text
+                        style={{
+                          fontSize: 9,
+                          fontFamily: fonts.robo_med,
+                          color: '#84668C',
+                        }}>
+                        Ratings
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 9,
+                          fontFamily: fonts.robo_med,
+                          color: '#2F3A58',
+                        }}>
+                        {rating ?? 0} ({rating_count ?? 0})
+                      </Text>
                     </View>
                   </View>
 
-                  <View style={{ flexDirection: 'row' }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ paddingRight: 7 }}>
-                      <Image source={LocationAway} style={{ width: 25, height: 25, resizeMode: 'contain' }} />
+                      <Image source={LocationAway} style={{ width: 21, height: 20, resizeMode: 'cover' }} />
                     </View>
                     <View>
-                      <Text style={styles.subCount}>0.1 kms</Text>
-                      <Text style={styles.subCount}>away</Text>
+                      <Text
+                        style={{
+                          fontSize: 9,
+                          fontFamily: fonts.robo_reg,
+                          color: '#747474',
+                        }}>
+                        0.1 kms
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 9,
+                          fontFamily: fonts.robo_reg,
+                          color: '#747474',
+                        }}>
+                        away
+                      </Text>
                     </View>
                   </View>
                 </View>
@@ -303,27 +353,40 @@ const ArtistYourProfile = props => {
             </View>
           </View>
 
-          <Tabs selectedTab={txt => setSubHeading(txt)} DATA={DATA} />
+          {/* <Tabs selectedTab={txt => setSubHeading(txt)} DATA={DATA} /> */}
+        </View>
+
+        <View style={{ borderBottomWidth: 1, borderColor: theme.inputText }}>
+          <Tabs selectedTab={handleTabButtonClick} DATA={categories} />
         </View>
 
         <View style={{ marginTop: heightToDp(4.5) }}>
-          {DATA2.map((item, index) => {
-            return (
-              <ConsumerSubCatCard
-                key={index}
-                cat={item.cat}
-                price={item.price}
-                time={item.time}
-                details={item.details}
-              />
-            );
-          })}
+          {tabsData.length > 0 ? (
+            tabsData.map((item, index) => {
+              return (
+                <>
+                  <ConsumerSubCatCard
+                    key={index}
+                    cat={item.name}
+                    price={item.price}
+                    time={item.time}
+                    details={item.details}
+                    discountPercentage={item.discountPercentage}
+                    discountedPrice={item.discountedPrice}
+                    {...item}
+                  />
+                </>
+              );
+            })
+          ) : (
+            <Text style={{ color: theme.inputText }}>No Record Found</Text>
+          )}
         </View>
-        <Button
+        {/* <Button
           title={'Continue'}
           btnStyle={{ marginBottom: heightToDp(5.5), marginTop: heightToDp(3.5) }}
           onPress={() => setModalVisible(true)}
-        />
+        /> */}
       </ScrollView>
     </SafeAreaView>
   );

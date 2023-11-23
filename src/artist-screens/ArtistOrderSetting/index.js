@@ -11,9 +11,8 @@ import ToggleSwitch from 'toggle-switch-react-native';
 import TravelMoodImage from '../../assets/travel.png';
 import HostMoodImage from '../../assets/car-front.png';
 const information = require('../../assets/information.png');
-import LinearGradient from 'react-native-linear-gradient';
-import { useDispatch } from 'react-redux';
-import { getAvailableDays, getBookingSlots } from '../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAvailableDays, getBookingSlots, updateProfile } from '../../redux/actions';
 import MultiButton from '../../components/MultiButton';
 
 const booking = require('../../assets/booking.png');
@@ -21,18 +20,64 @@ const ondemand = require('../../assets/ondemand.png');
 
 const theme = useTheme();
 
-const ArtistOrderSetting = props => {
-  const [availability, setAvailability] = useState('Booking Only');
-  const [isPrivate, setIsPrivate] = useState(false);
+const avail = [
+  {
+    title: 'Booking Only',
+    value: 'booking_only',
+    icon: booking,
+  },
+  {
+    title: 'On Demand',
+    value: 'on_demand',
+    icon: ondemand,
+  },
+];
 
-  const handlePrivateImage = () => {
-    setIsPrivate(previousState => !previousState);
-  };
+const ArtistOrderSetting = props => {
+  const [availability, setAvailability] = useState([]);
+  const [offerFreeTravel, setOfferTravel] = useState(false);
+  const [travelMood, setTravelMood] = useState(false);
+  const [hostMood, setHostMood] = useState(false);
+  const [defaultTravelCost, setDefaultTravelCost] = useState(0);
+  const [minOrderCost, setMinOrderCost] = useState(0);
+
+  const profile = useSelector(state => state.auth.profile);
+
+  useEffect(() => {
+    setAvailability(profile.availability_status);
+    setMinOrderCost(profile.minimum_order_cost);
+    setOfferTravel(profile.offer_free_travel);
+    setDefaultTravelCost(profile.default_travelling_cost);
+    setTravelMood(profile.travel_mood);
+    setHostMood(profile.hosting_mood);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleFreeTravel = () => setOfferTravel(previousState => !previousState);
 
   const dispatch = useDispatch();
 
   const gotoArtist = async () => {
-    props.navigation.navigate('ArtistProfile');
+    props.navigation.goBack();
+
+    dispatch(
+      updateProfile({
+        availability_status: availability,
+        default_travelling_cost: offerFreeTravel ? 0 : defaultTravelCost,
+        offer_free_travel: offerFreeTravel,
+        minimum_order_cost: minOrderCost,
+        travel_mood: travelMood,
+        hosting_mood: hostMood,
+      }),
+    );
+  };
+  const handleAvailabilityClick = e => {
+    if (availability.includes(e.value)) {
+      const f = availability.filter(itm => e.value !== itm);
+      setAvailability(f);
+    } else {
+      setAvailability(prev => [...prev, e.value]);
+    }
   };
 
   useEffect(() => {
@@ -44,16 +89,7 @@ const ArtistOrderSetting = props => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <View
-          style={{
-            flex: 0,
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginLeft: widthToDp(5),
-            width: widthToDp(90),
-          }}>
-          <Header backBtn title="Order Setting" />
-        </View>
+        <Header backBtn title="Order Setting" />
 
         <View style={{ flexDirection: 'row' }}>
           <Text style={styles.heading}>Availability</Text>
@@ -73,26 +109,19 @@ const ArtistOrderSetting = props => {
 
         <View style={styles.indicatorView}>
           <View style={styles.row}>
-            <MultiButton
-              onPress={() => setAvailability('Booking Only')}
-              title={'Booking Only'}
-              btnStyle={{ backgroundColor: availability === 'Booking Only' ? '#008274' : '#9a9a9a' }}
-              image={booking}
-            />
-            <MultiButton
-              onPress={() => setAvailability('On-Demand')}
-              title={'On-Demand'}
-              btnStyle={{ backgroundColor: availability === 'On-Demand' ? '#008274' : '#9a9a9a' }}
-              image={ondemand}
-            />
+            {avail.map(_ => {
+              return (
+                <MultiButton
+                  onPress={() => handleAvailabilityClick(_)}
+                  title={_.title}
+                  btnStyle={{ backgroundColor: availability.includes(_.value) ? '#008274' : '#9a9a9a' }}
+                  image={_.icon}
+                />
+              );
+            })}
           </View>
         </View>
-        <TouchableOpacity
-          onPress={() =>
-            props.navigation.navigate('ArtistProfileStack', {
-              screen: 'ArtistBookingSlots',
-            })
-          }>
+        <TouchableOpacity onPress={() => props.navigation.navigate('ArtistBookingSlots')}>
           <Text
             style={{
               color: '#1583D8',
@@ -121,24 +150,28 @@ const ArtistOrderSetting = props => {
         </Text>
         <View style={styles.parentMood}>
           <View style={styles.mood}>
-            <LinearGradient
-              colors={[theme.primary, theme.primary]}
-              style={styles.childMood}
-              start={{ x: 1, y: 0.5 }}
-              end={{ x: 1, y: 0.5 }}>
-              <Image source={HostMoodImage} style={{ height: 40, width: 40, resizeMode: 'contain' }} />
-              <Text style={styles.childMoodHead}>Travel</Text>
-              <Text style={styles.childMoodBody}>to client’s</Text>
-            </LinearGradient>
-            <LinearGradient
-              colors={[theme.primary, theme.primary]}
-              style={styles.childMood}
-              start={{ x: 1, y: 0.5 }}
-              end={{ x: 1, y: 0.5 }}>
-              <Image source={TravelMoodImage} />
-              <Text style={styles.childMoodHead}>Host</Text>
-              <Text style={styles.childMoodBody}>the client</Text>
-            </LinearGradient>
+            <TouchableOpacity onPress={() => setTravelMood(prev => !prev)}>
+              <View
+                style={[
+                  styles.childMood,
+                  travelMood ? { backgroundColor: theme.primary } : { backgroundColor: theme.greyText },
+                ]}>
+                <Image source={HostMoodImage} style={{ height: 40, width: 40, resizeMode: 'contain' }} />
+                <Text style={styles.childMoodHead}>Travel</Text>
+                <Text style={styles.childMoodBody}>to client’s</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setHostMood(prev => !prev)}>
+              <View
+                style={[
+                  styles.childMood,
+                  hostMood ? { backgroundColor: theme.primary } : { backgroundColor: theme.greyText },
+                ]}>
+                <Image source={TravelMoodImage} />
+                <Text style={styles.childMoodHead}>Host</Text>
+                <Text style={styles.childMoodBody}>the client</Text>
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
         <View style={styles.serviceDuration}>
@@ -160,19 +193,27 @@ const ArtistOrderSetting = props => {
           <Text style={styles.warning}>{'Offer free travel'}</Text>
           <View style={[styles.switchContainer, { marginRight: 10 }]}>
             <ToggleSwitch
-              isOn={false}
+              isOn={offerFreeTravel}
               style={{ height: 20, marginRight: 10 }}
-              value={isPrivate}
+              value={offerFreeTravel}
               onColor="#84668C"
               offColor="#9A9A9A"
               size="small"
-              onToggle={handlePrivateImage}
+              onToggle={handleFreeTravel}
             />
           </View>
         </View>
 
         <View style={styles.parentPrice}>
-          <TextInput style={styles.priceField} placeholder="100-1000" placeholderTextColor={theme.genderGrey} />
+          <TextInput
+            style={styles.priceField}
+            placeholder="100-1000"
+            keyboardType="number-pad"
+            disable={offerFreeTravel}
+            placeholderTextColor={theme.genderGrey}
+            value={offerFreeTravel ? '0' : defaultTravelCost.toString()}
+            onChangeText={e => setDefaultTravelCost(e)}
+          />
         </View>
         <View style={styles.serviceDuration}>
           <Text style={styles.title2}>
@@ -183,14 +224,22 @@ const ArtistOrderSetting = props => {
         <Text style={styles.warning}>Set a minimum amount below which you won't accept order</Text>
 
         <View style={[styles.parentPrice, { marginTop: 10 }]}>
-          <TextInput style={styles.priceField} placeholder="0" placeholderTextColor={theme.genderGrey} />
+          <TextInput
+            style={styles.priceField}
+            value={minOrderCost.toString()}
+            // defaultValue={minOrderCost}
+            placeholder="500"
+            placeholderTextColor={theme.genderGrey}
+            onChangeText={e => setMinOrderCost(e)}
+            keyboardType="number-pad"
+            inputMode="numeric"
+          />
         </View>
 
         <Button
           title={'Confirm Settings'}
           btnStyle={styles.btn}
           onPress={() => {
-            // navigation.navigate('gotoArtist');
             gotoArtist();
           }}
         />
@@ -217,17 +266,13 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   mood: {
-    // borderColor: "red",
-    // borderWidth: 1,
     width: width * 0.9,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // alignItems:"s"
   },
   childMood: {
     width: width * 0.425,
-    backgroundColor: 'blue',
     flex: 0,
     alignItems: 'center',
     paddingVertical: 10,
@@ -266,9 +311,7 @@ const styles = StyleSheet.create({
   heading: { color: '#0F2851', fontSize: 40, marginLeft: widthToDp(4), fontFamily: fonts.hk_bold },
   uploadText: {
     textAlign: 'center',
-
     fontSize: 14,
-    // marginHorizontal: 24,
     fontFamily: fonts.robo_reg,
     marginTop: 8,
     lineHeight: 22,
@@ -316,14 +359,11 @@ const styles = StyleSheet.create({
     opacity: 0.3,
   },
   priceField: {
-    backgroundColor: '#DFDEDF',
     width: widthToDp(90),
-    // marginLeft: widthToDp(5),
     borderRadius: 8,
-    // paddingVertical: 5,
     paddingHorizontal: 10,
+    padding: 10,
     fontSize: 16,
-    // marginHorizontal: 24,
     fontFamily: fonts.robo_reg,
     color: theme.darkModeText,
     lineHeight: 22,
@@ -348,7 +388,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.white,
-    paddingTop: heightToDp(7),
   },
   skipView: {
     position: 'absolute',
@@ -387,22 +426,17 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     fontFamily: fonts.robo_reg,
     color: '#67718C',
-    // marginTop: 4,
-    // lineHeight: 18.75,
   },
   title: {
     fontSize: 34,
     marginHorizontal: 18,
     fontFamily: fonts.robo_med,
     color: theme.lightBlack,
-    // marginTop: 23,
-    // lineHeight: 28.13,
   },
   title2: {
     fontSize: 20,
     marginHorizontal: 24,
     fontFamily: fonts.hk_bold,
-    // marginTop: 23,
     lineHeight: 24,
     justifyContent: 'space-between',
     color: '#2F3A58',

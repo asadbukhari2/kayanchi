@@ -113,7 +113,7 @@ const makeStyle = theme => {
     },
     imageContainer: {
       borderRadius: 50,
-      // width: widthToDp(12.5),
+      margin: 2,
       padding: 8,
       justifyContent: 'center',
     },

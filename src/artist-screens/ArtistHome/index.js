@@ -15,6 +15,7 @@ import OrderSummary from './components/orderSummary';
 import Earning from './components/Earnings';
 import { getMyProfile, getGigsOfUser, getCategory } from '../../redux/actions';
 import makeStyle from './home.styles';
+import ProfileDetailIcons from './components/ProfileDetailIcons';
 
 //images import
 const timer = require('../../assets/timer.png');
@@ -54,7 +55,7 @@ const ArtistHome = props => {
   const dispatch = useDispatch();
 
   const { name } = auth.user;
-  const { hosting_mood, travel_mood, availability_status } = auth.profile;
+  const { profileLoading } = auth;
 
   const profileLevelCount = auth.profileLevelCount;
 
@@ -74,7 +75,7 @@ const ArtistHome = props => {
   useEffect(() => {
     dispatch(getGigsOfUser());
     dispatch(getCategory());
-    dispatch(getMyProfile());
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth.userDetails.token]);
 
@@ -117,37 +118,15 @@ const ArtistHome = props => {
                 Your Status
               </Text>
             </View>
-            <View style={styles.icons}>
-              <View style={[styles.iconConatiner, { backgroundColor: hosting_mood ? theme.linkTxt : '#ebebeb' }]}>
-                <Image
-                  source={hosting_mood ? require('../../assets/host.png') : require('../../assets/host_grey.png')}
-                  style={styles.iconStyle}
+            {!profileLoading ? (
+              <ProfileDetailIcons />
+            ) : (
+              <View style={{ alignItems: 'center', marginTop: 15 }}>
+                <View
+                  style={{ width: 150, height: 20, backgroundColor: '#e0e0e0', marginBottom: 10, borderRadius: 2 }}
                 />
               </View>
-              <View style={[styles.iconConatiner, { backgroundColor: travel_mood ? theme.linkTxt : '#ebebeb' }]}>
-                <Image
-                  source={travel_mood ? require('../../assets/car.png') : require('../../assets/car-grey.png')}
-                  style={styles.iconStyle}
-                />
-              </View>
-              {availability_status &&
-                availability_status.length > 0 &&
-                availability_status?.map(_ => (
-                  <View
-                    key={_}
-                    style={[
-                      styles.iconConatiner,
-                      { backgroundColor: _ === 'on_demand' ? theme.brown : theme.seaGreen },
-                    ]}>
-                    <Image
-                      source={
-                        _ === 'on_demand' ? require('../../assets/ondemand.png') : require('../../assets/booking.png')
-                      }
-                      style={styles.iconStyle}
-                    />
-                  </View>
-                ))}
-            </View>
+            )}
           </View>
         </View>
 

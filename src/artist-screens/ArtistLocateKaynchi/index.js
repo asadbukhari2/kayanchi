@@ -15,22 +15,10 @@ import { saveAddress } from '../../redux/actions';
 
 const theme = useTheme();
 
-// const STATUS_RADIO = [
-//   {
-//     source: require('../../assets/hosting4.png'),
-//     title: "I'm hosting",
-//   },
-//   {
-//     source: require('../../assets/travelling4.png'),
-//     title: "I'm travelling",
-//   },
-// ];
-
 const ArtistLocateKaynchi = props => {
   const [floor, setFloor] = useState('');
   const [name, setName] = useState('');
-  // const [preferenceStatus, setPreferenceStatus] = useState('');
-  // const [modalVisible, setModalVisible] = useState(false);
+
   const [userLocation, setUserLocation] = useState(null);
 
   useEffect(() => {
@@ -67,6 +55,7 @@ const ArtistLocateKaynchi = props => {
     };
 
     saveAddress(data);
+    // props.navigation.goBack();
   };
 
   return (
