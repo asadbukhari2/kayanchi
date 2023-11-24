@@ -12,6 +12,9 @@ import {
   GET_PORTFOLIO_DATA,
   GET_AVAILABLE_DAYS,
   GET_BOOKING_SLOTS,
+  GET_ORDERS,
+  GET_ORDERS_DATA,
+  GET_ORDERS_ERROR,
 } from '../constants/constants';
 
 export const getCategory = () => async dispatch => {
@@ -367,5 +370,33 @@ export const updateBookingSlot = (id, data, token) => async dispatch => {
     }
   } catch (error) {
     console.log('addBookingSlot', error);
+  }
+};
+
+export const getMyOrders = token => async dispatch => {
+  dispatch({
+    type: GET_ORDERS,
+  });
+  try {
+    let res = await Fetch.get('/api/orders/artist/myorders', token);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      dispatch({
+        type: GET_ORDERS_DATA,
+        payload: res,
+      });
+    } else {
+      const { message } = await res.json();
+      showMessage({
+        message: message,
+        type: 'danger',
+      });
+      // dispatch({
+      //   type: GET_ORDERS_ERROR,
+      //   payload: message,
+      // });
+    }
+  } catch (error) {
+    console.log('getMyOrders', error);
   }
 };

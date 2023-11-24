@@ -9,6 +9,15 @@ const initialState = {
   services: [],
   availableDays: [],
   bookingSlots: [],
+  ordersLoading: false,
+  ordersError: '',
+  orders: [],
+  waiting: [],
+  accepted: [],
+  inprogress: [],
+  completed: [],
+  cancelled: [],
+  rejected: [],
 };
 
 import {
@@ -21,6 +30,9 @@ import {
   GET_SERVICES_ERROR,
   GET_AVAILABLE_DAYS,
   GET_BOOKING_SLOTS,
+  GET_ORDERS,
+  GET_ORDERS_DATA,
+  GET_ORDERS_ERROR,
 } from '../constants/constants';
 
 const reducer = (state = initialState, action) => {
@@ -86,6 +98,29 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         bookingSlots: action.payload,
+      };
+    case GET_ORDERS:
+      return {
+        ...state,
+        ordersLoading: true,
+      };
+    case GET_ORDERS_DATA:
+      return {
+        ...state,
+        ordersLoading: false,
+        orders: action.payload,
+        waiting: action.payload.Waiting,
+        accepted: action.payload.Accepted,
+        inprogress: action.payload.InProgress,
+        completed: action.payload.Completed,
+        cancelled: action.payload.Cancelled,
+        rejected: action.payload.Rejected,
+      };
+    case GET_ORDERS_ERROR:
+      return {
+        ...state,
+        ordersLoading: false,
+        ordersError: 'Orders Found Error',
       };
 
     default:
