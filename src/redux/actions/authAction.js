@@ -24,38 +24,46 @@ export const EMAIL_LOGIN =
     dispatch({
       type: SIGN_IN,
     });
-    const data = { password, email };
+    try {
+      const data = { password, email };
 
-    let res = await Fetch.post('/api/users/login', data);
-    if (res.status >= 200 && res.status < 300) {
-      res = await res.json();
-      await AsyncStorage.setItem('userToken', JSON.stringify(res.token));
-      dispatch(module.exports.getMyProfile(res.token));
-      showMessage({
-        message: 'Logged In Successfully!',
-        type: 'success',
-      });
-      dispatch({
-        type: SIGN_IN_SUCCESS,
-        payload: res,
-      });
-
-      if (res.type_login === 'artist') {
+      let res = await Fetch.post('/api/users/login', data);
+      if (res.status >= 200 && res.status < 300) {
+        res = await res.json();
+        await AsyncStorage.setItem('userToken', JSON.stringify(res.token));
+        dispatch(module.exports.getMyProfile(res.token));
+        showMessage({
+          message: 'Logged In Successfully!',
+          type: 'success',
+        });
         dispatch({
-          type: SET_IS_ARTIST,
+          type: SIGN_IN_SUCCESS,
+          payload: res,
+        });
+
+        if (res.type_login === 'artist') {
+          dispatch({
+            type: SET_IS_ARTIST,
+          });
+        }
+      } else {
+        const { message } = await res.json();
+        showMessage({
+          message: message,
+          type: 'danger',
+        });
+        dispatch({
+          type: SIGN_IN_FAILED,
         });
       }
-    } else {
-      const { message } = await res.json();
+    } catch (error) {
       showMessage({
-        message: message,
+        message: 'Something went wrong',
         type: 'danger',
       });
       dispatch({
         type: SIGN_IN_FAILED,
-        payload: message,
       });
-      throw new Error(message ?? 'Something went wrong');
     }
   };
 

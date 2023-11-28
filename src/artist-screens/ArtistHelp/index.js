@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Switch, ScrollView } from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native';
+
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header, Button } from '../../components';
-import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { useTheme, fonts } from '../../utils/theme';
-import back from '../../assets/back.png';
+
 import search from '../../assets/question.png';
 import resolution from '../../assets/resolution.png';
 import cancelation from '../../assets/cancelation.png';
@@ -34,7 +34,6 @@ const ArtistHelp = props => {
             marginLeft: widthToDp(5),
             width: widthToDp(90),
           }}>
-          {/* <Image source={back} /> */}
           <View style={{ marginLeft: 0 }}>
             <Header backBtn />
           </View>
@@ -62,6 +61,9 @@ const ArtistHelp = props => {
               onPress={() =>
                 props.navigation.navigate('ArtistProfileStack', {
                   screen: 'ArtistDisputeResolution',
+                  params: {
+                    cancel_type: 'Cancellation',
+                  },
                 })
               }>
               <View style={styles.centeredContainer}>
@@ -76,6 +78,9 @@ const ArtistHelp = props => {
               onPress={() =>
                 props.navigation.navigate('ArtistProfileStack', {
                   screen: 'ArtistCancelOrder',
+                  params: {
+                    cancel_type: 'Cancellation',
+                  },
                 })
               }>
               <View style={styles.centeredContainer}>
@@ -101,7 +106,7 @@ const ArtistHelp = props => {
 
           <View style={styles.faqcontainer}>
             {faqData.map(item => (
-              <View style={styles.faqContent}>
+              <TouchableOpacity style={styles.faqContent}>
                 <Text
                   style={{
                     fontSize: 16,
@@ -111,7 +116,7 @@ const ArtistHelp = props => {
                   {item.question}
                 </Text>
                 <Image source={faq} style={styles.faqimage} />
-              </View>
+              </TouchableOpacity>
             ))}
           </View>
         </View>
@@ -141,7 +146,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F7F7F7',
-    paddingTop: heightToDp(7),
   },
   inputContainer: {
     flexDirection: 'row',

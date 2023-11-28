@@ -22,36 +22,36 @@ import LatestOrders from './components/LatestOrders';
 const timer = require('../../assets/timer.png');
 const information = require('../../assets/information.png');
 
-const orders = [
-  {
-    name: 'John Doe',
-    serviceCost: 30000,
-    services: ['Foot Massage', 'Haircut', 'Manicure'],
-    salonAddress: 'Your salon address',
-    arrivalTime: '50 - 60 mins',
-    imageLink: 'carBrown',
-    status: 'wants to TRAVEL',
-  },
-  {
-    name: 'Jane Smith',
-    serviceCost: 25000,
-    services: ['Facial', 'Pedicure'],
-    salonAddress: 'Your salon address',
-    arrivalTime: '30 - 40 mins',
-    imageLink: 'host_green',
-    status: 'wants to HOST',
-  },
-];
+// const orders = [
+//   {
+//     name: 'John Doe',
+//     serviceCost: 30000,
+//     services: ['Foot Massage', 'Haircut', 'Manicure'],
+//     salonAddress: 'Your salon address',
+//     arrivalTime: '50 - 60 mins',
+//     imageLink: 'carBrown',
+//     status: 'wants to TRAVEL',
+//   },
+//   {
+//     name: 'Jane Smith',
+//     serviceCost: 25000,
+//     services: ['Facial', 'Pedicure'],
+//     salonAddress: 'Your salon address',
+//     arrivalTime: '30 - 40 mins',
+//     imageLink: 'host_green',
+//     status: 'wants to HOST',
+//   },
+// ];
 
 const ArtistHome = props => {
   const theme = useTheme();
   const styles = makeStyle(theme);
   const auth = useSelector(state => state.auth);
-  const { waiting, ordersLoading } = useSelector(state => state.common);
+  const { ordersLoading } = useSelector(state => state.common);
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
-  console.log(waiting[0]);
+
   const { name } = auth.user;
   const { profileLoading } = auth;
 
@@ -189,7 +189,7 @@ const ArtistHome = props => {
             </View>
           </View>
         ) : (
-          <LatestOrders orders={orders} />
+          <LatestOrders />
         )}
         {/* order summary */}
         <OrderSummary />

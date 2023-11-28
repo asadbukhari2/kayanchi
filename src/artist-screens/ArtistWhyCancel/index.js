@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Switch, ScrollView } from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TextInput } from 'react-native';
+
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header, Button } from '../../components';
-import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { useTheme, fonts } from '../../utils/theme';
-import back from '../../assets/back.png';
+
 import { RadioButton } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
+import { cancelOrder } from '../../redux/actions';
 
 const theme = useTheme();
 const faqData = [
@@ -16,10 +16,25 @@ const faqData = [
   { id: 4, question: 'Others' },
 ];
 const ArtistWhyCancel = props => {
-  const [name, setName] = useState('');
-  const [checked, setChecked] = useState('first');
+  const [message, setMessage] = useState('');
   const [selectedQuestion, setSelectedQuestion] = useState(null);
-  const navigation = useNavigation();
+
+  const handleSubmit = () => {
+    if (selectedQuestion) {
+      const issue = faqData.find(_ => _.id === selectedQuestion);
+
+      const data = {
+        issue: issue?.question,
+        reason: message,
+        ...props.route.params,
+      };
+
+      cancelOrder(data, () => {
+        props.navigation.navigate('ArtistOrder', { screen: 'ArtistOrders' });
+      });
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View
@@ -29,7 +44,6 @@ const ArtistWhyCancel = props => {
           marginLeft: widthToDp(5),
           width: widthToDp(90),
         }}>
-        {/* <Image source={back} /> */}
         <View style={{ marginLeft: 0 }}>
           <Header backBtn />
         </View>
@@ -64,20 +78,14 @@ const ArtistWhyCancel = props => {
         <TextInput
           multiline
           placeholder="Please tell us anything that you think will help the situation for us."
-          value={name}
+          value={message}
           placeholderTextColor={theme.greyText}
-          onChangeText={setName}
+          onChangeText={setMessage}
           style={styles.input}
         />
       </View>
 
-      <Button
-        title={'Confirm Cancellation'}
-        btnStyle={styles.btn}
-        onPress={() => {
-          navigation.navigate('ArtistOrders');
-        }}
-      />
+      <Button title="Confirm Cancellation" btnStyle={styles.btn} onPress={handleSubmit} />
     </SafeAreaView>
   );
 };
@@ -100,7 +108,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F7F7F7',
-    paddingTop: heightToDp(7),
   },
   btn: {
     position: 'absolute',

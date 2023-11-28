@@ -391,12 +391,41 @@ export const getMyOrders = token => async dispatch => {
         message: message,
         type: 'danger',
       });
-      // dispatch({
-      //   type: GET_ORDERS_ERROR,
-      //   payload: message,
-      // });
+      dispatch({
+        type: GET_ORDERS_ERROR,
+        payload: message,
+      });
     }
   } catch (error) {
     console.log('getMyOrders', error);
+    dispatch({
+      type: GET_ORDERS_ERROR,
+      payload: 'Something went wrong',
+    });
+  }
+};
+
+export const cancelOrder = async (data, back, token) => {
+  console.log(data);
+  try {
+    let res = await Fetch.post('/api/cancellation', data, token);
+
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      console.log({ res });
+      back();
+    } else {
+      const { message } = await res.json();
+      showMessage({
+        message: message,
+        type: 'danger',
+      });
+    }
+  } catch (error) {
+    console.log('cancelOrder', error);
+    showMessage({
+      message: 'Something went wrong',
+      type: 'danger',
+    });
   }
 };

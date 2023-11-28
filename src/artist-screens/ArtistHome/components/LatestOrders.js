@@ -4,18 +4,20 @@ import { fonts, useTheme } from '../../../utils/theme';
 import makeStyle from '../home.styles';
 import { useNavigation } from '@react-navigation/native';
 import { heightToDp, widthToDp } from '../../../utils/Dimensions';
+import { useSelector } from 'react-redux';
 
-const timer = require('../../../assets/timer.png');
-const carBrown = require('../../../assets/car_brown.png');
+// const timer = require('../../../assets/timer.png');
+// const carBrown = require('../../../assets/car_brown.png');
 const location = require('../../../assets/Path.png');
 const information = require('../../../assets/information.png');
 
-const host_green = require('../../../assets/host_green.png');
+// const host_green = require('../../../assets/host_green.png');
 
-const LatestOrders = ({ orders }) => {
+const LatestOrders = () => {
   const theme = useTheme();
   const styles = makeStyle(theme);
   const navigation = useNavigation();
+  const { waiting } = useSelector(state => state.common);
 
   const handleOrder = () => {
     navigation.navigate('ArtistOrders');
@@ -42,7 +44,7 @@ const LatestOrders = ({ orders }) => {
       </View>
 
       <FlatList
-        data={orders}
+        data={waiting}
         keyExtractor={order => order.name}
         horizontal
         renderItem={order => {
@@ -69,10 +71,13 @@ const LatestOrders = ({ orders }) => {
                     <Text style={styles.latestbutton}>On-Demand</Text>
                   </View>
                   <View>
-                    <Text style={[styles.headingName, { marginTop: 7, marginBottom: 3 }]}>{order.item.name}</Text>
+                    <Text style={[styles.headingName, { marginTop: 7, marginBottom: 3 }]}>
+                      {order.item.name ?? 'NAme'}
+                    </Text>
                     <View style={{ flexDirection: 'row' }}>
                       <Text style={{ color: theme.darkModeText, fontFamily: fonts.hk_regular }}>
-                        {order.item.status}
+                        {/* {order.item.status} */}
+                        "sdf"
                       </Text>
                       <Image
                         source={information}
@@ -86,15 +91,14 @@ const LatestOrders = ({ orders }) => {
                     <Text
                       style={[
                         {
-                          // marginVertical: 5,
                           color: '#0F2851',
                           fontFamily: fonts.robo_med,
                         },
                       ]}>
-                      SERVICES: Rs {order.item.serviceCost}
+                      SERVICES: Rs {order.item.serviceCost ?? 0}
                     </Text>
 
-                    {order.item.services.map((_, serviceIndex) => {
+                    {/* {order.item.services.map((_, serviceIndex) => {
                       if (serviceIndex < 1) {
                         return (
                           <Text key={serviceIndex} style={{ color: theme.greyText }}>
@@ -120,7 +124,7 @@ const LatestOrders = ({ orders }) => {
                         );
                       }
                       return null; // If more than the maximum services are shown, don't render them
-                    })}
+                    })} */}
                     <Text
                       style={[
                         {
@@ -135,17 +139,16 @@ const LatestOrders = ({ orders }) => {
                     </Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
-                      <Text style={{ color: '#32aee3', marginLeft: 5 }}>{order.item.salonAddress}</Text>
+                      {/* <Text style={{ color: '#32aee3', marginLeft: 5 }}>{order.item.salonAddress}</Text> */}
                     </View>
                     <View
                       style={{
                         flexDirection: 'row',
-                        // justifyContent: 'center',
                         alignItems: 'center',
                         paddingBottom: 10,
                       }}>
                       <Text style={[{ color: '#0F2851', fontFamily: fonts.robo_reg }]}>Arriving in: </Text>
-                      <Text style={{ color: theme.primary, fontSize: 12 }}>{order.item.arrivalTime}</Text>
+                      {/* <Text style={{ color: theme.primary, fontSize: 12 }}>{order.item.arrivalTime}</Text> */}
                     </View>
                   </View>
                 </View>

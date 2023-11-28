@@ -1,29 +1,46 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Switch, ScrollView } from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header, Button } from '../../components';
-import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { useTheme, fonts } from '../../utils/theme';
-import back from '../../assets/back.png';
-import search from '../../assets/question.png';
-import resolution from '../../assets/resolution.png';
-import cancelation from '../../assets/cancelation.png';
-import faq from '../../assets/faq.png';
-const whatsappphone = require('../../assets/whatsappphone.png');
+
 import { RadioButton } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
+import { cancelOrder } from '../../redux/actions';
 
 const theme = useTheme();
+
 const faqData = [
   { id: 1, question: 'The client is not reached yet' },
   { id: 2, question: 'Client is not picking up call' },
   { id: 3, question: 'Client is asking for discount?' },
   { id: 4, question: 'Others' },
 ];
+
 const ArtistDisputeResolution = props => {
-  const [name, setName] = useState('');
-  const [checked, setChecked] = useState('first');
+  const [message, setMessage] = useState('');
   const [selectedQuestion, setSelectedQuestion] = useState(null);
+
+  const dispatch = useDispatch();
+
+  const handleSubmit = () => {
+    const { cancel_type } = props.route.params;
+
+    if (selectedQuestion) {
+      const issue = faqData.find(_ => _.id === selectedQuestion);
+
+      const data = {
+        cancel_type,
+        issue: issue?.question,
+        reason: message,
+      };
+
+      cancelOrder(data, () => {
+        props.navigation.goBack();
+      });
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -35,7 +52,6 @@ const ArtistDisputeResolution = props => {
             marginLeft: widthToDp(5),
             width: widthToDp(90),
           }}>
-          {/* <Image source={back} /> */}
           <View style={{ marginLeft: 0 }}>
             <Header backBtn />
           </View>
@@ -69,9 +85,9 @@ const ArtistDisputeResolution = props => {
             <TextInput
               multiline
               placeholder="Please tell us anything that you think will help the situation for us."
-              value={name}
+              value={message}
               placeholderTextColor={theme.greyText}
-              onChangeText={setName}
+              onChangeText={setMessage}
               style={styles.input}
             />
             <Text
@@ -82,7 +98,7 @@ const ArtistDisputeResolution = props => {
                 bottom: 10,
                 right: 20,
               }}>
-              0/200
+              {message.length}/200
             </Text>
           </View>
         )}
@@ -91,8 +107,8 @@ const ArtistDisputeResolution = props => {
           <Text style={styles.refund}>We will try to resolve your dispute as soon as possible</Text>
         </View>
 
-        <View>
-          <Button title={'Submit Request'} />
+        <View style={styles.btn}>
+          <Button title="Submit Request" onPress={handleSubmit} />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -111,7 +127,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F7F7F7',
-    paddingTop: heightToDp(7),
   },
   inputContainer: {
     flexDirection: 'row',
@@ -171,9 +186,6 @@ const styles = StyleSheet.create({
   },
   refundContainer: { marginHorizontal: widthToDp(28), marginTop: heightToDp(20) },
   faqContent: {
-    // flexDirection: 'row',
-    // alignItems: 'center',
-    // justifyContent: 'space-between',
     paddingVertical: widthToDp(2),
   },
   faqimage: { width: 12, height: 12, resizeMode: 'contain' },
@@ -182,6 +194,8 @@ const styles = StyleSheet.create({
     height: 25,
     marginRight: 10,
     resizeMode: 'contain',
-    // , position: 'absolute', left: widthToDp(5)
+  },
+  btn: {
+    paddingBottom: 20,
   },
 });

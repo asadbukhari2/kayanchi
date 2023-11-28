@@ -39,7 +39,6 @@ const ArtistProfile = props => {
     setIsEnabled(previousState => !previousState);
   };
   const openFeedbackModal = navigation => {
-    console.log('navigate', navigation);
     setModalVisible(true);
     setModalNavigation(navigation); // Save the navigation object in the state
   };
