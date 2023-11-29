@@ -60,9 +60,11 @@ const ArtistHelp = props => {
             <TouchableOpacity
               onPress={() =>
                 props.navigation.navigate('ArtistProfileStack', {
-                  screen: 'ArtistDisputeResolution',
+                  // screen: 'ArtistDisputeResolution',
+                  screen: 'ArtistCancelOrder',
                   params: {
                     cancel_type: 'Cancellation',
+                    type: 'dispute',
                   },
                 })
               }>
@@ -80,6 +82,7 @@ const ArtistHelp = props => {
                   screen: 'ArtistCancelOrder',
                   params: {
                     cancel_type: 'Cancellation',
+                    type: 'cancel',
                   },
                 })
               }>

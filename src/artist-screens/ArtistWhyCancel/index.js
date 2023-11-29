@@ -18,7 +18,7 @@ const faqData = [
 const ArtistWhyCancel = props => {
   const [message, setMessage] = useState('');
   const [selectedQuestion, setSelectedQuestion] = useState(null);
-
+  const { cancel_type, order_id } = props.route.params;
   const handleSubmit = () => {
     if (selectedQuestion) {
       const issue = faqData.find(_ => _.id === selectedQuestion);
@@ -26,7 +26,8 @@ const ArtistWhyCancel = props => {
       const data = {
         issue: issue?.question,
         reason: message,
-        ...props.route.params,
+        cancel_type,
+        order_id,
       };
 
       cancelOrder(data, () => {

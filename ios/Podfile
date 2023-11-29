@@ -16,6 +16,8 @@ target 'Kaynchi' do
 
   pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
 
+  pod 'react-native-document-picker', :path => '../node_modules/react-native-document-picker'
+
   target 'KaynchiTests' do
     inherit! :complete
     # Pods for testing

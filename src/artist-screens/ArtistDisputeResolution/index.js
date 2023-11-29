@@ -6,7 +6,7 @@ import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { useTheme, fonts } from '../../utils/theme';
 
 import { RadioButton } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
+
 import { cancelOrder } from '../../redux/actions';
 
 const theme = useTheme();
@@ -22,22 +22,21 @@ const ArtistDisputeResolution = props => {
   const [message, setMessage] = useState('');
   const [selectedQuestion, setSelectedQuestion] = useState(null);
 
-  const dispatch = useDispatch();
-
   const handleSubmit = () => {
-    const { cancel_type } = props.route.params;
+    const { cancel_type, order_id } = props.route.params;
 
     if (selectedQuestion) {
       const issue = faqData.find(_ => _.id === selectedQuestion);
 
       const data = {
-        cancel_type,
         issue: issue?.question,
         reason: message,
+        cancel_type,
+        order_id,
       };
 
       cancelOrder(data, () => {
-        props.navigation.goBack();
+        props.navigation.navigate('ArtistHelp');
       });
     }
   };

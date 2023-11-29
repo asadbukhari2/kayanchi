@@ -14,6 +14,7 @@ const theme = useTheme();
 
 const ArtistCancelOrder = props => {
   const { waiting } = useSelector(state => state.common);
+  const { type } = props.route.params;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -43,9 +44,9 @@ const ArtistCancelOrder = props => {
               <TouchableOpacity
                 onPress={() =>
                   props.navigation.navigate('ArtistProfileStack', {
-                    screen: 'ArtistWhyCancel',
+                    screen: type === 'cancel' ? 'ArtistWhyCancel' : 'ArtistDisputeResolution',
                     params: {
-                      order_id: order.id,
+                      order_id: order.order.id,
                       ...props.route.params,
                     },
                   })

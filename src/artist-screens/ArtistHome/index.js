@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
-import { View, Image, Text, TouchableOpacity, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import makeStyle from './home.styles';
 import { Button } from '../../components';
-import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
+import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native'; // Import the navigation hook
 import Insights from './components/Insights';
@@ -14,9 +13,10 @@ import Comission from './components/Comission';
 import OrderSummary from './components/orderSummary';
 import Earning from './components/Earnings';
 import { getGigsOfUser, getCategory, getMyOrders } from '../../redux/actions';
-import makeStyle from './home.styles';
 import ProfileDetailIcons from './components/ProfileDetailIcons';
 import LatestOrders from './components/LatestOrders';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Image, Text, TouchableOpacity, ScrollView } from 'react-native';
 
 //images import
 const timer = require('../../assets/timer.png');

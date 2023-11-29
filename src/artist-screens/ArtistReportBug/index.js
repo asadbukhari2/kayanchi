@@ -2,107 +2,52 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native';
 import { Button, Header, TextInput } from '../../components';
-import { heightToDp, widthToDp, width, height } from '../../utils/Dimensions';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import Foundation from 'react-native-vector-icons/Foundation';
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { useTheme, fonts } from '../../utils/theme';
+import { heightToDp, widthToDp, width } from '../../utils/Dimensions';
+
+import { fonts, useTheme } from '../../utils/theme';
 import attachfile from '../../assets/attachfile.png';
+import { useSelector } from 'react-redux';
+import DocumentPicker from 'react-native-document-picker';
+import { bugReport } from '../../redux/actions';
+
 const theme = useTheme();
-const PAYMENTS = [
-  {
-    icon: <SimpleLineIcons name={'bell'} style={{ fontSize: 16, color: theme.primary }} />,
-    title: 'Notifications',
-    onPress: () =>
-      props.navigation.navigate('ArtistProfileStack', {
-        screen: 'ArtistNotifications',
-      }),
-  },
-  {
-    icon: (
-      <Image
-        source={require('../../assets/orderList.png')}
-        style={{
-          width: widthToDp(4.5),
-          height: heightToDp(4.5),
-          resizeMode: 'cover',
-        }}
-      />
-    ),
-    title: 'Ordering',
-    onPress: () =>
-      props.navigation.navigate('ArtistProfileStack', {
-        screen: 'ArtistOrderSetting',
-      }),
-  },
-
-  {
-    icon: (
-      <Image
-        source={require('../../assets/logout.png')}
-        style={{
-          width: widthToDp(4.5),
-          height: heightToDp(4.5),
-          resizeMode: 'cover',
-        }}
-      />
-    ),
-    title: 'Sign out',
-    onPress: () => dispatch(signout()),
-  },
-
-  {
-    icon: <Icon name={'magnify'} style={{ fontSize: 16, color: theme.primary }} />,
-    title: 'Finding a service',
-  },
-
-  {
-    icon: <FontAwesome name={'credit-card'} style={{ fontSize: 16, color: theme.primary }} />,
-    title: 'Payments',
-  },
-  {
-    icon: (
-      <Image
-        source={require('../../assets/marketplace.png')}
-        style={{
-          width: widthToDp(4.5),
-          height: heightToDp(4.5),
-          resizeMode: 'cover',
-        }}
-      />
-    ),
-    title: 'Marketplace',
-    onPress: () =>
-      props.navigation.navigate('ArtistProfileStack', {
-        screen: 'ArtistOrderSetting',
-      }),
-  },
-  {
-    title: 'Other',
-    // onPress: () => props.navigation.navigate('ArtistSavedAddresses'),
-    onPress: () =>
-      props.navigation.navigate('ArtistProfileStack', {
-        screen: 'ArtistSavedAddresses',
-      }),
-  },
-];
-
-const renderItem = ({ icon, title, onPress }) => (
-  <TouchableOpacity style={styles.optionContainer} onPress={onPress}>
-    <View style={styles.iconContainer}>{icon}</View>
-    <Text style={styles.optionTitle}>{title}</Text>
-  </TouchableOpacity>
-);
 
 export default function ConumerReportBug(props) {
-  const [name, setName] = useState('');
+  const [selected, setSelected] = useState('');
+  const [message, setMessage] = useState('');
+  const [file, setFile] = useState(null);
 
-  const firstRowOptions = PAYMENTS.slice(0, 3);
-  const secondRowOptions = PAYMENTS.slice(3, 5);
-  const thirdRowOptions = PAYMENTS.slice(5);
+  const { feedbackCategory } = useSelector(state => state.common);
+  const handleSelect = id => {
+    setSelected(id);
+  };
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    formData.append('idea_description', message);
+    formData.append('feedback_category_id', selected);
+
+    formData.append('file', file[0].url);
+
+    bugReport(formData, () => {
+      props.navigation.goBack();
+    });
+  };
+  const pickDocument = async () => {
+    try {
+      const result = await DocumentPicker.pick({
+        type: [DocumentPicker.types.allFiles],
+        limit: 1,
+      });
+
+      setFile(result);
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        console.log('Picker cancelled');
+      } else {
+        console.error('Error picking document:', err);
+      }
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -114,18 +59,18 @@ export default function ConumerReportBug(props) {
       </View>
       <View style={styles.optionsContainer}>
         <View style={styles.rowContainer}>
-          {firstRowOptions.map((item, index) => (
-            <React.Fragment key={index}>{renderItem(item)}</React.Fragment>
-          ))}
-        </View>
-        <View style={styles.rowContainer}>
-          {secondRowOptions.map((item, index) => (
-            <React.Fragment key={index}>{renderItem(item)}</React.Fragment>
-          ))}
-        </View>
-        <View style={styles.rowContainer}>
-          {thirdRowOptions.map((item, index) => (
-            <React.Fragment key={index}>{renderItem(item)}</React.Fragment>
+          {feedbackCategory.map((item, index) => (
+            <React.Fragment key={index}>
+              <TouchableOpacity
+                style={[
+                  styles.optionContainer,
+                  selected !== item.id ? { backgroundColor: '#EEEEEE' } : { backgroundColor: theme.brown },
+                ]}
+                onPress={() => handleSelect(item.id)}>
+                {/* <View style={styles.iconContainer}>{icon}</View> */}
+                <Text style={styles.optionTitle}>{item.title}</Text>
+              </TouchableOpacity>
+            </React.Fragment>
           ))}
         </View>
       </View>
@@ -135,14 +80,13 @@ export default function ConumerReportBug(props) {
       </View>
       <View>
         <TextInput
-          input={text => setName(text)}
+          input={text => setMessage(text)}
           placeholder={'What did you expect and what happened instead?'}
           multiline
           inputBoxStyle={{
             backgroundColor: '#ffffff',
             borderBottomColor: '#ffffff',
             padding: 10,
-
             height: heightToDp(45),
             borderRadius: 10,
             textAlignVertical: 'top',
@@ -151,23 +95,27 @@ export default function ConumerReportBug(props) {
       </View>
       <View>
         <View style={styles.files}>
-          <View style={styles.imageFileContainer}>
-            <Image source={attachfile} style={styles.imageFile} />
-          </View>
-          <Text
-            style={{
-              paddingHorizontal: 5,
-              fontSize: 12,
-              color: '#ABABAB',
-              fontFamily: fonts.robo_med,
-            }}>
-            Attach a file
-          </Text>
-          <Text style={{ color: '#29AAE2' }}>0/2500</Text>
+          <TouchableOpacity
+            onPress={pickDocument}
+            style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <View style={styles.imageFileContainer}>
+              <Image source={attachfile} style={styles.imageFile} />
+            </View>
+            <Text
+              style={{
+                paddingHorizontal: 5,
+                fontSize: 12,
+                color: '#ABABAB',
+                fontFamily: fonts.robo_med,
+              }}>
+              {file ? file[0].name.slice(0, 15) : 'Attach a file'}
+            </Text>
+          </TouchableOpacity>
+          <Text style={{ color: '#29AAE2' }}>{message.length}/2500</Text>
         </View>
       </View>
       <View style={{ marginTop: 60 }}>
-        <Button title="Submit" />
+        <Button title="Submit" onPress={handleSubmit} />
       </View>
     </SafeAreaView>
   );
@@ -177,10 +125,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F7F7F7',
-    paddingTop: heightToDp(7),
   },
   subHeading: {
-    // fontWeight: '500',
     fontFamily: fonts.robo_med,
     color: '#0F2851',
     marginLeft: widthToDp(5),

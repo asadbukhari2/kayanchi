@@ -201,7 +201,7 @@ const makeStyle = theme => {
       marginRight: 10,
     },
     headingName: {
-      fontSize: 20,
+      fontSize: 24,
       fontFamily: fonts.hk_bold,
       color: '#0F2851',
     },

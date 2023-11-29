@@ -112,6 +112,7 @@ const ArtistOrderSetting = props => {
             {avail.map(_ => {
               return (
                 <MultiButton
+                  key={_.title}
                   onPress={() => handleAvailabilityClick(_)}
                   title={_.title}
                   btnStyle={{ backgroundColor: availability.includes(_.value) ? '#008274' : '#9a9a9a' }}

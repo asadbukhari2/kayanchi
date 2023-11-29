@@ -429,3 +429,72 @@ export const cancelOrder = async (data, back, token) => {
     });
   }
 };
+
+export const getFeedbackCategory = token => async dispatch => {
+  try {
+    let res = await Fetch.get('/api/feedbackcategory/', token);
+
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      dispatch({
+        type: 'GET_FEEDBACK_CATEGORY',
+        payload: res,
+      });
+    } else {
+      const { message } = await res.json();
+      showMessage({
+        message: message,
+        type: 'danger',
+      });
+    }
+  } catch (error) {
+    console.log('getFeedbackCategory', error);
+    showMessage({
+      message: 'Something went wrong',
+      type: 'danger',
+    });
+  }
+};
+
+export const shareIdea = async (body, func, token) => {
+  try {
+    let res = await Fetch.postFormData('/api/idea/', body, token);
+
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      func();
+    } else {
+      showMessage({
+        message: await res.json(),
+        type: 'danger',
+      });
+    }
+  } catch (error) {
+    console.log('shareIdea', error);
+    showMessage({
+      message: 'Something went wrong',
+      type: 'danger',
+    });
+  }
+};
+export const bugReport = async (body, func, token) => {
+  try {
+    let res = await Fetch.postFormData('/api/bugreport/', body, token);
+
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      func();
+    } else {
+      showMessage({
+        message: await res.json(),
+        type: 'danger',
+      });
+    }
+  } catch (error) {
+    console.log('bugReport', error);
+    showMessage({
+      message: 'Something went wrong',
+      type: 'danger',
+    });
+  }
+};

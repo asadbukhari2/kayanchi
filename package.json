@@ -28,6 +28,7 @@
     "react-native-calendars": "^1.1301.0",
     "react-native-circular-progress-indicator": "^4.4.2",
     "react-native-date-picker": "^4.2.0",
+    "react-native-document-picker": "^9.0.1",
     "react-native-flash-message": "^0.2.1",
     "react-native-gesture-handler": "^2.3.2",
     "react-native-image-crop-picker": "^0.37.3",

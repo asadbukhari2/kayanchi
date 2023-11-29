@@ -18,6 +18,7 @@ const initialState = {
   completed: [],
   cancelled: [],
   rejected: [],
+  feedbackCategory: [],
 };
 
 import {
@@ -122,7 +123,11 @@ const reducer = (state = initialState, action) => {
         ordersLoading: false,
         ordersError: 'Orders Found Error',
       };
-
+    case 'GET_FEEDBACK_CATEGORY':
+      return {
+        ...state,
+        feedbackCategory: action.payload,
+      };
     default:
       return state;
   }

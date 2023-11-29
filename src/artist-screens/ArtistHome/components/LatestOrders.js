@@ -48,6 +48,7 @@ const LatestOrders = () => {
         keyExtractor={order => order.name}
         horizontal
         renderItem={order => {
+          console.log(order);
           return (
             <View style={styles.orderContainer}>
               <View
@@ -71,19 +72,17 @@ const LatestOrders = () => {
                     <Text style={styles.latestbutton}>On-Demand</Text>
                   </View>
                   <View>
-                    <Text style={[styles.headingName, { marginTop: 7, marginBottom: 3 }]}>
-                      {order.item.name ?? 'NAme'}
-                    </Text>
-                    <View style={{ flexDirection: 'row' }}>
-                      <Text style={{ color: theme.darkModeText, fontFamily: fonts.hk_regular }}>
-                        {/* {order.item.status} */}
-                        "sdf"
+                    <Text style={styles.headingName}>{order.item.order.consumer.name ?? 'Asad Bukhari'}</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <Text style={{ color: theme.darkModeText, fontFamily: fonts.hk_regular, fontWeight: 'bold' }}>
+                        wants to <Text style={{ color: theme.primary }}>TRAVEL</Text>
+                        {/* ishosting */}
                       </Text>
                       <Image
                         source={information}
                         style={{
-                          height: 15,
-                          width: 15,
+                          height: 20,
+                          width: 20,
                           marginLeft: widthToDp(2),
                         }}
                       />
