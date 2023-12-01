@@ -22,27 +22,6 @@ import { View, Image, Text, TouchableOpacity, ScrollView } from 'react-native';
 const timer = require('../../assets/timer.png');
 const information = require('../../assets/information.png');
 
-// const orders = [
-//   {
-//     name: 'John Doe',
-//     serviceCost: 30000,
-//     services: ['Foot Massage', 'Haircut', 'Manicure'],
-//     salonAddress: 'Your salon address',
-//     arrivalTime: '50 - 60 mins',
-//     imageLink: 'carBrown',
-//     status: 'wants to TRAVEL',
-//   },
-//   {
-//     name: 'Jane Smith',
-//     serviceCost: 25000,
-//     services: ['Facial', 'Pedicure'],
-//     salonAddress: 'Your salon address',
-//     arrivalTime: '30 - 40 mins',
-//     imageLink: 'host_green',
-//     status: 'wants to HOST',
-//   },
-// ];
-
 const ArtistHome = props => {
   const theme = useTheme();
   const styles = makeStyle(theme);

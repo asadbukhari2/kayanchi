@@ -7,14 +7,6 @@ import ConsumerMainStack from './ConsumerMainStack';
 import ArtistAuthStack from './ArtistAuthStack';
 import ConsumerAuthStack from './ConsumerAuthStack';
 import InitStack from './InitStack';
-import {
-  ArtistBasicGig,
-  ArtistCreateGig,
-  ArtistKnownFor,
-  ArtistPromoMainPage,
-  ArtistPublishGig,
-} from '../artist-screens';
-import { ConsumerGigMainPage } from '../consumer-screens';
 
 export default function Root() {
   const auth = useSelector(state => state.auth);

@@ -69,7 +69,12 @@ const Performance = React.memo(() => {
         data.map((item, index) => (
           <View key={item.title} style={styles.performanceContainer}>
             <View>
-              <Text style={styles.performanceHeading}>{item.percantage}</Text>
+              <Text style={styles.performanceHeading}>
+                {item.percantage.includes('.')
+                  ? Number(item.percantage.split('%')[0]).toFixed(2)
+                  : item.percantage.split('%')[0]}
+                %
+              </Text>
               <Text style={styles.performanceSubHeading}>{item.title}</Text>
               <Text style={{ color: '#677790', fontFamily: fonts.robo_med }}>{item.Description}</Text>
             </View>

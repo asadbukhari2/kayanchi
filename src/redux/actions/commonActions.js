@@ -275,7 +275,6 @@ export const getBookingSlots = token => async dispatch => {
       if (typeof res === 'string') {
         res = [];
       }
-
       dispatch({
         type: GET_BOOKING_SLOTS,
         payload: res,

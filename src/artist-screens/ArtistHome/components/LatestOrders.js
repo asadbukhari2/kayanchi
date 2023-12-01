@@ -11,7 +11,8 @@ import { useSelector } from 'react-redux';
 const location = require('../../../assets/Path.png');
 const information = require('../../../assets/information.png');
 
-// const host_green = require('../../../assets/host_green.png');
+const host_green = require('../../../assets/host_green.png');
+const car_brown = require('../../../assets/car_brown.png');
 
 const LatestOrders = () => {
   const theme = useTheme();
@@ -19,8 +20,10 @@ const LatestOrders = () => {
   const navigation = useNavigation();
   const { waiting } = useSelector(state => state.common);
 
+  const latest = [...waiting.Booking, ...waiting['On-Demand']];
+
   const handleOrder = () => {
-    navigation.navigate('ArtistOrders');
+    navigation.navigate('ArtistOrder', { screen: 'ArtistOrders' });
   };
   return (
     <View style={styles.latestOrder}>
@@ -44,11 +47,10 @@ const LatestOrders = () => {
       </View>
 
       <FlatList
-        data={waiting}
+        data={latest}
         keyExtractor={order => order.name}
         horizontal
         renderItem={order => {
-          console.log(order);
           return (
             <View style={styles.orderContainer}>
               <View
@@ -67,16 +69,24 @@ const LatestOrders = () => {
                   shadowRadius: 50,
                 }}>
                 <View>
-                  <View style={styles.orderDetails}>
-                    <Image source={order.item.imageLink} style={styles.OrderImage} />
-                    <Text style={styles.latestbutton}>On-Demand</Text>
-                  </View>
+                  {order.item.order.order_availibity_status === 'On-Demand' ? (
+                    <View style={styles.orderDetails}>
+                      <Image source={car_brown} style={styles.OrderImage} />
+                      <Text style={styles.latestbutton}>On-Demand</Text>
+                    </View>
+                  ) : (
+                    <View style={styles.orderDetails}>
+                      <Image source={host_green} style={styles.OrderImage} />
+                      <Text style={styles.latestbutton}>Booking</Text>
+                    </View>
+                  )}
+
                   <View>
                     <Text style={styles.headingName}>{order.item.order.consumer.name ?? 'Asad Bukhari'}</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <Text style={{ color: theme.darkModeText, fontFamily: fonts.hk_regular, fontWeight: 'bold' }}>
-                        wants to <Text style={{ color: theme.primary }}>TRAVEL</Text>
-                        {/* ishosting */}
+                        wants to{' '}
+                        <Text style={{ color: theme.primary }}>{!order.item.order.is_hosting ? 'TRAVEL' : 'HOST'}</Text>
                       </Text>
                       <Image
                         source={information}
@@ -94,18 +104,18 @@ const LatestOrders = () => {
                           fontFamily: fonts.robo_med,
                         },
                       ]}>
-                      SERVICES: Rs {order.item.serviceCost ?? 0}
+                      Rs {order.item.order.total_service_charges ?? 0}
                     </Text>
 
-                    {/* {order.item.services.map((_, serviceIndex) => {
+                    {order.item.order.order_items.map((_, serviceIndex) => {
                       if (serviceIndex < 1) {
                         return (
                           <Text key={serviceIndex} style={{ color: theme.greyText }}>
-                            {_}
+                            {_.service_name}
                           </Text>
                         );
                       } else if (serviceIndex === 1) {
-                        const remainingServices = order.item.services.length - 1;
+                        const remainingServices = order.item.order.order_items.length - 1;
                         return (
                           <TouchableOpacity
                             key={serviceIndex}
@@ -123,7 +133,7 @@ const LatestOrders = () => {
                         );
                       }
                       return null; // If more than the maximum services are shown, don't render them
-                    })} */}
+                    })}
                     <Text
                       style={[
                         {
@@ -147,7 +157,7 @@ const LatestOrders = () => {
                         paddingBottom: 10,
                       }}>
                       <Text style={[{ color: '#0F2851', fontFamily: fonts.robo_reg }]}>Arriving in: </Text>
-                      {/* <Text style={{ color: theme.primary, fontSize: 12 }}>{order.item.arrivalTime}</Text> */}
+                      <Text style={{ color: theme.primary, fontSize: 12 }}>{order.item.order.time_to_reach}</Text>
                     </View>
                   </View>
                 </View>

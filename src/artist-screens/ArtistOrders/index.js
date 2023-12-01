@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 
@@ -8,125 +9,70 @@ import { useTheme, fonts } from '../../utils/theme';
 
 import OrderCard from '../../components/OrderCard';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 const carBrown = require('../../assets/car_brown.png');
 const host_green = require('../../assets/host_green.png');
 
 const theme = useTheme();
 
-const orders = [
-  {
-    name: 'John Doe',
-    serviceCost: 30000,
-    statusOrder: 'Active',
-    services: ['3x Foot Massage', 'Haircut', 'Manicure'],
-    salonAddress: 'NOrth Nazimabad',
-    imageLink: carBrown,
-  },
-  {
-    name: 'Jane Smith',
-    serviceCost: 25000,
-    statusOrder: 'Active',
-    services: ['1x Facial', 'Pedicure'],
-    salonAddress: 'NOrth Nazimabad',
-    arrivalTime: '30-40 mins',
-    imageLink: host_green,
-  },
-  {
-    name: 'Doe',
-    serviceCost: 30000,
-    statusOrder: 'New',
-    services: ['3x Foot Massage', 'Haircut', 'Manicure'],
-    salonAddress: 'NOrth Nazimabad',
-    imageLink: carBrown,
-  },
-  {
-    name: 'Jane',
-    serviceCost: 25000,
-    statusOrder: 'Completed',
-    services: ['1x Facial', 'Pedicure'],
-    salonAddress: 'NOrth Nazimabad',
-    arrivalTime: '30-40 mins',
-    imageLink: host_green,
-  },
-  {
-    name: 'Doe Joe',
-    serviceCost: 30000,
-    statusOrder: 'Completed',
-    services: ['3x Foot Massage', 'Haircut', 'Manicure'],
-    salonAddress: 'NOrth Nazimabad',
-    imageLink: carBrown,
-  },
-  {
-    name: 'Jane Mr',
-    statusOrder: 'Cancelled',
-    serviceCost: 25000,
-    services: ['1x Facial', 'Pedicure'],
-    salonAddress: 'NOrth Nazimabad',
-    arrivalTime: '30-40 mins',
-    imageLink: host_green,
-    status: 'Cancelled',
-    cancelReason: ' Order Cancelled by customer service',
-  },
-];
 const ArtistOrders = () => {
-  const [name, setName] = useState('');
   const [activeTab, setActiveTab] = useState('New');
-  const [activeOrders, setActiveOrders] = useState([]);
   const [newOrders, setNewOrders] = useState([]);
   const [cancelledOrders, setCancelledOrders] = useState([]);
+  const [activeOrders, setActiveOrders] = useState([]);
   const [completedOrders, setCompletedOrders] = useState([]);
   const [displayedOrders, setDisplayedOrders] = useState([]);
+
+  const { waiting, inprogress, completed, cancelled } = useSelector(state => state.common);
   const navigation = useNavigation();
+
   console.log('display', displayedOrders);
 
   useEffect(() => {
     let isMounted = true;
 
-    const active = orders.filter(order => order.statusOrder === 'Active');
-    const newOrder = orders.filter(order => order.statusOrder === 'New');
-    const completed = orders.filter(order => order.statusOrder === 'Completed');
-    const cancelled = orders.filter(order => order.statusOrder === 'Cancelled');
-
-    setActiveOrders(active);
+    setActiveOrders(inprogress);
     setCompletedOrders(completed);
     setCancelledOrders(cancelled);
-    setNewOrders(newOrder);
+    setNewOrders(waiting);
+
     if (isMounted) {
-      // Update the state only if the component is still mounted
-      setActiveOrders(active);
+      setActiveOrders(inprogress);
       setCompletedOrders(completed);
       setCancelledOrders(cancelled);
-      setNewOrders(newOrder);
+      setNewOrders(waiting);
 
-      if (activeTab === 'Active') {
-        setDisplayedOrders(active);
+      if (activeTab === 'New') {
+        setDisplayedOrders(newOrders);
       } else if (activeTab === 'Completed') {
-        setDisplayedOrders(completed);
+        setDisplayedOrders(inprogress);
       } else if (activeTab === 'New') {
-        setDisplayedOrders(newOrder);
+        setDisplayedOrders(completed);
       } else if (activeTab === 'Cancelled') {
         setDisplayedOrders(cancelled);
       }
     }
 
     return () => {
-      // Cleanup function: Mark the component as unmounted when it's being unmounted
       isMounted = false;
     };
   }, [activeTab]);
 
   const handleTabChange = tab => {
     setActiveTab(tab);
-
     if (tab === 'Active') {
       setDisplayedOrders(activeOrders);
     } else if (tab === 'Completed') {
       setDisplayedOrders(completedOrders);
+    } else if (tab === 'Cancelled') {
+      setDisplayedOrders(cancelledOrders);
+    } else if (tab === 'New') {
+      setDisplayedOrders(newOrders);
     } else {
       setDisplayedOrders([]);
     }
   };
-
+  console.log(displayedOrders);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -137,7 +83,6 @@ const ArtistOrders = () => {
             marginLeft: widthToDp(5),
             width: widthToDp(90),
           }}>
-          {/* <Image source={back} /> */}
           <View style={{ marginLeft: 0 }}>
             <Header backBtn />
           </View>
@@ -148,7 +93,6 @@ const ArtistOrders = () => {
         </View>
 
         <View style={styles.btnContainer2}>
-          {/* // * Check it thoroughly after API integration */}
           <TouchableOpacity onPress={() => handleTabChange('New')}>
             <Text style={[styles.tabText, activeTab === 'New' && styles.activeTab]}>New</Text>
           </TouchableOpacity>
@@ -185,9 +129,9 @@ const ArtistOrders = () => {
           </View>
         </View>
         <View>
-          {displayedOrders.map((order, index) => (
+          {/* {displayedOrders?.map((order, index) => (
             <OrderCard key={index} order={order} navigation={navigation} />
-          ))}
+          ))} */}
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -25,20 +25,15 @@ const ProfileDetailIcons = () => {
           style={styles.iconStyle}
         />
       </View>
-      {availability_status &&
-        availability_status.length > 0 &&
-        availability_status?.map(_ => (
-          <View
-            key={_}
-            style={[styles.iconConatiner, { backgroundColor: _ === 'on_demand' ? theme.brown : theme.seaGreen }]}>
-            <Image
-              source={
-                _ === 'on_demand' ? require('../../../assets/ondemand.png') : require('../../../assets/booking.png')
-              }
-              style={styles.iconStyle}
-            />
-          </View>
-        ))}
+      {availability_status && availability_status === 'on_demand' ? (
+        <View style={[styles.iconConatiner, { backgroundColor: theme.brown }]}>
+          <Image source={require('../../../assets/ondemand.png')} style={styles.iconStyle} />
+        </View>
+      ) : (
+        <View style={[styles.iconConatiner, { backgroundColor: theme.seaGreen }]}>
+          <Image source={require('../../../assets/booking.png')} style={styles.iconStyle} />
+        </View>
+      )}
     </View>
   );
 };

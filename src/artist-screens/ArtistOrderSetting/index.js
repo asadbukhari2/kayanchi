@@ -82,7 +82,7 @@ const ArtistOrderSetting = props => {
 
   useEffect(() => {
     dispatch(getAvailableDays());
-    dispatch(getBookingSlots());
+    // dispatch(getBookingSlots());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
