@@ -15,7 +15,13 @@ const host_green = require('../../assets/host_green.png');
 
 const theme = useTheme();
 
+const filters = [
+  { value: 'Booking', label: 'Booking' },
+  { value: 'On-Demand', label: 'On Demand' },
+];
+
 const ArtistOrders = () => {
+  const [filter, setFilter] = useState('Booking');
   const [activeTab, setActiveTab] = useState('New');
   const [newOrders, setNewOrders] = useState([]);
   const [cancelledOrders, setCancelledOrders] = useState([]);
@@ -25,8 +31,6 @@ const ArtistOrders = () => {
 
   const { waiting, inprogress, completed, cancelled } = useSelector(state => state.common);
   const navigation = useNavigation();
-
-  console.log('display', displayedOrders);
 
   useEffect(() => {
     let isMounted = true;
@@ -72,7 +76,11 @@ const ArtistOrders = () => {
       setDisplayedOrders([]);
     }
   };
-  console.log(displayedOrders);
+
+  const handleFilterPress = e => {
+    setFilter(e.value);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -106,32 +114,37 @@ const ArtistOrders = () => {
             <Text style={[styles.tabText, activeTab === 'Cancelled' && styles.activeTab]}>Cancelled</Text>
           </TouchableOpacity>
         </View>
+
         <View style={styles.btnContainer}>
-          <View>
-            <TouchableOpacity>
-              <Text style={styles.button}>On-Demand</Text>
-            </TouchableOpacity>
-          </View>
-          <View>
-            <TouchableOpacity>
-              <Text
-                style={[
-                  styles.button,
-                  {
-                    color: '#008274',
-                    borderColor: '#008274',
-                    paddingHorizontal: 10,
-                  },
-                ]}>
-                Booking
-              </Text>
-            </TouchableOpacity>
-          </View>
+          {filters.map(_ => {
+            return (
+              <TouchableOpacity
+                onPress={() => {
+                  handleFilterPress(_);
+                }}>
+                <Text
+                  style={[
+                    styles.button,
+                    _.value === 'Booking'
+                      ? {
+                          color: '#008274',
+                          borderColor: filter === 'Booking' ? '#008274' : theme.greyText,
+                        }
+                      : {
+                          color: '#9A9A9A',
+                          borderColor: filter === 'On-Demand' ? '#9A9A9A' : theme.greyText,
+                        },
+                  ]}>
+                  {_.label}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
         </View>
         <View>
-          {/* {displayedOrders?.map((order, index) => (
+          {displayedOrders[filter]?.map((order, index) => (
             <OrderCard key={index} order={order} navigation={navigation} />
-          ))} */}
+          ))}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -173,8 +186,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   button: {
-    color: '#9A9A9A',
-    borderColor: '#9A9A9A',
     fontFamily: fonts.robo_reg,
     borderWidth: 1,
     paddingHorizontal: 5,

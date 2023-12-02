@@ -106,6 +106,7 @@ const reducer = (state = initialState, action) => {
         ordersLoading: true,
       };
     case GET_ORDERS_DATA:
+      console.log('sdfgerg', action.payload);
       return {
         ...state,
         ordersLoading: false,

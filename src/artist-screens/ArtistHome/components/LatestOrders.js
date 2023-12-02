@@ -6,8 +6,6 @@ import { useNavigation } from '@react-navigation/native';
 import { heightToDp, widthToDp } from '../../../utils/Dimensions';
 import { useSelector } from 'react-redux';
 
-// const timer = require('../../../assets/timer.png');
-// const carBrown = require('../../../assets/car_brown.png');
 const location = require('../../../assets/Path.png');
 const information = require('../../../assets/information.png');
 
@@ -132,7 +130,7 @@ const LatestOrders = () => {
                           </TouchableOpacity>
                         );
                       }
-                      return null; // If more than the maximum services are shown, don't render them
+                      return null;
                     })}
                     <Text
                       style={[
@@ -171,7 +169,12 @@ const LatestOrders = () => {
                     width: '50%',
                     top: -10,
                   }}
-                  onPress={() => navigation.navigate('ArtistOrderStack', { screen: 'ArtistTimeline' })}>
+                  onPress={() =>
+                    navigation.navigate('ArtistOrderStack', {
+                      screen: 'ArtistTimeline',
+                      params: { id: order.item.order.id, order: order.item.order },
+                    })
+                  }>
                   <Text style={[styles.buttonText]}>View</Text>
                 </TouchableOpacity>
                 <TouchableOpacity

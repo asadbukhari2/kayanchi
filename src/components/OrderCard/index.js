@@ -5,6 +5,8 @@ import { useTheme, fonts } from '../../utils/theme';
 const location = require('../../assets/Path.png');
 import MultiButton from '../MultiButton';
 import Button from '../Button';
+const host_green = require('../../assets/host_green.png');
+const car_brown = require('../../assets/car_brown.png');
 
 const theme = useTheme();
 
@@ -47,16 +49,16 @@ const OrderCard = ({ order, navigation }) => {
           }}>
           <View>
             <View>
-              <Text style={styles.headingName}>{order.name}</Text>
+              <Text style={styles.headingName}>{order.order.consumer.name}</Text>
 
               <Text style={[styles.textBold, { marginVertical: 3 }]}>SERVICES:</Text>
-              {order.services.map((service, serviceIndex) => {
-                const maxServicesToShow = 1;
+              {order.order.order_items.map((service, serviceIndex) => {
+                const maxServicesToShow = 2;
 
                 if (serviceIndex < maxServicesToShow) {
                   return (
-                    <Text key={serviceIndex} style={{ color: theme.greyText, fontFamily: fonts.robo_reg }}>
-                      {service}
+                    <Text key={serviceIndex} style={{ color: theme.linkTxt, fontFamily: fonts.robo_reg }}>
+                      {service.quantity}X {service.service_name}
                     </Text>
                   );
                 } else if (serviceIndex === maxServicesToShow) {
@@ -84,27 +86,37 @@ const OrderCard = ({ order, navigation }) => {
                   fontFamily: fonts.hk_bold,
                   marginTop: 4,
                 }}>
-                Rs {order.serviceCost}
+                Rs {order.order.total_service_charges}
               </Text>
             </View>
           </View>
-          {order.statusOrder !== 'Cancelled' && (
+          {order.order.order_status !== 'Cancelled' && (
             <View style={{ marginLeft: 30 }}>
-              <View style={styles.orderDetails}>
-                <Text
-                  style={{
-                    color: '#84668C',
-                    fontSize: 16,
-                    fontFamily: fonts.robo_med,
-                  }}>
-                  TRAVELLING
-                </Text>
-                <Image source={order.imageLink} style={styles.OrderImage} />
-              </View>
+              {order.order.is_hosting ? (
+                <View style={styles.orderDetails}>
+                  <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>Is HOSTING</Text>
+                  {order.order.order_availibity_status === 'On-Demand' ? (
+                    <Image source={car_brown} style={styles.OrderImage} />
+                  ) : (
+                    <Image source={host_green} style={styles.OrderImage} />
+                  )}
+                </View>
+              ) : (
+                <View style={styles.orderDetails}>
+                  <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>Is TRVELLING</Text>
+                  {order.order.order_availibity_status === 'On-Demand' ? (
+                    <Image source={car_brown} style={styles.OrderImage} />
+                  ) : (
+                    <Image source={host_green} style={styles.OrderImage} />
+                  )}
+                </View>
+              )}
               <Text style={{ color: '#29AAE2', fontFamily: fonts.robo_reg }}>
                 3.5 kms <Text style={{ color: '#0F2851' }}>away for you </Text>{' '}
               </Text>
-              <Text style={[styles.textBold, { marginTop: 5 }]}>Hosting at:</Text>
+              <Text style={[styles.textBold, { marginTop: 5 }]}>
+                {order.order.is_hosting ? 'HOSTING AT:' : 'TRVELLING TO:'}
+              </Text>
               <View
                 style={{
                   flexDirection: 'row',
@@ -112,18 +124,18 @@ const OrderCard = ({ order, navigation }) => {
                   marginTop: 5,
                 }}>
                 <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
-                <Text
+                {/* <Text
                   style={{
                     color: '#32aee3',
                     fontSize: 14,
                     fontFamily: fonts.robo_reg,
                   }}>
                   {order.salonAddress}
-                </Text>
+                </Text> */}
               </View>
             </View>
           )}
-          <View>
+          {/* <View>
             {order.statusOrder === 'Cancelled' && (
               <>
                 <View style={styles.orderDetails}>
@@ -147,9 +159,9 @@ const OrderCard = ({ order, navigation }) => {
                 </Text>
               </>
             )}
-          </View>
+          </View> */}
         </View>
-        {order.statusOrder === 'Active' ? (
+        {/* {order.statusOrder === 'Active' ? (
           <View>
             <Text
               style={{
@@ -214,7 +226,7 @@ const OrderCard = ({ order, navigation }) => {
               />
             </View>
           </View>
-        ) : null}
+        ) : null} */}
       </View>
     </View>
   );
