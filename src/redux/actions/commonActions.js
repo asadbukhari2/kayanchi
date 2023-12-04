@@ -428,6 +428,24 @@ export const cancelOrder = async (data, back, token) => {
     });
   }
 };
+export const rejectOrder = async (id, token) => {
+  try {
+    let res = await Fetch.put(`/api/orders/reject/${id}`, token);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+    } else {
+      showMessage({
+        message: await res.json(),
+        type: 'danger',
+      });
+    }
+  } catch (error) {
+    showMessage({
+      message: 'Something went wrong',
+      type: 'danger',
+    });
+  }
+};
 
 export const getFeedbackCategory = token => async dispatch => {
   try {

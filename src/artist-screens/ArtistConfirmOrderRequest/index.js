@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { SafeAreaView, ScrollView, Text, View, Image, StyleSheet, Switch, TouchableOpacity } from 'react-native';
+import { SafeAreaView, ScrollView, Text, View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { Header } from '../../components';
-import { heightToDp, widthToDp, width } from '../../utils/Dimensions';
+import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { fonts, useTheme } from '../../utils/theme';
-import hostborwn from '../../assets/hostborwn.png';
+
 import ToggleSwitch from 'toggle-switch-react-native';
 
+const host_green = require('../../assets/host_green.png');
+const car_brown = require('../../assets/car_brown.png');
 import location from '../../assets/location.png';
 import CircularProgressBar from '../../components/CircularProgressBar';
 import MultiButton from '../../components/MultiButton';
@@ -27,6 +29,9 @@ export default function ArtistConfirmOrderRequest(props) {
   const [isPrivate, setIsPrivate] = useState(false);
   const [selectedTime, setSelectedTime] = useState(null);
 
+  const order = props.route.params;
+
+  console.log(order);
   const CancelHandler = () => {
     props.navigation.navigate('ArtistOrderStack', {
       screen: 'ArtistCancelledTimeline',
@@ -48,6 +53,7 @@ export default function ArtistConfirmOrderRequest(props) {
   };
 
   const getTimeStyles = time => {
+    console.log(time, selectedTime);
     if (time === selectedTime) {
       return {
         color: 'white',
@@ -58,6 +64,11 @@ export default function ArtistConfirmOrderRequest(props) {
       backgroundColor: '#E6E6E6',
       color: '#67718C',
     };
+  };
+
+  const handleAcceptOrder = () => {
+    const data = { free_travel: isPrivate, timeToReach: selectedTime };
+    console.log(data);
   };
 
   return (
@@ -92,32 +103,36 @@ export default function ArtistConfirmOrderRequest(props) {
           </MapView>
         </View>
         <View style={styles.headingContainer}>
-          <Text style={styles.heading}>Amjad Ali</Text>
+          <Text style={styles.heading}>{order.order.consumer.name}</Text>
           <View>
             <AntDesign name={'star'} style={styles.starIcon} />
           </View>
-          <Text style={styles.subheading}>4.6</Text>
-          <Text style={styles.subheading2}>{'(13)'}</Text>
+          <Text style={styles.subheading}>{order.consumer_rating}</Text>
+          <Text style={styles.subheading2}>{`(${order.rating_count})`}</Text>
         </View>
 
         <View style={styles.locationContainer}>
-          <View>
+          {order.order.is_hosting && (
             <Text style={{ color: '#1583D8', fontFamily: fonts.robo_reg }}>
               3.5kms <Text style={{ color: '#67718C' }}>away from you</Text>
             </Text>
-            <Text
-              style={{
-                color: '#84668C',
-                fontFamily: fonts.robo_bold,
-                marginVertical: 3,
-              }}>
-              Wants to HOST at his location
-            </Text>
+          )}
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            {order.order.is_hosting ? (
+              <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>wants to HOST at his location</Text>
+            ) : (
+              <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>wants to TRAVEL to you</Text>
+            )}
+
+            {order.order.order_availibity_status === 'On-Demand' ? (
+              <Image source={car_brown} style={styles.images} />
+            ) : (
+              <Image source={host_green} style={styles.images} />
+            )}
           </View>
-          <Image source={hostborwn} style={styles.images} />
         </View>
         <View>
-          <Text style={styles.hosting}>HOSTING AT</Text>
+          <Text style={styles.hosting}> {order.order.is_hosting ? 'HOSTING AT:' : 'TRVELLING TO:'}</Text>
         </View>
         <View style={styles.userLocation}>
           <Image source={location} style={styles.imagesLoc} />
@@ -132,22 +147,24 @@ export default function ArtistConfirmOrderRequest(props) {
         </View>
         <View style={styles.circularbar}>
           <View>
-            <Text style={{ color: '#67718C', fontSize: 14 }}>Today</Text>
-            <Text style={{ color: '#67718C', fontSize: 14 }}>7:30 - 8:30</Text>
+            <Text style={{ color: '#67718C', fontSize: 14 }}>{order.order.booking_slot.day}</Text>
+            <Text style={{ color: '#67718C', fontSize: 14 }}>
+              {order.order.booking_slot.start_time}-{order.order.booking_slot.end_time}
+            </Text>
           </View>
-          <CircularProgressBar
+          {/* <CircularProgressBar
             progress={70}
             radius={40}
             strokeWidth={3}
             color="#84668C"
             textStyle={{ fontSize: 20, fill: '#29AAE2' }}
-          />
+          /> */}
         </View>
 
         <View style={styles.timeContainer}>
           <View>
             <Text style={{ fontSize: 12, color: '#67718C' }}>Travel Cost</Text>
-            <Text style={{ color: '#84668C', fontWeight: '400' }}>Rs 1000</Text>
+            <Text style={{ color: '#84668C', fontWeight: '400' }}>Rs {order.order.travel_cost}</Text>
           </View>
           <Text style={{ color: theme.greyText }}>Offer free travel</Text>
           <View style={{ flexDirection: 'row', marginTop: 15 }}>
@@ -166,52 +183,48 @@ export default function ArtistConfirmOrderRequest(props) {
         </View>
 
         <View style={styles.orderContainer}>
-          <View>
+          {order.order.order_items.map(_ => (
             <Text
+              key={_.service_name}
               style={{
                 color: '#2F3A58',
                 fontSize: 20,
                 fontFamily: fonts.hk_bold,
               }}>
-              2x Haircut
+              {_.quantity}x {_.service_name}
             </Text>
-            <Text
-              style={{
-                color: '#2F3A58',
-                fontSize: 20,
-                fontFamily: fonts.hk_bold,
-              }}>
-              3x Haircolor
-            </Text>
-          </View>
+          ))}
+
           <View style={{ marginRight: 10 }}>
-            <Text style={{ color: '#1583D8', fontSize: 12 }}>Total amount inc val</Text>
-            <Text style={{ color: '#84668C', fontSize: 24 }}>RS 5699</Text>
+            <Text style={{ color: '#1583D8', fontSize: 12 }}>Total amount inc vat</Text>
+            <Text style={{ color: '#84668C', fontSize: 24 }}>RS {order.order.total_service_charges}</Text>
           </View>
         </View>
 
         <View style={styles.timeContainer2}>
           <Text style={styles.timereach}>Time to reach</Text>
-          <TouchableOpacity onPress={() => handleTimePress('20m')} style={[styles.time, getTimeStyles('20m')]}>
-            <Text style={{ color: getTimeStyles('20m').color }}>20m</Text>
+          <TouchableOpacity onPress={() => handleTimePress('20')} style={[styles.time, getTimeStyles('20')]}>
+            <Text style={{ color: getTimeStyles('20').color }}>20m</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleTimePress('40m')} style={[styles.time, getTimeStyles('40m')]}>
-            <Text style={{ color: getTimeStyles('40m').color }}>40m</Text>
+          <TouchableOpacity onPress={() => handleTimePress('40')} style={[styles.time, getTimeStyles('40')]}>
+            <Text style={{ color: getTimeStyles('40').color }}>40m</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleTimePress('60m')} style={[styles.time, getTimeStyles('60m')]}>
-            <Text style={{ color: getTimeStyles('60m').color }}>60m</Text>
+          <TouchableOpacity onPress={() => handleTimePress('60')} style={[styles.time, getTimeStyles('60')]}>
+            <Text style={{ color: getTimeStyles('60').color }}>60m</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.bookingNotes}>
           <Text style={{ color: '#67718C', fontFamily: fonts.hk_bold }}>BOOKING NOTES:</Text>
-          <Text style={{ color: '#67718C', fontFamily: fonts.robo_reg }}>
-            Please don’t ring the bell and hygiene is very important!!!
-          </Text>
+          <Text style={{ color: '#67718C', fontFamily: fonts.robo_reg }}>{order.order.booking_notes}</Text>
         </View>
         <View style={styles.indicatorView}>
           <View style={styles.row}>
-            <MultiButton title={'Accept'} btnStyle={{ backgroundColor: '#67506D', height: heightToDp(10) }} />
+            <MultiButton
+              title={'Accept'}
+              btnStyle={{ backgroundColor: '#67506D', height: heightToDp(10) }}
+              onPress={handleAcceptOrder}
+            />
             <MultiButton
               title={'Cancel'}
               btnStyle={{ backgroundColor: '#9A9A9A', height: heightToDp(10) }}
@@ -277,6 +290,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: widthToDp(4),
     justifyContent: 'space-between',
+    marginTop: 10,
   },
   userLocation: {
     flexDirection: 'row',
@@ -288,6 +302,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-end',
     marginHorizontal: widthToDp(4),
+    marginTop: 15,
   },
   indicatorView: {
     marginHorizontal: widthToDp(5),
@@ -315,8 +330,7 @@ const styles = StyleSheet.create({
     marginHorizontal: widthToDp(4),
   },
   locationContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: 'column',
     marginHorizontal: widthToDp(4),
     justifyContent: 'space-between',
   },
@@ -343,5 +357,10 @@ const styles = StyleSheet.create({
   subheading2: {
     color: '#9A9A9A',
     fontSize: 13,
+  },
+  orderDetails: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 });

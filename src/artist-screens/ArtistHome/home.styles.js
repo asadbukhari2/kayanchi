@@ -181,6 +181,7 @@ const makeStyle = theme => {
     orderDetails: {
       flexDirection: 'row',
       justifyContent: 'space-between',
+      alignItems: 'center',
     },
     OrderImage: {
       height: 30,
@@ -225,10 +226,10 @@ const makeStyle = theme => {
       fontFamily: fonts.robo_med,
     },
     latestbutton: {
-      backgroundColor: '#a77246',
       padding: 5,
       color: 'white',
       fontSize: 12,
+      fontWeight: 'bold',
       textTransform: 'uppercase',
       paddingLeft: widthToDp(3),
       paddingRight: widthToDp(3),

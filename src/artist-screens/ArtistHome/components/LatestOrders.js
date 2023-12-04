@@ -5,6 +5,7 @@ import makeStyle from '../home.styles';
 import { useNavigation } from '@react-navigation/native';
 import { heightToDp, widthToDp } from '../../../utils/Dimensions';
 import { useSelector } from 'react-redux';
+import { rejectOrder } from '../../../redux/actions';
 
 const location = require('../../../assets/Path.png');
 const information = require('../../../assets/information.png');
@@ -16,6 +17,7 @@ const LatestOrders = () => {
   const theme = useTheme();
   const styles = makeStyle(theme);
   const navigation = useNavigation();
+
   const { waiting } = useSelector(state => state.common);
 
   const latest = [...waiting.Booking, ...waiting['On-Demand']];
@@ -23,6 +25,10 @@ const LatestOrders = () => {
   const handleOrder = () => {
     navigation.navigate('ArtistOrder', { screen: 'ArtistOrders' });
   };
+  const handleRejectOrder = id => {
+    // rejectOrder(id);
+  };
+
   return (
     <View style={styles.latestOrder}>
       <View
@@ -70,12 +76,12 @@ const LatestOrders = () => {
                   {order.item.order.order_availibity_status === 'On-Demand' ? (
                     <View style={styles.orderDetails}>
                       <Image source={car_brown} style={styles.OrderImage} />
-                      <Text style={styles.latestbutton}>On-Demand</Text>
+                      <Text style={[styles.latestbutton, { backgroundColor: theme.brown }]}>On-Demand</Text>
                     </View>
                   ) : (
                     <View style={styles.orderDetails}>
                       <Image source={host_green} style={styles.OrderImage} />
-                      <Text style={styles.latestbutton}>Booking</Text>
+                      <Text style={[styles.latestbutton, { backgroundColor: theme.seaGreen }]}>Booking</Text>
                     </View>
                   )}
 
@@ -132,31 +138,66 @@ const LatestOrders = () => {
                       }
                       return null;
                     })}
-                    <Text
-                      style={[
-                        {
-                          color: '#0F2851',
-                          textTransform: 'uppercase',
-                          marginTop: 5,
-                          marginBottom: 3,
-                          fontFamily: fonts.robo_med,
-                        },
-                      ]}>
-                      Travelling to:
-                    </Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                      <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
-                      {/* <Text style={{ color: '#32aee3', marginLeft: 5 }}>{order.item.salonAddress}</Text> */}
-                    </View>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        paddingBottom: 10,
-                      }}>
-                      <Text style={[{ color: '#0F2851', fontFamily: fonts.robo_reg }]}>Arriving in: </Text>
-                      <Text style={{ color: theme.primary, fontSize: 12 }}>{order.item.order.time_to_reach}</Text>
-                    </View>
+                    {order.item.order.order_availibity_status === 'On-Demand' ? (
+                      <>
+                        <Text
+                          style={[
+                            {
+                              color: '#0F2851',
+                              textTransform: 'uppercase',
+                              marginTop: 5,
+                              marginBottom: 3,
+                              fontFamily: fonts.robo_med,
+                            },
+                          ]}>
+                          Travelling to:
+                        </Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                          <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
+                          {/* <Text style={{ color: '#32aee3', marginLeft: 5 }}>{order.item.salonAddress}</Text> */}
+                        </View>
+                      </>
+                    ) : (
+                      <>
+                        <Text
+                          style={[
+                            {
+                              color: '#0F2851',
+                              textTransform: 'uppercase',
+                              marginTop: 5,
+                              marginBottom: 3,
+                              fontFamily: fonts.robo_med,
+                            },
+                          ]}>
+                          HOSTING AT:
+                        </Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                          <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
+                          {/* <Text style={{ color: '#32aee3', marginLeft: 5 }}>{order.item.salonAddress}</Text> */}
+                        </View>
+                      </>
+                    )}
+                    {order.item.order.order_availibity_status === 'On-Demand' ? (
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          paddingBottom: 10,
+                        }}>
+                        <Text style={[{ color: '#0F2851', fontFamily: fonts.robo_reg }]}>Arriving in: </Text>
+                        <Text style={{ color: theme.primary, fontSize: 12 }}>{order.item.order.time_to_reach}</Text>
+                      </View>
+                    ) : (
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          paddingBottom: 10,
+                        }}>
+                        <Text style={[{ color: '#0F2851', fontFamily: fonts.robo_reg }]}>Due in: </Text>
+                        <Text style={{ color: theme.primary, fontSize: 12 }}>{order.item.order.time_to_reach}</Text>
+                      </View>
+                    )}
                   </View>
                 </View>
               </View>
@@ -169,15 +210,20 @@ const LatestOrders = () => {
                     width: '50%',
                     top: -10,
                   }}
-                  onPress={() =>
+                  onPress={() => {
+                    // navigation.navigate('ArtistOrderStack', {
+                    //   screen: 'ArtistTimeline',
+                    //   params: { id: order.item.order.id, order: order.item.order },
+                    // });
                     navigation.navigate('ArtistOrderStack', {
-                      screen: 'ArtistTimeline',
-                      params: { id: order.item.order.id, order: order.item.order },
-                    })
-                  }>
+                      screen: 'ArtistConfirmOrderRequest',
+                      params: order.item,
+                    });
+                  }}>
                   <Text style={[styles.buttonText]}>View</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
+                  onPress={() => handleRejectOrder(order.item.order.id)}
                   style={{
                     backgroundColor: '#FFFFFF',
                     borderBottomRightRadius: 10,

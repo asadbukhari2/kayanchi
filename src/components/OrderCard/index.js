@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { useTheme, fonts } from '../../utils/theme';
 const location = require('../../assets/Path.png');
 import MultiButton from '../MultiButton';
-import Button from '../Button';
+
 const host_green = require('../../assets/host_green.png');
 const car_brown = require('../../assets/car_brown.png');
 
 const theme = useTheme();
 
 const OrderCard = ({ order, navigation }) => {
-  const activeOrderHandler = () => {
+  const activeOrderHandler = data => {
     console.log('clicked', navigation);
     navigation.navigate('ArtistOrderStack', {
       screen: 'ArtistConfirmOrderRequest',
+      params: order,
     });
   };
   const ViewTimelineHandler = () => {
@@ -38,195 +39,191 @@ const OrderCard = ({ order, navigation }) => {
     });
   };
   return (
-    <View>
-      <View style={styles.orderContainer}>
-        <View
-          style={{
-            paddingHorizontal: widthToDp(3),
-            paddingBottom: 5,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}>
+    <View style={styles.orderContainer}>
+      <View
+        style={{
+          paddingBottom: 5,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}>
+        <View>
+          <Text style={styles.headingName}>{order.order.consumer.name}</Text>
+
+          <Text style={[styles.textBold, { marginVertical: 3 }]}>SERVICES:</Text>
+          {order.order.order_items.map((service, serviceIndex) => {
+            const maxServicesToShow = 2;
+
+            if (serviceIndex < maxServicesToShow) {
+              return (
+                <Text key={serviceIndex} style={{ color: theme.linkTxt, fontFamily: fonts.robo_reg }}>
+                  {service.quantity}X {service.service_name}
+                </Text>
+              );
+            } else if (serviceIndex === maxServicesToShow) {
+              const remainingServices = order.services.length - maxServicesToShow;
+              return (
+                <TouchableOpacity
+                  key={serviceIndex}
+                  onPress={() => {
+                    console.log('Touchable link pressed!');
+                  }}>
+                  <Text
+                    style={{
+                      color: '#32aee3',
+                      fontSize: 12,
+                    }}>{`${remainingServices} more service(s)`}</Text>
+                </TouchableOpacity>
+              );
+            }
+            return null;
+          })}
+          <Text
+            style={{
+              color: '#67506D',
+              fontSize: 18,
+              fontFamily: fonts.hk_bold,
+              marginTop: 4,
+            }}>
+            Rs {order.order.total_service_charges}
+          </Text>
+        </View>
+
+        {order.order.order_status !== 'Cancelled' && (
           <View>
-            <View>
-              <Text style={styles.headingName}>{order.order.consumer.name}</Text>
-
-              <Text style={[styles.textBold, { marginVertical: 3 }]}>SERVICES:</Text>
-              {order.order.order_items.map((service, serviceIndex) => {
-                const maxServicesToShow = 2;
-
-                if (serviceIndex < maxServicesToShow) {
-                  return (
-                    <Text key={serviceIndex} style={{ color: theme.linkTxt, fontFamily: fonts.robo_reg }}>
-                      {service.quantity}X {service.service_name}
-                    </Text>
-                  );
-                } else if (serviceIndex === maxServicesToShow) {
-                  const remainingServices = order.services.length - maxServicesToShow;
-                  return (
-                    <TouchableOpacity
-                      key={serviceIndex}
-                      onPress={() => {
-                        console.log('Touchable link pressed!');
-                      }}>
-                      <Text
-                        style={{
-                          color: '#32aee3',
-                          fontSize: 12,
-                        }}>{`${remainingServices} more service(s)`}</Text>
-                    </TouchableOpacity>
-                  );
-                }
-                return null;
-              })}
+            {order.order.is_hosting ? (
+              <View style={styles.orderDetails}>
+                <Text style={{ color: '#0F2851' }}>wants to</Text>
+                <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>HOST</Text>
+                {order.order.order_availibity_status === 'On-Demand' ? (
+                  <Image source={car_brown} style={styles.OrderImage} />
+                ) : (
+                  <Image source={host_green} style={styles.OrderImage} />
+                )}
+              </View>
+            ) : (
+              <View style={styles.orderDetails}>
+                <Text style={{ color: '#0F2851' }}>wants to</Text>
+                <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>TRAVEL</Text>
+                {order.order.order_availibity_status === 'On-Demand' ? (
+                  <Image source={car_brown} style={styles.OrderImage} />
+                ) : (
+                  <Image source={host_green} style={styles.OrderImage} />
+                )}
+              </View>
+            )}
+            {order.order.is_hosting && (
+              <Text style={{ color: '#29AAE2', fontFamily: fonts.robo_reg }}>
+                {order.distance} kms <Text style={{ color: '#0F2851' }}>away for you </Text>{' '}
+              </Text>
+            )}
+            <Text style={[styles.textBold, { marginTop: 5 }]}>
+              {order.order.is_hosting ? 'HOSTING AT:' : 'TRVELLING TO:'}
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'space-between',
+                marginTop: 5,
+              }}>
+              <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
               <Text
                 style={{
-                  color: '#67506D',
-                  fontSize: 18,
-                  fontFamily: fonts.hk_bold,
-                  marginTop: 4,
+                  color: '#32aee3',
+                  fontSize: 14,
+                  fontFamily: fonts.robo_reg,
                 }}>
-                Rs {order.order.total_service_charges}
+                {order.default_artist_address.text}
               </Text>
             </View>
-          </View>
-          {order.order.order_status !== 'Cancelled' && (
-            <View style={{ marginLeft: 30 }}>
-              {order.order.is_hosting ? (
-                <View style={styles.orderDetails}>
-                  <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>Is HOSTING</Text>
-                  {order.order.order_availibity_status === 'On-Demand' ? (
-                    <Image source={car_brown} style={styles.OrderImage} />
-                  ) : (
-                    <Image source={host_green} style={styles.OrderImage} />
-                  )}
-                </View>
-              ) : (
-                <View style={styles.orderDetails}>
-                  <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>Is TRVELLING</Text>
-                  {order.order.order_availibity_status === 'On-Demand' ? (
-                    <Image source={car_brown} style={styles.OrderImage} />
-                  ) : (
-                    <Image source={host_green} style={styles.OrderImage} />
-                  )}
-                </View>
-              )}
-              <Text style={{ color: '#29AAE2', fontFamily: fonts.robo_reg }}>
-                3.5 kms <Text style={{ color: '#0F2851' }}>away for you </Text>{' '}
-              </Text>
-              <Text style={[styles.textBold, { marginTop: 5 }]}>
-                {order.order.is_hosting ? 'HOSTING AT:' : 'TRVELLING TO:'}
-              </Text>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  marginTop: 5,
-                }}>
-                <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
-                {/* <Text
-                  style={{
-                    color: '#32aee3',
-                    fontSize: 14,
-                    fontFamily: fonts.robo_reg,
-                  }}>
-                  {order.salonAddress}
-                </Text> */}
-              </View>
-            </View>
-          )}
-          {/* <View>
-            {order.statusOrder === 'Cancelled' && (
-              <>
-                <View style={styles.orderDetails}>
-                  <View>
-                    <Text style={[styles.textBold, { marginBottom: 5 }]}>Hosting at:</Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                      <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
-                      <Text style={{ color: '#32aee3' }}>{order.salonAddress}</Text>
-                    </View>
-                  </View>
-                  <Image source={order.imageLink} style={styles.OrderImage} resizeMode="contain" />
-                </View>
 
-                <Text style={styles.orderStatus}>{order.status}</Text>
+            {order.order.order_status === 'Active' ? (
+              <View>
                 <Text
-                  style={[
-                    styles.subheading,
-                    { overflow: 'hidden' }, // Set the height and overflow
-                  ]}>
-                  {order.cancelReason}{' '}
+                  style={{
+                    position: 'absolute',
+                    right: 15,
+                    fontSize: 14,
+                    borderRadius: 30,
+                    bottom: -10,
+                    textTransform: 'uppercase',
+                    fontFamily: fonts.robo_bold,
+                    paddingVertical: 5,
+                    paddingHorizontal: 8,
+                    backgroundColor: '#84668C',
+                    color: 'white',
+                  }}>
+                  Active
                 </Text>
-              </>
-            )}
-          </View> */}
-        </View>
-        {/* {order.statusOrder === 'Active' ? (
-          <View>
-            <Text
-              style={{
-                position: 'absolute',
-                right: 15,
-                fontSize: 14,
-                borderRadius: 30,
-                bottom: -10,
-                textTransform: 'uppercase',
-                fontFamily: fonts.robo_bold,
-                paddingVertical: 5,
-                paddingHorizontal: 8,
-                backgroundColor: '#84668C',
-                color: 'white',
-              }}>
-              Active
-            </Text>
+              </View>
+            ) : order.order.order_status === 'Waiting' ? (
+              <View style={styles.indicatorView}>
+                <View style={styles.row}>
+                  <MultiButton
+                    title="View"
+                    btnStyle={{
+                      backgroundColor: '#67506D',
+                      fontSize: 14,
+                      height: heightToDp(10.5),
+                    }}
+                    onPress={activeOrderHandler}
+                  />
+                  <MultiButton
+                    title="Cancel"
+                    btnStyle={{
+                      backgroundColor: '#EEEEEF',
+                      fontSize: 14,
+                      height: heightToDp(10.5),
+                    }}
+                    titleStyle={{ color: '#67506D' }}
+                    onPress={CancelHandler}
+                  />
+                </View>
+              </View>
+            ) : order.order.order_status === 'Completed' ? (
+              <View style={styles.indicatorView}>
+                <View style={styles.row}>
+                  <MultiButton
+                    title="View Timeline"
+                    btnStyle={{
+                      backgroundColor: '#67506D',
+                      height: heightToDp(10.5),
+                    }}
+                    onPress={TimelineHandler}
+                  />
+                  <MultiButton
+                    title="Rate"
+                    btnStyle={{
+                      backgroundColor: '#eee',
+                      height: heightToDp(10.5),
+                    }}
+                    titleStyle={{ fontFamily: fonts.hk_medium, color: theme.dark }}
+                    onPress={GroomingDoneHandler}
+                  />
+                </View>
+              </View>
+            ) : null}
           </View>
-        ) : order.statusOrder === 'New' ? (
-          <View style={styles.indicatorView}>
-            <View style={styles.row}>
-              <MultiButton
-                title={'View'}
-                btnStyle={{
-                  backgroundColor: '#67506D',
-                  fontSize: 14,
-                  height: heightToDp(10.5),
-                }}
-                onPress={activeOrderHandler}
-              />
-              <MultiButton
-                title={'Cancel'}
-                btnStyle={{
-                  backgroundColor: '#EEEEEF',
-                  fontSize: 14,
-                  height: heightToDp(10.5),
-                }}
-                titleStyle={{ color: '#67506D' }}
-                onPress={CancelHandler}
-              />
+        )}
+
+        {order.order.order_status === 'Cancelled' && (
+          <>
+            <View style={styles.orderDetails}>
+              <View>
+                <Text style={[styles.textBold, { marginTop: 5 }]}>
+                  {order.order.is_hosting ? 'HOSTING AT:' : 'TRVELLING TO:'}
+                </Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
+                  <Text style={{ color: '#32aee3' }}>{order.default_artist_address.text}</Text>
+                </View>
+              </View>
+              <Image source={order.imageLink} style={styles.OrderImage} resizeMode="contain" />
             </View>
-          </View>
-        ) : order.statusOrder === 'Completed' ? (
-          <View style={styles.indicatorView}>
-            <View style={styles.row}>
-              <MultiButton
-                title={'View Timeline'}
-                btnStyle={{
-                  backgroundColor: '#67506D',
-                  height: heightToDp(10.5),
-                }}
-                onPress={TimelineHandler}
-              />
-              <MultiButton
-                title={'Rate'}
-                btnStyle={{
-                  backgroundColor: '#eee',
-                  height: heightToDp(10.5),
-                }}
-                titleStyle={{ fontFamily: fonts.hk_medium, color: theme.dark }}
-                onPress={GroomingDoneHandler}
-              />
-            </View>
-          </View>
-        ) : null} */}
+
+            <Text style={styles.orderStatus}>{order.order.order_status}</Text>
+            <Text style={[styles.subheading, { overflow: 'hidden' }]}>{order.cancelReason} </Text>
+          </>
+        )}
       </View>
     </View>
   );
@@ -303,7 +300,6 @@ const styles = StyleSheet.create({
     width: width * 0.91,
     marginHorizontal: widthToDp(5),
     marginBottom: 20,
-    // width: (width * 0.91) / 2,
     paddingVertical: heightToDp(5),
     paddingHorizontal: widthToDp(1),
     borderRadius: 10,
@@ -311,6 +307,7 @@ const styles = StyleSheet.create({
   orderDetails: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
   OrderImage: {
     height: 30,
@@ -327,17 +324,15 @@ const styles = StyleSheet.create({
     paddingRight: widthToDp(3),
     borderRadius: 50,
   },
-  indicatorView: { marginHorizontal: 4, marginTop: heightToDp(3) },
+  indicatorView: { marginHorizontal: 4, marginTop: heightToDp(3), width: '100%', backgroundColor: 'red' },
   row: { flexDirection: 'row', alignItems: 'center' },
 
   headingName: {
     fontSize: 20,
     color: '#0F2851',
     fontFamily: fonts.hk_bold,
-    // fontWeight: 'bold',
   },
   textBold: {
-    // fontWeight: 'bold',
     color: '#0F2851',
     fontFamily: fonts.robo_med,
   },

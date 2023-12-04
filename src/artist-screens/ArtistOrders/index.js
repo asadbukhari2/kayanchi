@@ -10,8 +10,6 @@ import { useTheme, fonts } from '../../utils/theme';
 import OrderCard from '../../components/OrderCard';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-const carBrown = require('../../assets/car_brown.png');
-const host_green = require('../../assets/host_green.png');
 
 const theme = useTheme();
 
@@ -22,7 +20,7 @@ const filters = [
 
 const ArtistOrders = () => {
   const [filter, setFilter] = useState('Booking');
-  const [activeTab, setActiveTab] = useState('New');
+  const [activeTab, setActiveTab] = useState('new');
   const [newOrders, setNewOrders] = useState([]);
   const [cancelledOrders, setCancelledOrders] = useState([]);
   const [activeOrders, setActiveOrders] = useState([]);
@@ -46,13 +44,13 @@ const ArtistOrders = () => {
       setCancelledOrders(cancelled);
       setNewOrders(waiting);
 
-      if (activeTab === 'New') {
-        setDisplayedOrders(newOrders);
-      } else if (activeTab === 'Completed') {
-        setDisplayedOrders(inprogress);
-      } else if (activeTab === 'New') {
+      if (activeTab === 'new') {
+        setDisplayedOrders(waiting);
+      } else if (activeTab === 'completed') {
         setDisplayedOrders(completed);
-      } else if (activeTab === 'Cancelled') {
+      } else if (activeTab === 'active') {
+        setDisplayedOrders(activeOrders);
+      } else if (activeTab === 'cancelled') {
         setDisplayedOrders(cancelled);
       }
     }
@@ -64,13 +62,13 @@ const ArtistOrders = () => {
 
   const handleTabChange = tab => {
     setActiveTab(tab);
-    if (tab === 'Active') {
+    if (tab === 'active') {
       setDisplayedOrders(activeOrders);
-    } else if (tab === 'Completed') {
+    } else if (tab === 'completed') {
       setDisplayedOrders(completedOrders);
-    } else if (tab === 'Cancelled') {
+    } else if (tab === 'cancelled') {
       setDisplayedOrders(cancelledOrders);
-    } else if (tab === 'New') {
+    } else if (tab === 'new') {
       setDisplayedOrders(newOrders);
     } else {
       setDisplayedOrders([]);
@@ -80,6 +78,8 @@ const ArtistOrders = () => {
   const handleFilterPress = e => {
     setFilter(e.value);
   };
+
+  console.log(displayedOrders);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -101,17 +101,17 @@ const ArtistOrders = () => {
         </View>
 
         <View style={styles.btnContainer2}>
-          <TouchableOpacity onPress={() => handleTabChange('New')}>
-            <Text style={[styles.tabText, activeTab === 'New' && styles.activeTab]}>New</Text>
+          <TouchableOpacity onPress={() => handleTabChange('new')}>
+            <Text style={[styles.tabText, activeTab === 'new' && styles.activeTab]}>New</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleTabChange('Active')}>
-            <Text style={[styles.tabText, activeTab === 'Active' && styles.activeTab]}>Active</Text>
+          <TouchableOpacity onPress={() => handleTabChange('active')}>
+            <Text style={[styles.tabText, activeTab === 'active' && styles.activeTab]}>Active</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleTabChange('Completed')}>
-            <Text style={[styles.tabText, activeTab === 'Completed' && styles.activeTab]}>Completed</Text>
+          <TouchableOpacity onPress={() => handleTabChange('completed')}>
+            <Text style={[styles.tabText, activeTab === 'completed' && styles.activeTab]}>Completed</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleTabChange('Cancelled')}>
-            <Text style={[styles.tabText, activeTab === 'Cancelled' && styles.activeTab]}>Cancelled</Text>
+          <TouchableOpacity onPress={() => handleTabChange('cancelled')}>
+            <Text style={[styles.tabText, activeTab === 'cancelled' && styles.activeTab]}>Cancelled</Text>
           </TouchableOpacity>
         </View>
 
@@ -119,6 +119,7 @@ const ArtistOrders = () => {
           {filters.map(_ => {
             return (
               <TouchableOpacity
+                key={_.label}
                 onPress={() => {
                   handleFilterPress(_);
                 }}>
@@ -182,7 +183,7 @@ const styles = StyleSheet.create({
   activeTab: {
     backgroundColor: theme.primary,
     color: 'white',
-    fontWeight: fonts.robo_bold,
+    fontWeight: 'bold',
     paddingVertical: 10,
   },
   button: {
