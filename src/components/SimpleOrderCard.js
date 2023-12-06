@@ -8,15 +8,10 @@ const host_green = require('../assets/host_green.png');
 const car_brown = require('../assets/car_brown.png');
 const location = require('../assets/Path.png');
 
-const SimpleOrderCard = ({ order, onPress = () => {}, type }) => {
+const SimpleOrderCard = ({ order, onPress = () => {}, type, section }) => {
   return (
     <View style={styles.orderContainer}>
       <TouchableOpacity onPress={onPress}>
-        {order.order.order_availibity_status === 'On-Demand' ? (
-          <Image source={car_brown} style={styles.OrderImage} />
-        ) : (
-          <Image source={host_green} style={styles.OrderImage} />
-        )}
         <View style={styles.container}>
           <View>
             <Text style={styles.headingName}>{order?.order?.consumer?.name}</Text>
@@ -56,25 +51,16 @@ const SimpleOrderCard = ({ order, onPress = () => {}, type }) => {
 
           {type !== 'cancelled' ? (
             <View>
-              {order.order.is_hosting ? (
-                <View style={styles.orderDetails}>
-                  <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>Is HOSTING</Text>
-                  {order.order.order_availibity_status === 'On-Demand' ? (
-                    <Image source={car_brown} style={styles.OrderImage} />
-                  ) : (
-                    <Image source={host_green} style={styles.OrderImage} />
-                  )}
-                </View>
-              ) : (
-                <View style={styles.orderDetails}>
-                  <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>Is TRVELLING</Text>
-                  {order.order.order_availibity_status === 'On-Demand' ? (
-                    <Image source={car_brown} style={styles.OrderImage} />
-                  ) : (
-                    <Image source={host_green} style={styles.OrderImage} />
-                  )}
-                </View>
-              )}
+              <View style={styles.orderDetails}>
+                <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>
+                  {order.order.is_hosting ? 'Is HOSTING' : 'Is TRAVELLING'}
+                </Text>
+                {order.order.order_availibity_status === 'On-Demand' ? (
+                  <Image source={car_brown} style={styles.OrderImage} />
+                ) : (
+                  <Image source={host_green} style={styles.OrderImage} />
+                )}
+              </View>
 
               <Text style={{ color: '#29AAE2' }}>
                 3.5 kms <Text style={{ color: '#0F2851' }}>away for you </Text>
@@ -89,15 +75,12 @@ const SimpleOrderCard = ({ order, onPress = () => {}, type }) => {
             </View>
           ) : (
             <View>
-              <View style={styles.orderDetails}>
-                {order.order.order_availibity_status === 'On-Demand' ? (
-                  <Image source={car_brown} style={styles.OrderImage} />
-                ) : (
-                  <Image source={host_green} style={styles.OrderImage} />
-                )}
-              </View>
-
-              <Text style={[styles.textBold, { textTransform: 'uppercase', marginTop: 5, marginBottom: 3 }]}>
+              {order.order.order_availibity_status === 'On-Demand' ? (
+                <Image source={car_brown} style={styles.OrderImage} />
+              ) : (
+                <Image source={host_green} style={styles.OrderImage} />
+              )}
+              <Text style={[styles.textBold, { textTransform: 'uppercase', marginRight: 10 }]}>
                 {order.order.is_hosting ? 'HOSTING AT:' : 'TRVELLING TO:'}
               </Text>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -113,7 +96,7 @@ const SimpleOrderCard = ({ order, onPress = () => {}, type }) => {
                   paddingHorizontal: 10,
                   width: widthToDp(30),
                   textAlign: 'center',
-                  marginTop: heightToDp(12),
+                  marginTop: heightToDp(2),
                   fontFamily: fonts.sans_bold,
                 }}>
                 Cancelled
@@ -122,6 +105,7 @@ const SimpleOrderCard = ({ order, onPress = () => {}, type }) => {
           )}
         </View>
       </TouchableOpacity>
+      {section && section}
     </View>
   );
 };
@@ -138,6 +122,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: widthToDp(1),
     borderRadius: 10,
   },
+
   container: {
     paddingHorizontal: widthToDp(3),
     paddingBottom: 5,
@@ -150,9 +135,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   OrderImage: {
-    height: 25,
-    width: 25,
+    height: 30,
+    width: 30,
+    marginBottom: 5,
     resizeMode: 'contain',
+    alignSelf: 'flex-end',
   },
 
   headingName: {

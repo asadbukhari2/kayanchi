@@ -7,9 +7,11 @@ import { Header } from '../../components';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { useTheme, fonts } from '../../utils/theme';
 
-import OrderCard from '../../components/OrderCard';
+// import OrderCard from '../../components/OrderCard';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
+// import SimpleOrderCard from '../../components/SimpleOrderCard';
+import ListingCardButton from '../../components/ListingCardButton';
 
 const theme = useTheme();
 
@@ -143,8 +145,11 @@ const ArtistOrders = () => {
           })}
         </View>
         <View>
-          {displayedOrders[filter]?.map((order, index) => (
+          {/* {displayedOrders[filter]?.map((order, index) => (
             <OrderCard key={index} order={order} navigation={navigation} />
+          ))} */}
+          {displayedOrders[filter]?.map((order, index) => (
+            <ListingCardButton key={index} order={order} navigation={navigation} />
           ))}
         </View>
       </ScrollView>

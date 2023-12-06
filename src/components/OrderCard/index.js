@@ -1,3 +1,4 @@
+// !TODO remove this file
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
