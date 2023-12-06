@@ -10,9 +10,11 @@ import ToggleSwitch from 'toggle-switch-react-native';
 const host_green = require('../../assets/host_green.png');
 const car_brown = require('../../assets/car_brown.png');
 import location from '../../assets/location.png';
-import CircularProgressBar from '../../components/CircularProgressBar';
+// import CircularProgressBar from '../../components/CircularProgressBar';
 import MultiButton from '../../components/MultiButton';
 import MapView from 'react-native-maps';
+// import { acceptOrder,rejectOrder } from '../../redux/actions';
+import { showMessage } from 'react-native-flash-message';
 
 const theme = useTheme();
 const DATA = [
@@ -31,11 +33,11 @@ export default function ArtistConfirmOrderRequest(props) {
 
   const order = props.route.params;
 
-  console.log(order);
   const CancelHandler = () => {
     props.navigation.navigate('ArtistOrderStack', {
       screen: 'ArtistCancelledTimeline',
     });
+    // rejectOrder(order.order.id);
   };
   const map_style = [
     {
@@ -67,8 +69,19 @@ export default function ArtistConfirmOrderRequest(props) {
   };
 
   const handleAcceptOrder = () => {
-    const data = { free_travel: isPrivate, timeToReach: selectedTime };
-    console.log(data);
+    // const data = { free_travel: isPrivate, timeToReach: selectedTime };
+    // console.log(data);
+
+    if (!selectedTime) {
+      showMessage({ message: 'Data Must not be empty', type: 'warning' });
+    } else {
+      // acceptOrder(order.order.id, data)
+      //   .then(res => {
+      //     showMessage({ message: 'Order Accepted', type: 'success' });
+      //     console.log(res);
+      //   })
+      //   .catch(err => console.log(err));
+    }
   };
 
   return (
@@ -221,6 +234,7 @@ export default function ArtistConfirmOrderRequest(props) {
         <View style={styles.indicatorView}>
           <View style={styles.row}>
             <MultiButton
+              disable={!selectedTime}
               title={'Accept'}
               btnStyle={{ backgroundColor: '#67506D', height: heightToDp(10) }}
               onPress={handleAcceptOrder}

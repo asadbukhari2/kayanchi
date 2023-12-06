@@ -1,29 +1,18 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header } from '../../components';
 import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { fonts } from '../../utils/theme';
 import MultiButton from '../../components/MultiButton';
-const host_green = require('../../assets/host_green.png');
-const car_brown = require('../../assets/car_brown.png');
-const location = require('../../assets/Path.png');
+
 const contact = require('../../assets/contact.png');
 import VerticalStepIndicator from '../../components/VerticalStepIndicator';
 import MapView from 'react-native-maps';
-
-const data = [
-  {
-    title: 'Order request accept',
-    body: 'Today',
-    text: '7:30-8:30',
-  },
-  {
-    title: 'Reached',
-    body: 'Today',
-    text: '7:30-8:30',
-  },
-];
+import { getOrderTimeline } from '../../redux/actions';
+import SimpleOrderCard from '../../components/SimpleOrderCard';
+import RatingModal from '../../components/RatingModal';
+import { useSelector } from 'react-redux';
 
 const DATA = [
   {
@@ -36,16 +25,19 @@ const DATA = [
 ];
 
 const ArtistTimeline = props => {
+  const [loading, setLoading] = useState(true);
+  const [timeline, setTimeline] = useState(null);
+  const [selectedRating, setSelectedRating] = useState(null);
+
+  const order = props.route.params;
+  const { timlineType } = props.route.params;
+
+  console.log({ timlineType });
+
+  const { name } = useSelector(state => state.auth.user);
   const GroomingHandler = () => {
-    props.navigation.navigate('ArtistOrderStack', { screen: 'ArtistGrooming' });
+    props.navigation.navigate('ArtistOrderStack', { screen: 'ArtistGrooming', params: order });
   };
-  const CancelHandler = () => {
-    props.navigation.navigate('ArtistOrderStack', { screen: 'ArtistCancelledTimeline' });
-  };
-
-  const { order, id } = props.route.params;
-
-  console.log('yolo----', props.route.params);
 
   const map_style = [
     {
@@ -58,6 +50,20 @@ const ArtistTimeline = props => {
     },
   ];
 
+  const fetchTimeline = _ => {
+    getOrderTimeline(_)
+      .then(res => {
+        setTimeline(res.timeline);
+        setLoading(false);
+      })
+      .catch(err => console.log(err));
+  };
+
+  useEffect(() => {
+    fetchTimeline(order.order.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -69,156 +75,81 @@ const ArtistTimeline = props => {
             width: widthToDp(90),
           }}>
           <View style={{ marginLeft: 0 }}>
-            <Header
-              backBtn
-              title="help?"
-              titleStyle={{
-                position: 'absolute',
-                right: 0,
-                borderRadius: 20,
-                borderWidth: 1,
-                borderColor: '#84668C',
-                fontSize: 14,
-                color: '#84668C',
-                paddingVertical: 5,
-                paddingHorizontal: 15,
-              }}
-            />
+            <Header backBtn title="help?" titleStyle={styles.help} />
           </View>
         </View>
 
-        <View>
-          <Text style={styles.heading}>Timeline </Text>
-        </View>
+        <Text style={styles.heading}>Timeline</Text>
 
-        <View>
-          <View style={styles.orderContainer}>
-            <TouchableOpacity
-              onPress={() =>
-                props.navigation.navigate('ArtistProfileStack', {
-                  screen: 'ArtistWhyCancel',
-                })
-              }>
-              <View
-                style={{
-                  paddingHorizontal: widthToDp(3),
-                  paddingBottom: 5,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}>
-                <View>
-                  <View>
-                    <Text style={styles.headingName}>{order.consumer.name}</Text>
+        <SimpleOrderCard order={order} type={timlineType} />
 
-                    <Text style={[styles.textBold, { marginVertical: 5 }]}>SERVICES:</Text>
-                    {order.order_items.map((service, serviceIndex) => {
-                      const maxServicesToShow = 2;
-
-                      if (serviceIndex < maxServicesToShow) {
-                        return (
-                          <Text style={{ color: '#32aee3' }} key={serviceIndex}>
-                            {service.quantity}X {service.service_name}
-                          </Text>
-                        );
-                      } else if (serviceIndex === maxServicesToShow) {
-                        const remainingServices = order.order_items.length - maxServicesToShow;
-                        return (
-                          <TouchableOpacity
-                            key={serviceIndex}
-                            onPress={() => {
-                              console.log('Touchable link pressed!');
-                            }}>
-                            <Text
-                              style={{
-                                color: '#32aee3',
-                                fontSize: 12,
-                              }}>{`${remainingServices} more service(s)`}</Text>
-                          </TouchableOpacity>
-                        );
-                      }
-                      return null;
-                    })}
-                    <Text style={{ color: '#84668C', fontFamily: fonts.hk_bold, fontSize: 18 }}>
-                      Rs {order.total_service_charges}
-                    </Text>
-                  </View>
-                </View>
-
-                <View>
-                  {order.is_hosting ? (
-                    <View style={styles.orderDetails}>
-                      <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>Is HOSTING</Text>
-                      {order.order_availibity_status === 'On-Demand' ? (
-                        <Image source={car_brown} style={styles.OrderImage} />
-                      ) : (
-                        <Image source={host_green} style={styles.OrderImage} />
-                      )}
-                    </View>
-                  ) : (
-                    <View style={styles.orderDetails}>
-                      <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>Is TRVELLING</Text>
-                      {order.order_availibity_status === 'On-Demand' ? (
-                        <Image source={car_brown} style={styles.OrderImage} />
-                      ) : (
-                        <Image source={host_green} style={styles.OrderImage} />
-                      )}
-                    </View>
-                  )}
-
-                  <Text style={{ color: '#29AAE2' }}>
-                    3.5 kms <Text style={{ color: '#0F2851' }}>away for you </Text>
-                  </Text>
-                  <Text style={[styles.textBold, { textTransform: 'uppercase', marginTop: 5, marginBottom: 3 }]}>
-                    {order.is_hosting ? 'HOSTING AT:' : 'TRVELLING TO:'}
-                  </Text>
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
-                    {/* <Text style={{ color: '#32aee3' }}>{order.salonAddress}</Text> */}
-                  </View>
-                </View>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
         <View style={styles.separator} />
 
-        <VerticalStepIndicator data={data} />
-        <View>
-          <MapView
-            initialRegion={{
-              latitude: 24.8607,
-              longitude: 67.0011,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }}
-            style={{ height: heightToDp(50) }}
-            customMapStyle={map_style}>
-            {DATA.map((item, index) => {
-              return (
-                <MapView.Marker
-                  key={index}
-                  coordinate={{ latitude: item.lat, longitude: item.long }}
-                  title={item.title}
-                  description={item.description}
-                  image={item.img}>
-                  {/* <MapView.Callout
+        {loading ? <Text>Loading</Text> : <VerticalStepIndicator data={timeline} />}
+
+        {timlineType === 'active' && (
+          <>
+            <View>
+              <MapView
+                initialRegion={{
+                  latitude: 24.8607,
+                  longitude: 67.0011,
+                  latitudeDelta: 0.0922,
+                  longitudeDelta: 0.0421,
+                }}
+                style={{ height: heightToDp(50) }}
+                customMapStyle={map_style}>
+                {DATA.map((item, index) => {
+                  return (
+                    <MapView.Marker
+                      key={index}
+                      coordinate={{ latitude: item.lat, longitude: item.long }}
+                      title={item.title}
+                      description={item.description}
+                      image={item.img}>
+                      {/* <MapView.Callout
                     tooltip
                     onPress={() => setModalVisible(true)}
                   /> */}
-                </MapView.Marker>
-              );
-            })}
-          </MapView>
-        </View>
+                    </MapView.Marker>
+                  );
+                })}
+              </MapView>
+            </View>
+            <Text style={styles.textCenter}>You can start grooming once you’ve reached your client’s location.</Text>
 
-        <Text style={styles.textCenter}>You can start grooming once you’ve reached your client’s location.</Text>
-
-        <View style={styles.indicatorView}>
-          <View style={styles.row}>
-            <MultiButton title={'Start Grooming'} btnStyle={{ backgroundColor: '#84668C' }} onPress={GroomingHandler} />
-            <MultiButton title={'Contact client'} image={contact} btnStyle={{ backgroundColor: '#668C6A' }} />
-          </View>
-        </View>
+            <View style={styles.indicatorView}>
+              <View style={styles.row}>
+                <MultiButton
+                  title="Start Grooming"
+                  btnStyle={{ backgroundColor: '#84668C' }}
+                  onPress={GroomingHandler}
+                />
+                <MultiButton title="Contact client" image={contact} btnStyle={{ backgroundColor: '#668C6A' }} />
+              </View>
+            </View>
+          </>
+        )}
+        {timlineType === 'finished' && (
+          <>
+            <View style={styles.ratingModal}>
+              <View style={styles.separator} />
+              <Text style={{ color: '#67718C', fontFamily: fonts.robo_med }}>Artist hygiene & cleanliness</Text>
+              <RatingModal selectedRating={selectedRating} handleRating={setSelectedRating} />
+              <Text style={{ color: '#67718C', fontFamily: fonts.robo_med }}>Service as described</Text>
+              <RatingModal selectedRating={selectedRating} handleRating={setSelectedRating} />
+              <Text style={{ color: '#67718C', fontFamily: fonts.robo_med }}>Would recommend</Text>
+              <RatingModal selectedRating={selectedRating} handleRating={setSelectedRating} />
+              <View>
+                <Text style={styles.textRating}>
+                  We loved the service {name} provided, it was an absolute delight to see how clean and professional her
+                  work is. Will order again!
+                </Text>
+              </View>
+            </View>
+            <View style={styles.separator} />
+          </>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -232,6 +163,17 @@ const styles = StyleSheet.create({
     fontSize: 40,
     marginLeft: widthToDp(4),
     fontFamily: fonts.hk_bold,
+  },
+  help: {
+    position: 'absolute',
+    right: 0,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#84668C',
+    fontSize: 14,
+    color: '#84668C',
+    paddingVertical: 5,
+    paddingHorizontal: 15,
   },
   textCenter: {
     color: '#67718C',
@@ -306,8 +248,9 @@ const styles = StyleSheet.create({
     fontFamily: fonts.hk_bold,
   },
   textBold: {
-    // fontWeight: 'bold',
     color: '#0F2851',
     fontFamily: fonts.robo_med,
   },
+
+  ratingModal: { marginHorizontal: widthToDp(10), marginTop: 15 },
 });

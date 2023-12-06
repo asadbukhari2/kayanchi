@@ -11,26 +11,32 @@ const car_brown = require('../../assets/car_brown.png');
 const theme = useTheme();
 
 const OrderCard = ({ order, navigation }) => {
-  const activeOrderHandler = data => {
-    console.log('clicked', navigation);
+  const activeOrderHandler = () => {
     navigation.navigate('ArtistOrderStack', {
       screen: 'ArtistConfirmOrderRequest',
-      params: order,
+      params: { ...order },
     });
   };
-  const ViewTimelineHandler = () => {
+  const viewTimelineHandler = () => {
     navigation.navigate('ArtistOrderStack', {
       screen: 'ArtistTimeline',
+      params: { ...order, timlineType: 'active' },
     });
   };
+
   const TimelineHandler = () => {
     navigation.navigate('ArtistOrderStack', {
-      screen: 'ArtistFinishedTimeline',
+      // screen: 'ArtistFinishedTimeline',
+      screen: 'ArtistTimeline',
+      // screen: 'ArtistCancelledTimeline',
+      params: { ...order, timlineType: 'cancelled' },
+      // params: { ...order, timlineType: 'finished' },
     });
   };
   const CancelHandler = () => {
     navigation.navigate('ArtistOrderStack', {
       screen: 'ArtistCancelledTimeline',
+      params: { ...order, timlineType: 'cancelled' },
     });
   };
   const GroomingDoneHandler = () => {
@@ -136,25 +142,24 @@ const OrderCard = ({ order, navigation }) => {
               </Text>
             </View>
 
-            {order.order.order_status === 'Active' ? (
-              <View>
-                <Text
-                  style={{
-                    position: 'absolute',
-                    right: 15,
-                    fontSize: 14,
-                    borderRadius: 30,
-                    bottom: -10,
-                    textTransform: 'uppercase',
-                    fontFamily: fonts.robo_bold,
-                    paddingVertical: 5,
-                    paddingHorizontal: 8,
-                    backgroundColor: '#84668C',
-                    color: 'white',
-                  }}>
-                  Active
-                </Text>
-              </View>
+            {order.order.order_status === 'Accepted' ? (
+              <TouchableOpacity
+                onPress={viewTimelineHandler}
+                style={{
+                  position: 'absolute',
+                  right: 15,
+                  fontSize: 14,
+                  borderRadius: 30,
+                  bottom: -10,
+                  textTransform: 'uppercase',
+                  fontFamily: fonts.robo_bold,
+                  paddingVertical: 5,
+                  paddingHorizontal: 8,
+                  backgroundColor: '#84668C',
+                  color: 'white',
+                }}>
+                <Text>View Timeline</Text>
+              </TouchableOpacity>
             ) : order.order.order_status === 'Waiting' ? (
               <View style={styles.indicatorView}>
                 <View style={styles.row}>

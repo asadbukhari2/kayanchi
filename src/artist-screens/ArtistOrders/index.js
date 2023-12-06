@@ -27,19 +27,19 @@ const ArtistOrders = () => {
   const [completedOrders, setCompletedOrders] = useState([]);
   const [displayedOrders, setDisplayedOrders] = useState([]);
 
-  const { waiting, inprogress, completed, cancelled } = useSelector(state => state.common);
+  const { waiting, accepted, completed, cancelled } = useSelector(state => state.common);
   const navigation = useNavigation();
 
   useEffect(() => {
     let isMounted = true;
 
-    setActiveOrders(inprogress);
+    setActiveOrders(accepted);
     setCompletedOrders(completed);
     setCancelledOrders(cancelled);
     setNewOrders(waiting);
 
     if (isMounted) {
-      setActiveOrders(inprogress);
+      setActiveOrders(accepted);
       setCompletedOrders(completed);
       setCancelledOrders(cancelled);
       setNewOrders(waiting);

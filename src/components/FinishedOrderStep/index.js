@@ -1,20 +1,20 @@
 import React, { useState, useCallback } from 'react';
-import { StyleSheet, View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, FlatList } from 'react-native';
 import StepIndicator from 'react-native-step-indicator';
 import Feather from 'react-native-vector-icons/Feather';
-import { width, widthToDp } from '../../utils/Dimensions';
+import { widthToDp } from '../../utils/Dimensions';
 import CircularProgressBar from '../CircularProgressBar';
-import Icon from 'react-native-vector-icons/FontAwesome'; // Import the icon library
 import RatingModal from '../RatingModal';
 import { fonts } from '../../utils/theme';
+import { useSelector } from 'react-redux';
+
 export default function VerticalStepIndicator({ data }) {
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedRating, setSelectedRating] = useState(null);
-  const handleRating = rating => {
-    setSelectedRating(rating);
-  };
+  console.log({ currentPage }, 'popololo');
   const [stepsCompleted, setStepsCompleted] = useState(new Array(data.length).fill(false));
-  console.log(currentPage);
+
+  const { name } = useSelector(state => state.auth.user);
 
   const viewabilityConfig = { itemVisiblePercentThreshold: 0 };
   const stepColors = ['#29AAE2', '#84668C', '#A77246', '#E91E63', '#29AAE2', '#29AAE2', '#29AAE2', '#29AAE2']; // Define colors for each step
@@ -40,7 +40,6 @@ export default function VerticalStepIndicator({ data }) {
   };
 
   const renderPage = ({ item, index }) => {
-    // const isTickVisible = index === 10;
     const isCircularProgressBarVisible = index === 10;
     const isCompleted = stepsCompleted[10];
 
@@ -48,9 +47,9 @@ export default function VerticalStepIndicator({ data }) {
       <>
         <View style={styles.rowItem}>
           <View>
-            <Text style={styles.title}>{item.title}</Text>
-            <Text style={styles.body}>{item.body}</Text>
-            <Text style={styles.body}>{item.text}</Text>
+            <Text style={styles.title}>{item.status}</Text>
+            <Text style={styles.body}>{item.date}</Text>
+            <Text style={styles.body}>{item.time}</Text>
           </View>
           <View>
             {
@@ -84,7 +83,7 @@ export default function VerticalStepIndicator({ data }) {
             ) : null}
           </View>
         </View>
-        {index !== data.length - 1 && <View style={styles.separator}></View>}
+        {index !== data.length - 1 && <View style={styles.separator} />}
       </>
     );
   };
@@ -118,7 +117,7 @@ export default function VerticalStepIndicator({ data }) {
 
       {currentPage === data.length - 1 && (
         <View style={styles.ratingModal}>
-          <View style={styles.separator}></View>
+          <View style={styles.separator} />
           <Text style={{ color: '#67718C', fontFamily: fonts.robo_med }}>Artist hygiene & cleanliness</Text>
           <RatingModal selectedRating={selectedRating} handleRating={setSelectedRating} />
           <Text style={{ color: '#67718C', fontFamily: fonts.robo_med }}>Service as described</Text>
@@ -127,13 +126,13 @@ export default function VerticalStepIndicator({ data }) {
           <RatingModal selectedRating={selectedRating} handleRating={setSelectedRating} />
           <View>
             <Text style={styles.textRating}>
-              We loved the service Narmeen provided, it was an absolute delight to see how clean and professional her
+              We loved the service {name} provided, it was an absolute delight to see how clean and professional her
               work is. Will order again!
             </Text>
           </View>
         </View>
       )}
-      <View style={styles.separator}></View>
+      {/* <View style={styles.separator} /> */}
     </>
   );
 }

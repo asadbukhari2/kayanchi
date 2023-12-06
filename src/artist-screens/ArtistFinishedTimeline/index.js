@@ -1,68 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Header, Button } from '../../components';
-import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
-import { useTheme, fonts } from '../../utils/theme';
-const carBrown = require('../../assets/car_brown.png');
+import { Header } from '../../components';
+import { heightToDp, widthToDp } from '../../utils/Dimensions';
+import { fonts } from '../../utils/theme';
+
 const location = require('../../assets/Path.png');
 import FinishedOrderStep from '../../components/FinishedOrderStep';
+import { getOrderTimeline } from '../../redux/actions';
+import SimpleOrderCard from '../../components/SimpleOrderCard';
+const host_green = require('../../assets/host_green.png');
+const car_brown = require('../../assets/car_brown.png');
 
-const theme = useTheme();
-const data = [
-  {
-    title: 'Order request accept',
-    body: 'Today',
-    text: '7:30-8:30',
-  },
-  {
-    title: 'Reached',
-    body: 'Today',
-    text: '7:30-8:30',
-  },
-  {
-    title: 'Grooming Started',
-    body: '2 july 2023',
-    text: '7:30-8:30',
-  },
-  {
-    title: 'Grooming Done',
-    body: '2 july 2023',
-    text: '7:30-8:30',
-  },
-  {
-    title: 'Your client has given you a tip',
-    body: '2 july 2023',
-    text: '7:30-8:30',
-  },
-  {
-    title: 'Clients Review',
-    body: '2 july 2023',
-    text: '7:30-8:30',
-  },
-];
-const orders = [
-  {
-    name: 'John Doe',
-    serviceCost: 30000,
-    services: ['3x Foot Massage', 'Haircut', 'Manicure'],
-    salonAddress: '123 Salon Street, Cityville',
-    arrivalTime: '50-60 mins',
-    imageLink: carBrown,
-    status: 'wants to TRAVEL',
-  },
-];
 const ArtistFinishedTimeline = props => {
-  const map_style = [
-    {
-      elementType: 'labels.icon',
-      stylers: [
-        {
-          visibility: 'off',
-        },
-      ],
-    },
-  ];
+  const [loading, setLoading] = useState(true);
+  const [timeline, setTimeline] = useState(null);
+  const order = props.route.params;
+
+  const fetchTimeline = _ => {
+    getOrderTimeline(_)
+      .then(res => {
+        setTimeline(res.timeline);
+        setLoading(false);
+      })
+      .catch(err => console.log(err));
+  };
+
+  useEffect(() => {
+    fetchTimeline(order.order.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -74,7 +41,6 @@ const ArtistFinishedTimeline = props => {
             marginLeft: widthToDp(5),
             width: widthToDp(90),
           }}>
-          {/* <Image source={back} /> */}
           <View style={{ marginLeft: 0 }}>
             <Header
               backBtn
@@ -93,111 +59,14 @@ const ArtistFinishedTimeline = props => {
             />
           </View>
         </View>
-
         <View>
           <Text style={styles.heading}>Timeline </Text>
         </View>
 
-        <View>
-          {orders.map((order, index) => (
-            <View key={index} style={styles.orderContainer}>
-              <TouchableOpacity
-                onPress={() =>
-                  props.navigation.navigate('ArtistProfileStack', {
-                    screen: 'ArtistWhyCancel',
-                  })
-                }>
-                <View
-                  style={{
-                    paddingHorizontal: widthToDp(3),
-                    paddingBottom: 5,
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                  }}>
-                  <View>
-                    <View>
-                      <Text style={styles.headingName}>{order.name}</Text>
+        <SimpleOrderCard order={order} />
 
-                      <Text
-                        style={{
-                          fontFamily: fonts.robo_med,
-                          color: '#0F2851',
-                          marginVertical: 5,
-                        }}>
-                        SERVICES:
-                      </Text>
-                      {order.services.map((service, serviceIndex) => {
-                        const maxServicesToShow = 1;
-
-                        if (serviceIndex < maxServicesToShow) {
-                          return (
-                            <Text key={serviceIndex} style={{ color: theme.greyText }}>
-                              {service}
-                            </Text>
-                          );
-                        } else if (serviceIndex === maxServicesToShow) {
-                          const remainingServices = order.services.length - maxServicesToShow;
-                          return (
-                            <TouchableOpacity
-                              key={serviceIndex}
-                              onPress={() => {
-                                console.log('Touchable link pressed!');
-                              }}>
-                              <Text
-                                style={{
-                                  color: '#32aee3',
-                                  fontSize: 12,
-                                }}>{`${remainingServices} more service(s)`}</Text>
-                            </TouchableOpacity>
-                          );
-                        }
-                        return null;
-                      })}
-                      <Text
-                        style={{
-                          color: '#84668C',
-                          fontSize: 18,
-                          fontFamily: fonts.hk_bold,
-                          marginTop: 5,
-                        }}>
-                        Rs {order.serviceCost}
-                      </Text>
-                    </View>
-                  </View>
-
-                  <View>
-                    <View style={styles.orderDetails}>
-                      <Text style={{ color: theme.greyText }}>
-                        is
-                        <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}> HOSTING</Text>
-                      </Text>
-                      <Image source={order.imageLink} style={styles.OrderImage} />
-                    </View>
-                    <Text style={{ color: '#29AAE2' }}>
-                      3.5 kms <Text style={{ color: '#0F2851' }}>away for you </Text>{' '}
-                    </Text>
-                    <Text
-                      style={{
-                        color: '#0F2851',
-                        fontFamily: fonts.robo_med,
-                        marginTop: 12,
-                        textTransform: 'uppercase',
-                      }}>
-                      Hosting at:
-                    </Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                      <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
-                      <Text style={{ color: '#32aee3' }}>{order.salonAddress}</Text>
-                    </View>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
-        <View style={styles.separator}></View>
-
-        <FinishedOrderStep data={data} />
+        <View style={styles.separator} />
+        {!loading && <FinishedOrderStep data={timeline} />}
       </ScrollView>
     </SafeAreaView>
   );
@@ -220,29 +89,29 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#F7F7F7',
     paddingTop: heightToDp(7),
+    backgroundColor: '#F7F7F7',
   },
   stepIndicatorContainer: {
     marginVertical: 20,
-    paddingHorizontal: widthToDp(5),
     flexDirection: 'column', // Display the steps in a column layout
+    paddingHorizontal: widthToDp(5),
   },
   progressStepContainer: {
     alignItems: 'center',
   },
   stepContent: {
-    alignItems: 'center',
     marginTop: 20,
+    alignItems: 'center',
   },
   orderContainer: {
-    backgroundColor: 'white',
-    marginHorizontal: widthToDp(5),
     marginTop: 20,
     marginBottom: 20,
+    borderRadius: 10,
+    backgroundColor: 'white',
+    marginHorizontal: widthToDp(5),
     paddingVertical: heightToDp(5),
     paddingHorizontal: widthToDp(1),
-    borderRadius: 10,
   },
   orderDetails: {
     flexDirection: 'row',
@@ -254,31 +123,33 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   latestbutton: {
-    backgroundColor: '#a77246',
     padding: 5,
     color: 'white',
     fontSize: 12,
+    borderRadius: 50,
+    backgroundColor: '#a77246',
     textTransform: 'uppercase',
     paddingLeft: widthToDp(3),
     paddingRight: widthToDp(3),
-    borderRadius: 50,
   },
   separator: {
     height: 1,
-    backgroundColor: '#EEEEEE',
     marginVertical: 5,
+    backgroundColor: '#EEEEEE',
   },
   indicatorView: {
+    marginBottom: 20,
     marginHorizontal: 24,
     marginTop: heightToDp(6),
-    marginBottom: 20,
   },
-  row: { flexDirection: 'row', alignItems: 'center' },
-
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   headingName: {
     fontSize: 20,
-    fontFamily: fonts.hk_bold,
     color: '#0F2851',
+    fontFamily: fonts.hk_bold,
   },
   textBold: {
     fontWeight: 'bold',

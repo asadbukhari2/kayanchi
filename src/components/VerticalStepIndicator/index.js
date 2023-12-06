@@ -1,19 +1,16 @@
 import React, { useState, useCallback } from 'react';
-import { StyleSheet, View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, FlatList } from 'react-native';
 import StepIndicator from 'react-native-step-indicator';
 import Feather from 'react-native-vector-icons/Feather';
 import { widthToDp } from '../../utils/Dimensions';
 import CircularProgressBar from '../CircularProgressBar';
-import Icon from 'react-native-vector-icons/FontAwesome'; // Import the icon library
 import { fonts } from '../../utils/theme';
+
 export default function VerticalStepIndicator({ data }) {
   const [currentPage, setCurrentPage] = useState(0);
-  const [selectedRating, setSelectedRating] = useState(null);
-  const handleRating = rating => {
-    setSelectedRating(rating);
-  };
+
+  // eslint-disable-next-line no-unused-vars
   const [stepsCompleted, setStepsCompleted] = useState(new Array(data.length).fill(false));
-  console.log(currentPage);
 
   const viewabilityConfig = { itemVisiblePercentThreshold: 0 };
   const stepColors = ['#29AAE2', '#84668C', '#A77246', '#E91E63', '#29AAE2', '#29AAE2', '#29AAE2', '#29AAE2']; // Define colors for each step
@@ -47,9 +44,9 @@ export default function VerticalStepIndicator({ data }) {
       <>
         <View style={styles.rowItem}>
           <View>
-            <Text style={styles.title}>{item.title}</Text>
-            <Text style={styles.body}>{item.body}</Text>
-            <Text style={styles.body}>{item.text}</Text>
+            <Text style={styles.title}>{item.status}</Text>
+            <Text style={styles.body}>{item.date}</Text>
+            <Text style={styles.body}>{item.time}</Text>
           </View>
           <View>
             {
@@ -83,7 +80,7 @@ export default function VerticalStepIndicator({ data }) {
             ) : null}
           </View>
         </View>
-        {index !== data.length - 1 && <View style={styles.separator}></View>}
+        {index !== data.length - 1 && <View style={styles.separator} />}
       </>
     );
   };
@@ -114,34 +111,6 @@ export default function VerticalStepIndicator({ data }) {
           viewabilityConfig={viewabilityConfig}
         />
       </View>
-
-      {/* {currentPage === data.length - 1 && (
-        <View style={styles.ratingModal}>
-          <View style={styles.separator}></View>
-          <Text>Artist hygiene & cleanliness</Text>
-          <RatingModal
-            selectedRating={selectedRating}
-            handleRating={setSelectedRating}
-          />
-          <Text>Service as described</Text>
-          <RatingModal
-            selectedRating={selectedRating}
-            handleRating={setSelectedRating}
-          />
-          <Text>Would recommend</Text>
-          <RatingModal
-            selectedRating={selectedRating}
-            handleRating={setSelectedRating}
-          />
-          <View>
-            <Text style={styles.textRating}>
-              We loved the service Narmeen provided, it was an absolute delight
-              to see how clean and professional her work is. Will order again!
-            </Text>
-          </View>
-        </View>
-      )}
-      <View style={styles.separator}></View> */}
     </>
   );
 }
@@ -164,12 +133,10 @@ const styles = StyleSheet.create({
     marginRight: widthToDp(5),
   },
   title: {
-    //    flex: 1,
     fontSize: 16,
     color: '#0F2851',
     paddingVertical: 6,
     fontFamily: fonts.robo_med,
-    // fontWeight: '500',
   },
   textRating: {
     fontSize: 14,
@@ -181,7 +148,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   body: {
-    // flex: 1,
     fontSize: 14,
     color: '#606060',
     lineHeight: 24,
