@@ -36,7 +36,11 @@ const Map = ({
   ];
 
   return (
-    <MapView initialRegion={intialRegion} style={{ height: heightToDp(50) }} customMapStyle={map_style}>
+    <MapView
+      initialRegion={intialRegion}
+      style={{ height: heightToDp(50) }}
+      customMapStyle={map_style}
+      showsUserLocation>
       {data?.map((item, index) => {
         return (
           <MapView.Marker

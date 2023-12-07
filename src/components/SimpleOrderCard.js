@@ -9,10 +9,18 @@ const car_brown = require('../assets/car_brown.png');
 const location = require('../assets/Path.png');
 
 const SimpleOrderCard = ({ order, onPress = () => {}, type, section }) => {
+  console.log({ order });
   return (
     <View style={styles.orderContainer}>
       <TouchableOpacity onPress={onPress}>
-        <View style={styles.container}>
+        <View
+          style={[
+            styles.container,
+            {
+              borderRightColor: order.order.is_hosting ? '#008274' : '#A77246',
+              borderRightWidth: 2,
+            },
+          ]}>
           <View>
             <Text style={styles.headingName}>{order?.order?.consumer?.name}</Text>
 
@@ -128,6 +136,8 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    borderRightColor: 'brown',
+    borderRightWidth: 1,
   },
   orderDetails: {
     flexDirection: 'row',

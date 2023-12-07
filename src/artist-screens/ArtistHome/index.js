@@ -168,7 +168,9 @@ const ArtistHome = props => {
             </View>
           </View>
         ) : (
-          <LatestOrders />
+          <View>
+            <LatestOrders />
+          </View>
         )}
         {/* order summary */}
         <OrderSummary />
