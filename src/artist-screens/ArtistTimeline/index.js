@@ -9,7 +9,7 @@ import MultiButton from '../../components/MultiButton';
 const contact = require('../../assets/contact.png');
 import VerticalStepIndicator from '../../components/VerticalStepIndicator';
 
-import { getOrderTimeline } from '../../redux/actions';
+import { getOrderTimeline, startGrooming } from '../../redux/actions';
 import SimpleOrderCard from '../../components/SimpleOrderCard';
 import RatingModal from '../../components/RatingModal';
 import { useSelector } from 'react-redux';
@@ -17,25 +17,38 @@ import Map from '../../components/MapView';
 
 const ArtistTimeline = props => {
   const [loading, setLoading] = useState(true);
-  const [timeline, setTimeline] = useState(null);
+  const [timeline, setTimeline] = useState([]);
   const [selectedRating, setSelectedRating] = useState(null);
+
+  const { currentLocation } = useSelector(state => state.common);
 
   const order = props.route.params;
   const { timlineType } = props.route.params;
 
   const { name } = useSelector(state => state.auth.user);
 
-  const GroomingHandler = () => {
+  const GroomingHandler = async () => {
+    const res = await startGrooming(order.order.id, 24.12312, 61.32432, 24.12312, 61.32432);
     props.navigation.navigate('ArtistOrderStack', { screen: 'ArtistGrooming', params: order });
+    // if (res) {
+    //   props.navigation.navigate('ArtistOrderStack', { screen: 'ArtistGrooming', params: order });
+    // }
   };
 
   const fetchTimeline = _ => {
     getOrderTimeline(_)
       .then(res => {
-        setTimeline(res.timeline);
-        setLoading(false);
+        if (res.length > 0 && res?.timeline?.length > 0) {
+          setTimeline(res.timeline);
+          setLoading(false);
+        } else {
+          setLoading(false);
+        }
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -64,17 +77,34 @@ const ArtistTimeline = props => {
 
         <View style={styles.separator} />
 
-        {loading ? <Text>Loading</Text> : <VerticalStepIndicator data={timeline} />}
+        {loading ? <Text>Loading</Text> : timeline.length > 0 ? <VerticalStepIndicator data={timeline} /> : null}
 
         {timlineType === 'active' && (
           <>
-            <Map />
+            <Map
+              data={[
+                {
+                  title: 'My Current Location',
+                  description: 'Current Loccation',
+                  lat: 31.5497,
+                  long: 74.3436,
+                  img: require('../../assets/Path.png'),
+                },
+                {
+                  title: 'Millineum Mall',
+                  description: 'this is millineum mall karachi',
+                  lat: 31.5497,
+                  long: 74.3436,
+                  img: require('../../assets/logo2.png'),
+                },
+              ]}
+            />
             <Text style={styles.textCenter}>You can start grooming once you’ve reached your client’s location.</Text>
 
             <View style={styles.indicatorView}>
               <View style={styles.row}>
                 <MultiButton
-                  disable={true}
+                  // disable={true}
                   title="Start Grooming"
                   btnStyle={{ backgroundColor: '#84668C' }}
                   onPress={GroomingHandler}

@@ -10,7 +10,7 @@ export default function VerticalStepIndicator({ data }) {
   const [currentPage, setCurrentPage] = useState(0);
 
   // eslint-disable-next-line no-unused-vars
-  const [stepsCompleted, setStepsCompleted] = useState(new Array(data.length).fill(false));
+  const [stepsCompleted, setStepsCompleted] = useState(new Array(data?.length).fill(false));
 
   const viewabilityConfig = { itemVisiblePercentThreshold: 0 };
   const stepColors = ['#29AAE2', '#84668C', '#A77246', '#E91E63', '#29AAE2', '#29AAE2', '#29AAE2', '#29AAE2']; // Define colors for each step
@@ -80,7 +80,7 @@ export default function VerticalStepIndicator({ data }) {
             ) : null}
           </View>
         </View>
-        {index !== data.length - 1 && <View style={styles.separator} />}
+        {index !== data?.length - 1 && <View style={styles.separator} />}
       </>
     );
   };

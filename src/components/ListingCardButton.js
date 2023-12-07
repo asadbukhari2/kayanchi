@@ -4,11 +4,15 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { fonts, useTheme } from '../utils/theme';
 import { heightToDp, width, widthToDp } from '../utils/Dimensions';
 import MultiButton from './MultiButton';
+import { getMyOrders, rejectOrder } from '../redux/actions';
+import { useDispatch } from 'react-redux';
 const location = require('../assets/Path.png');
 
 const theme = useTheme();
 
 const ListingCardButton = ({ order, onPress, type, navigation }) => {
+  const dispatch = useDispatch();
+
   const activeOrderHandler = () => {
     navigation.navigate('ArtistOrderStack', {
       screen: 'ArtistConfirmOrderRequest',
@@ -29,14 +33,17 @@ const ListingCardButton = ({ order, onPress, type, navigation }) => {
     });
   };
   const CancelHandler = () => {
-    navigation.navigate('ArtistOrderStack', {
-      screen: 'ArtistTimeline',
-      params: { ...order, timlineType: 'cancelled' },
-    });
+    rejectOrder(order.order.id);
+    // navigation.navigate('ArtistOrderStack', {
+    //   screen: 'ArtistTimeline',
+    //   params: { ...order, timlineType: 'cancelled' },
+    // });
+    dispatch(getMyOrders());
   };
   const GroomingDoneHandler = () => {
     navigation.navigate('ArtistOrderStack', {
       screen: 'ArtistGroomingDone',
+      params: { ...order },
     });
   };
 

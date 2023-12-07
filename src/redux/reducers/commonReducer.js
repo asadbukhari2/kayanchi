@@ -108,7 +108,6 @@ const reducer = (state = initialState, action) => {
         ordersLoading: true,
       };
     case GET_ORDERS_DATA:
-      console.log('sdfgerg', action.payload);
       return {
         ...state,
         ordersLoading: false,
@@ -117,7 +116,8 @@ const reducer = (state = initialState, action) => {
         accepted: action.payload.Accepted,
         inprogress: action.payload.InProgress,
         completed: action.payload.Completed,
-        cancelled: action.payload.Cancelled,
+        // cancelled: action.payload.Cancelled,
+        cancelled: action.payload.Rejected,
         rejected: action.payload.Rejected,
       };
     case GET_ORDERS_ERROR:

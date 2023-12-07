@@ -503,6 +503,50 @@ export const rateConsumer = async (body, token) => {
     });
   }
 };
+export const startGrooming = async (id, artist_longitude, artist_latitude, user_longitude, user_latitude, token) => {
+  try {
+    let res = await Fetch.put(
+      `/api/orders/startGrooming/${id}?coords={"artist_longitude": ${artist_longitude},
+      "artist_latitude": ${artist_latitude},
+      "user_longitude": ${user_longitude},
+      "user_latitude": ${user_latitude}}`,
+      token,
+    );
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      return res;
+    } else {
+      showMessage({
+        message: await res.json(),
+        type: 'danger',
+      });
+    }
+  } catch (error) {
+    showMessage({
+      message: 'Something went wrong',
+      type: 'danger',
+    });
+  }
+};
+export const doneGrooming = async (id, token) => {
+  try {
+    let res = await Fetch.put(`/api/orders/complete/${id}`, token);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      return res;
+    } else {
+      showMessage({
+        message: await res.json(),
+        type: 'danger',
+      });
+    }
+  } catch (error) {
+    showMessage({
+      message: 'Something went wrong',
+      type: 'danger',
+    });
+  }
+};
 
 export const getFeedbackCategory = token => async dispatch => {
   try {

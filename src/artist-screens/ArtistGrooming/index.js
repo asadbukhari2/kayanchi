@@ -9,6 +9,7 @@ const clockcolor = require('../../assets/clockcolor.png');
 
 import { fonts, useTheme } from '../../utils/theme';
 import SimpleOrderCard from '../../components/SimpleOrderCard';
+import { doneGrooming } from '../../redux/actions';
 const theme = useTheme();
 
 export default function ArtistGrooming(props) {
@@ -16,11 +17,15 @@ export default function ArtistGrooming(props) {
 
   const order = props.route.params;
 
-  const GroomingDoneHandler = () => {
-    props.navigation.navigate('ArtistOrderStack', {
-      screen: 'ArtistGroomingDone',
-      params: order,
-    });
+  const GroomingDoneHandler = async () => {
+    const res = await doneGrooming(order.order.id);
+
+    if (res) {
+      props.navigation.navigate('ArtistOrderStack', {
+        screen: 'ArtistGroomingDone',
+        params: order,
+      });
+    }
   };
   return (
     <SafeAreaView style={styles.container}>

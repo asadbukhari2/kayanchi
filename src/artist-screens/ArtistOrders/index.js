@@ -58,7 +58,7 @@ const ArtistOrders = () => {
     return () => {
       isMounted = false;
     };
-  }, [activeTab]);
+  }, [activeTab, filter]);
 
   const handleTabChange = tab => {
     setActiveTab(tab);
@@ -78,6 +78,7 @@ const ArtistOrders = () => {
   const handleFilterPress = e => {
     setFilter(e.value);
   };
+
   const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>

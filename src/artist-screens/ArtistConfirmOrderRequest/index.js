@@ -12,21 +12,12 @@ const car_brown = require('../../assets/car_brown.png');
 import location from '../../assets/location.png';
 // import CircularProgressBar from '../../components/CircularProgressBar';
 import MultiButton from '../../components/MultiButton';
-import MapView from 'react-native-maps';
-// import { acceptOrder,rejectOrder } from '../../redux/actions';
+
+import { acceptOrder, rejectOrder } from '../../redux/actions';
 import { showMessage } from 'react-native-flash-message';
 import Map from '../../components/MapView';
 
 const theme = useTheme();
-const DATA = [
-  {
-    title: 'Millineum Mall',
-    description: 'this is millineum mall karachi',
-    lat: 24.9012,
-    long: 67.1155,
-    img: require('../../assets/logo2.png'),
-  },
-];
 
 export default function ArtistConfirmOrderRequest(props) {
   const [isPrivate, setIsPrivate] = useState(false);
@@ -35,21 +26,12 @@ export default function ArtistConfirmOrderRequest(props) {
   const order = props.route.params;
 
   const CancelHandler = () => {
-    props.navigation.navigate('ArtistOrderStack', {
-      screen: 'ArtistCancelledTimeline',
-    });
-    // rejectOrder(order.order.id);
+    // props.navigation.navigate('ArtistOrderStack', {
+    //   screen: 'ArtistTimeline',
+    //   params: { ...order, timlineType: 'cancelled' },
+    // });
+    rejectOrder(order.order.id);
   };
-  const map_style = [
-    {
-      elementType: 'labels.icon',
-      stylers: [
-        {
-          visibility: 'off',
-        },
-      ],
-    },
-  ];
 
   const handleTimePress = time => {
     setSelectedTime(time);
@@ -70,7 +52,7 @@ export default function ArtistConfirmOrderRequest(props) {
   };
 
   const handleAcceptOrder = () => {
-    // const data = { free_travel: isPrivate, timeToReach: selectedTime };
+    const data = { free_travel: isPrivate, timeToReach: selectedTime };
     // console.log(data);
 
     if (!selectedTime) {
@@ -142,13 +124,6 @@ export default function ArtistConfirmOrderRequest(props) {
               {order.order.booking_slot.start_time}-{order.order.booking_slot.end_time}
             </Text>
           </View>
-          {/* <CircularProgressBar
-            progress={70}
-            radius={40}
-            strokeWidth={3}
-            color="#84668C"
-            textStyle={{ fontSize: 20, fill: '#29AAE2' }}
-          /> */}
         </View>
 
         <View style={styles.timeContainer}>
@@ -212,12 +187,12 @@ export default function ArtistConfirmOrderRequest(props) {
           <View style={styles.row}>
             <MultiButton
               disable={!selectedTime}
-              title={'Accept'}
+              title="Accept"
               btnStyle={{ backgroundColor: '#67506D', height: heightToDp(10) }}
               onPress={handleAcceptOrder}
             />
             <MultiButton
-              title={'Cancel'}
+              title="Cancel"
               btnStyle={{ backgroundColor: '#9A9A9A', height: heightToDp(10) }}
               onPress={CancelHandler}
             />

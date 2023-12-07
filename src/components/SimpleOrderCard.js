@@ -57,7 +57,9 @@ const SimpleOrderCard = ({ order, onPress = () => {}, type, section }) => {
             </Text>
           </View>
 
-          {type !== 'cancelled' ? (
+          {type !== 'cancelled' &&
+          order.order.order_status !== 'Rejected' &&
+          order.order.order_status !== 'Cancelled' ? (
             <View>
               <View style={styles.orderDetails}>
                 <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>
@@ -83,14 +85,16 @@ const SimpleOrderCard = ({ order, onPress = () => {}, type, section }) => {
             </View>
           ) : (
             <View>
-              {order.order.order_availibity_status === 'On-Demand' ? (
-                <Image source={car_brown} style={styles.OrderImage} />
-              ) : (
-                <Image source={host_green} style={styles.OrderImage} />
-              )}
-              <Text style={[styles.textBold, { textTransform: 'uppercase', marginRight: 10 }]}>
-                {order.order.is_hosting ? 'HOSTING AT:' : 'TRVELLING TO:'}
-              </Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={[styles.textBold, { textTransform: 'uppercase', marginRight: 10 }]}>
+                  {order.order.is_hosting ? 'HOSTING AT:' : 'TRVELLING TO:'}
+                </Text>
+                {order.order.order_availibity_status === 'On-Demand' ? (
+                  <Image source={car_brown} style={styles.OrderImage} />
+                ) : (
+                  <Image source={host_green} style={styles.OrderImage} />
+                )}
+              </View>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
                 <Text style={{ color: '#32aee3' }}>{order?.hostingspot?.name}</Text>
@@ -104,7 +108,7 @@ const SimpleOrderCard = ({ order, onPress = () => {}, type, section }) => {
                   paddingHorizontal: 10,
                   width: widthToDp(30),
                   textAlign: 'center',
-                  marginTop: heightToDp(2),
+                  marginTop: heightToDp(3),
                   fontFamily: fonts.sans_bold,
                 }}>
                 Cancelled
