@@ -8,21 +8,12 @@ import MultiButton from '../../components/MultiButton';
 
 const contact = require('../../assets/contact.png');
 import VerticalStepIndicator from '../../components/VerticalStepIndicator';
-import MapView from 'react-native-maps';
+
 import { getOrderTimeline } from '../../redux/actions';
 import SimpleOrderCard from '../../components/SimpleOrderCard';
 import RatingModal from '../../components/RatingModal';
 import { useSelector } from 'react-redux';
-
-const DATA = [
-  {
-    title: 'Millineum Mall',
-    description: 'this is millineum mall karachi',
-    lat: 24.9012,
-    long: 67.1155,
-    img: require('../../assets/logo2.png'),
-  },
-];
+import Map from '../../components/MapView';
 
 const ArtistTimeline = props => {
   const [loading, setLoading] = useState(true);
@@ -32,23 +23,11 @@ const ArtistTimeline = props => {
   const order = props.route.params;
   const { timlineType } = props.route.params;
 
-  console.log({ timlineType });
-
   const { name } = useSelector(state => state.auth.user);
+
   const GroomingHandler = () => {
     props.navigation.navigate('ArtistOrderStack', { screen: 'ArtistGrooming', params: order });
   };
-
-  const map_style = [
-    {
-      elementType: 'labels.icon',
-      stylers: [
-        {
-          visibility: 'off',
-        },
-      ],
-    },
-  ];
 
   const fetchTimeline = _ => {
     getOrderTimeline(_)
@@ -89,38 +68,13 @@ const ArtistTimeline = props => {
 
         {timlineType === 'active' && (
           <>
-            <View>
-              <MapView
-                initialRegion={{
-                  latitude: 24.8607,
-                  longitude: 67.0011,
-                  latitudeDelta: 0.0922,
-                  longitudeDelta: 0.0421,
-                }}
-                style={{ height: heightToDp(50) }}
-                customMapStyle={map_style}>
-                {DATA.map((item, index) => {
-                  return (
-                    <MapView.Marker
-                      key={index}
-                      coordinate={{ latitude: item.lat, longitude: item.long }}
-                      title={item.title}
-                      description={item.description}
-                      image={item.img}>
-                      {/* <MapView.Callout
-                    tooltip
-                    onPress={() => setModalVisible(true)}
-                  /> */}
-                    </MapView.Marker>
-                  );
-                })}
-              </MapView>
-            </View>
+            <Map />
             <Text style={styles.textCenter}>You can start grooming once you’ve reached your client’s location.</Text>
 
             <View style={styles.indicatorView}>
               <View style={styles.row}>
                 <MultiButton
+                  disable={true}
                   title="Start Grooming"
                   btnStyle={{ backgroundColor: '#84668C' }}
                   onPress={GroomingHandler}

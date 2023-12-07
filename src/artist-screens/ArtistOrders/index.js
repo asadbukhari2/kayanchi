@@ -10,7 +10,6 @@ import { useTheme, fonts } from '../../utils/theme';
 // import OrderCard from '../../components/OrderCard';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-// import SimpleOrderCard from '../../components/SimpleOrderCard';
 import ListingCardButton from '../../components/ListingCardButton';
 
 const theme = useTheme();
@@ -30,7 +29,6 @@ const ArtistOrders = () => {
   const [displayedOrders, setDisplayedOrders] = useState([]);
 
   const { waiting, accepted, completed, cancelled } = useSelector(state => state.common);
-  const navigation = useNavigation();
 
   useEffect(() => {
     let isMounted = true;
@@ -80,9 +78,7 @@ const ArtistOrders = () => {
   const handleFilterPress = e => {
     setFilter(e.value);
   };
-
-  console.log(displayedOrders);
-
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -145,9 +141,6 @@ const ArtistOrders = () => {
           })}
         </View>
         <View>
-          {/* {displayedOrders[filter]?.map((order, index) => (
-            <OrderCard key={index} order={order} navigation={navigation} />
-          ))} */}
           {displayedOrders[filter]?.map((order, index) => (
             <ListingCardButton key={index} order={order} navigation={navigation} />
           ))}

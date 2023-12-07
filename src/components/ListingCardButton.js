@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import SimpleOrderCard from './SimpleOrderCard';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { fonts, useTheme } from '../utils/theme';
@@ -9,21 +9,19 @@ const location = require('../assets/Path.png');
 const theme = useTheme();
 
 const ListingCardButton = ({ order, onPress, type, navigation }) => {
-  const [section, setSection] = useState(null);
-  console.log(order);
-
-  const viewTimelineHandler = () => {
-    navigation.navigate('ArtistOrderStack', {
-      screen: 'ArtistTimeline',
-      params: { ...order, timlineType: 'active' },
-    });
-  };
   const activeOrderHandler = () => {
     navigation.navigate('ArtistOrderStack', {
       screen: 'ArtistConfirmOrderRequest',
       params: { ...order },
     });
   };
+  const viewTimelineHandler = () => {
+    navigation.navigate('ArtistOrderStack', {
+      screen: 'ArtistTimeline',
+      params: { ...order, timlineType: 'active' },
+    });
+  };
+
   const TimelineHandler = () => {
     navigation.navigate('ArtistOrderStack', {
       screen: 'ArtistTimeline',
@@ -42,109 +40,102 @@ const ListingCardButton = ({ order, onPress, type, navigation }) => {
     });
   };
 
-  const renderSection = () => {
-    if (order.order.order_status !== 'Cancelled') {
-      if (order.order.order_status === 'Waiting') {
-        return (
-          <View style={styles.indicatorView}>
-            <View style={styles.row}>
-              <MultiButton
-                title="View"
-                btnStyle={{
-                  backgroundColor: '#67506D',
-                  fontSize: 14,
-                  height: heightToDp(10.5),
-                }}
-                onPress={activeOrderHandler}
-              />
-              <MultiButton
-                title="Cancel"
-                btnStyle={{
-                  backgroundColor: '#EEEEEF',
-                  fontSize: 14,
-                  height: heightToDp(10.5),
-                }}
-                titleStyle={{ color: '#67506D' }}
-                onPress={CancelHandler}
-              />
-            </View>
-          </View>
-        );
-      } else if (order.order.order_status === 'Completed') {
-        return (
-          <View style={styles.indicatorView}>
-            <View style={styles.row}>
-              <MultiButton
-                title="View Timeline"
-                btnStyle={{
-                  backgroundColor: '#67506D',
-                  height: heightToDp(10.5),
-                }}
-                onPress={TimelineHandler}
-              />
-              <MultiButton
-                title="Rate"
-                btnStyle={{
-                  backgroundColor: '#eee',
-                  height: heightToDp(10.5),
-                }}
-                titleStyle={{ fontFamily: fonts.hk_medium, color: theme.dark }}
-                onPress={GroomingDoneHandler}
-              />
-            </View>
-          </View>
-        );
-      } else if (order.order.order_status === 'Accepted') {
-        return (
-          <TouchableOpacity
-            onPress={viewTimelineHandler}
-            style={{
-              borderRadius: 30,
-              bottom: -10,
-              paddingVertical: widthToDp(3),
-              paddingHorizontal: widthToDp(10),
-              backgroundColor: '#84668C',
-            }}>
-            <Text
-              style={{
-                color: '#fff',
-                fontSize: 14,
-                textTransform: 'uppercase',
-                fontFamily: fonts.robo_bold,
-                alignSelf: 'center',
-              }}>
-              View Timeline
+  let section;
+
+  if (order.order.order_status !== 'Cancelled' && order.order.order_status === 'Waiting') {
+    section = (
+      <View style={styles.indicatorView}>
+        <View style={styles.row}>
+          <MultiButton
+            title="View"
+            btnStyle={{
+              backgroundColor: '#67506D',
+              fontSize: 14,
+              height: heightToDp(10.5),
+            }}
+            onPress={activeOrderHandler}
+          />
+          <MultiButton
+            title="Cancel"
+            btnStyle={{
+              backgroundColor: '#EEEEEF',
+              fontSize: 14,
+              height: heightToDp(10.5),
+            }}
+            titleStyle={{ color: '#67506D' }}
+            onPress={CancelHandler}
+          />
+        </View>
+      </View>
+    );
+  } else if (order.order.order_status !== 'Cancelled' && order.order.order_status === 'Completed') {
+    section = (
+      <View style={styles.indicatorView}>
+        <View style={styles.row}>
+          <MultiButton
+            title="View Timeline"
+            btnStyle={{
+              backgroundColor: '#67506D',
+              height: heightToDp(10.5),
+            }}
+            onPress={TimelineHandler}
+          />
+          <MultiButton
+            title="Rate"
+            btnStyle={{
+              backgroundColor: '#eee',
+              height: heightToDp(10.5),
+            }}
+            titleStyle={{ fontFamily: fonts.hk_medium, color: theme.dark }}
+            onPress={GroomingDoneHandler}
+          />
+        </View>
+      </View>
+    );
+  } else if (order.order.order_status !== 'Cancelled' && order.order.order_status === 'Accepted') {
+    section = (
+      <TouchableOpacity
+        onPress={viewTimelineHandler}
+        style={{
+          borderRadius: 30,
+          bottom: -10,
+          paddingVertical: widthToDp(3),
+          paddingHorizontal: widthToDp(10),
+          backgroundColor: '#84668C',
+        }}>
+        <Text
+          style={{
+            color: '#fff',
+            fontSize: 14,
+            textTransform: 'uppercase',
+            fontFamily: fonts.robo_bold,
+            alignSelf: 'center',
+          }}>
+          View Timeline
+        </Text>
+      </TouchableOpacity>
+    );
+  } else if (order.order.order_status === 'Cancelled') {
+    section = (
+      <>
+        <View style={styles.orderDetails}>
+          <View>
+            <Text style={[styles.textBold, { marginTop: 5 }]}>
+              {order.order.is_hosting ? 'HOSTING AT:' : 'TRAVELING TO:'}
             </Text>
-          </TouchableOpacity>
-        );
-      }
-    } else {
-      return (
-        <>
-          <View style={styles.orderDetails}>
-            <View>
-              <Text style={[styles.textBold, { marginTop: 5 }]}>
-                {order.order.is_hosting ? 'HOSTING AT:' : 'TRVELLING TO:'}
-              </Text>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
-                <Text style={{ color: '#32aee3' }}>{order.default_artist_address.text}</Text>
-              </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
+              <Text style={{ color: '#32aee3' }}>{order.default_artist_address.text}</Text>
             </View>
-            <Image source={order.imageLink} style={styles.OrderImage} resizeMode="contain" />
           </View>
+          <Image source={order.imageLink} style={styles.OrderImage} resizeMode="contain" />
+        </View>
 
-          <Text style={styles.orderStatus}>{order.order.order_status}</Text>
-          <Text style={[styles.subheading, { overflow: 'hidden' }]}>{order.cancelReason} </Text>
-        </>
-      );
-    }
-    return section;
-  };
-
-  useEffect(() => {
-    setSection(renderSection());
-  }, []);
+        <Text style={styles.orderStatus}>{order.order.order_status}</Text>
+        <Text style={[styles.subheading, { overflow: 'hidden' }]}>{order.cancelReason} </Text>
+      </>
+    );
+  }
 
   return <SimpleOrderCard order={order} onPress={onPress} type={type} section={section} />;
 };

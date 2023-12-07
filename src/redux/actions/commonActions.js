@@ -484,6 +484,25 @@ export const getOrderTimeline = async (id, token) => {
     });
   }
 };
+export const rateConsumer = async (body, token) => {
+  try {
+    let res = await Fetch.post('/api/rating/consumer/', body, token);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      return res;
+    } else {
+      showMessage({
+        message: await res.json(),
+        type: 'danger',
+      });
+    }
+  } catch (error) {
+    showMessage({
+      message: 'Something went wrong',
+      type: 'danger',
+    });
+  }
+};
 
 export const getFeedbackCategory = token => async dispatch => {
   try {

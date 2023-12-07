@@ -151,4 +151,6 @@ const styles = StyleSheet.create({
     color: '#0F2851',
     fontFamily: fonts.robo_med,
   },
+  indicatorView: { marginHorizontal: 4, marginTop: heightToDp(3), width: '100%' },
+  row: { flexDirection: 'row', alignItems: 'center' },
 });

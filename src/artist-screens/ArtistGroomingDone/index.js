@@ -1,42 +1,36 @@
 import React, { useState } from 'react';
 import { Text, View, Image, TouchableOpacity, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
-import { heightToDp, widthToDp, height } from '../../utils/Dimensions';
+import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { Button } from '../../components';
 const grooming = require('../../assets/groomingdone.png');
-const carBrown = require('../../assets/car_brown.png');
-const location = require('../../assets/Path.png');
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Import the icon library
 import Feather from 'react-native-vector-icons/Feather';
 import { fonts, useTheme } from '../../utils/theme';
 import { useNavigation } from '@react-navigation/native';
+import SimpleOrderCard from '../../components/SimpleOrderCard';
+import { rateConsumer } from '../../redux/actions';
 
 const theme = useTheme();
-const orders = [
-  {
-    name: 'John Doe',
-    serviceCost: 30000,
-    services: ['3x Foot Massage', 'Haircut', 'Manicure'],
-    salonAddress: ' North Nazmabad',
-    arrivalTime: '50-60 mins',
-    imageLink: carBrown,
-    status: 'wants to TRAVEL',
-  },
-];
 
-export default function ArtistGroomingDone() {
+export default function ArtistGroomingDone(props) {
   const [modalVisible, setModalVisible] = useState(true);
   const [selectedRating, setSelectedRating] = useState(null);
   const navigation = useNavigation();
-  const onClose = () => {
-    setModalVisible(false);
-  };
 
-  const handleRating = rating => {
+  const order = props.route.params;
+
+  const handleRateClient = async rating => {
     setSelectedRating(rating);
-  };
-  const openFeedbackModal = navigation => {
-    setModalVisible(true);
+    const res = await rateConsumer({
+      order_id: order.order.id,
+      consumer_id: order.order.consumer.id,
+      rating: rating,
+    });
+
+    if (res) {
+      setModalVisible(false);
+    }
   };
 
   const groomingDoneHandler = () => {
@@ -56,81 +50,7 @@ export default function ArtistGroomingDone() {
           </Text>
         </View>
 
-        <View>
-          {orders.map((order, index) => (
-            <View key={index} style={styles.orderContainer}>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate('ArtistProfileStack', {
-                    screen: 'ArtistWhyCancel',
-                  })
-                }>
-                <View
-                  style={{
-                    paddingHorizontal: widthToDp(3),
-                    paddingBottom: 5,
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                  }}>
-                  <View>
-                    <View>
-                      <Text style={styles.headingName}>{order.name}</Text>
-
-                      <Text style={styles.textBold}>SERVICES:</Text>
-                      {order.services.map((service, serviceIndex) => {
-                        const maxServicesToShow = 1;
-
-                        if (serviceIndex < maxServicesToShow) {
-                          return (
-                            <Text key={serviceIndex} style={{ color: theme.greyText }}>
-                              {service}
-                            </Text>
-                          );
-                        } else if (serviceIndex === maxServicesToShow) {
-                          const remainingServices = order.services.length - maxServicesToShow;
-                          return (
-                            <TouchableOpacity
-                              key={serviceIndex}
-                              onPress={() => {
-                                console.log('Touchable link pressed!');
-                              }}>
-                              <Text
-                                style={{
-                                  color: '#32aee3',
-                                  fontSize: 12,
-                                }}>{`${remainingServices} more service(s)`}</Text>
-                            </TouchableOpacity>
-                          );
-                        }
-                        return null;
-                      })}
-                      <Text style={{ color: '#84668C' }}>Rs {order.serviceCost}</Text>
-                    </View>
-                  </View>
-
-                  <View>
-                    <View style={styles.orderDetails}>
-                      <Text style={{ color: theme.dark }}>
-                        was
-                        <Text style={{ color: '#84668C' }}> HOSTING</Text>
-                      </Text>
-
-                      <Image source={order.imageLink} style={styles.OrderImage} />
-                    </View>
-                    <Text style={{ color: '#29AAE2' }}>
-                      3.5 kms <Text style={{ color: '#0F2851' }}>away for you </Text>{' '}
-                    </Text>
-                    <Text style={[styles.textBold, { marginVertical: 6 }]}>HOSTING AT:</Text>
-                    <View style={{ flexDirection: 'row' }}>
-                      <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
-                      <Text style={{ color: '#32aee3' }}>{order.salonAddress}</Text>
-                    </View>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
+        <SimpleOrderCard order={order} />
         <Button
           title="Continue to Orders"
           btnStyle={{ marginVertical: 24 }}
@@ -165,7 +85,7 @@ export default function ArtistGroomingDone() {
               <TouchableOpacity
                 key={rating}
                 style={[styles.ratingButton, selectedRating === rating && styles.selectedRating]}
-                onPress={() => handleRating(rating)}>
+                onPress={() => handleRateClient(rating)}>
                 <Icon
                   name={selectedRating >= rating ? 'star' : 'star-o'}
                   size={30}

@@ -20,7 +20,7 @@ const LatestOrders = () => {
 
   const common = useSelector(state => state.common);
 
-  const latest = [...common.waiting.Booking, ...common.waiting['On-Demand']];
+  const latest = [...common?.waiting?.Booking, ...common?.waiting['On-Demand']];
 
   const handleOrder = () => {
     navigation.navigate('ArtistOrder', { screen: 'ArtistOrders' });
@@ -154,7 +154,6 @@ const LatestOrders = () => {
                         </Text>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                           <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
-                          {/* <Text style={{ color: '#32aee3', marginLeft: 5 }}>{order.item.salonAddress}</Text> */}
                         </View>
                       </>
                     ) : (
@@ -173,7 +172,6 @@ const LatestOrders = () => {
                         </Text>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                           <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
-                          {/* <Text style={{ color: '#32aee3', marginLeft: 5 }}>{order.item.salonAddress}</Text> */}
                         </View>
                       </>
                     )}
@@ -211,10 +209,6 @@ const LatestOrders = () => {
                     top: -10,
                   }}
                   onPress={() => {
-                    // navigation.navigate('ArtistOrderStack', {
-                    //   screen: 'ArtistTimeline',
-                    //   params: { id: order.item.order.id, order: order.item.order },
-                    // });
                     navigation.navigate('ArtistOrderStack', {
                       screen: 'ArtistConfirmOrderRequest',
                       params: order.item,

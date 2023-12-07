@@ -19,6 +19,7 @@ const initialState = {
   cancelled: [],
   rejected: [],
   feedbackCategory: [],
+  currentLocation: null,
 };
 
 import {
@@ -34,6 +35,7 @@ import {
   GET_ORDERS,
   GET_ORDERS_DATA,
   GET_ORDERS_ERROR,
+  GET_CURRENT_LOCATION,
 } from '../constants/constants';
 
 const reducer = (state = initialState, action) => {
@@ -128,6 +130,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         feedbackCategory: action.payload,
+      };
+    case GET_CURRENT_LOCATION:
+      return {
+        ...state,
+        currentLocation: action.payload,
       };
     default:
       return state;

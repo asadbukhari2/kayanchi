@@ -15,6 +15,7 @@ import MultiButton from '../../components/MultiButton';
 import MapView from 'react-native-maps';
 // import { acceptOrder,rejectOrder } from '../../redux/actions';
 import { showMessage } from 'react-native-flash-message';
+import Map from '../../components/MapView';
 
 const theme = useTheme();
 const DATA = [
@@ -89,31 +90,7 @@ export default function ArtistConfirmOrderRequest(props) {
       <ScrollView>
         <Header backBtn />
         <View>
-          <MapView
-            initialRegion={{
-              latitude: 24.8607,
-              longitude: 67.0011,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }}
-            style={{ height: heightToDp(50) }} // Set a fixed height
-            customMapStyle={map_style}>
-            {DATA.map((item, index) => {
-              return (
-                <MapView.Marker
-                  key={index}
-                  coordinate={{ latitude: item.lat, longitude: item.long }}
-                  title={item.title}
-                  description={item.description}
-                  image={item.img}>
-                  {/* <MapView.Callout
-                    tooltip
-                    onPress={() => setModalVisible(true)}
-                  /> */}
-                </MapView.Marker>
-              );
-            })}
-          </MapView>
+          <Map />
         </View>
         <View style={styles.headingContainer}>
           <Text style={styles.heading}>{order.order.consumer.name}</Text>

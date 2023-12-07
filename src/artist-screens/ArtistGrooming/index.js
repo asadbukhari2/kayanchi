@@ -1,26 +1,25 @@
 import React, { useState } from 'react';
-import { Text, View, Image, TouchableOpacity, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
-import { heightToDp, widthToDp, width } from '../../utils/Dimensions';
+import { Text, View, Image, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { Header } from '../../components';
 import { TextInput } from '../../components';
 import { Button } from '../../components';
 const grooming = require('../../assets/grooming.png');
 const clockcolor = require('../../assets/clockcolor.png');
-const carBrown = require('../../assets/car_brown.png');
-const host_green = require('../../assets/host_green.png');
-const information = require('../../assets/information.png');
-const location = require('../../assets/Path.png');
+
 import { fonts, useTheme } from '../../utils/theme';
 import SimpleOrderCard from '../../components/SimpleOrderCard';
 const theme = useTheme();
 
 export default function ArtistGrooming(props) {
-  const [name, setName] = useState('');
+  const [price, setPrice] = useState(0);
+
   const order = props.route.params;
 
   const GroomingDoneHandler = () => {
     props.navigation.navigate('ArtistOrderStack', {
       screen: 'ArtistGroomingDone',
+      params: order,
     });
   };
   return (
@@ -67,7 +66,10 @@ export default function ArtistGrooming(props) {
 
         <View>
           <TextInput
-            input={text => setName(text)}
+            value={price}
+            onChangeText={e => setPrice(e)}
+            input={true}
+            keyboardType="number-pad"
             placeholder={'Enter total amount '}
             inputBoxStyle={{
               backgroundColor: '#84668C1A',
@@ -87,10 +89,14 @@ export default function ArtistGrooming(props) {
             fontFamily: fonts.robo_reg,
           }}>
           Amount should be equal to or more than
-          <Text style={{ color: '#007AFF' }}> Rs 3400</Text>
+          <Text style={{ color: '#007AFF' }}> Rs {order?.order?.total_service_charges}</Text>
         </Text>
         <View style={{ marginVertical: 20 }}>
-          <Button title="Grooming Done" onPress={GroomingDoneHandler} />
+          <Button
+            title="Grooming Done"
+            onPress={GroomingDoneHandler}
+            disable={price < order?.order?.total_service_charges}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
