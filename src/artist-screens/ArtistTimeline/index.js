@@ -3,52 +3,39 @@ import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header } from '../../components';
 import { heightToDp, widthToDp } from '../../utils/Dimensions';
-import { fonts } from '../../utils/theme';
+import { fonts, useTheme } from '../../utils/theme';
 import MultiButton from '../../components/MultiButton';
 
 const contact = require('../../assets/contact.png');
 import VerticalStepIndicator from '../../components/VerticalStepIndicator';
 
-import { getOrderTimeline, startGrooming } from '../../redux/actions';
+import { getOrderTimeline } from '../../redux/actions';
 import SimpleOrderCard from '../../components/SimpleOrderCard';
 import RatingModal from '../../components/RatingModal';
 import { useSelector } from 'react-redux';
 import Map from '../../components/MapView';
-
+const theme = useTheme();
 const ArtistTimeline = props => {
   const [loading, setLoading] = useState(true);
-  const [timeline, setTimeline] = useState([]);
+  const [timeline, setTimeline] = useState(null);
   const [selectedRating, setSelectedRating] = useState(null);
-
-  const { currentLocation } = useSelector(state => state.common);
 
   const order = props.route.params;
   const { timlineType } = props.route.params;
 
   const { name } = useSelector(state => state.auth.user);
 
-  const GroomingHandler = async () => {
-    const res = await startGrooming(order.order.id, 24.12312, 61.32432, 24.12312, 61.32432);
+  const GroomingHandler = () => {
     props.navigation.navigate('ArtistOrderStack', { screen: 'ArtistGrooming', params: order });
-    // if (res) {
-    //   props.navigation.navigate('ArtistOrderStack', { screen: 'ArtistGrooming', params: order });
-    // }
   };
 
   const fetchTimeline = _ => {
     getOrderTimeline(_)
       .then(res => {
-        if (res.length > 0 && res?.timeline?.length > 0) {
-          setTimeline(res.timeline);
-          setLoading(false);
-        } else {
-          setLoading(false);
-        }
-      })
-      .catch(err => {
-        console.log(err);
+        setTimeline(res.timeline);
         setLoading(false);
-      });
+      })
+      .catch(err => console.log(err));
   };
 
   useEffect(() => {
@@ -77,34 +64,17 @@ const ArtistTimeline = props => {
 
         <View style={styles.separator} />
 
-        {loading ? <Text>Loading</Text> : timeline.length > 0 ? <VerticalStepIndicator data={timeline} /> : null}
+        {loading ? <Text>Loading</Text> : <VerticalStepIndicator data={timeline} />}
 
         {timlineType === 'active' && (
           <>
-            <Map
-              data={[
-                {
-                  title: 'My Current Location',
-                  description: 'Current Loccation',
-                  lat: 31.5497,
-                  long: 74.3436,
-                  img: require('../../assets/Path.png'),
-                },
-                {
-                  title: 'Millineum Mall',
-                  description: 'this is millineum mall karachi',
-                  lat: 31.5497,
-                  long: 74.3436,
-                  img: require('../../assets/logo2.png'),
-                },
-              ]}
-            />
+            <Map />
             <Text style={styles.textCenter}>You can start grooming once you’ve reached your client’s location.</Text>
 
             <View style={styles.indicatorView}>
               <View style={styles.row}>
                 <MultiButton
-                  // disable={true}
+                  disable={true}
                   title="Start Grooming"
                   btnStyle={{ backgroundColor: '#84668C' }}
                   onPress={GroomingHandler}
@@ -115,7 +85,8 @@ const ArtistTimeline = props => {
           </>
         )}
         {timlineType === 'finished' && (
-          <>
+          <View>
+            <View style={styles.leftBar} />
             <View style={styles.ratingModal}>
               <View style={styles.separator} />
               <Text style={{ color: '#67718C', fontFamily: fonts.robo_med }}>Artist hygiene & cleanliness</Text>
@@ -125,14 +96,14 @@ const ArtistTimeline = props => {
               <Text style={{ color: '#67718C', fontFamily: fonts.robo_med }}>Would recommend</Text>
               <RatingModal selectedRating={selectedRating} handleRating={setSelectedRating} />
               <View>
-                <Text style={styles.textRating}>
+                <Text style={{ color: theme.greyText, marginTop: 24 }}>
                   We loved the service {name} provided, it was an absolute delight to see how clean and professional her
                   work is. Will order again!
                 </Text>
               </View>
             </View>
             <View style={styles.separator} />
-          </>
+          </View>
         )}
       </ScrollView>
     </SafeAreaView>
@@ -237,4 +208,12 @@ const styles = StyleSheet.create({
   },
 
   ratingModal: { marginHorizontal: widthToDp(10), marginTop: 15 },
+  leftBar: {
+    width: 2,
+    position: 'absolute',
+    height: 300,
+    backgroundColor: '#aaa',
+    left: 24,
+    top: -56,
+  },
 });

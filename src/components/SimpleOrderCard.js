@@ -89,10 +89,10 @@ const SimpleOrderCard = ({ order, onPress = () => {}, type, section }) => {
                 <Text style={[styles.textBold, { textTransform: 'uppercase', marginRight: 10 }]}>
                   {order.order.is_hosting ? 'HOSTING AT:' : 'TRVELLING TO:'}
                 </Text>
-                {order.order.order_availibity_status === 'On-Demand' ? (
-                  <Image source={car_brown} style={styles.OrderImage} />
-                ) : (
+                {order.order.is_hosting ? (
                   <Image source={host_green} style={styles.OrderImage} />
+                ) : (
+                  <Image source={car_brown} style={styles.OrderImage} />
                 )}
               </View>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
