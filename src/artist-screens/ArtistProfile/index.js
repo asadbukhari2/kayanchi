@@ -12,7 +12,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { GradientRadio } from '../../components';
 import Row from './component/Row';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFeedbackCategory, getServices, signout } from '../../redux/actions';
+import { getFeedbackCategory, getServices, getUserProfileDetails, signout } from '../../redux/actions';
 import { useState } from 'react';
 import ToggleSwitch from 'toggle-switch-react-native';
 const beauty = require('../../assets/beauty_color.png');
@@ -30,6 +30,7 @@ const ArtistProfile = props => {
   const [isEnabled, setIsEnabled] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalNavigation, setModalNavigation] = useState(null);
+  const [defaultAddress, setDefaultAddress] = useState(null);
 
   const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
@@ -43,6 +44,11 @@ const ArtistProfile = props => {
     setModalNavigation(navigation); // Save the navigation object in the state
   };
   useEffect(() => {
+    getUserProfileDetails()
+      .then(res => {
+        setDefaultAddress(res.default_address);
+      })
+      .catch(err => console.log(err));
     dispatch(getServices(user.id));
     dispatch(getFeedbackCategory());
 
@@ -115,20 +121,6 @@ const ArtistProfile = props => {
       title: 'Log out',
       onPress: () => dispatch(signout()),
     },
-    // {
-    //   icon: (
-    //     <Image
-    //       source={require('../../assets/logout.png')}
-    //       style={{
-    //         width: widthToDp(4.5),
-    //         height: heightToDp(4.5),
-    //         resizeMode: 'cover',
-    //       }}
-    //     />
-    //   ),
-    //   title: 'Continue as a artist',
-    //   onPress: () => gotoArtist(),
-    // },
   ];
 
   const MAIN = [
@@ -257,6 +249,7 @@ const ArtistProfile = props => {
               onPress={() =>
                 props.navigation.navigate('ArtistProfileStack', {
                   screen: 'ArtistProfileSaved',
+                  params: { defaultAddress },
                 })
               }
               style={{ padding: heightToDp(2.9) }}>
@@ -293,7 +286,6 @@ const ArtistProfile = props => {
           source={require('../../assets/mail.png')}
           containerStyle={{
             height: heightToDp(12.2),
-            // marginVertical: heightToDp(1.7),
             marginBottom: 15,
             width: width * 0.91,
             alignItems: 'center',
@@ -304,7 +296,7 @@ const ArtistProfile = props => {
             alignSelf: 'center',
             flexDirection: 'row',
           }}
-          title={'Invite friends & get 15% off'}
+          title="Invite friends & get 15% off"
           gradients={['#668C6A', '#668C6A']}
           gradientEnd={{ x: 0, y: 1 }}
           gradientStart={{ x: 0, y: 0 }}

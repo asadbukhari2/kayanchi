@@ -3,7 +3,7 @@ import { Text, View, Animated, TouchableOpacity, Image, StatusBar, ScrollView } 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { fonts, useTheme } from '../../utils/theme';
 import { width, heightToDp, widthToDp, height } from '../../utils/Dimensions';
-import { ConsumerSubCatCard, Button, Header, Tabs } from '../../components';
+import { ConsumerSubCatCard, Header, Tabs } from '../../components';
 
 import { useSelector } from 'react-redux';
 import makeStyle from './artistyourprofile.styles';
@@ -31,6 +31,8 @@ const ArtistYourProfile = props => {
   const { name } = auth.user;
   const { followers, title, level, rating, rating_count, hosting_mood, travel_mood, availability_status } =
     auth.profile;
+
+  console.log(hosting_mood, travel_mood);
 
   const scrollY = useRef(new Animated.Value(0)).current;
 
@@ -62,11 +64,11 @@ const ArtistYourProfile = props => {
     extrapolate: 'clamp',
   });
 
-  const scaleDistance = scrollY.interpolate({
-    inputRange: [0, offset],
-    outputRange: [1, 0],
-    extrapolate: 'clamp',
-  });
+  // const scaleDistance = scrollY.interpolate({
+  //   inputRange: [0, offset],
+  //   outputRange: [1, 0],
+  //   extrapolate: 'clamp',
+  // });
 
   const translateRating = scrollY.interpolate({
     inputRange: [0, offset / 2, offset],
@@ -164,7 +166,6 @@ const ArtistYourProfile = props => {
 
               <Animated.View style={[styles.dotContainer, { transform: [{ translateY: opacity }] }]}>
                 <Animated.Text
-                  // onTextLayout={e => setRatingWidth(e.nativeEvent.lines[0].width)}
                   style={[
                     styles.artistRating,
                     {
@@ -174,9 +175,7 @@ const ArtistYourProfile = props => {
                   {'.'}
                 </Animated.Text>
               </Animated.View>
-              <Animated.Text
-                // onTextLayout={e => setTextWidth(e.nativeEvent.lines[0].width)}
-                style={[styles.artistLocation, { transform: [{ translateY: opacity }] }]}>
+              <Animated.Text style={[styles.artistLocation, { transform: [{ translateY: opacity }] }]}>
                 {' ' + level}
               </Animated.Text>
             </View>
@@ -205,16 +204,16 @@ const ArtistYourProfile = props => {
                 }}>
                 <View style={styles.OrderSummaryContainer}>
                   <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                    {/* {availability_status.includes('on_demand') && (
+                    {availability_status === 'on_demand' && (
                       <View style={[styles.imageContainer, { backgroundColor: theme.brown }]}>
                         <Image source={ondemand} style={styles.orderSummaryImage} />
                       </View>
                     )}
-                    {availability_status.includes('booking_only') && (
+                    {availability_status === 'booking_only' && (
                       <View style={[styles.imageContainer, { backgroundColor: theme.seaGreen }]}>
                         <Image source={booking} style={styles.orderSummaryImage} />
                       </View>
-                    )} */}
+                    )}
                   </View>
                   <Text style={styles.bookingCount}>Avaiability</Text>
                   <Text
@@ -224,10 +223,7 @@ const ArtistYourProfile = props => {
                       fontFamily: fonts.robo_reg,
                       textAlign: 'center',
                     }}>
-                    {name} is{' '}
-                    {/* {availability_status?.map((_, id) => {
-                      return `${_.split('_').join(' ')}${availability_status.length - 1 !== id ? ', ' : ''}`;
-                    })} */}
+                    {name} is {availability_status === 'on_demand' ? 'On Demand' : 'Booking Only'}
                   </Text>
                 </View>
               </View>
@@ -364,18 +360,16 @@ const ArtistYourProfile = props => {
           {tabsData.length > 0 ? (
             tabsData.map((item, index) => {
               return (
-                <>
-                  <ConsumerSubCatCard
-                    key={index}
-                    cat={item.name}
-                    price={item.price}
-                    time={item.time}
-                    details={item.details}
-                    discountPercentage={item.discountPercentage}
-                    discountedPrice={item.discountedPrice}
-                    {...item}
-                  />
-                </>
+                <ConsumerSubCatCard
+                  key={index}
+                  cat={item.name}
+                  price={item.price}
+                  time={item.time}
+                  details={item.details}
+                  discountPercentage={item.discountPercentage}
+                  discountedPrice={item.discountedPrice}
+                  {...item}
+                />
               );
             })
           ) : (

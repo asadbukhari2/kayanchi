@@ -53,11 +53,11 @@ const ArtistPublishGig = () => {
     extrapolate: 'clamp',
   });
 
-  const opacityHeader = scrollY.interpolate({
-    inputRange: [0, offset],
-    outputRange: [0, offset],
-    extrapolate: 'clamp',
-  });
+  // const opacityHeader = scrollY.interpolate({
+  //   inputRange: [0, offset],
+  //   outputRange: [0, offset],
+  //   extrapolate: 'clamp',
+  // });
 
   const translateYOffset = 0; // Adjust this value to control the space from the top
 
@@ -221,16 +221,16 @@ const ArtistPublishGig = () => {
                 }}>
                 <View style={styles.OrderSummaryContainer}>
                   <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                    {/* {availability_status.includes('on_demand') && (
+                    {availability_status === 'on_demand' && (
                       <View style={[styles.imageContainer, { backgroundColor: theme.brown }]}>
                         <Image source={ondemand} style={styles.orderSummaryImage} />
                       </View>
                     )}
-                    {availability_status.includes('booking_only') && (
+                    {availability_status === 'booking_only' && (
                       <View style={[styles.imageContainer, { backgroundColor: theme.seaGreen }]}>
                         <Image source={booking} style={styles.orderSummaryImage} />
                       </View>
-                    )} */}
+                    )}
                   </View>
                   <Text style={styles.bookingCount}>Avaiability</Text>
                   <Text
@@ -240,10 +240,7 @@ const ArtistPublishGig = () => {
                       fontFamily: fonts.robo_reg,
                       textAlign: 'center',
                     }}>
-                    {name} is{' '}
-                    {/* {availability_status?.map((_, id) => {
-                      return `${_.split('_').join(' ')}${availability_status.length - 1 !== id ? ', ' : ''}`;
-                    })} */}
+                    {name} is {availability_status === 'on_demand' ? 'On Demand' : 'Booking Only'}
                   </Text>
                 </View>
               </View>

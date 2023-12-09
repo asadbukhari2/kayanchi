@@ -13,15 +13,17 @@ const ProfileDetailIcons = () => {
 
   return (
     <View style={styles.icons}>
-      <View style={[styles.iconConatiner, { backgroundColor: hosting_mood ? theme.linkTxt : '#ebebeb' }]}>
+      <View style={[styles.iconConatiner, { backgroundColor: hosting_mood === true ? theme.linkTxt : '#ebebeb' }]}>
         <Image
-          source={hosting_mood ? require('../../../assets/host.png') : require('../../../assets/host_grey.png')}
+          source={
+            hosting_mood === true ? require('../../../assets/host.png') : require('../../../assets/host_grey.png')
+          }
           style={styles.iconStyle}
         />
       </View>
-      <View style={[styles.iconConatiner, { backgroundColor: travel_mood ? theme.linkTxt : '#ebebeb' }]}>
+      <View style={[styles.iconConatiner, { backgroundColor: travel_mood === true ? theme.linkTxt : '#ebebeb' }]}>
         <Image
-          source={travel_mood ? require('../../../assets/car.png') : require('../../../assets/car-grey.png')}
+          source={travel_mood === true ? require('../../../assets/car.png') : require('../../../assets/car-grey.png')}
           style={styles.iconStyle}
         />
       </View>

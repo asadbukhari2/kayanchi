@@ -75,7 +75,7 @@ const ArtistOrders = () => {
   };
 
   const navigation = useNavigation();
-  console.log(filter);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>

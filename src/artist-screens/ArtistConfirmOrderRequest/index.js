@@ -24,6 +24,7 @@ export default function ArtistConfirmOrderRequest(props) {
   const [selectedTime, setSelectedTime] = useState(null);
 
   const order = props.route.params;
+  console.log(order);
 
   const CancelHandler = () => {
     // props.navigation.navigate('ArtistOrderStack', {
@@ -119,9 +120,9 @@ export default function ArtistConfirmOrderRequest(props) {
         </View>
         <View style={styles.circularbar}>
           <View>
-            <Text style={{ color: '#67718C', fontSize: 14 }}>{order.order.booking_slot.day}</Text>
+            <Text style={{ color: '#67718C', fontSize: 14 }}>{order?.order?.booking_slot?.day}</Text>
             <Text style={{ color: '#67718C', fontSize: 14 }}>
-              {order.order.booking_slot.start_time}-{order.order.booking_slot.end_time}
+              {order?.order?.booking_slot?.start_time}-{order?.order?.booking_slot?.end_time}
             </Text>
           </View>
         </View>

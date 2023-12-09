@@ -4,8 +4,8 @@ import { fonts, useTheme } from '../../../utils/theme';
 import makeStyle from '../home.styles';
 import { useNavigation } from '@react-navigation/native';
 import { heightToDp, widthToDp } from '../../../utils/Dimensions';
-import { useSelector } from 'react-redux';
-// import { rejectOrder } from '../../../redux/actions';
+
+import { rejectOrder } from '../../../redux/actions';
 
 const location = require('../../../assets/Path.png');
 const information = require('../../../assets/information.png');
@@ -13,20 +13,16 @@ const information = require('../../../assets/information.png');
 const host_green = require('../../../assets/host_green.png');
 const car_brown = require('../../../assets/car_brown.png');
 
-const LatestOrders = () => {
+const LatestOrders = ({ latest }) => {
   const theme = useTheme();
   const styles = makeStyle(theme);
   const navigation = useNavigation();
-
-  const common = useSelector(state => state.common);
-
-  const latest = [...common?.waiting?.Booking, ...common?.waiting['On-Demand']];
 
   const handleOrder = () => {
     navigation.navigate('ArtistOrder', { screen: 'ArtistOrders' });
   };
   const handleRejectOrder = id => {
-    // rejectOrder(id);
+    rejectOrder(id);
   };
 
   return (

@@ -39,38 +39,39 @@ const ArtistCancelOrder = props => {
         </Text>
 
         <View>
-          {waiting.map((order, index) => (
-            <View key={index} style={styles.orderContainer}>
-              <TouchableOpacity
-                onPress={() =>
-                  props.navigation.navigate('ArtistProfileStack', {
-                    screen: type === 'cancel' ? 'ArtistWhyCancel' : 'ArtistDisputeResolution',
-                    params: {
-                      order_id: order.order.id,
-                      ...props.route.params,
-                    },
-                  })
-                }>
-                <View
-                  style={{
-                    paddingHorizontal: widthToDp(3),
-                    paddingBottom: 5,
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                  }}>
-                  <View>
+          {waiting.length > 0 ? (
+            waiting.map((order, index) => (
+              <View key={index} style={styles.orderContainer}>
+                <TouchableOpacity
+                  onPress={() =>
+                    props.navigation.navigate('ArtistProfileStack', {
+                      screen: type === 'cancel' ? 'ArtistWhyCancel' : 'ArtistDisputeResolution',
+                      params: {
+                        order_id: order.order.id,
+                        ...props.route.params,
+                      },
+                    })
+                  }>
+                  <View
+                    style={{
+                      paddingHorizontal: widthToDp(3),
+                      paddingBottom: 5,
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                    }}>
                     <View>
-                      <Text style={styles.headingName}>{order.name ?? 'John Doe'}</Text>
+                      <View>
+                        <Text style={styles.headingName}>{order.name ?? 'John Doe'}</Text>
 
-                      <Text
-                        style={{
-                          color: '#0F2851',
-                          fontFamily: fonts.robo_med,
-                          marginVertical: 5,
-                        }}>
-                        SERVICES:
-                      </Text>
-                      {/* {order.services.map((service, serviceIndex) => {
+                        <Text
+                          style={{
+                            color: '#0F2851',
+                            fontFamily: fonts.robo_med,
+                            marginVertical: 5,
+                          }}>
+                          SERVICES:
+                        </Text>
+                        {/* {order.services.map((service, serviceIndex) => {
                         const maxServicesToShow = 1;
 
                         if (serviceIndex < maxServicesToShow) {
@@ -97,50 +98,53 @@ const ArtistCancelOrder = props => {
                         }
                         return null;
                       })} */}
-                      <Text
-                        style={{
-                          color: '#84668C',
-                          fontFamily: fonts.hk_bold,
-                          fontSize: 18,
-                        }}>
-                        Rs {order.serviceCost ?? '3000'}
-                      </Text>
+                        <Text
+                          style={{
+                            color: '#84668C',
+                            fontFamily: fonts.hk_bold,
+                            fontSize: 18,
+                          }}>
+                          Rs {order.serviceCost ?? '3000'}
+                        </Text>
+                      </View>
                     </View>
-                  </View>
 
-                  <View>
-                    <View style={styles.orderDetails}>
+                    <View>
+                      <View style={styles.orderDetails}>
+                        <Text
+                          style={{
+                            color: '#84668C',
+                            fontFamily: fonts.robo_med,
+                            marginRight: widthToDp(15),
+                          }}>
+                          TRAVELLING
+                        </Text>
+                        {/* <Image source={order.imageLink} style={styles.OrderImage} /> */}
+                      </View>
+                      <Text style={{ color: '#29AAE2', marginVertical: 3 }}>
+                        3.5 kms <Text style={{ color: '#0F2851' }}>away for you </Text>{' '}
+                      </Text>
                       <Text
                         style={{
-                          color: '#84668C',
-                          fontFamily: fonts.robo_med,
-                          marginRight: widthToDp(15),
+                          color: '#0F2851',
+                          marginVertical: 4,
+                          fontFamily: fonts.robo_bold,
+                          textTransform: 'uppercase',
                         }}>
-                        TRAVELLING
+                        Hosting at:
                       </Text>
-                      {/* <Image source={order.imageLink} style={styles.OrderImage} /> */}
-                    </View>
-                    <Text style={{ color: '#29AAE2', marginVertical: 3 }}>
-                      3.5 kms <Text style={{ color: '#0F2851' }}>away for you </Text>{' '}
-                    </Text>
-                    <Text
-                      style={{
-                        color: '#0F2851',
-                        marginVertical: 4,
-                        fontFamily: fonts.robo_bold,
-                        textTransform: 'uppercase',
-                      }}>
-                      Hosting at:
-                    </Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                      <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
-                      {/* <Text style={{ color: '#32aee3' }}>{order.salonAddress}</Text> */}
+                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
+                        {/* <Text style={{ color: '#32aee3' }}>{order.salonAddress}</Text> */}
+                      </View>
                     </View>
                   </View>
-                </View>
-              </TouchableOpacity>
-            </View>
-          ))}
+                </TouchableOpacity>
+              </View>
+            ))
+          ) : (
+            <Text style={{ color: 'black', alignSelf: 'center', marginTop: 20 }}>No Record Found</Text>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>

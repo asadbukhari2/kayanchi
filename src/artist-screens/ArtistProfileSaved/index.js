@@ -13,11 +13,11 @@ const theme = useTheme();
 
 export default function ArtistProfileSaved(props) {
   const auth = useSelector(state => state.auth);
-
+  console.log('[p[p[', props.route.params.defaultAddress);
   const { email, name, phone_number } = auth.user;
 
   const editClickHandler = () => {
-    props.navigation.navigate('ArtistPersonalDetails');
+    props.navigation.navigate('ArtistPersonalDetails', { params: props.route.params.defaultAddress });
   };
 
   return (
@@ -67,7 +67,7 @@ export default function ArtistProfileSaved(props) {
           <View style={styles.personalContainer}>
             <View style={{ paddingLeft: widthToDp(4) }}>
               <Text style={[styles.subheading]}>Your default address</Text>
-              <Text style={[{ width: widthToDp(54) }, styles.infoText]}>Not available</Text>
+              <Text style={[{ width: widthToDp(54) }, styles.infoText]}>{props?.route?.params?.defaultAddress}</Text>
             </View>
             <View>
               <TouchableOpacity activeOpacity={0.7} onPress={editClickHandler} style={{ padding: heightToDp(2.9) }}>

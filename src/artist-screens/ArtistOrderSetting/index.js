@@ -71,14 +71,7 @@ const ArtistOrderSetting = props => {
       }),
     );
   };
-  const handleAvailabilityClick = e => {
-    if (availability.includes(e.value)) {
-      const f = availability.filter(itm => e.value !== itm);
-      setAvailability(f);
-    } else {
-      setAvailability(prev => [...prev, e.value]);
-    }
-  };
+  const handleAvailabilityClick = e => setAvailability(e.value);
 
   useEffect(() => {
     dispatch(getAvailableDays());
@@ -115,7 +108,7 @@ const ArtistOrderSetting = props => {
                   key={_.title}
                   onPress={() => handleAvailabilityClick(_)}
                   title={_.title}
-                  btnStyle={{ backgroundColor: availability.includes(_.value) ? '#008274' : '#9a9a9a' }}
+                  btnStyle={{ backgroundColor: availability === _.value ? '#008274' : '#9a9a9a' }}
                   image={_.icon}
                 />
               );

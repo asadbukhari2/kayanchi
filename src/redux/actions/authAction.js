@@ -30,6 +30,7 @@ export const EMAIL_LOGIN =
       let res = await Fetch.post('/api/users/login', data);
       if (res.status >= 200 && res.status < 300) {
         res = await res.json();
+        console.log(res, 'sifhsdfids');
         await AsyncStorage.setItem('userToken', JSON.stringify(res.token));
         dispatch(module.exports.getMyProfile(res.token));
         showMessage({
@@ -149,6 +150,25 @@ export const updateUserDetail = async data => {
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
     } else {
+      const message = await res.json();
+      showMessage({
+        message: message || 'Something Went Wrong',
+        type: 'danger',
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const getUserProfileDetails = async data => {
+  try {
+    let res = await Fetch.get('/api/users/profileDetails/1');
+
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+
+      return res;
+    } else {
       const { message } = await res.json();
       showMessage({
         message: message || 'Something Went Wrong',
@@ -157,6 +177,10 @@ export const updateUserDetail = async data => {
     }
   } catch (error) {
     console.log(error);
+    showMessage({
+      message: 'Something Went Wrong',
+      type: 'danger',
+    });
   }
 };
 

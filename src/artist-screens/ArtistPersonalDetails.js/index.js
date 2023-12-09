@@ -19,7 +19,7 @@ export default function ArtistPersonalDetails(props) {
   const [email, setEmail] = useState(em);
   const [password, setPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState(phone_number);
-  const [defaultAddress, setDefaultAddress] = useState('');
+  const [defaultAddress, setDefaultAddress] = useState(props.route.params.params ?? '');
 
   const dispatch = useDispatch();
 

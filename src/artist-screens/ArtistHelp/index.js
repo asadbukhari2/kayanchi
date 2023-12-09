@@ -109,7 +109,7 @@ const ArtistHelp = props => {
 
           <View style={styles.faqcontainer}>
             {faqData.map(item => (
-              <TouchableOpacity style={styles.faqContent}>
+              <TouchableOpacity style={styles.faqContent} key={item.question}>
                 <Text
                   style={{
                     fontSize: 16,

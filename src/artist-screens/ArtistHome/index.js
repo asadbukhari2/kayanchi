@@ -26,9 +26,9 @@ const ArtistHome = props => {
   const theme = useTheme();
   const styles = makeStyle(theme);
   const auth = useSelector(state => state.auth);
-  const { ordersLoading } = useSelector(state => state.common);
+  const { ordersLoading, waiting } = useSelector(state => state.common);
   const navigation = useNavigation();
-
+  console.log(auth.profile, 'sdufig');
   const dispatch = useDispatch();
 
   const { name } = auth.user;
@@ -169,7 +169,8 @@ const ArtistHome = props => {
           </View>
         ) : (
           <View>
-            <LatestOrders />
+            {console.log(waiting)}
+            <LatestOrders latest={waiting.length > 0 ? [...waiting.Booking, ...waiting['On-Demand']] : []} />
           </View>
         )}
         {/* order summary */}
