@@ -14,11 +14,6 @@ import ListingCardButton from '../../components/ListingCardButton';
 
 const theme = useTheme();
 
-const filters = [
-  { value: 'Booking', label: 'Booking' },
-  { value: 'On-Demand', label: 'On Demand' },
-];
-
 const ArtistOrders = () => {
   const [filter, setFilter] = useState('Booking');
   const [activeTab, setActiveTab] = useState('new');
@@ -76,10 +71,11 @@ const ArtistOrders = () => {
   };
 
   const handleFilterPress = e => {
-    setFilter(e.value);
+    setFilter(e);
   };
 
   const navigation = useNavigation();
+  console.log(filter);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -115,31 +111,36 @@ const ArtistOrders = () => {
         </View>
 
         <View style={styles.btnContainer}>
-          {filters.map(_ => {
-            return (
-              <TouchableOpacity
-                key={_.label}
-                onPress={() => {
-                  handleFilterPress(_);
-                }}>
-                <Text
-                  style={[
-                    styles.button,
-                    _.value === 'Booking'
-                      ? {
-                          color: '#008274',
-                          borderColor: filter === 'Booking' ? '#008274' : theme.greyText,
-                        }
-                      : {
-                          color: '#9A9A9A',
-                          borderColor: filter === 'On-Demand' ? '#9A9A9A' : theme.greyText,
-                        },
-                  ]}>
-                  {_.label}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
+          <TouchableOpacity
+            onPress={() => {
+              handleFilterPress('Booking');
+            }}>
+            <Text
+              style={[
+                styles.button,
+                {
+                  color: filter === 'Booking' ? '#008274' : theme.greyText,
+                  borderColor: filter === 'Booking' ? '#008274' : theme.greyText,
+                },
+              ]}>
+              Booking
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              handleFilterPress('On-Demand');
+            }}>
+            <Text
+              style={[
+                styles.button,
+                {
+                  color: filter === 'On-Demand' ? '#A77246' : theme.greyText,
+                  borderColor: filter === 'On-Demand' ? '#A77246' : theme.greyText,
+                },
+              ]}>
+              On Demand
+            </Text>
+          </TouchableOpacity>
         </View>
         <View>
           {displayedOrders[filter]?.map((order, index) => (

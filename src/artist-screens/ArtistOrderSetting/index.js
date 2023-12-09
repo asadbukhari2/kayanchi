@@ -175,47 +175,52 @@ const ArtistOrderSetting = props => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.serviceDuration}>
-          <Text style={styles.title2}>Default Travelling cost</Text>
-          <Image source={travelling} resizeMode="contain" />
-          <View style={styles.childServiceDuration} />
-        </View>
 
-        <Text style={styles.warning}>
-          Budget your travel cost within the city. Offer travel for free, to get more orders.
-        </Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignContent: 'center',
-            marginBottom: 10,
-          }}>
-          <Text style={styles.warning}>{'Offer free travel'}</Text>
-          <View style={[styles.switchContainer, { marginRight: 10 }]}>
-            <ToggleSwitch
-              isOn={offerFreeTravel}
-              style={{ height: 20, marginRight: 10 }}
-              value={offerFreeTravel}
-              onColor="#84668C"
-              offColor="#9A9A9A"
-              size="small"
-              onToggle={handleFreeTravel}
-            />
+        {travelMood && (
+          <View>
+            <View style={styles.serviceDuration}>
+              <Text style={styles.title2}>Default Travelling cost</Text>
+              <Image source={travelling} resizeMode="contain" />
+              <View style={styles.childServiceDuration} />
+            </View>
+
+            <Text style={styles.warning}>
+              Budget your travel cost within the city. Offer travel for free, to get more orders.
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignContent: 'center',
+                marginBottom: 10,
+              }}>
+              <Text style={styles.warning}>{'Offer free travel'}</Text>
+              <View style={[styles.switchContainer, { marginRight: 10 }]}>
+                <ToggleSwitch
+                  isOn={offerFreeTravel}
+                  style={{ height: 20, marginRight: 10 }}
+                  value={offerFreeTravel}
+                  onColor="#84668C"
+                  offColor="#9A9A9A"
+                  size="small"
+                  onToggle={handleFreeTravel}
+                />
+              </View>
+            </View>
+
+            <View style={styles.parentPrice}>
+              <TextInput
+                style={styles.priceField}
+                placeholder="100-1000"
+                keyboardType="number-pad"
+                disable={offerFreeTravel}
+                placeholderTextColor={theme.genderGrey}
+                value={offerFreeTravel ? '0' : defaultTravelCost.toString()}
+                onChangeText={e => setDefaultTravelCost(e)}
+              />
+            </View>
           </View>
-        </View>
-
-        <View style={styles.parentPrice}>
-          <TextInput
-            style={styles.priceField}
-            placeholder="100-1000"
-            keyboardType="number-pad"
-            disable={offerFreeTravel}
-            placeholderTextColor={theme.genderGrey}
-            value={offerFreeTravel ? '0' : defaultTravelCost.toString()}
-            onChangeText={e => setDefaultTravelCost(e)}
-          />
-        </View>
+        )}
         <View style={styles.serviceDuration}>
           <Text style={styles.title2}>
             Minimum Order Value <Text style={{ fontFamily: fonts.robo_light }}>(MOV)</Text>
@@ -448,7 +453,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'space-between',
     width: '100%',
-    marginTop: 10,
+    marginTop: 12,
   },
   childServiceDuration: {
     height: 40,
