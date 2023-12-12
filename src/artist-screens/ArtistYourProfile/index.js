@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Text, View, Animated, TouchableOpacity, Image, StatusBar, ScrollView } from 'react-native';
+import { Text, View, Animated, Image, StatusBar, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { fonts, useTheme } from '../../utils/theme';
 import { width, heightToDp, widthToDp, height } from '../../utils/Dimensions';
@@ -31,8 +31,6 @@ const ArtistYourProfile = props => {
   const { name } = auth.user;
   const { followers, title, level, rating, rating_count, hosting_mood, travel_mood, availability_status } =
     auth.profile;
-
-  console.log(hosting_mood, travel_mood);
 
   const scrollY = useRef(new Animated.Value(0)).current;
 
@@ -82,7 +80,6 @@ const ArtistYourProfile = props => {
     extrapolate: 'clamp',
   });
 
-  console.log(services);
   const handleTabButtonClick = txt => {
     setSubHeading(txt);
     const filtered = services.filter(_ => txt.includes(_.category_name));
@@ -135,9 +132,6 @@ const ArtistYourProfile = props => {
           <Header backBtnWhite />
         </Animated.View>
 
-        <TouchableOpacity activeOpacity={0.7} style={styles.followBtn}>
-          <Text style={styles.follow}>View Profile</Text>
-        </TouchableOpacity>
         <View style={styles.headerMain}>
           <View style={styles.centerDiv}>
             <Animated.Text
@@ -348,8 +342,6 @@ const ArtistYourProfile = props => {
               </View>
             </View>
           </View>
-
-          {/* <Tabs selectedTab={txt => setSubHeading(txt)} DATA={DATA} /> */}
         </View>
 
         <View style={{ borderBottomWidth: 1, borderColor: theme.inputText }}>
@@ -373,14 +365,9 @@ const ArtistYourProfile = props => {
               );
             })
           ) : (
-            <Text style={{ color: theme.inputText }}>No Record Found</Text>
+            <Text style={{ color: theme.inputText, alignSelf: 'center', marginTop: 10 }}>No Records Found</Text>
           )}
         </View>
-        {/* <Button
-          title={'Continue'}
-          btnStyle={{ marginBottom: heightToDp(5.5), marginTop: heightToDp(3.5) }}
-          onPress={() => setModalVisible(true)}
-        /> */}
       </ScrollView>
     </SafeAreaView>
   );

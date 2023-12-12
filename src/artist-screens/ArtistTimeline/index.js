@@ -42,7 +42,9 @@ const ArtistTimeline = props => {
     fetchTimeline(order.order.id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  const handleHelp = () => {
+    props.navigation.navigate('ArtistProfileStack', { screen: 'ArtistHelp' });
+  };
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -54,7 +56,7 @@ const ArtistTimeline = props => {
             width: widthToDp(90),
           }}>
           <View style={{ marginLeft: 0 }}>
-            <Header backBtn title="help?" titleStyle={styles.help} />
+            <Header backBtn text="help?" onPress={handleHelp} titleStyle={styles.help} />
           </View>
         </View>
 
@@ -68,13 +70,13 @@ const ArtistTimeline = props => {
 
         {timlineType === 'active' && (
           <>
-            <Map />
+            {/* <Map />  */}
             <Text style={styles.textCenter}>You can start grooming once you’ve reached your client’s location.</Text>
 
             <View style={styles.indicatorView}>
               <View style={styles.row}>
                 <MultiButton
-                  disable={true}
+                  // disable={true}
                   title="Start Grooming"
                   btnStyle={{ backgroundColor: '#84668C' }}
                   onPress={GroomingHandler}
@@ -124,9 +126,6 @@ const styles = StyleSheet.create({
     right: 0,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: '#84668C',
-    fontSize: 14,
-    color: '#84668C',
     paddingVertical: 5,
     paddingHorizontal: 15,
   },

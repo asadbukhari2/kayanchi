@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
 import { useNavigation } from '@react-navigation/native';
@@ -9,7 +9,19 @@ const theme = useTheme();
 
 const Header = props => {
   const navigation = useNavigation();
-  const { headerStyle, titleStyle, title, titleShadow, skip, onSkip, backBtn, backBtnWhite, backBtnGrey } = props;
+  const {
+    headerStyle,
+    titleStyle,
+    title,
+    titleShadow,
+    skip,
+    onSkip,
+    backBtn,
+    backBtnWhite,
+    backBtnGrey,
+    text,
+    onPress,
+  } = props;
 
   return (
     <View style={[styles.container, headerStyle]}>
@@ -31,6 +43,11 @@ const Header = props => {
       ) : title ? (
         <Text style={[styles.title, titleStyle]}>{title}</Text>
       ) : null}
+      {text && (
+        <TouchableOpacity onPress={onPress} style={titleStyle}>
+          <Text style={[styles.text]}>{text}</Text>
+        </TouchableOpacity>
+      )}
       {skip && (
         <TouchableOpacity activeOpacity={0.7} onPress={onSkip} style={[styles.backBtn, { right: 0 }]}>
           <Text style={styles.skip}>skip</Text>
@@ -59,6 +76,11 @@ const styles = StyleSheet.create({
     width: widthToDp(6.7),
     height: heightToDp(3.2),
     resizeMode: 'contain',
+  },
+  text: {
+    borderColor: '#84668C',
+    fontSize: 14,
+    color: '#84668C',
   },
   title: {
     fontFamily: fonts.hk_medium,

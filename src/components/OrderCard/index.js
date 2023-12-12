@@ -27,11 +27,8 @@ const OrderCard = ({ order, navigation }) => {
 
   const TimelineHandler = () => {
     navigation.navigate('ArtistOrderStack', {
-      // screen: 'ArtistFinishedTimeline',
       screen: 'ArtistTimeline',
-      // screen: 'ArtistCancelledTimeline',
       params: { ...order, timlineType: 'cancelled' },
-      // params: { ...order, timlineType: 'finished' },
     });
   };
   const CancelHandler = () => {

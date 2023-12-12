@@ -24,13 +24,8 @@ export default function ArtistConfirmOrderRequest(props) {
   const [selectedTime, setSelectedTime] = useState(null);
 
   const order = props.route.params;
-  console.log(order);
 
   const CancelHandler = () => {
-    // props.navigation.navigate('ArtistOrderStack', {
-    //   screen: 'ArtistTimeline',
-    //   params: { ...order, timlineType: 'cancelled' },
-    // });
     rejectOrder(order.order.id);
   };
 
@@ -39,7 +34,6 @@ export default function ArtistConfirmOrderRequest(props) {
   };
 
   const getTimeStyles = time => {
-    console.log(time, selectedTime);
     if (time === selectedTime) {
       return {
         color: 'white',
@@ -54,17 +48,16 @@ export default function ArtistConfirmOrderRequest(props) {
 
   const handleAcceptOrder = () => {
     const data = { free_travel: isPrivate, timeToReach: selectedTime };
-    // console.log(data);
 
     if (!selectedTime) {
       showMessage({ message: 'Data Must not be empty', type: 'warning' });
     } else {
-      // acceptOrder(order.order.id, data)
-      //   .then(res => {
-      //     showMessage({ message: 'Order Accepted', type: 'success' });
-      //     console.log(res);
-      //   })
-      //   .catch(err => console.log(err));
+      acceptOrder(order.order.id, data)
+        .then(res => {
+          showMessage({ message: 'Order Accepted', type: 'success' });
+          props.navigation.navigate('ArtistOrders');
+        })
+        .catch(err => console.log(err));
     }
   };
 
@@ -72,9 +65,7 @@ export default function ArtistConfirmOrderRequest(props) {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <Header backBtn />
-        <View>
-          <Map />
-        </View>
+        <View>{/* <Map /> */}</View>
         <View style={styles.headingContainer}>
           <Text style={styles.heading}>{order.order.consumer.name}</Text>
           <View>
@@ -92,9 +83,9 @@ export default function ArtistConfirmOrderRequest(props) {
           )}
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
             {order.order.is_hosting ? (
-              <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>wants to HOST at his location</Text>
-            ) : (
               <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>wants to TRAVEL to you</Text>
+            ) : (
+              <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>wants to HOST at his location</Text>
             )}
 
             {order.order.order_availibity_status === 'On-Demand' ? (
@@ -105,7 +96,7 @@ export default function ArtistConfirmOrderRequest(props) {
           </View>
         </View>
         <View>
-          <Text style={styles.hosting}> {order.order.is_hosting ? 'HOSTING AT:' : 'TRVELLING TO:'}</Text>
+          <Text style={styles.hosting}> {!order.order.is_hosting ? 'HOSTING AT:' : 'TRVELLING TO:'}</Text>
         </View>
         <View style={styles.userLocation}>
           <Image source={location} style={styles.imagesLoc} />
@@ -130,7 +121,7 @@ export default function ArtistConfirmOrderRequest(props) {
         <View style={styles.timeContainer}>
           <View>
             <Text style={{ fontSize: 12, color: '#67718C' }}>Travel Cost</Text>
-            <Text style={{ color: '#84668C', fontWeight: '400' }}>Rs {order.order.travel_cost}</Text>
+            <Text style={{ color: '#84668C', fontWeight: '400' }}>Rs {Number(order.order.travel_cost).toFixed(2)}</Text>
           </View>
           <Text style={{ color: theme.greyText }}>Offer free travel</Text>
           <View style={{ flexDirection: 'row', marginTop: 15 }}>

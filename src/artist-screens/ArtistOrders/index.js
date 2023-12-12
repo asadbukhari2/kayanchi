@@ -9,8 +9,9 @@ import { useTheme, fonts } from '../../utils/theme';
 
 // import OrderCard from '../../components/OrderCard';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ListingCardButton from '../../components/ListingCardButton';
+import { getMyOrders } from '../../redux/actions';
 
 const theme = useTheme();
 
@@ -22,6 +23,12 @@ const ArtistOrders = () => {
   const [activeOrders, setActiveOrders] = useState([]);
   const [completedOrders, setCompletedOrders] = useState([]);
   const [displayedOrders, setDisplayedOrders] = useState([]);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getMyOrders());
+  }, []);
 
   const { waiting, accepted, completed, cancelled } = useSelector(state => state.common);
 

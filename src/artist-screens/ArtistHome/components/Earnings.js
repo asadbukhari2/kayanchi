@@ -31,8 +31,9 @@ const Earning = React.memo(() => {
   const fetchInsights = async (_, __) => {
     setLoading(true);
     const res = await GET_ARTIST_EARNING(_, __);
+    if (!res) return setLoading(false);
 
-    if (res.total_earnings) {
+    if (res?.total_earnings) {
       setAmount(res.total_earnings);
     } else {
       setAmount('0');

@@ -53,14 +53,12 @@ import {
   ArtistTimeline,
   ArtistGrooming,
   ArtistGroomingDone,
-  ArtistFinishedTimeline,
-  ArtistCancelledTimeline,
+  ArtistGlowMakeUp,
 } from '../artist-screens';
 import {
   ConsumerHome,
   ConsumerStatus,
   ConsumerSearch,
-  ConsumerArtist,
   ConsumerAddress,
   ConsumerHostingSpot,
   ConsumerBookingDate,
@@ -318,20 +316,7 @@ const ArtistOrderStack = ({ navigation }) => (
         headerShown: false,
       }}
     />
-    <Stack.Screen
-      name="ArtistFinishedTimeline"
-      component={ArtistFinishedTimeline}
-      options={{
-        headerShown: false,
-      }}
-    />
-    <Stack.Screen
-      name="ArtistCancelledTimeline"
-      component={ArtistCancelledTimeline}
-      options={{
-        headerShown: false,
-      }}
-    />
+
     <Stack.Screen
       name="ArtistBookingDate"
       component={ArtistBookingDate}
@@ -544,6 +529,13 @@ const ArtistProfileStack = ({ navigation }) => (
     <Stack.Screen
       name="ArtistYourOrders"
       component={ArtistYourOrders}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <Stack.Screen
+      name="ArtistGlowMakeUp"
+      component={ArtistGlowMakeUp}
       options={{
         headerShown: false,
       }}

@@ -15,6 +15,8 @@ import {
   ConsumerKnownFor,
 } from '../consumer-screens';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { InitScreen } from '../init-screens';
+import SignIn from '../init-screens/SignIn';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +29,8 @@ export default class AuthStack extends Component {
           gestureEnabled: true,
           gestureDirection: 'vertical',
         }}>
+        <Stack.Screen name="InitScreen" component={InitScreen} />
+        <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="ConsumerWelcome" component={ConsumerWelcome} />
         <Stack.Screen name="ConsumerKnownFor" component={ConsumerKnownFor} />
         <Stack.Screen name="ConsumerGoogleSignIn" component={ConsumerGoogleSignIn} />

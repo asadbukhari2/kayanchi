@@ -1,186 +1,175 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button, Header, TextInput, Loader } from '../../components';
+import { Button, Header, TextInput } from '../../components';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
-import { fonts, useTheme } from '../../utils/theme';
-import api from '../../utils/APIservice';
+import { useTheme } from '../../utils/theme';
+
 import { useDispatch } from 'react-redux';
-import { saveToken, saveUserData } from '../../redux/actions';
-import { showMessage } from 'react-native-flash-message';
+import { saveUserData } from '../../redux/actions';
+
 import DatePicker from 'react-native-date-picker';
 import ReactNativeModal from 'react-native-modal';
+import moment from 'moment';
+import { showMessage } from 'react-native-flash-message';
+import { useNavigation } from '@react-navigation/native';
+import { useEffect } from 'react';
+import { getCategory } from '../../redux/actions/commonActions';
+import { isPasswordStrong } from '../../utils/helper';
 
 const theme = useTheme();
 
-const ConsumerPasswordSignUp = props => {
-  const {
-    navigation,
-    route: {
-      params: { email, phone_number },
-    },
-  } = props;
+const Gender = [
+  {
+    name: 'Female',
+  },
+  {
+    name: 'Male',
+  },
+  {
+    name: 'Non Binary',
+  },
+];
 
+const ConsumerPasswordSignUp = () => {
+  const navigation = useNavigation();
   const [password, setPassword] = useState(null);
   const [name, setName] = useState(null);
-  // const [age, setAge] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [gender, setGender] = useState('');
   const [dob, setDob] = useState(new Date());
   const [modalVisible, setModalVisible] = useState(false);
   const [pickerDate, setPickerDate] = useState(new Date());
 
-  console.log('pickerDate', pickerDate);
-  console.log('dob', dob);
   const currentYear = new Date().getFullYear();
   const dobYear = dob.getFullYear();
   const age = currentYear - dobYear;
 
   const dispatch = useDispatch();
 
-  const Gender = [
-    {
-      name: 'Female',
-    },
-    {
-      name: 'Male',
-    },
-    {
-      name: 'Non Binary',
-    },
-  ];
+  useEffect(() => {
+    dispatch(getCategory());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  console.log(email, password);
   const toggleModal = () => {
-    console.log('vlivk');
     setModalVisible(!modalVisible);
   };
 
-  const signUp = async () => {
-    navigation.navigate('ConsumerInterests');
-    try {
-      const res = await api.post('/api/users/verifypassword', {
-        email,
-        phone_number,
-        password,
-      });
-      setLoading(true);
-      console.log(email, password, res.data, 'EMAIL/PASSWORD');
-      console.log(res.data);
-      // if (res.status == 200) {
-      //   dispatch(saveUserData(res.data));
-      //   dispatch(saveToken(res.data));
-      //   showMessage({
-      //     message: 'Logged in successfully!',
-      //     type: 'success',
-      //   });
-      //   navigation.navigate('OnBoardingWelcome');
-      // } else {
-      //   showMessage({
-      //     message: res.data.message,
-      //     type: 'danger',
-      //   });
-      // }
-    } catch (error) {
+  const handlePasswordSignUp = async () => {
+    if (!name || !gender) {
       showMessage({
-        message: error?.message,
+        message: 'Please Fill all Fields',
         type: 'warning',
       });
-      console.log(error);
+    } else if (!isPasswordStrong(password)) {
+      showMessage({
+        message: 'Password Must be of length 8',
+        type: 'warning',
+      });
+    } else if (age < 18) {
+      showMessage({
+        message: 'age must be greater than 18',
+        type: 'warning',
+      });
+    } else {
+      const formatedDOB = moment(dob).format('DD/MM/YYYY');
+      dispatch(saveUserData({ name, password, dob: formatedDOB, gender }));
+      navigation.navigate('ConsumerInterests');
     }
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header backBtn title={'Sign up'} />
-      <ScrollView>
-        <TextInput
-          stepCount={2}
-          mainLabel={'Your full name?'}
-          subLabel={'Lets get to know each other!'}
-          placeholder={'Ali Abid'}
-          input={text => setName(text)}
-        />
-        <TextInput
-          mainLabel={'Create a password'}
-          subLabel={'Must be at least 8 characters long.'}
-          placeholder={'********'}
-          secured
-          input={text => setPassword(text)}
-        />
+      <Header title={'Sign up'} />
+      <TextInput
+        stepCount={2}
+        mainLabel={'Your full name?'}
+        subLabel={'Lets get to know each other!'}
+        input={text => setName(text)}
+        placeholder={'Black Scissors'}
+      />
+      <TextInput
+        mainLabel={'Create a password'}
+        subLabel={'Must be at least 8 characters long.'}
+        secured
+        input={text => setPassword(text)}
+        placeholder={'************'}
+      />
 
-        {/* <TextInput
+      <TextInput
         mainLabel={'What’s your age and gender?'}
-        subLabel={'Let’s find the best artist for you!'}
-      /> */}
-        {/* <View
-        style={{
-          marginTop: heightToDp(15),
-          marginVertical: 20,
-          alignItems: 'center',
-        }}>
-        <DatePicker
-          date={dob ? dob : new Date()}
-          mode="date"
-          maximumDate={new Date()}
-          onDateChange={date => {
-            // console.log(typeof date.toDateString());
-            setDob(date);
-          }}
-        />
-      </View> */}
+        subLabel={'Let’s find the best Consumers for you!'}
+        editable={false}
+        value={age ? `${age} years` : 'Select date'}
+        onInputPress={toggleModal}
+      />
 
-        <TextInput
-          mainLabel={'What’s your age and gender?'}
-          subLabel={'Helps us find the right artist for you.'}
-          editable={false}
-          value={age ? `${age} years` : ''}
-          placeholder="DD/MM/YYYY"
-          onInputPress={toggleModal}
-        />
-
-        <ReactNativeModal isVisible={modalVisible}>
-          <View style={styles.modal}>
-            <View style={styles.pickerOuterView}>
-              <DatePicker
-                date={pickerDate}
-                mode="date"
-                maximumDate={new Date()}
-                onDateChange={date => setPickerDate(date)}
-              />
-              <TouchableOpacity
-                onPress={() => {
-                  setDob(pickerDate);
-                  toggleModal();
-                }}
-                style={styles.pickerDone}>
-                <Text style={{ color: 'white' }}>Done</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </ReactNativeModal>
-
-        <View style={styles.genView}>
-          {Gender.map(item => {
-            return (
-              <TouchableOpacity
-                onPress={() => setGender(item.name)}
-                activeOpacity={0.7}
-                style={[
-                  styles.genBtn,
-                  {
-                    backgroundColor: gender === item.name ? theme.brown : theme.genderGrey,
-                  },
-                ]}>
-                <Text style={styles.genTxt}>{item.name}</Text>
-              </TouchableOpacity>
-            );
-          })}
+      <ReactNativeModal coverScreen={true} isVisible={modalVisible} swipeDirection={['down']}>
+        <View style={styles.pickerOuterView}>
+          <DatePicker
+            date={pickerDate}
+            androidVariant="nativeAndroid"
+            textColor={theme.background}
+            mode="date"
+            maximumDate={new Date()}
+            onDateChange={v => {
+              setPickerDate(v);
+            }}
+          />
         </View>
 
-        <Button title={'Create Account'} btnStyle={styles.btn} onPress={signUp} />
-        {loading && <Loader />}
-      </ScrollView>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => {
+            setDob(pickerDate);
+            toggleModal();
+          }}
+          style={[styles.pickerDone, { width: '100%' }]}>
+          <Text style={[styles.genTxt, { fontSize: 16, textAlign: 'center', color: 'white' }]}>Done</Text>
+        </TouchableOpacity>
+      </ReactNativeModal>
+
+      {/* <ReactNativeModal isVisible={modalVisible}>
+        <View style={styles.modal}>
+          <View style={styles.pickerOuterView}>
+            <DatePicker
+              date={pickerDate}
+              mode="date"
+              maximumDate={new Date()}
+              onDateChange={date => setPickerDate(date)}
+            />
+            <TouchableOpacity
+              onPress={() => {
+                setDob(pickerDate);
+                toggleModal();
+              }}
+              style={styles.pickerDone}>
+              <Text style={{ color: 'white' }}>Done</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ReactNativeModal> */}
+
+      <View style={styles.genView}>
+        {Gender.map(item => {
+          return (
+            <TouchableOpacity
+              key={item.name}
+              onPress={() => setGender(item.name)}
+              activeOpacity={0.7}
+              style={[
+                styles.genBtn,
+                {
+                  backgroundColor: gender === item.name ? theme.brown : theme.genderGrey,
+                },
+              ]}>
+              <Text style={styles.genTxt}>{item.name}</Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+
+      <Button title="Continue" btnStyle={styles.btn} onPress={handlePasswordSignUp} />
     </SafeAreaView>
   );
 };
@@ -189,23 +178,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.background,
+    // paddingTop: heightToDp(7)
   },
   btn: {
     position: 'absolute',
     bottom: heightToDp(5.5),
-    // marginVertical: heightToDp(3)
   },
 
   bottomView: {
     width: width,
     marginTop: heightToDp(15),
-    position: 'absolute',
-    bottom: heightToDp(5.5),
     alignItems: 'center',
     alignSelf: 'center',
   },
   genTxt: {
-    fontSize: fonts.robo_reg,
     fontSize: 14,
     lineHeight: 16.41,
     color: theme.background,
@@ -224,20 +210,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 24,
   },
-  modal: {
-    flex: 1,
-    margin: 0,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-  },
+
   pickerOuterView: {
-    width: width,
-    // backgroundColor: theme.,
+    width: '100%',
     alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    borderRadius: 10,
   },
   pickerDone: {
-    padding: heightToDp(4.5),
-    alignSelf: 'flex-end',
+    paddingVertical: heightToDp(4),
+    paddingHorizontal: widthToDp(15),
+
+    alignSelf: 'center',
+    backgroundColor: theme.primary,
+    borderRadius: 10,
   },
 });
 

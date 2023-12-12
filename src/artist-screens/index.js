@@ -65,8 +65,6 @@ import ArtistConfirmOrderRequest from './ArtistConfirmOrderRequest';
 import ArtistTimeline from './ArtistTimeline';
 import ArtistGrooming from './ArtistGrooming';
 import ArtistGroomingDone from './ArtistGroomingDone';
-import ArtistFinishedTimeline from './ArtistFinishedTimeline';
-import ArtistCancelledTimeline from './ArtistCancelledTimeline';
 import ArtistGlowMakeUp from './ArtistGlowMakeUp';
 import ArtistGigMainPage from './ArtistGigMainPage';
 
@@ -138,8 +136,6 @@ export {
   ArtistTimeline,
   ArtistGrooming,
   ArtistGroomingDone,
-  ArtistFinishedTimeline,
-  ArtistCancelledTimeline,
   ArtistGlowMakeUp,
   ArtistGigMainPage,
 };

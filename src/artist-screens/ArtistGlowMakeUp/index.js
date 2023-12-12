@@ -1,35 +1,59 @@
-import React, { useEffect, useState } from 'react';
-import { SafeAreaView, View, Text, ImageBackground, StyleSheet, Image } from 'react-native';
+import React from 'react';
+import { SafeAreaView, View, Text, StyleSheet, Image } from 'react-native';
 import { fonts, useTheme } from '../../utils/theme';
 import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { Button, Header } from '../../components';
-
 import { useNavigation, useRoute } from '@react-navigation/native';
-
 import { convertMinutesToRange } from '../../utils/helper';
-
+import { useSelector } from 'react-redux';
 const clockcolor = require('../../assets/clockcolor.png');
 const ondemand = require('../../assets/ondemand.png');
-
 const eye_face = require('../../assets/eye_face.png');
-
 const hair = require('../../assets/hair.png');
+const hairgig = require('../../assets/hairgig.png');
+const facegig = require('../../assets/facegig.png');
+const treatmentsgig = require('../../assets/treatmentsgig.png');
+const spagig = require('../../assets/spagig.png');
+const bodygig = require('../../assets/bodygig.png');
+const booking = require('../../assets/booking.png');
 
 const theme = useTheme();
 
 export default function ArtistGlowMakeUp() {
   const route = useRoute();
+  const profile = useSelector(state => state.auth.profile);
 
   const navigation = useNavigation();
-  const { price, details, cat, time, discountedPrice, isDiscount, isTravelling, isHosting, id, catName } = route.params;
+  const { price, details, cat, time, discountedPrice, isDiscount, catName } = route.params;
+
+  const backgroundImage =
+    catName === 'Face'
+      ? facegig
+      : catName === 'Spa'
+      ? spagig
+      : catName === 'Treatments'
+      ? treatmentsgig
+      : catName === 'Hair'
+      ? hairgig
+      : catName === 'Body'
+      ? bodygig
+      : eye_face;
 
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground source={eye_face} style={styles.backgroundImage}>
+      <View style={styles.backgroundImage}>
         <View style={styles.headerButtonContainer}>
           <Header backBtnWhite />
         </View>
-      </ImageBackground>
+        <Image
+          source={backgroundImage}
+          style={{
+            resizeMode: 'contain',
+
+            top: '-10%',
+          }}
+        />
+      </View>
 
       <View
         style={{
@@ -72,14 +96,14 @@ export default function ArtistGlowMakeUp() {
           <View
             style={{
               flexDirection: 'row',
-              backgroundColor: '#84668C',
+              backgroundColor: profile.availability_status === 'booking_only' ? theme.primary : theme.brown,
               paddingVertical: heightToDp(2),
-              paddingHorizontal: widthToDp(4),
+              paddingHorizontal: widthToDp(2),
               borderRadius: 20,
               marginRight: 10,
             }}>
             <Image
-              source={ondemand}
+              source={profile.availability_status === 'booking_only' ? booking : ondemand}
               style={{
                 width: 15,
                 height: 15,
@@ -87,8 +111,11 @@ export default function ArtistGlowMakeUp() {
                 marginRight: 5,
               }}
             />
-            <Text style={{ color: 'white', fontSize: 12 }}>OnDemand</Text>
+            <Text style={{ color: 'white', fontSize: 12 }}>
+              {profile.availability_status === 'booking_only' ? 'Booking' : 'On-Demand'}
+            </Text>
           </View>
+
           <View
             style={{
               flexDirection: 'row',
@@ -132,27 +159,8 @@ export default function ArtistGlowMakeUp() {
           <Text style={isDiscount ? styles.discountPrice : styles.priceTxt}>
             Rs {isDiscount ? discountedPrice : price}
           </Text>
-          {/* <Feather
-            name="plus"
-            size={24}
-            color="white"
-            style={{
-              padding: widthToDp(2),
-              backgroundColor: '#84668C',
-              borderRadius: 10,
-            }}
-          /> */}
         </View>
         <View style={styles.separator} />
-        <View
-          style={{
-            flexDirection: 'row',
-            marginHorizontal: widthToDp(5),
-            justifyContent: 'space-between',
-          }}>
-          {/* <Text style={{ width: widthToDp(60), fontFamily: fonts.robo_reg }}>Rizwan can only host you </Text> */}
-          {/* <Image source={hostingBlue} style={styles.images} /> */}
-        </View>
       </View>
       <View
         style={{
@@ -167,7 +175,6 @@ export default function ArtistGlowMakeUp() {
           }}
         />
       </View>
-      <Button title="Continue" />
     </SafeAreaView>
   );
 }
@@ -178,10 +185,10 @@ const styles = StyleSheet.create({
     backgroundColor: theme.homeBackground,
   },
   backgroundImage: {
-    height: heightToDp(80),
-    resizeMode: 'cover',
-    opacity: 0.7,
-    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+    height: heightToDp(90),
+    backgroundColor: '#FAE5FF',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   headerButtonContainer: {
     position: 'absolute',

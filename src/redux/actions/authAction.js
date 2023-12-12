@@ -30,7 +30,7 @@ export const EMAIL_LOGIN =
       let res = await Fetch.post('/api/users/login', data);
       if (res.status >= 200 && res.status < 300) {
         res = await res.json();
-        console.log(res, 'sifhsdfids');
+
         await AsyncStorage.setItem('userToken', JSON.stringify(res.token));
         dispatch(module.exports.getMyProfile(res.token));
         showMessage({
@@ -69,10 +69,15 @@ export const EMAIL_LOGIN =
   };
 
 export const SIGNUP = (data, navigation) => async dispatch => {
+  console.log('signup action data', data);
   dispatch({
     type: SIGN_UP,
   });
-  let res = await Fetch.post('/api/users/artist', data);
+  let res = await Fetch.post(
+    `/api/users/${data.type_login == 'artist' ? 'artist' : data.type_login == 'studio' ? 'studio' : 'consumer'}`,
+    data,
+  );
+  console.log('signup action res', res.data);
   if (res.status >= 200 && res.status < 300) {
     res = await res.json();
 
@@ -85,7 +90,8 @@ export const SIGNUP = (data, navigation) => async dispatch => {
       type: SIGN_UP_SUCCESS,
       payload: res,
     });
-    navigation.navigate('ArtistOnBoardingWelcome');
+    if (data.type_login == 'artist' || data.type_login == 'studio') navigation.navigate('ArtistOnBoardingWelcome');
+    else navigation.navigate('ConsumerOnBoardingWelcome');
   } else if (res.status >= 500) {
     showMessage({
       message: 'Server Issues',

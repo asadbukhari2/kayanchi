@@ -34,10 +34,6 @@ const ListingCardButton = ({ order, onPress, type, navigation }) => {
   };
   const CancelHandler = () => {
     rejectOrder(order.order.id);
-    // navigation.navigate('ArtistOrderStack', {
-    //   screen: 'ArtistTimeline',
-    //   params: { ...order, timlineType: 'cancelled' },
-    // });
     dispatch(getMyOrders());
   };
   const GroomingDoneHandler = () => {

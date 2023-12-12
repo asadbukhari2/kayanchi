@@ -2,11 +2,8 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { width, heightToDp, widthToDp } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
-import Entypo from 'react-native-vector-icons/Entypo';
-import Feather from 'react-native-vector-icons/Feather';
-import Counter from '../Counter';
+
 import { useNavigation } from '@react-navigation/native';
-import { convertMinutesToRange } from '../../utils/helper';
 
 const host = require('../../assets/hostborwn.png');
 const car = require('../../assets/car_brown.png');

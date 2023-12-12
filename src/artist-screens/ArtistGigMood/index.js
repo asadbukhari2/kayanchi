@@ -271,22 +271,17 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   mood: {
-    // borderColor: "red",
-    // borderWidth: 1,
     width: width * 0.9,
     flex: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // alignItems:"s"
   },
   childMood: {
-    // borderColor: "blue",
-    // borderWidth: 1,
     width: width * 0.425,
-    // height:40,
+
     backgroundColor: 'blue',
     flex: 0,
-    // justifyContent:"center",
+
     alignItems: 'center',
     paddingVertical: 10,
     borderRadius: 15,
@@ -294,14 +289,14 @@ const styles = StyleSheet.create({
   childMoodHead: {
     fontFamily: fonts.robo_med,
     fontSize: 14,
-    // lineHeight: 16,
+
     color: 'white',
     marginTop: 8,
   },
   childMoodBody: {
     fontFamily: fonts.robo_light,
     fontSize: 14,
-    // lineHeight: 16,
+
     color: 'white',
     marginTop: 4,
   },
@@ -360,7 +355,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginLeft: widthToDp(5),
     marginRight: widthToDp(5),
-    // marginTop: 10,
+
     marginBottom: 10,
   },
   pkr: {
@@ -378,12 +373,12 @@ const styles = StyleSheet.create({
   priceField: {
     backgroundColor: '#DFDEDF',
     width: widthToDp(90),
-    // marginLeft: widthToDp(5),
+
     borderRadius: 8,
-    // paddingVertical: 5,
+
     paddingHorizontal: 10,
     fontSize: 16,
-    // marginHorizontal: 24,
+
     fontFamily: fonts.robo_med,
     color: '#8D8A94',
     lineHeight: 22,
@@ -413,7 +408,6 @@ const styles = StyleSheet.create({
   },
   btn: {
     marginTop: 40,
-    // position: 'absolute',
     bottom: heightToDp(5.5),
   },
   switchContainer: {
@@ -449,14 +443,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 18,
     fontFamily: fonts.hk_bold,
     color: theme.lightBlack,
-    // marginTop: 23,
-    // lineHeight: 28.13,
   },
   title2: {
     fontSize: 20,
     marginHorizontal: 24,
     fontFamily: '700',
-    // marginTop: 23,
+
     lineHeight: 24,
     color: '#2F3A58',
   },

@@ -4,10 +4,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Header, ImageCard, TextInput } from '../../components';
 import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
-import api from '../../utils/APIservice';
 import { showMessage } from 'react-native-flash-message';
-import { useDispatch } from 'react-redux';
-import { saveUserData } from '../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { SIGNUP, saveUserData } from '../../redux/actions';
 import haircolor from '../../assets/haircolor_interest.png';
 import haircut from '../../assets/haircut_interest.png';
 import facials from '../../assets/facials_interest.png';
@@ -17,44 +16,46 @@ import massage from '../../assets/massage_interest.png';
 import medicure from '../../assets/medicure_interest.png';
 import pedicure from '../../assets/pedicure_interest.png';
 import waxing from '../../assets/waxing_interest.png';
+import axios from 'axios';
+import { baseURL } from '../../utils/constants';
 
 const theme = useTheme();
 
 const DATA = [
   {
-    service: 'HAIRCUT',
+    service: 'Haircut',
     imageLink: haircut,
   },
   {
-    service: 'HAIRCOLOR',
+    service: 'Hair colour',
     imageLink: haircolor,
   },
   {
-    service: 'MAKEUP',
+    service: 'Make up',
     imageLink: makeup,
   },
   {
-    service: 'MASSAGES',
+    service: 'Massages',
     imageLink: massage,
   },
   {
-    service: 'PEDICURE',
+    service: 'Pedicure',
     imageLink: pedicure,
   },
   {
-    service: 'MEDICURE',
+    service: 'Medicure',
     imageLink: medicure,
   },
   {
-    service: 'WAXING',
+    service: 'Waxing',
     imageLink: waxing,
   },
   {
-    service: 'EYELASHES',
+    service: 'Eyelashes',
     imageLink: lashes,
   },
   {
-    service: 'FACIALS',
+    service: 'Facials',
     imageLink: facials,
   },
 ];
@@ -63,47 +64,17 @@ const ConsumerInterests = props => {
   const { navigation } = props;
 
   const dispatch = useDispatch();
-  let [data, setData] = useState([]);
   const [interest, setInterest] = useState([]);
+  const dataToSave = useSelector(state => state.auth.signUpUserData);
 
-  useEffect(() => {
-    const getInterest = async () => {
-      const res = await api.get('/api/users/interest');
-      setData(res.data);
-    };
-
-    getInterest();
-  }, []);
-
-  console.log(data, '*************DATA');
-  console.log(interest, '*************INTEREST');
-
-  const addInterest = async () => {
-    navigation.navigate('ConsumerOnBoardingWelcome');
-
-    try {
-      const res = await api.post('/api/users/interest', {
-        interest,
-      });
-
-      console.log('interestADDED', res.data);
-      // setLoading(true);
-      // dispatch(saveUserData(res.data));
-
-      navigation.navigate('OnBoardingWelcome', { data: res.data });
-      // } else {
-      //   setLoading(false);
-      //   showMessage({
-      //     message: res.data,
-      //     type: 'danger',
-      //   });
-      // }
-    } catch (error) {
+  const createAccount = async () => {
+    if (interest.length < 1) {
       showMessage({
-        message: error?.message,
+        message: 'Please Select atleast one interest to proceed',
         type: 'warning',
       });
-      console.log(error);
+    } else {
+      dispatch(SIGNUP({ ...dataToSave, interests: interest }, navigation));
     }
   };
 
@@ -129,22 +100,22 @@ const ConsumerInterests = props => {
           renderItem={({ item }) => {
             return (
               <ImageCard
-                name={item.service}
+                name={item.service.toUpperCase()}
                 imageLink={item.imageLink}
                 onPress={() => {
-                  if (interest.includes(item.id)) {
-                    setInterest(interest.filter(e => e !== item.id));
+                  if (interest.includes(item.service)) {
+                    setInterest(interest.filter(e => e !== item.service));
                   } else {
-                    setInterest([...interest, item.id]);
+                    setInterest([...interest, item.service]);
                   }
                 }}
-                isSelected={interest.includes(item.id)}
+                isSelected={interest.includes(item.service)}
               />
             );
           }}
         />
       </View>
-      <Button title={'Continue'} btnStyle={styles.btn} onPress={addInterest} />
+      <Button title={'Continue'} btnStyle={styles.btn} onPress={createAccount} />
     </SafeAreaView>
   );
 };

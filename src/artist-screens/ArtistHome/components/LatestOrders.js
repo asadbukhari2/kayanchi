@@ -134,7 +134,7 @@ const LatestOrders = ({ latest }) => {
                       }
                       return null;
                     })}
-                    {order.item.order.order_availibity_status === 'On-Demand' ? (
+                    {order.item.order.order_availibity_status !== 'On-Demand' ? (
                       <>
                         <Text
                           style={[
@@ -150,6 +150,7 @@ const LatestOrders = ({ latest }) => {
                         </Text>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                           <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
+                          <Text>{order.item.default_artist_address ? order.item.default_artist_address : ''}</Text>
                         </View>
                       </>
                     ) : (
@@ -168,6 +169,7 @@ const LatestOrders = ({ latest }) => {
                         </Text>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                           <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
+                          <Text>{order.item.order.hostingspot ? order.item.order.hostingspot.name : 'lahore'}</Text>
                         </View>
                       </>
                     )}

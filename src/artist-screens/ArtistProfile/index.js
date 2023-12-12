@@ -144,7 +144,7 @@ const ArtistProfile = props => {
     {
       icon: <SimpleLineIcons name={'location-pin'} style={{ fontSize: 18, color: theme.primary }} />,
       title: 'Your saved addresses',
-      // onPress: () => props.navigation.navigate('ArtistSavedAddresses'),
+
       onPress: () =>
         props.navigation.navigate('ArtistProfileStack', {
           screen: 'ArtistSavedAddresses',
