@@ -7,7 +7,6 @@ import { Header } from '../../components';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { useTheme, fonts } from '../../utils/theme';
 
-// import OrderCard from '../../components/OrderCard';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import ListingCardButton from '../../components/ListingCardButton';
@@ -47,13 +46,13 @@ const ArtistOrders = () => {
       setNewOrders(waiting);
 
       if (activeTab === 'new') {
-        setDisplayedOrders(waiting);
+        setDisplayedOrders(newOrders);
       } else if (activeTab === 'completed') {
-        setDisplayedOrders(completed);
+        setDisplayedOrders(completedOrders);
       } else if (activeTab === 'active') {
         setDisplayedOrders(activeOrders);
       } else if (activeTab === 'cancelled') {
-        setDisplayedOrders(cancelled);
+        setDisplayedOrders(cancelledOrders);
       }
     }
 

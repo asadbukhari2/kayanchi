@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { heightToDp, widthToDp } from '../../../utils/Dimensions';
 
 import { rejectOrder } from '../../../redux/actions';
+import { useSelector } from 'react-redux';
 
 const location = require('../../../assets/Path.png');
 const information = require('../../../assets/information.png');
@@ -13,10 +14,14 @@ const information = require('../../../assets/information.png');
 const host_green = require('../../../assets/host_green.png');
 const car_brown = require('../../../assets/car_brown.png');
 
-const LatestOrders = ({ latest }) => {
+const LatestOrders = () => {
   const theme = useTheme();
   const styles = makeStyle(theme);
   const navigation = useNavigation();
+
+  const { waiting } = useSelector(state => state.common);
+
+  const latest = waiting ? [...waiting.Booking, ...waiting['On-Demand']] : [];
 
   const handleOrder = () => {
     navigation.navigate('ArtistOrder', { screen: 'ArtistOrders' });
@@ -150,7 +155,7 @@ const LatestOrders = ({ latest }) => {
                         </Text>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                           <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
-                          <Text>{order.item.default_artist_address ? order.item.default_artist_address : ''}</Text>
+                          <Text>{order.item.default_artist_address ? order.item.default_artist_address.text : ''}</Text>
                         </View>
                       </>
                     ) : (

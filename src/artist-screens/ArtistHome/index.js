@@ -4,7 +4,7 @@ import { Button } from '../../components';
 import { fonts, useTheme } from '../../utils/theme';
 import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native'; // Import the navigation hook
+import { useNavigation } from '@react-navigation/native';
 import Insights from './components/Insights';
 import Performance from './components/Performance';
 import LinearGradient from 'react-native-linear-gradient';
@@ -22,11 +22,11 @@ import { View, Image, Text, TouchableOpacity, ScrollView } from 'react-native';
 const timer = require('../../assets/timer.png');
 const information = require('../../assets/information.png');
 
-const ArtistHome = props => {
+const ArtistHome = () => {
   const theme = useTheme();
   const styles = makeStyle(theme);
   const auth = useSelector(state => state.auth);
-  const { ordersLoading, waiting } = useSelector(state => state.common);
+  const { ordersLoading } = useSelector(state => state.common);
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
@@ -169,7 +169,7 @@ const ArtistHome = props => {
           </View>
         ) : (
           <View>
-            <LatestOrders latest={waiting ? [...waiting.Booking, ...waiting['On-Demand']] : []} />
+            <LatestOrders />
           </View>
         )}
         {/* order summary */}

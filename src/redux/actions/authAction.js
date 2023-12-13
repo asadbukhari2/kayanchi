@@ -17,6 +17,7 @@ import {
 import { showMessage } from 'react-native-flash-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import API, { Fetch } from '../../utils/APIservice';
+import { getMyOrders } from './commonActions';
 
 export const EMAIL_LOGIN =
   ({ email, password }) =>
@@ -33,6 +34,7 @@ export const EMAIL_LOGIN =
 
         await AsyncStorage.setItem('userToken', JSON.stringify(res.token));
         dispatch(module.exports.getMyProfile(res.token));
+        dispatch(getMyOrders(res.token));
         showMessage({
           message: 'Logged In Successfully!',
           type: 'success',
@@ -154,7 +156,7 @@ export const updateUserDetail = async data => {
     let res = await Fetch.put('/api/users/profileDetails/1', data);
 
     if (res.status >= 200 && res.status < 300) {
-      res = await res.json();
+      return res;
     } else {
       const message = await res.json();
       showMessage({
@@ -166,14 +168,30 @@ export const updateUserDetail = async data => {
     console.log(error);
   }
 };
-export const getUserProfileDetails = async data => {
+export const setUserDefaultAddress = async data => {
+  try {
+    let res = await Fetch.post('/api/address/default/', data);
+
+    if (res.status >= 200 && res.status < 300) {
+      return res;
+    } else {
+      const message = await res.json();
+      showMessage({
+        message: message || 'Something Went Wrong',
+        type: 'danger',
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const getUserProfileDetails = () => async dispatch => {
   try {
     let res = await Fetch.get('/api/users/profileDetails/1');
 
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
-
-      return res;
+      dispatch({ type: 'GET_USER_PROFILE_DETAILS', payload: res });
     } else {
       const { message } = await res.json();
       showMessage({

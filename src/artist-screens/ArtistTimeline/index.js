@@ -70,7 +70,7 @@ const ArtistTimeline = props => {
 
         {timlineType === 'active' && (
           <>
-            {/* <Map />  */}
+            <Map />
             <Text style={styles.textCenter}>You can start grooming once you’ve reached your client’s location.</Text>
 
             <View style={styles.indicatorView}>

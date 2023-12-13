@@ -5,19 +5,16 @@ import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-nati
 import { fonts, useTheme } from '../../utils/theme';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Assuming you want to use FontAwesome icons, you can change it to any other supported icon library.
-
 import { useSelector } from 'react-redux';
 
 const whatsappphone = require('../../assets/whatsappphone.png');
 const theme = useTheme();
 
 export default function ArtistProfileSaved(props) {
-  const auth = useSelector(state => state.auth);
-  console.log('[p[p[', props.route.params.defaultAddress);
-  const { email, name, phone_number } = auth.user;
+  const { userProfileDetails } = useSelector(state => state.auth);
 
   const editClickHandler = () => {
-    props.navigation.navigate('ArtistPersonalDetails', { params: props.route.params.defaultAddress });
+    props.navigation.navigate('ArtistPersonalDetails');
   };
 
   return (
@@ -29,7 +26,7 @@ export default function ArtistProfileSaved(props) {
           <View style={styles.personalContainer}>
             <View style={{ paddingLeft: widthToDp(4) }}>
               <Text style={styles.subheading}>Name</Text>
-              <Text style={styles.infoText}>{name}</Text>
+              <Text style={styles.infoText}>{userProfileDetails.name}</Text>
             </View>
             <View>
               <TouchableOpacity activeOpacity={0.7} onPress={editClickHandler} style={{ padding: heightToDp(2.9) }}>
@@ -42,7 +39,7 @@ export default function ArtistProfileSaved(props) {
           <View style={styles.personalContainer}>
             <View style={{ paddingLeft: widthToDp(4) }}>
               <Text style={styles.subheading}>Email</Text>
-              <Text style={styles.infoText}>{email}</Text>
+              <Text style={styles.infoText}>{userProfileDetails.email}</Text>
             </View>
             <View>
               <TouchableOpacity activeOpacity={0.7} onPress={editClickHandler} style={{ padding: heightToDp(2.9) }}>
@@ -55,7 +52,7 @@ export default function ArtistProfileSaved(props) {
           <View style={styles.personalContainer}>
             <View style={{ paddingLeft: widthToDp(4) }}>
               <Text style={styles.subheading}>Mobile Number</Text>
-              <Text style={styles.infoText}>{phone_number ?? '0000-00000000'}</Text>
+              <Text style={styles.infoText}>{userProfileDetails.phone_number ?? '0000-00000000'}</Text>
             </View>
             <View>
               <TouchableOpacity activeOpacity={0.7} onPress={editClickHandler} style={{ padding: heightToDp(2.9) }}>
@@ -67,7 +64,7 @@ export default function ArtistProfileSaved(props) {
           <View style={styles.personalContainer}>
             <View style={{ paddingLeft: widthToDp(4) }}>
               <Text style={[styles.subheading]}>Your default address</Text>
-              <Text style={[{ width: widthToDp(54) }, styles.infoText]}>{props?.route?.params?.defaultAddress}</Text>
+              <Text style={[{ width: widthToDp(54) }, styles.infoText]}>{userProfileDetails.default_address}</Text>
             </View>
             <View>
               <TouchableOpacity activeOpacity={0.7} onPress={editClickHandler} style={{ padding: heightToDp(2.9) }}>

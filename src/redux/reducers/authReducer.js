@@ -15,6 +15,7 @@ const initialState = {
   signUpUserData: null,
   categories: null,
   portfolio: null,
+  userProfileDetails: null,
 };
 
 import {
@@ -157,6 +158,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         portfolio: action.payload.error,
+      };
+    case 'GET_USER_PROFILE_DETAILS':
+      return {
+        ...state,
+        userProfileDetails: action.payload,
       };
     case 'TEST_UPDATE_IS_ARTIST':
       return {

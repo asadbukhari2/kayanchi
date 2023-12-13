@@ -30,7 +30,6 @@ const ArtistProfile = props => {
   const [isEnabled, setIsEnabled] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalNavigation, setModalNavigation] = useState(null);
-  const [defaultAddress, setDefaultAddress] = useState(null);
 
   const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
@@ -44,11 +43,7 @@ const ArtistProfile = props => {
     setModalNavigation(navigation); // Save the navigation object in the state
   };
   useEffect(() => {
-    getUserProfileDetails()
-      .then(res => {
-        setDefaultAddress(res.default_address);
-      })
-      .catch(err => console.log(err));
+    dispatch(getUserProfileDetails());
     dispatch(getServices(user.id));
     dispatch(getFeedbackCategory());
 
@@ -249,7 +244,6 @@ const ArtistProfile = props => {
               onPress={() =>
                 props.navigation.navigate('ArtistProfileStack', {
                   screen: 'ArtistProfileSaved',
-                  params: { defaultAddress },
                 })
               }
               style={{ padding: heightToDp(2.9) }}>

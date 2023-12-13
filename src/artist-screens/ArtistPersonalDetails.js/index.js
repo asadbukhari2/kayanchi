@@ -5,28 +5,36 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'rea
 import { fonts, useTheme } from '../../utils/theme';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserDetail, updateUserDetail } from '../../redux/actions';
+import { getUserProfileDetails, updateUserDetail } from '../../redux/actions';
+import { getCurrentLocation } from '../../utils/helper';
 
 const currentlocation = require('../../assets/currentlocation.png');
 const theme = useTheme();
 
 export default function ArtistPersonalDetails(props) {
-  const auth = useSelector(state => state.auth);
+  const { userProfileDetails } = useSelector(state => state.auth);
 
-  const { name: nm, email: em, phone_number, id } = auth.user;
+  const { currentLocation } = useSelector(state => state.common);
 
-  const [name, setName] = useState(nm);
-  const [email, setEmail] = useState(em);
+  const [name, setName] = useState(userProfileDetails.name);
+  const [email, setEmail] = useState(userProfileDetails.email);
   const [password, setPassword] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState(phone_number);
-  const [defaultAddress, setDefaultAddress] = useState(props.route.params.params ?? '');
+  const [phoneNumber, setPhoneNumber] = useState(userProfileDetails.phone_number);
+  const [defaultAddress, setDefaultAddress] = useState(userProfileDetails.default_address);
 
   const dispatch = useDispatch();
 
   const saveClickHandler = async () => {
-    const data = { name, email, phone_number: phoneNumber, default_address: defaultAddress };
+    const data = {
+      name,
+      email,
+      phone_number: phoneNumber,
+      default_address: defaultAddress,
+      longitude: currentLocation.longitude,
+      latitude: currentLocation.latitude,
+    };
     await updateUserDetail(data);
-    dispatch(getUserDetail(id));
+    dispatch(getUserProfileDetails());
     props.navigation.goBack();
   };
 
@@ -86,7 +94,10 @@ export default function ArtistPersonalDetails(props) {
           <Text style={{ color: '#84668C', fontSize: 16, paddingTop: 10, fontFamily: fonts.robo_bold }}>
             Your default address
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              getCurrentLocation(dispatch);
+            }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Image source={currentlocation} style={{ width: 12, height: 12 }} />
               <Text
@@ -122,7 +133,7 @@ export default function ArtistPersonalDetails(props) {
             marginRight: 20,
             textAlign: 'right',
           }}>
-          {defaultAddress.length}/200
+          {defaultAddress?.length}/200
         </Text>
         <Button title="Save" btnStyle={[styles.btn, { marginTop: heightToDp(10) }]} onPress={saveClickHandler} />
       </ScrollView>

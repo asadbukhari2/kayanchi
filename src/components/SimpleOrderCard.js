@@ -9,7 +9,6 @@ const car_brown = require('../assets/car_brown.png');
 const location = require('../assets/Path.png');
 
 const SimpleOrderCard = ({ order, onPress = () => {}, type, section }) => {
-  console.log({ order });
   return (
     <View style={styles.orderContainer}>
       <TouchableOpacity onPress={onPress}>
@@ -72,16 +71,31 @@ const SimpleOrderCard = ({ order, onPress = () => {}, type, section }) => {
                 )}
               </View>
 
-              <Text style={{ color: '#29AAE2' }}>
-                3.5 kms <Text style={{ color: '#0F2851' }}>away for you </Text>
-              </Text>
+              {order.order.is_hosting ? (
+                <Text style={{ color: '#29AAE2' }}>
+                  {order.distance} kms <Text style={{ color: '#0F2851' }}>away for you </Text>
+                </Text>
+              ) : (
+                <Text style={{ color: '#29AAE2' }}>
+                  Ariving in: <Text style={{ color: '#0F2851' }}>50 - 60mins</Text>
+                </Text>
+              )}
+
               <Text style={[styles.textBold, { textTransform: 'uppercase', marginTop: 5, marginBottom: 3 }]}>
                 {order.order.is_hosting ? 'HOSTING AT:' : 'TRVELLING TO:'}
               </Text>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
-                <Text style={{ color: '#32aee3' }}>{order?.hostingspot?.name}</Text>
-              </View>
+
+              {order.order.order_availibity_status === 'On-Demand' ? (
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
+                  <Text>{order.default_artist_address ? order.default_artist_address.text : ''}</Text>
+                </View>
+              ) : (
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
+                  <Text style={{ color: '#32aee3' }}>{order?.order.hostingspot?.name}</Text>
+                </View>
+              )}
             </View>
           ) : (
             <View>
@@ -95,10 +109,17 @@ const SimpleOrderCard = ({ order, onPress = () => {}, type, section }) => {
                   <Image source={car_brown} style={styles.OrderImage} />
                 )}
               </View>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
-                <Text style={{ color: '#32aee3' }}>{order?.hostingspot?.name}</Text>
-              </View>
+              {order.order.order_availibity_status === 'On-Demand' ? (
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
+                  <Text>{order.default_artist_address ? order.default_artist_address.text : ''}</Text>
+                </View>
+              ) : (
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
+                  <Text style={{ color: '#32aee3' }}>{order?.order.hostingspot?.name}</Text>
+                </View>
+              )}
               <Text
                 style={{
                   color: '#ACACAC',

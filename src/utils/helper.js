@@ -1,3 +1,6 @@
+import Geolocation from '@react-native-community/geolocation';
+import { format } from 'date-fns';
+
 export const capitalizeEachWord = str => {
   const words = str.split(' ');
 
@@ -46,3 +49,31 @@ export const convertMinutesToRange = minutes => {
     }
   }
 };
+
+export const getCurrentLocation = ({ store, dispatch }) => {
+  Geolocation.getCurrentPosition(
+    position => {
+      const { latitude, longitude } = position.coords;
+      console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+
+      store
+        ? store.dispatch({ type: 'GET_CURRENT_LOCATION', payload: { latitude, longitude } })
+          ? dispatch
+          : dispatch({ type: 'GET_CURRENT_LOCATION', payload: { latitude, longitude } })
+        : '';
+    },
+    error => {
+      console.error(error.code, error.message);
+    },
+    { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
+  );
+};
+
+export function convertToAMPM(timeString) {
+  const [hours, minutes, seconds] = timeString.split(':').map(Number);
+  const timeObject = new Date(2000, 0, 1, hours, minutes, seconds);
+
+  const formattedTime = format(timeObject, 'h:mm:ss a');
+
+  return formattedTime;
+}

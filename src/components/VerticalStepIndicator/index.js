@@ -5,12 +5,15 @@ import Feather from 'react-native-vector-icons/Feather';
 import { widthToDp } from '../../utils/Dimensions';
 import CircularProgressBar from '../CircularProgressBar';
 import { fonts } from '../../utils/theme';
+import { convertToAMPM } from '../../utils/helper';
 
 export default function VerticalStepIndicator({ data }) {
   const [currentPage, setCurrentPage] = useState(0);
 
   // eslint-disable-next-line no-unused-vars
   const [stepsCompleted, setStepsCompleted] = useState(new Array(data?.length).fill(false));
+
+  console.log({ stepsCompleted });
 
   const viewabilityConfig = { itemVisiblePercentThreshold: 0 };
   const stepColors = ['#29AAE2', '#84668C', '#A77246', '#E91E63', '#29AAE2', '#29AAE2', '#29AAE2', '#29AAE2']; // Define colors for each step
@@ -36,7 +39,6 @@ export default function VerticalStepIndicator({ data }) {
   };
 
   const renderPage = ({ item, index }) => {
-    // const isTickVisible = index === 10;
     const isCircularProgressBarVisible = index === 10;
     const isCompleted = stepsCompleted[10];
 
@@ -46,27 +48,26 @@ export default function VerticalStepIndicator({ data }) {
           <View>
             <Text style={styles.title}>{item.status}</Text>
             <Text style={styles.body}>{item.date}</Text>
-            <Text style={styles.body}>{item.time}</Text>
+            <Text style={styles.body}>{convertToAMPM(item.time)}</Text>
           </View>
           <View>
-            {
-              <Feather
-                name="check"
-                size={15}
-                color="#4ECB5C"
-                style={{
-                  alignSelf: 'center',
-                  padding: 5,
-                  backgroundColor: '#EEEEEE',
-                  borderRadius: 40,
-                }}
-              />
-            }
+            <Feather
+              name="check"
+              size={15}
+              color="#4ECB5C"
+              style={{
+                alignSelf: 'center',
+                padding: 5,
+                backgroundColor: '#EEEEEE',
+                borderRadius: 40,
+              }}
+            />
+            {/* TODO! needs to redeign check and do by doing removing condition  */}
             {isCircularProgressBarVisible && !isCompleted ? (
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={{ color: '#A77246', marginRight: 10 }}>You are late</Text>
                 <CircularProgressBar
-                  progress={80} // Set the progress value as needed
+                  progress={80}
                   radius={25}
                   strokeWidth={2}
                   color="#84668C"
@@ -93,25 +94,23 @@ export default function VerticalStepIndicator({ data }) {
   }, []);
 
   return (
-    <>
-      <View style={styles.container}>
-        <View style={styles.stepIndicator}>
-          <StepIndicator
-            customStyles={stepIndicatorStyles}
-            stepCount={data.length}
-            direction="vertical"
-            currentPosition={currentPage}
-          />
-        </View>
-        <FlatList
-          style={{ flexGrow: 1 }}
-          data={data}
-          renderItem={renderPage}
-          onViewableItemsChanged={onViewableItemsChanged}
-          viewabilityConfig={viewabilityConfig}
+    <View style={styles.container}>
+      <View style={styles.stepIndicator}>
+        <StepIndicator
+          customStyles={stepIndicatorStyles}
+          stepCount={data.length}
+          direction="vertical"
+          currentPosition={currentPage}
         />
       </View>
-    </>
+      <FlatList
+        style={{ flexGrow: 1 }}
+        data={data}
+        renderItem={renderPage}
+        onViewableItemsChanged={onViewableItemsChanged}
+        viewabilityConfig={viewabilityConfig}
+      />
+    </View>
   );
 }
 
@@ -125,7 +124,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   rowItem: {
-    // flex: 3,
     paddingVertical: 5,
     flexDirection: 'row',
     alignItems: 'center',
