@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { Svg, Text, Circle } from 'react-native-svg';
 import { useTheme } from '../../utils/theme';
 const theme = useTheme();
-const CircularProgressBar = ({ progress, radius, strokeWidth, color, textStyle }) => {
+const CircularProgressBar = ({ progress, radius, strokeWidth, color, textStyle, isText }) => {
   const circumference = 2 * Math.PI * radius;
   const progressOffset = circumference - (progress / 100) * circumference;
   const remainingMinutes = Math.floor(((100 - progress) * 60) / 100);
@@ -35,9 +35,14 @@ const CircularProgressBar = ({ progress, radius, strokeWidth, color, textStyle }
           strokeDasharray={circumference}
           strokeDashoffset={circumference - progressOffset}
         />
-        <Text x={radius} y={radius} textAnchor="middle" alignmentBaseline="central" style={textStyle}>
+        {/* <Text x={radius} y={radius} textAnchor="middle" alignmentBaseline="central" style={textStyle}>
           {`${formattedTime}`}
-        </Text>
+        </Text> */}
+        {isText && (
+          <Text x={radius} y={radius} textAnchor="middle" alignmentBaseline="central" style={textStyle}>
+            {isText}
+          </Text>
+        )}
       </Svg>
     </View>
   );

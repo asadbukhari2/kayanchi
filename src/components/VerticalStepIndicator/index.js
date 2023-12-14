@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { StyleSheet, View, Text, FlatList } from 'react-native';
 import StepIndicator from 'react-native-step-indicator';
 import Feather from 'react-native-vector-icons/Feather';
@@ -9,11 +9,12 @@ import { convertToAMPM } from '../../utils/helper';
 
 export default function VerticalStepIndicator({ data }) {
   const [currentPage, setCurrentPage] = useState(0);
+  const totalMinutes = 2;
+  const [remainingTime, setRemainingTime] = useState(totalMinutes * 60);
+  const [progress, setProgress] = useState(100);
 
   // eslint-disable-next-line no-unused-vars
   const [stepsCompleted, setStepsCompleted] = useState(new Array(data?.length).fill(false));
-
-  console.log({ stepsCompleted });
 
   const viewabilityConfig = { itemVisiblePercentThreshold: 0 };
   const stepColors = ['#29AAE2', '#84668C', '#A77246', '#E91E63', '#29AAE2', '#29AAE2', '#29AAE2', '#29AAE2']; // Define colors for each step
@@ -38,8 +39,32 @@ export default function VerticalStepIndicator({ data }) {
     currentStepLabelColor: '#fe7013',
   };
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setRemainingTime(prevRemainingTime => {
+        if (prevRemainingTime > 0) {
+          const newRemainingTime = prevRemainingTime - 1;
+          const newProgress = Math.floor((newRemainingTime / (totalMinutes * 60)) * 100);
+          setProgress(newProgress);
+          return newRemainingTime;
+        } else {
+          clearInterval(intervalId);
+          return 0;
+        }
+      });
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [totalMinutes]);
+
+  const formatTime = seconds => {
+    const minutes = Math.floor(seconds / 60);
+    const secondsLeft = seconds % 60;
+    return `${String(minutes).padStart(2, '0')}:${String(secondsLeft).padStart(2, '0')}`;
+  };
+
   const renderPage = ({ item, index }) => {
-    const isCircularProgressBarVisible = index === 10;
+    const isCircularProgressBarVisible = index === 1;
     const isCompleted = stepsCompleted[10];
 
     return (
@@ -51,34 +76,38 @@ export default function VerticalStepIndicator({ data }) {
             <Text style={styles.body}>{convertToAMPM(item.time)}</Text>
           </View>
           <View>
-            <Feather
-              name="check"
-              size={15}
-              color="#4ECB5C"
-              style={{
-                alignSelf: 'center',
-                padding: 5,
-                backgroundColor: '#EEEEEE',
-                borderRadius: 40,
-              }}
-            />
-            {/* TODO! needs to redeign check and do by doing removing condition  */}
             {isCircularProgressBarVisible && !isCompleted ? (
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={{ color: '#A77246', marginRight: 10 }}>You are late</Text>
-                <CircularProgressBar
-                  progress={80}
-                  radius={25}
-                  strokeWidth={2}
-                  color="#84668C"
-                  textStyle={{
-                    fontSize: 10,
-                    fontWeight: 'bold',
-                    fill: '#29AAE2',
-                  }}
-                />
+                {remainingTime < 1 ? (
+                  <Text style={{ color: '#A77246', marginRight: 10 }}>You are late</Text>
+                ) : (
+                  <CircularProgressBar
+                    progress={progress}
+                    isText={formatTime(remainingTime)}
+                    radius={35}
+                    strokeWidth={2}
+                    color="#84668C"
+                    textStyle={{
+                      fontSize: 14,
+                      fontWeight: 'bold',
+                      fill: '#29AAE2',
+                    }}
+                  />
+                )}
               </View>
-            ) : null}
+            ) : (
+              <Feather
+                name="check"
+                size={15}
+                color="#4ECB5C"
+                style={{
+                  alignSelf: 'center',
+                  padding: 5,
+                  backgroundColor: '#EEEEEE',
+                  borderRadius: 40,
+                }}
+              />
+            )}
           </View>
         </View>
         {index !== data?.length - 1 && <View style={styles.separator} />}

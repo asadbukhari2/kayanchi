@@ -465,6 +465,25 @@ export const acceptOrder = async (id, body, token) => {
     });
   }
 };
+export const getLatestOrder = async token => {
+  try {
+    let res = await Fetch.get('/api/orders/latest_orders/1', token);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      return res;
+    } else {
+      showMessage({
+        message: await res.json(),
+        type: 'danger',
+      });
+    }
+  } catch (error) {
+    showMessage({
+      message: 'Something went wrong',
+      type: 'danger',
+    });
+  }
+};
 export const getOrderTimeline = async (id, token) => {
   try {
     let res = await Fetch.get(`/api/timeline/${id}`, token);

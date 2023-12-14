@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import makeStyle from './home.styles';
 import { Button } from '../../components';
 import { fonts, useTheme } from '../../utils/theme';
@@ -12,7 +12,7 @@ import * as Progress from 'react-native-progress';
 import Comission from './components/Comission';
 import OrderSummary from './components/orderSummary';
 import Earning from './components/Earnings';
-import { getGigsOfUser, getCategory, getMyOrders } from '../../redux/actions';
+import { getGigsOfUser, getCategory, getMyOrders, getLatestOrder } from '../../redux/actions';
 import ProfileDetailIcons from './components/ProfileDetailIcons';
 import LatestOrders from './components/LatestOrders';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -28,6 +28,8 @@ const ArtistHome = () => {
   const auth = useSelector(state => state.auth);
   const { ordersLoading } = useSelector(state => state.common);
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(true);
+  const [latestData, setLatestData] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -45,6 +47,13 @@ const ArtistHome = () => {
   };
 
   useEffect(() => {
+    getLatestOrder()
+      .then(res => {
+        setLatestData(res);
+        setLoading(false);
+      })
+      .catch(err => console.log(err));
+
     dispatch(getGigsOfUser());
     dispatch(getCategory());
     dispatch(getMyOrders());
@@ -105,7 +114,7 @@ const ArtistHome = () => {
         {/* last hosted */}
 
         <View style={styles.hosted}>
-          <Text style={styles.hostedHeading}>Last hosted at North Nazimabad</Text>
+          <Text style={styles.hostedHeading}>Last hosted at {!loading && latestData.last_order.location}</Text>
           <Text
             style={{
               textAlign: 'center',
@@ -114,7 +123,8 @@ const ArtistHome = () => {
               color: '#0F2851',
               fontFamily: fonts.robo_light,
             }}>
-            Amjad is expecting you at 10:30AM
+            {!loading && latestData.next_order.consumer.name} is expecting you at{' '}
+            {!loading && latestData.next_order.date}
           </Text>
         </View>
 
