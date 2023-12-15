@@ -6,10 +6,11 @@ import { widthToDp } from '../../utils/Dimensions';
 import CircularProgressBar from '../CircularProgressBar';
 import { fonts } from '../../utils/theme';
 import { convertToAMPM } from '../../utils/helper';
+import { format } from 'date-fns';
 
-export default function VerticalStepIndicator({ data }) {
+export default function VerticalStepIndicator({ data, timlineType }) {
   const [currentPage, setCurrentPage] = useState(0);
-  const totalMinutes = 2;
+  const totalMinutes = 60;
   const [remainingTime, setRemainingTime] = useState(totalMinutes * 60);
   const [progress, setProgress] = useState(100);
 
@@ -63,38 +64,75 @@ export default function VerticalStepIndicator({ data }) {
     return `${String(minutes).padStart(2, '0')}:${String(secondsLeft).padStart(2, '0')}`;
   };
 
+  function formatDate(inputDateString) {
+    if (inputDateString === 'today' || inputDateString === 'Today') {
+      return inputDateString;
+    }
+    const date = new Date(inputDateString);
+
+    const options = { day: '2-digit', month: 'short', year: 'numeric' };
+    const formattedDate = date.toLocaleDateString('en-GB', options);
+
+    return formattedDate;
+  }
+
+  const timeToMilliseconds = time => {
+    const [hours, minutes, seconds] = time.split(':').map(Number);
+    const timeObject = new Date(2000, 0, 1, hours, minutes, seconds);
+    const t = format(timeObject, 'hh:mm:ss');
+
+    const [h, m] = t.split(':');
+    const date = new Date();
+    date.setHours(parseInt(h, 10), parseInt(m, 10), 0, 0);
+    return date.getTime();
+  };
+  const isOneHourOrLessBefore = targetTime => {
+    const targetTimeMilliseconds = timeToMilliseconds(targetTime);
+    const currentTimeMilliseconds = new Date().getTime();
+
+    // Calculate the difference in milliseconds
+    const timeDifference = targetTimeMilliseconds - currentTimeMilliseconds;
+    // Check if the difference is one hour or less
+    const oneHourInMilliseconds = 60 * 60 * 1000;
+
+    return timeDifference <= oneHourInMilliseconds;
+  };
+
   const renderPage = ({ item, index }) => {
     const isCircularProgressBarVisible = index === 1;
     const isCompleted = stepsCompleted[10];
+    const isStartTimer = isOneHourOrLessBefore(item.time);
 
     return (
       <>
         <View style={styles.rowItem}>
           <View>
             <Text style={styles.title}>{item.status}</Text>
-            <Text style={styles.body}>{item.date}</Text>
+            <Text style={styles.body}>{formatDate(item.date)}</Text>
             <Text style={styles.body}>{convertToAMPM(item.time)}</Text>
           </View>
           <View>
-            {isCircularProgressBarVisible && !isCompleted ? (
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                {remainingTime < 1 ? (
-                  <Text style={{ color: '#A77246', marginRight: 10 }}>You are late</Text>
-                ) : (
-                  <CircularProgressBar
-                    progress={progress}
-                    isText={formatTime(remainingTime)}
-                    radius={35}
-                    strokeWidth={2}
-                    color="#84668C"
-                    textStyle={{
-                      fontSize: 14,
-                      fontWeight: 'bold',
-                      fill: '#29AAE2',
-                    }}
-                  />
-                )}
-              </View>
+            {timlineType === 'active' && isCircularProgressBarVisible && !isCompleted ? (
+              isStartTimer && (
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  {remainingTime < 1 ? (
+                    <Text style={{ color: '#A77246', marginRight: 10 }}>You are late</Text>
+                  ) : (
+                    <CircularProgressBar
+                      progress={progress}
+                      isText={formatTime(remainingTime)}
+                      radius={35}
+                      strokeWidth={2}
+                      color="#84668C"
+                      textStyle={{
+                        fontSize: 14,
+                        fontWeight: 'bold',
+                        fill: '#29AAE2',
+                      }}
+                    />
+                  )}
+                </View>
+              )
             ) : (
               <Feather
                 name="check"

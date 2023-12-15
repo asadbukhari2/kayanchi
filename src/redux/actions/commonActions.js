@@ -522,13 +522,13 @@ export const rateConsumer = async (body, token) => {
     });
   }
 };
-export const startGrooming = async (id, artist_longitude, artist_latitude, user_longitude, user_latitude, token) => {
+export const startGrooming = async (id, alon, alat, ulon, ulat, token) => {
   try {
     let res = await Fetch.put(
-      `/api/orders/startGrooming/${id}?coords={"artist_longitude": ${artist_longitude},
-      "artist_latitude": ${artist_latitude},
-      "user_longitude": ${user_longitude},
-      "user_latitude": ${user_latitude}}`,
+      `/api/orders/startGrooming/${id}?coords={"artist_longitude": ${alon},
+      "artist_latitude": ${alat},
+      "user_longitude": ${ulon},
+      "user_latitude": ${ulat}}`,
       token,
     );
     if (res.status >= 200 && res.status < 300) {

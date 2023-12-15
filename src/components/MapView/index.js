@@ -7,14 +7,14 @@ const DATA = [
     title: 'Millineum Mall',
     description: 'this is millineum mall karachi',
     lat: 31.5497,
-    long: 74.2,
+    long: 73.3436,
     img: require('../../assets/logo2.png'),
   },
   {
     title: 'My Location',
     description: 'Current Loccation',
-    lat: 31.65,
-    long: 74.3,
+    lat: 31.5497,
+    long: 73.3436,
     img: require('../../assets/logo2.png'),
   },
 ];

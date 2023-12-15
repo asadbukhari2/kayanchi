@@ -5,27 +5,40 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from '../../components';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
-// import Modal from 'react-native-modal';
-// import AntDesign from 'react-native-vector-icons/AntDesign';
-// import Feather from 'react-native-vector-icons/Feather';
 import { TextInput } from '../../components';
 import googlemap from '../../assets/googlemap.png';
 import Geolocation from '@react-native-community/geolocation';
 import { saveAddress } from '../../redux/actions';
+import Geocoder from 'react-native-geocoding';
+
+Geocoder.init('AIzaSyAsi4Nryu5-nDSa8i-zcqkv6AQqsxrkV8I');
 
 const theme = useTheme();
 
 const ArtistLocateKaynchi = props => {
-  const [floor, setFloor] = useState('');
+  const [address, setAddress] = useState('');
+  const [location, setLocation] = useState('');
   const [name, setName] = useState('');
+  const [floor, setFloor] = useState('');
 
   const [userLocation, setUserLocation] = useState(null);
+
+  const handleGeocode = async () => {
+    try {
+      const response = await Geocoder.from(address);
+      const { lat, lng } = response.results[0].geometry.location;
+
+      setLocation({ latitude: lat, longitude: lng });
+    } catch (error) {
+      console.error('Error during geocoding:', error);
+    }
+  };
 
   useEffect(() => {
     // Get user's current location
     Geolocation.getCurrentPosition(
       position => {
-        console.log(position);
+        // console.log(position);
         const { latitude, longitude } = position.coords;
         setUserLocation({ latitude, longitude });
       },
@@ -45,7 +58,27 @@ const ArtistLocateKaynchi = props => {
     },
   ];
 
-  const handleMarkerPress = itm => {};
+  const handleMarkerPress = async e => {
+    const { coordinate } = e.nativeEvent;
+
+    try {
+      const response = await Geocoder.from(coordinate.latitude, coordinate.longitude);
+      const address = response.results[0]?.formatted_address;
+      const placeId = response.results[0]?.place_id;
+
+      // Check if the response contains address details
+      if (address && placeId) {
+        console.log('Place ID:', placeId);
+        console.log('Address:', address);
+      } else {
+        console.log('Latitude:', coordinate.latitude);
+        console.log('Longitude:', coordinate.longitude);
+      }
+    } catch (error) {
+      console.error('Error during reverse geocoding:', error);
+    }
+  };
+
   const handleSavePress = () => {
     const data = {
       text: name + ' ' + floor,
@@ -61,35 +94,16 @@ const ArtistLocateKaynchi = props => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <MapView
-        initialRegion={{
-          latitude: 24.8607,
-          longitude: 67.0011,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
+        provider={'google'}
+        initialRegion={{ latitude: 31.5497, longitude: 74.3436, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }}
         style={{ flex: 1 }}
-        customMapStyle={map_style}>
-        {/* {DATA.map((item, index) => { */}
-        {/* return ( */}
+        customMapStyle={map_style}
+        onPress={e => handleMarkerPress(e)}>
         {userLocation && (
-          <MapView.Marker
-            // key={index}
-            coordinate={{ latitude: userLocation?.latitude, longitude: userLocation?.longitude }}
-            title={'My Location'}
-            description={'You are here'}
-            image={googlemap}
-            onPress={e => handleMarkerPress(e)}>
-            <MapView.Callout
-              tooltip
-              // onPress={() => {
-              //   setModalVisible(true);
-              //   console.log('polo');
-              // }}
-            />
+          <MapView.Marker coordinate={{ latitude: 31.5497, longitude: 74.3436 }} image={googlemap}>
+            <MapView.Callout tooltip />
           </MapView.Marker>
         )}
-        {/* ); */}
-        {/* })} */}
       </MapView>
       <View style={styles.bottomView}>
         <View style={styles.line} />
@@ -140,67 +154,6 @@ const ArtistLocateKaynchi = props => {
       <View style={styles.btn}>
         <Button title="Save" onPress={handleSavePress} />
       </View>
-      {/* not using */}
-      {/* <Modal
-        coverScreen={false}
-        isVisible={modalVisible}
-        style={{ flex: 1, margin: 0, justifyContent: 'flex-end' }}
-        onSwipeComplete={() => setModalVisible(!modalVisible)}
-        swipeDirection={['down']}>
-        <View style={styles.modalMainView}>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={() => setModalVisible(false)}
-            style={{ padding: heightToDp(4.5), position: 'absolute', right: 0 }}>
-            <Feather name={'x'} style={{ fontSize: 20, color: theme.backIcon }} />
-          </TouchableOpacity>
-          <View style={styles.line} />
-          <Text style={styles.modalDistanceTxt}>{'3.2 kms away from you'}</Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginBottom: 16,
-            }}>
-            <Text style={styles.artistName}>{'Narmeen Iqbal'}</Text>
-            <Text style={styles.artistRating}>4.5</Text>
-            <AntDesign name={'star'} style={styles.starIcon} />
-          </View>
-          <View
-            style={{
-              marginBottom: 15,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-around',
-            }}>
-            {STATUS_RADIO.map((item, index) => {
-              return (
-                <GradientRadio
-                  key={index}
-                  title={item.title}
-                  source={item.source}
-                  onPress={() => setPreferenceStatus(item.title)}
-                  titleStyle={preferenceStatus === item.title ? null : { color: theme.lightBlack }}
-                  imgStyle={preferenceStatus === item.title ? null : { tintColor: theme.lightBlack }}
-                  containerStyle={
-                    preferenceStatus === item.title
-                      ? null
-                      : {
-                          borderWidth: 1,
-                          borderColor: 'rgba(132, 102, 140, 0.15)',
-                        }
-                  }
-                  gradients={preferenceStatus === item.title ? null : ['rgba(0,0,0,0.1)', theme.background]}
-                />
-              );
-            })}
-          </View>
-          <TouchableOpacity style={{ alignSelf: 'center', marginBottom: 25 }}>
-            <Text style={[styles.statusTxt, { color: theme.genderGrey }]}>Swipe to view profile</Text>
-          </TouchableOpacity>
-          <Button title={'Continue'} btnStyle={{ marginBottom: heightToDp(5.5) }} />
-        </View>
-      </Modal> */}
     </SafeAreaView>
   );
 };

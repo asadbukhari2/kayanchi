@@ -5,16 +5,18 @@ import { Header } from '../../components';
 import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
 import MultiButton from '../../components/MultiButton';
-
-const contact = require('../../assets/contact.png');
 import VerticalStepIndicator from '../../components/VerticalStepIndicator';
 
-import { getOrderTimeline } from '../../redux/actions';
+import { getOrderTimeline, startGrooming } from '../../redux/actions';
 import SimpleOrderCard from '../../components/SimpleOrderCard';
 import RatingModal from '../../components/RatingModal';
 import { useSelector } from 'react-redux';
 import Map from '../../components/MapView';
+
+const contact = require('../../assets/contact.png');
+
 const theme = useTheme();
+
 const ArtistTimeline = props => {
   const [loading, setLoading] = useState(true);
   const [timeline, setTimeline] = useState(null);
@@ -25,8 +27,11 @@ const ArtistTimeline = props => {
 
   const { name } = useSelector(state => state.auth.user);
 
-  const GroomingHandler = () => {
-    props.navigation.navigate('ArtistOrderStack', { screen: 'ArtistGrooming', params: order });
+  const GroomingHandler = async () => {
+    const isDone = await startGrooming(order.order.id, '31.5497', '74.3436', '31.5497', '74.3436');
+    if (isDone) {
+      props.navigation.navigate('ArtistOrderStack', { screen: 'ArtistGrooming', params: order });
+    }
   };
 
   const fetchTimeline = _ => {
@@ -66,7 +71,11 @@ const ArtistTimeline = props => {
 
         <View style={styles.separator} />
 
-        {loading ? <Text>Loading</Text> : <VerticalStepIndicator data={timeline} />}
+        {loading ? (
+          <Text style={{ alignSelf: 'center', marginTop: 15 }}>Loading</Text>
+        ) : (
+          <VerticalStepIndicator data={timeline} timlineType={timlineType} />
+        )}
 
         {timlineType === 'active' && (
           <>
@@ -76,7 +85,6 @@ const ArtistTimeline = props => {
             <View style={styles.indicatorView}>
               <View style={styles.row}>
                 <MultiButton
-                  // disable={true}
                   title="Start Grooming"
                   btnStyle={{ backgroundColor: '#84668C' }}
                   onPress={GroomingHandler}

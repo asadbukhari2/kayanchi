@@ -25,11 +25,14 @@ const ArtistOrders = () => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getMyOrders());
-  }, []);
-
   const { waiting, accepted, completed, cancelled } = useSelector(state => state.common);
+
+  useEffect(() => {
+    const focusHandler = navigation.addListener('focus', () => {
+      dispatch(getMyOrders());
+    });
+    return focusHandler;
+  }, [navigation]);
 
   useEffect(() => {
     let isMounted = true;
@@ -63,6 +66,7 @@ const ArtistOrders = () => {
 
   const handleTabChange = tab => {
     setActiveTab(tab);
+    setFilter('Booking');
     if (tab === 'active') {
       setDisplayedOrders(activeOrders);
     } else if (tab === 'completed') {

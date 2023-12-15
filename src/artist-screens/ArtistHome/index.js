@@ -114,18 +114,19 @@ const ArtistHome = () => {
         {/* last hosted */}
 
         <View style={styles.hosted}>
-          <Text style={styles.hostedHeading}>Last hosted at {!loading && latestData.last_order.location}</Text>
-          <Text
-            style={{
-              textAlign: 'center',
-              marginTop: 2,
-              fontSize: 14,
-              color: '#0F2851',
-              fontFamily: fonts.robo_light,
-            }}>
-            {!loading && latestData.next_order.consumer.name} is expecting you at{' '}
-            {!loading && latestData.next_order.date}
-          </Text>
+          {!loading && <Text style={styles.hostedHeading}>Last hosted at {latestData.last_order.location}</Text>}
+          {!loading && (
+            <Text
+              style={{
+                textAlign: 'center',
+                marginTop: 2,
+                fontSize: 14,
+                color: '#0F2851',
+                fontFamily: fonts.robo_light,
+              }}>
+              {latestData.next_order.consumer.name} is expecting you at {latestData.next_order.date}
+            </Text>
+          )}
         </View>
 
         {/* create a gig button */}
