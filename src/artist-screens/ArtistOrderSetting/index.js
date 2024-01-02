@@ -12,7 +12,7 @@ import TravelMoodImage from '../../assets/travel.png';
 import HostMoodImage from '../../assets/car-front.png';
 const information = require('../../assets/information.png');
 import { useDispatch, useSelector } from 'react-redux';
-import { getAvailableDays, getBookingSlots, updateProfile } from '../../redux/actions';
+import { getMyProfile, updateProfile } from '../../redux/actions';
 import MultiButton from '../../components/MultiButton';
 
 const booking = require('../../assets/booking.png');
@@ -40,6 +40,7 @@ const ArtistOrderSetting = props => {
   const [hostMood, setHostMood] = useState(false);
   const [defaultTravelCost, setDefaultTravelCost] = useState(0);
   const [minOrderCost, setMinOrderCost] = useState(0);
+  const [salesTax, setSalesTax] = useState(false);
 
   const profile = useSelector(state => state.auth.profile);
 
@@ -50,11 +51,12 @@ const ArtistOrderSetting = props => {
     setDefaultTravelCost(profile.default_travelling_cost);
     setTravelMood(profile.travel_mood);
     setHostMood(profile.hosting_mood);
+    setSalesTax(profile.taxing_artist);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleFreeTravel = () => setOfferTravel(previousState => !previousState);
-
+  const handleTax = () => setSalesTax(previousState => !previousState);
   const dispatch = useDispatch();
 
   const gotoArtist = async () => {
@@ -68,16 +70,18 @@ const ArtistOrderSetting = props => {
         minimum_order_cost: minOrderCost,
         travel_mood: travelMood,
         hosting_mood: hostMood,
+        taxing_artist: salesTax,
       }),
     );
   };
   const handleAvailabilityClick = e => setAvailability(e.value);
 
   useEffect(() => {
-    dispatch(getAvailableDays());
-    // dispatch(getBookingSlots());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const focusHandler = props.navigation.addListener('focus', () => {
+      dispatch(getMyProfile());
+    });
+    return focusHandler;
+  }, [props.navigation]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -226,7 +230,6 @@ const ArtistOrderSetting = props => {
           <TextInput
             style={styles.priceField}
             value={minOrderCost.toString()}
-            // defaultValue={minOrderCost}
             placeholder="500"
             placeholderTextColor={theme.genderGrey}
             onChangeText={e => setMinOrderCost(e)}
@@ -234,6 +237,30 @@ const ArtistOrderSetting = props => {
             inputMode="numeric"
           />
         </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignContent: 'center',
+            marginBottom: 10,
+          }}>
+          <Text style={styles.title2}>
+            Sales service tax <Text style={{ fontFamily: fonts.robo_light }}>(SST)</Text>
+          </Text>
+
+          <View style={[styles.switchContainer, { marginRight: 10 }]}>
+            <ToggleSwitch
+              isOn={salesTax}
+              style={{ height: 20, marginRight: 10 }}
+              value={salesTax}
+              onColor="#84668C"
+              offColor="#9A9A9A"
+              size="small"
+              onToggle={handleTax}
+            />
+          </View>
+        </View>
+        <Text style={styles.warning}>Only applicable if your annual revenue is more than 4M PKR.</Text>
 
         <Button
           title={'Confirm Settings'}

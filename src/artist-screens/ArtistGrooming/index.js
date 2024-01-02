@@ -10,6 +10,7 @@ const clockcolor = require('../../assets/clockcolor.png');
 import { fonts, useTheme } from '../../utils/theme';
 import SimpleOrderCard from '../../components/SimpleOrderCard';
 import { doneGrooming } from '../../redux/actions';
+import { isCurrentTimeGreaterThanStartTime } from '../../utils/helper';
 const theme = useTheme();
 
 export default function ArtistGrooming(props) {
@@ -19,7 +20,6 @@ export default function ArtistGrooming(props) {
 
   const GroomingDoneHandler = async () => {
     const res = await doneGrooming(order.order.id);
-
     if (res) {
       props.navigation.navigate('ArtistOrderStack', {
         screen: 'ArtistGroomingDone',
@@ -27,6 +27,7 @@ export default function ArtistGrooming(props) {
       });
     }
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -63,7 +64,7 @@ export default function ArtistGrooming(props) {
           </Text>
           <View style={styles.timeContainer}>
             <Image source={clockcolor} style={styles.clockImage} />
-            <Text style={{ color: theme.primary, fontWeight: 'bold', fontSize: 16 }}>60:00 min</Text>
+            <Text style={{ color: theme.primary, fontWeight: 'bold', fontSize: 16 }}>{order?.estimated_time} min</Text>
           </View>
         </View>
 
@@ -100,7 +101,10 @@ export default function ArtistGrooming(props) {
           <Button
             title="Grooming Done"
             onPress={GroomingDoneHandler}
-            disable={price < order?.order?.total_service_charges}
+            disable={
+              price != order?.order?.total_service_charges ||
+              isCurrentTimeGreaterThanStartTime(order.order.booking_slot.start_time)
+            }
           />
         </View>
       </ScrollView>

@@ -12,8 +12,6 @@ export const buttonLight = '#f5e194';
 export const buttonDark = '#eed056';
 
 export const fonts = {
-  //   LogoFont: 'Nexa-BlackItalic',
-  //   ANRegular: 'AvenirNext-Regular',
   hk_regular: 'hk-grotesk.regular',
   hk_medium: 'hk-grotesk.medium',
   hk_semiBold: 'hk-grotesk.semibold',
@@ -23,18 +21,10 @@ export const fonts = {
   robo_reg: 'Roboto-Regular',
   robo_bold: 'Roboto-Bold',
   robo_light: 'Roboto-Light',
-  // segoi: 'SEGOEUI',
   myriad: 'MyriadProRegular',
   sans_reg: 'DMSans-Regular',
   sans_bold: 'DMSans-Bold',
 };
-
-/*
-  hk_regular: 'hk-grotesk.regular',
-  hk_medium: 'hk-grotesk.medium',
-  hk_semiBold: 'hk-grotesk.semibold',
-  hk_bold: 'hk-grotesk.bold',
-*/
 
 const darkTheme = {
   primary: '#FFFFFF',
@@ -60,7 +50,6 @@ const darkTheme = {
   statTxt: '#FDE10D',
   txtGrey: '#707173',
   walletGrey: '#3B4050',
-  // sliderDot: '#3B4155',
 };
 
 const lightTheme = {

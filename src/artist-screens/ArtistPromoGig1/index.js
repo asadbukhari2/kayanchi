@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { capitalizeEachWord } from '../../utils/helper';
 import { showMessage } from 'react-native-flash-message';
 
-const audience = ['Female', 'Male', 'Non-Binary'];
+const audience = ['Female', 'Male'];
 
 const theme = useTheme();
 

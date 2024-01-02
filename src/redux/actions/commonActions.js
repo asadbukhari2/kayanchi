@@ -431,13 +431,18 @@ export const cancelOrder = async (data, back, token) => {
 export const rejectOrder = async (id, token) => {
   try {
     let res = await Fetch.put(`/api/orders/reject/${id}`, token);
-    if (res.status >= 200 && res.status < 300) {
-      res = await res.json();
+    if (res.order) {
+      console.log('res in rejectOrder: ', res.order);
+      return res.order;
     } else {
-      showMessage({
-        message: await res.json(),
-        type: 'danger',
-      });
+      if (res.status >= 200 && res.status < 300) {
+        res = await res.json();
+      } else {
+        showMessage({
+          message: await res.json(),
+          type: 'danger',
+        });
+      }
     }
   } catch (error) {
     showMessage({
@@ -449,14 +454,19 @@ export const rejectOrder = async (id, token) => {
 export const acceptOrder = async (id, body, token) => {
   try {
     let res = await Fetch.put(`/api/orders/accept/${id}`, body, token);
-    if (res.status >= 200 && res.status < 300) {
-      res = await res.json();
-      return res;
+    if (res.order) {
+      console.log('res in acceptOrder: ', res.order);
+      return res.order;
     } else {
-      showMessage({
-        message: await res.json(),
-        type: 'danger',
-      });
+      if (res.status >= 200 && res.status < 300) {
+        res = await res.json();
+        return res;
+      } else {
+        showMessage({
+          message: await res.json(),
+          type: 'danger',
+        });
+      }
     }
   } catch (error) {
     showMessage({
@@ -629,6 +639,25 @@ export const bugReport = async (body, func, token) => {
     }
   } catch (error) {
     console.log('bugReport', error);
+    showMessage({
+      message: 'Something went wrong',
+      type: 'danger',
+    });
+  }
+};
+export const updateProfilePicture = async (body, token) => {
+  try {
+    let res = await Fetch.putFormData('/api/users/pfp', body, token);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+    } else {
+      showMessage({
+        message: await res.json(),
+        type: 'danger',
+      });
+    }
+  } catch (error) {
+    console.log('updateProfilePicture', error);
     showMessage({
       message: 'Something went wrong',
       type: 'danger',

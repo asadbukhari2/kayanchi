@@ -175,10 +175,9 @@ const ArtistUpdateProfile = () => {
       const filtered = portfolio.find(obj => obj.hasOwnProperty(_));
       if (filtered) {
         arrayToMap = Object.values(filtered)[0];
-        // console.log(Object.values(filtered));
       }
     });
-    // console.log({ arrayToMap });
+
     setImages(arrayToMap);
   };
 
@@ -194,7 +193,6 @@ const ArtistUpdateProfile = () => {
       />
 
       <Animated.View style={[styles.header, { height: headerHeight, transform: [{ translateY: opacity }] }]}>
-        {/* <ImageBackground source={eye_face} style={{ flex: 1, resizeMode: 'cover', width: '100%', height: '100%' }}> */}
         <TouchableOpacity onPress={() => navigation.goBack()} style={{ paddingHorizontal: 24, paddingVertical: 6 }}>
           <Image source={back} resizeMode="contain" />
         </TouchableOpacity>
@@ -266,7 +264,7 @@ const ArtistUpdateProfile = () => {
           onEditPress={handleEditTitle}
           onChangeText={setInputValue}
           onSavePress={handleSavePress}
-          limitText="0/15"
+          limitText={`${inputValue.length}/15`}
         />
 
         <EditableField
@@ -277,7 +275,7 @@ const ArtistUpdateProfile = () => {
           onChangeText={setDescription}
           onSavePress={handleSavePress}
           placeholder="For e.g Make up artist, Stylist, Barber"
-          limitText="0/100"
+          limitText={`${description.length}/15`}
         />
 
         <ContainerWorkCertificate

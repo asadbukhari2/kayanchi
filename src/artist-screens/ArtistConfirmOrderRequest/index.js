@@ -10,7 +10,6 @@ import ToggleSwitch from 'toggle-switch-react-native';
 const host_green = require('../../assets/host_green.png');
 const car_brown = require('../../assets/car_brown.png');
 import location from '../../assets/location.png';
-// import CircularProgressBar from '../../components/CircularProgressBar';
 import MultiButton from '../../components/MultiButton';
 
 import { acceptOrder, rejectOrder } from '../../redux/actions';
@@ -26,7 +25,13 @@ export default function ArtistConfirmOrderRequest(props) {
   const order = props.route.params;
 
   const CancelHandler = () => {
-    rejectOrder(order.order.id);
+    rejectOrder(order.order.id)
+      .then(res => {
+        console.log('res', res);
+        showMessage({ message: 'Order Cancelled', type: 'success' });
+        props.navigation.navigate('ArtistOrders');
+      })
+      .catch(err => console.log(err));
   };
 
   const handleTimePress = time => {
@@ -54,6 +59,7 @@ export default function ArtistConfirmOrderRequest(props) {
     } else {
       acceptOrder(order.order.id, data)
         .then(res => {
+          console.log('res', res);
           showMessage({ message: 'Order Accepted', type: 'success' });
           props.navigation.navigate('ArtistOrders');
         })
@@ -82,7 +88,7 @@ export default function ArtistConfirmOrderRequest(props) {
             </Text>
           )}
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-            {order.order.is_hosting ? (
+            {!order.order.is_hosting ? (
               <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>wants to TRAVEL to you</Text>
             ) : (
               <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>wants to HOST at his location</Text>
@@ -96,7 +102,7 @@ export default function ArtistConfirmOrderRequest(props) {
           </View>
         </View>
         <View>
-          <Text style={styles.hosting}> {!order.order.is_hosting ? 'HOSTING AT:' : 'TRVELLING TO:'}</Text>
+          <Text style={styles.hosting}> {order.order.is_hosting ? 'HOSTING AT:' : 'TRVELLING TO:'}</Text>
         </View>
         <View style={styles.userLocation}>
           <Image source={location} style={styles.imagesLoc} />
@@ -148,13 +154,13 @@ export default function ArtistConfirmOrderRequest(props) {
                 fontSize: 20,
                 fontFamily: fonts.hk_bold,
               }}>
-              {_.quantity}x {_.service_name}
+              {_.quantity}x {_.service_name} {'\n'}
             </Text>
           ))}
 
           <View style={{ marginRight: 10 }}>
             <Text style={{ color: '#1583D8', fontSize: 12 }}>Total amount inc vat</Text>
-            <Text style={{ color: '#84668C', fontSize: 24 }}>RS {order.order.total_service_charges}</Text>
+            <Text style={{ color: '#84668C', fontSize: 24 }}>RS {order.order.total_service_charges?.toFixed(2)}</Text>
           </View>
         </View>
 

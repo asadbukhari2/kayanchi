@@ -51,7 +51,7 @@ export default function ArtistKnownFor() {
           id: item.id,
         };
       });
-
+      // console.log(knf);
       dispatch(SIGNUP({ ...dataToSave, type_login: 'artist', known_for: knf, title }, navigation));
     }
   };
@@ -83,33 +83,34 @@ export default function ArtistKnownFor() {
         />
 
         <View style={styles.genView}>
-          {skills?.map(item => {
-            return (
-              <View key={item.name}>
-                <TouchableOpacity onPress={() => toggleSkill(item)} activeOpacity={0.7}>
-                  <View
-                    style={[
-                      styles.genBtn,
-                      {
-                        backgroundColor: selectedSkills.some(selectedSkill => selectedSkill.name === item.name)
-                          ? theme.brown
-                          : '#D5D5D5',
-                      },
-                    ]}>
-                    <Text
+          {skills &&
+            skills?.map(item => {
+              return (
+                <View key={item.name}>
+                  <TouchableOpacity onPress={() => toggleSkill(item)} activeOpacity={0.7}>
+                    <View
                       style={[
-                        styles.genTxt,
+                        styles.genBtn,
                         {
-                          color: !selectedSkills.some(selectedSkill => selectedSkill.name === item.name)
-                            ? theme.lightBlack
-                            : theme.background,
+                          backgroundColor: selectedSkills.some(selectedSkill => selectedSkill.name === item.name)
+                            ? theme.brown
+                            : '#D5D5D5',
                         },
                       ]}>
-                      {item.name}
-                    </Text>
-                  </View>
+                      <Text
+                        style={[
+                          styles.genTxt,
+                          {
+                            color: !selectedSkills.some(selectedSkill => selectedSkill.name === item.name)
+                              ? theme.lightBlack
+                              : theme.background,
+                          },
+                        ]}>
+                        {item.name}
+                      </Text>
+                    </View>
 
-                  {/* <View style={styles.iconContainer}>
+                    {/* <View style={styles.iconContainer}>
                     <View style={styles.iconWrapper}>
                       <Image
                         source={{
@@ -121,19 +122,19 @@ export default function ArtistKnownFor() {
                       <Text style={styles.iconText}>{item.message}</Text>
                     </View>
                   </View> */}
-                  <View style={styles.iconContainer}>
-                    {item.image_urls &&
+                    <View style={styles.iconContainer}>
+                      {/* {item.image_urls &&
                       item?.image_urls.map((imagePath, index) => (
                         <View key={index} style={styles.iconWrapper}>
                           <Image source={imagePath} resizeMode="contain" style={{ width: 50, height: 50 }} />
-                          {/* <Text style={styles.iconText}>po</Text> */}
+                          <Text style={styles.iconText}>po</Text>
                         </View>
-                      ))}
-                  </View>
-                </TouchableOpacity>
-              </View>
-            );
-          })}
+                      ))} */}
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              );
+            })}
         </View>
 
         <Button

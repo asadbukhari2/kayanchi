@@ -55,6 +55,20 @@ function postFormData(url, body, token) {
   };
   return fetch(BASE_URL + url, requestOptions).then(res => handleResponse(res));
 }
+function putFormData(url, body, token) {
+  console.log('request:putFormData', url);
+
+  const accessToken = store.getState().auth?.token || token;
+  const headers = {
+    authorization: `Bearer ${accessToken}`,
+  };
+  const requestOptions = {
+    method: 'PUT',
+    headers,
+    body: body,
+  };
+  return fetch(BASE_URL + url, requestOptions).then(res => handleResponse(res));
+}
 
 function upload(url, formData) {
   console.log('request:upload', url);
@@ -106,4 +120,5 @@ export const Fetch = {
   delete: _delete,
   put,
   postFormData,
+  putFormData,
 };

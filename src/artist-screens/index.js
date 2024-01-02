@@ -54,7 +54,7 @@ import ArtistAbout from './ArtistAbout';
 import ArtistInviteFriends from './ArtistInviteFriends';
 import ArtistShareIdea from './ArtistShareIdea';
 import ArtistReportBug from './ArtistReportBug';
-import ArtistPersonalDetails from './ArtistPersonalDetails.js';
+import ArtistPersonalDetails from './ArtistPersonalDetails';
 import ArtistProfileSaved from './ArtistProfileSaved';
 import ArtistYourProfile from './ArtistYourProfile';
 import ArtistBookingSlots from './ArtistBookingSlots';

@@ -20,7 +20,6 @@ const LatestOrders = () => {
   const navigation = useNavigation();
 
   const { waiting } = useSelector(state => state.common);
-
   const latest = waiting ? [...waiting.Booking, ...waiting['On-Demand']] : [];
 
   const handleOrder = () => {
@@ -32,24 +31,26 @@ const LatestOrders = () => {
 
   return (
     <View style={styles.latestOrder}>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginVertical: 5,
-        }}>
-        <Text
+      {latest.length > 0 ? (
+        <View
           style={{
-            color: '#677790',
-            fontFamily: fonts.robo_med,
-            fontSize: 14,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginVertical: 5,
           }}>
-          Your latest orders
-        </Text>
-        <TouchableOpacity onPress={handleOrder}>
-          <Text style={{ color: '#32aee3' }}>View all</Text>
-        </TouchableOpacity>
-      </View>
+          <Text
+            style={{
+              color: '#677790',
+              fontFamily: fonts.robo_med,
+              fontSize: 14,
+            }}>
+            Your latest orders
+          </Text>
+          <TouchableOpacity onPress={handleOrder}>
+            <Text style={{ color: '#32aee3' }}>View all</Text>
+          </TouchableOpacity>
+        </View>
+      ) : null}
 
       <FlatList
         data={latest}
@@ -109,7 +110,7 @@ const LatestOrders = () => {
                           fontFamily: fonts.robo_med,
                         },
                       ]}>
-                      Rs {order.item.order.total_service_charges ?? 0}
+                      Rs {order.item.order.total_service_charges?.toFixed(2) ?? 0}
                     </Text>
 
                     {order.item.order.order_items.map((_, serviceIndex) => {

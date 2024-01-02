@@ -291,15 +291,3 @@ const ArtistMainStack = () => (
 );
 
 export default ArtistMainStack;
-
-// export default function RootStackScreen() {
-//   return (
-//     <RootStack.Navigator>
-//       <RootStack.Screen
-//         name="ArtistMain"
-//         component={TabStack}
-//         options={{headerShown: false}}
-//       />
-//     </RootStack.Navigator>
-//   );
-// }

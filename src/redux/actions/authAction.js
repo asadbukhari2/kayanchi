@@ -17,7 +17,7 @@ import {
 import { showMessage } from 'react-native-flash-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import API, { Fetch } from '../../utils/APIservice';
-import { getMyOrders } from './commonActions';
+import { getBookingSlots, getMyOrders } from './commonActions';
 
 export const EMAIL_LOGIN =
   ({ email, password }) =>
@@ -35,6 +35,7 @@ export const EMAIL_LOGIN =
         await AsyncStorage.setItem('userToken', JSON.stringify(res.token));
         dispatch(module.exports.getMyProfile(res.token));
         dispatch(getMyOrders(res.token));
+        dispatch(getBookingSlots(res.token));
         showMessage({
           message: 'Logged In Successfully!',
           type: 'success',
@@ -122,6 +123,19 @@ export const updateProfile = data => async dispatch => {
       type: 'UPDATE_PROFILE',
       payload: res,
     });
+  } else {
+    const { message } = await res.json();
+    showMessage({
+      message: message || 'Something Went Wrong',
+      type: 'danger',
+    });
+  }
+};
+export const toggleTax = async data => {
+  let res = await Fetch.put('/api/profile/toggleTax', data);
+  if (res.status >= 200 && res.status < 300) {
+    res = await res.json();
+    console.log(res);
   } else {
     const { message } = await res.json();
     showMessage({

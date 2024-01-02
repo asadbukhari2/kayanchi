@@ -18,9 +18,6 @@ const Gender = [
   {
     name: 'Male',
   },
-  {
-    name: 'Non Binary',
-  },
 ];
 const ConsumerUsernameSignUp = props => {
   const dispatch = useDispatch();

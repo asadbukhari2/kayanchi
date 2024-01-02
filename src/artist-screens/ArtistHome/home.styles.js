@@ -62,6 +62,7 @@ const makeStyle = theme => {
       justifyContent: 'space-between',
       alignItems: 'center',
       marginHorizontal: widthToDp(5),
+      marginBottom: heightToDp(2),
     },
     logoView: {
       flexDirection: 'row',
@@ -189,10 +190,15 @@ const makeStyle = theme => {
       resizeMode: 'contain',
     },
 
+    createBookingSlot: {
+      fontSize: 16,
+      textAlign: 'center',
+      color: theme.linkTxt,
+      fontFamily: fonts.robo_bold,
+    },
     hostedHeading: {
       fontSize: 16,
       textAlign: 'center',
-      // fontWeight: '700',
       color: '#0F2851',
       fontFamily: fonts.robo_bold,
     },

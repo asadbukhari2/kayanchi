@@ -9,12 +9,15 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { capitalizeEachWord } from '../../utils/helper';
 import { showMessage } from 'react-native-flash-message';
+import makeStyle from './artistBasicGig.styles';
 
-const audience = ['Female', 'Male', 'Non-Binary'];
-
-const theme = useTheme();
+const audience = ['Female', 'Male'];
 
 const ArtistBasicGig = () => {
+  const theme = useTheme();
+
+  const styles = makeStyle(theme);
+
   const navigation = useNavigation();
 
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -105,7 +108,7 @@ const ArtistBasicGig = () => {
                   justifyContent: 'center',
                   borderRadius: 30,
                   backgroundColor: selectedCategory.name === item.name ? '#84668C' : '#9A9A9A',
-                  marginRight: 7,
+                  marginRight: 8,
                   marginTop: 10,
                 }}>
                 <Text
@@ -135,9 +138,8 @@ const ArtistBasicGig = () => {
         <View
           style={{
             width: widthToDp(90),
-
-            flex: 0,
             flexDirection: 'row',
+            justifyContent: 'center',
             flexWrap: 'wrap',
           }}>
           {audience.map(item => {
@@ -183,68 +185,3 @@ const ArtistBasicGig = () => {
 };
 
 export default ArtistBasicGig;
-
-const styles = StyleSheet.create({
-  gigVersion: {
-    marginTop: 30,
-  },
-  warning: {
-    fontSize: 14,
-    marginHorizontal: 24,
-    fontFamily: fonts.robo_reg,
-    color: '#8D8A94',
-    marginTop: 8,
-    lineHeight: 18.75,
-  },
-  inputField: {
-    backgroundColor: 'white',
-    width: widthToDp(90),
-    alignSelf: 'center',
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    fontSize: 24,
-    fontFamily: fonts.hk_medium,
-    color: '#8D8A94',
-    marginTop: 8,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: theme.white,
-  },
-  skipView: {
-    position: 'absolute',
-    bottom: heightToDp(23),
-    alignSelf: 'center',
-  },
-  btn: {
-    position: 'absolute',
-    bottom: heightToDp(5.5),
-  },
-  img: {
-    resizeMode: 'cover',
-    height: heightToDp(59.95),
-    width: widthToDp(67.9),
-    alignSelf: 'center',
-    marginTop: heightToDp(6.7),
-  },
-  skip: {
-    fontSize: 14,
-    fontFamily: fonts.robo_reg,
-    lineHeight: 16.41,
-    color: theme.linkTxt,
-  },
-  txt: {
-    fontSize: 16,
-    marginHorizontal: 24,
-    fontFamily: fonts.robo_reg,
-    color: '#67718C',
-    marginTop: 8,
-    lineHeight: 18.75,
-  },
-  title: {
-    fontSize: 34,
-    marginHorizontal: 24,
-    fontFamily: fonts.hk_bold,
-    color: theme.lightBlack,
-  },
-});

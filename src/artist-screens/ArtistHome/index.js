@@ -16,7 +16,8 @@ import { getGigsOfUser, getCategory, getMyOrders, getLatestOrder } from '../../r
 import ProfileDetailIcons from './components/ProfileDetailIcons';
 import LatestOrders from './components/LatestOrders';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { View, Image, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Image, Text, TouchableOpacity, ScrollView, Platform, PermissionsAndroid } from 'react-native';
+import { getCurrentLocation } from '../../utils/helper';
 
 //images import
 const timer = require('../../assets/timer.png');
@@ -26,7 +27,7 @@ const ArtistHome = () => {
   const theme = useTheme();
   const styles = makeStyle(theme);
   const auth = useSelector(state => state.auth);
-  const { ordersLoading } = useSelector(state => state.common);
+  const { ordersLoading, bookingSlots } = useSelector(state => state.common);
   const navigation = useNavigation();
   const [loading, setLoading] = useState(true);
   const [latestData, setLatestData] = useState(null);
@@ -45,6 +46,34 @@ const ArtistHome = () => {
   const handleInfoIconPress = () => {
     navigation.navigate('ArtistRankUp');
   };
+  const bookingSlotHandler = () => {
+    navigation.navigate('ArtistProfileStack', {
+      screen: 'ArtistBookingSlots',
+    });
+  };
+
+  useEffect(() => {
+    const requestLocationPermission = async () => {
+      if (Platform.OS === 'android') {
+        try {
+          const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
+            title: 'Location Permission',
+            message: 'App needs access to your location',
+          });
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            getCurrentLocation(dispatch);
+          }
+        } catch (err) {
+          console.warn(err);
+        }
+      } else if (Platform.OS === 'ios') {
+        getCurrentLocation(dispatch);
+      }
+    };
+
+    requestLocationPermission();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     getLatestOrder()
@@ -66,18 +95,14 @@ const ArtistHome = () => {
         <View style={styles.logoView}>
           <Image source={require('../../assets/KAYNCHI.png')} style={styles.logo} />
         </View>
-        <TouchableOpacity
-          style={styles.invite}
-          onPress={() => {
-            navigation.navigate('ArtistInviteFriends');
-          }}>
+        <TouchableOpacity style={styles.invite} onPress={() => navigation.navigate('ArtistInviteFriends')}>
           <Text style={styles.text}>Get 15% off</Text>
         </TouchableOpacity>
-        {/* welcome text and icons */}
+
         <View style={styles.welcome}>
           <View>
             <Text style={styles.welcomeTxt}>Welcome</Text>
-            <Text style={styles.welcomeTxt}>{name}</Text>
+            <Text style={styles.welcomeTxt}>{name?.split(' ')[0]}</Text>
           </View>
           <View>
             <View style={{ flexDirection: 'row' }}>
@@ -113,21 +138,29 @@ const ArtistHome = () => {
 
         {/* last hosted */}
 
-        <View style={styles.hosted}>
-          {!loading && <Text style={styles.hostedHeading}>Last hosted at {latestData.last_order.location}</Text>}
-          {!loading && (
-            <Text
-              style={{
-                textAlign: 'center',
-                marginTop: 2,
-                fontSize: 14,
-                color: '#0F2851',
-                fontFamily: fonts.robo_light,
-              }}>
-              {latestData.next_order.consumer.name} is expecting you at {latestData.next_order.date}
-            </Text>
-          )}
-        </View>
+        {latestData?.last_order && latestData?.next_order ? (
+          <View style={styles.hosted}>
+            {!loading && <Text style={styles.hostedHeading}>Last hosted at {latestData.last_order.location}</Text>}
+            {!loading && (
+              <Text
+                style={{
+                  textAlign: 'center',
+                  marginTop: 2,
+                  fontSize: 14,
+                  color: '#0F2851',
+                  fontFamily: fonts.robo_light,
+                }}>
+                {latestData.next_order.consumer.name} is expecting you at {latestData.next_order.date}
+              </Text>
+            )}
+          </View>
+        ) : bookingSlots?.length < 1 ? (
+          <View style={styles.hosted}>
+            <TouchableOpacity onPress={bookingSlotHandler}>
+              <Text style={styles.createBookingSlot}>Create Your booking slots</Text>
+            </TouchableOpacity>
+          </View>
+        ) : null}
 
         {/* create a gig button */}
 
@@ -179,9 +212,7 @@ const ArtistHome = () => {
             </View>
           </View>
         ) : (
-          <View>
-            <LatestOrders />
-          </View>
+          <LatestOrders />
         )}
         {/* order summary */}
         <OrderSummary />

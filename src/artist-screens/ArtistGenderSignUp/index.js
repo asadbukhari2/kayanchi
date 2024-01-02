@@ -21,9 +21,6 @@ const Gender = [
   {
     name: 'Male',
   },
-  {
-    name: 'Non Binary',
-  },
 ];
 
 const ArtistGenderSignUp = props => {

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Header, TextInput } from '../../components';
-import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { useTheme } from '../../utils/theme';
 
 import { useDispatch } from 'react-redux';
@@ -16,8 +15,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useEffect } from 'react';
 import { getCategory } from '../../redux/actions/commonActions';
 import { isPasswordStrong } from '../../utils/helper';
-
-const theme = useTheme();
+import makeStyle from './artistPasswordSignup.styles';
 
 const Gender = [
   {
@@ -26,13 +24,13 @@ const Gender = [
   {
     name: 'Male',
   },
-  {
-    name: 'Non Binary',
-  },
 ];
 
 const ArtistPasswordSignUp = () => {
+  const theme = useTheme();
   const navigation = useNavigation();
+  const styles = makeStyle(theme);
+
   const [password, setPassword] = useState(null);
   const [name, setName] = useState(null);
   const [gender, setGender] = useState('');
@@ -129,27 +127,6 @@ const ArtistPasswordSignUp = () => {
         </TouchableOpacity>
       </ReactNativeModal>
 
-      {/* <ReactNativeModal isVisible={modalVisible}>
-        <View style={styles.modal}>
-          <View style={styles.pickerOuterView}>
-            <DatePicker
-              date={pickerDate}
-              mode="date"
-              maximumDate={new Date()}
-              onDateChange={date => setPickerDate(date)}
-            />
-            <TouchableOpacity
-              onPress={() => {
-                setDob(pickerDate);
-                toggleModal();
-              }}
-              style={styles.pickerDone}>
-              <Text style={{ color: 'white' }}>Done</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </ReactNativeModal> */}
-
       <View style={styles.genView}>
         {Gender.map(item => {
           return (
@@ -173,58 +150,5 @@ const ArtistPasswordSignUp = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: theme.background,
-    // paddingTop: heightToDp(7)
-  },
-  btn: {
-    position: 'absolute',
-    bottom: heightToDp(5.5),
-  },
-
-  bottomView: {
-    width: width,
-    marginTop: heightToDp(15),
-    alignItems: 'center',
-    alignSelf: 'center',
-  },
-  genTxt: {
-    fontSize: 14,
-    lineHeight: 16.41,
-    color: theme.background,
-  },
-  genView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: width * 0.91,
-    alignSelf: 'center',
-    marginTop: heightToDp(4.5),
-  },
-  genBtn: {
-    width: widthToDp(27.5),
-    height: heightToDp(9.7),
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 24,
-  },
-
-  pickerOuterView: {
-    width: '100%',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    borderRadius: 10,
-  },
-  pickerDone: {
-    paddingVertical: heightToDp(4),
-    paddingHorizontal: widthToDp(15),
-
-    alignSelf: 'center',
-    backgroundColor: theme.primary,
-    borderRadius: 10,
-  },
-});
 
 export default ArtistPasswordSignUp;

@@ -92,3 +92,23 @@ export const GET_ARTIST_EARNING = async (limit, value) => {
     });
   }
 };
+export const GET_ARTIST_COMMISSION = async () => {
+  try {
+    let res = await Fetch.get('/api/commission/mycommissions');
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      return res;
+    } else {
+      const { message } = await res.json();
+      showMessage({
+        message: message,
+        type: 'danger',
+      });
+    }
+  } catch (error) {
+    showMessage({
+      message: 'something went wrong',
+      type: 'danger',
+    });
+  }
+};

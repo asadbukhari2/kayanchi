@@ -32,8 +32,6 @@ export default class ArtistAuthStack extends Component {
           headerShown: false,
           gestureEnabled: true,
         }}>
-        <Stack.Screen name="InitScreen" component={InitScreen} />
-        <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="ArtistWelcome" component={ArtistWelcome} />
         <Stack.Screen name="ArtistEmailSignUp" component={ArtistEmailSignUp} />
         <Stack.Screen name="ArtistGoogleSignIn" component={ArtistGoogleSignIn} />

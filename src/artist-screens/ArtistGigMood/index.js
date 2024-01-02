@@ -39,7 +39,7 @@ const modeData = [
 const ArtistGigMood = () => {
   const [image, setImage] = useState();
   const [isFree, setIsFree] = useState(false);
-  const [gigMood, setGigMood] = useState('');
+  const [gigMood, setGigMood] = useState([]);
   const [travelFee, setTravelFee] = useState(0);
   const navigation = useNavigation();
   const route = useRoute();
@@ -70,7 +70,13 @@ const ArtistGigMood = () => {
           });
         } else if (key === 'hosting_image' && value !== null) {
           formData.append(key, { uri: value.path, type: 'image/jpg', name: value.path.split('/').pop() });
-        } else if (key === 'category_id' || key === 'duration' || key === 'amount') {
+        } else if (
+          key === 'category_id' ||
+          key === 'duration' ||
+          key === 'amount' ||
+          key == 'name' ||
+          key == 'description'
+        ) {
           formData.append(key, value);
         } else {
           formData.append(key, JSON.stringify(value));
@@ -147,9 +153,17 @@ const ArtistGigMood = () => {
           <View style={styles.mood}>
             {modeData.map(mood => {
               return (
-                <TouchableOpacity onPress={() => setGigMood(mood.id)} key={mood.id}>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (gigMood.includes(mood.id)) {
+                      setGigMood(gigMood.filter(mo => mo !== mood.id));
+                    } else {
+                      setGigMood([...gigMood, mood.id]);
+                    }
+                  }}
+                  key={mood.id}>
                   <LinearGradient
-                    colors={gigMood === mood.id ? ['#86C0E9', '#2764AE'] : ['#696969', '#AEAEAE']}
+                    colors={gigMood.includes(mood.id) ? ['#86C0E9', '#2764AE'] : ['#696969', '#AEAEAE']}
                     style={styles.childMood}
                     start={{ x: 1, y: 0.5 }}
                     end={{ x: 1, y: 0.5 }}>

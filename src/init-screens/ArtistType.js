@@ -9,7 +9,7 @@ import { SET_IS_ARTIST } from '../redux/constants/constants';
 
 const theme = useTheme();
 
-export default function ArtistType() {
+export default function ArtistType(props) {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 

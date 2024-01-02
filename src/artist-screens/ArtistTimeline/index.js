@@ -74,7 +74,12 @@ const ArtistTimeline = props => {
         {loading ? (
           <Text style={{ alignSelf: 'center', marginTop: 15 }}>Loading</Text>
         ) : (
-          <VerticalStepIndicator data={timeline} timlineType={timlineType} />
+          <VerticalStepIndicator
+            data={timeline}
+            orderDate={order.order?.date + 'T' + order.order?.booking_slot?.start_time}
+            timeToReach={order.order?.time_to_reach}
+            timlineType={timlineType}
+          />
         )}
 
         {timlineType === 'active' && (

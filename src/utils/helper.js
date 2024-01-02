@@ -77,3 +77,18 @@ export function convertToAMPM(timeString) {
 
   return formattedTime;
 }
+
+export function isCurrentTimeGreaterThanStartTime(startTime) {
+  const startTimeParts = startTime.split(':');
+  const startDateTime = new Date();
+  startDateTime.setHours(parseInt(startTimeParts[0], 10));
+  startDateTime.setMinutes(parseInt(startTimeParts[1], 10));
+  startDateTime.setSeconds(parseInt(startTimeParts[2], 10));
+
+  const currentTime = new Date();
+
+  const timeDifference = currentTime.getTime() - startDateTime.getTime();
+
+  const fifteenMinutesInMillis = 15 * 60 * 1000;
+  return timeDifference > fifteenMinutesInMillis;
+}

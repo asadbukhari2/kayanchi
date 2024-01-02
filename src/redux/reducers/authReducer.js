@@ -98,6 +98,7 @@ const reducer = (state = initialState, action) => {
         isLoading: false,
       };
     case SET_IS_ARTIST:
+      console.log('hello');
       return {
         ...state,
         isArtist: true,

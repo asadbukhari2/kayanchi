@@ -6,6 +6,8 @@ import { Button, Header } from '../../components';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { convertMinutesToRange } from '../../utils/helper';
 import { useSelector } from 'react-redux';
+import makeStyle from './artistglowMakeUp.styles';
+
 const clockcolor = require('../../assets/clockcolor.png');
 const ondemand = require('../../assets/ondemand.png');
 const eye_face = require('../../assets/eye_face.png');
@@ -17,9 +19,10 @@ const spagig = require('../../assets/spagig.png');
 const bodygig = require('../../assets/bodygig.png');
 const booking = require('../../assets/booking.png');
 
-const theme = useTheme();
-
 export default function ArtistGlowMakeUp() {
+  const theme = useTheme();
+  const styles = makeStyle(theme);
+
   const route = useRoute();
   const profile = useSelector(state => state.auth.profile);
 
@@ -178,53 +181,3 @@ export default function ArtistGlowMakeUp() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: theme.homeBackground,
-  },
-  backgroundImage: {
-    height: heightToDp(90),
-    backgroundColor: '#FAE5FF',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  headerButtonContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    zIndex: 1, // Ensure the header button is above the image
-  },
-  images: {
-    width: 25,
-    height: 25,
-  },
-  indicatorView: {
-    marginHorizontal: widthToDp(5),
-    marginTop: heightToDp(3),
-    marginBottom: 15,
-  },
-  row: { flexDirection: 'row', alignItems: 'center' },
-
-  separator: {
-    height: 1,
-    backgroundColor: '#EEEEEE',
-    marginVertical: 5,
-  },
-  priceTxt: {
-    marginTop: 8,
-    color: '#84668C',
-    fontSize: 24,
-    fontFamily: fonts.hk_bold,
-  },
-  discountPrice: {
-    color: '#9A9A9A',
-    fontSize: 10,
-    fontFamily: fonts.hk_medium,
-    textDecorationLine: 'line-through',
-    marginTop: heightToDp(2),
-    marginLeft: 5,
-  },
-});

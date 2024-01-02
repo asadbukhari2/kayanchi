@@ -19,9 +19,6 @@ const Gender = [
   {
     name: 'Male',
   },
-  {
-    name: 'Non Binary',
-  },
 ];
 const ArtistUsernameSignUp = props => {
   const dispatch = useDispatch();

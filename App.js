@@ -24,22 +24,20 @@ function App() {
             message: 'App needs access to your location',
           });
           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            // console.log('Location permission granted');
             getCurrentLocation(store);
           } else {
-            // console.log('Location permission denied');
           }
         } catch (err) {
           console.warn(err);
         }
       } else if (Platform.OS === 'ios') {
-        // console.log('Location permission granted');
         getCurrentLocation(store);
       }
     };
 
     requestLocationPermission();
   }, []);
+
   return (
     <Provider store={store}>
       <StatusBar backgroundColor={'white'} barStyle={'dark-content'} />

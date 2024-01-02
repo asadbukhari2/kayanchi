@@ -7,12 +7,15 @@ import CircularProgressBar from '../CircularProgressBar';
 import { fonts } from '../../utils/theme';
 import { convertToAMPM } from '../../utils/helper';
 import { format } from 'date-fns';
+import moment from 'moment';
 
-export default function VerticalStepIndicator({ data, timlineType }) {
+export default function VerticalStepIndicator({ data, orderDate, timeToReach, timlineType }) {
   const [currentPage, setCurrentPage] = useState(0);
-  const totalMinutes = 60;
-  const [remainingTime, setRemainingTime] = useState(totalMinutes * 60);
+  const totalMinutes = 2;
+  const [remainingTime, setRemainingTime] = useState(parseInt(timeToReach) * 60);
   const [progress, setProgress] = useState(100);
+  const [dueTime, setDueTime] = useState(0);
+  const [isCompleted, setIsCompleted] = useState(false);
 
   // eslint-disable-next-line no-unused-vars
   const [stepsCompleted, setStepsCompleted] = useState(new Array(data?.length).fill(false));
@@ -41,22 +44,39 @@ export default function VerticalStepIndicator({ data, timlineType }) {
   };
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
+    const dueTime = moment(orderDate).diff(moment(), 'seconds');
+    setDueTime(dueTime);
+    console.log('dueTime', dueTime);
+    console.log('orderDate', orderDate);
+  }, []);
+
+  useEffect(() => {
+    setIsCompleted(data?.find(x => x.status === 'Reached'));
+  }, []);
+
+  const createIntervalTimer = () => {
+    const timer = setInterval(() => {
       setRemainingTime(prevRemainingTime => {
         if (prevRemainingTime > 0) {
           const newRemainingTime = prevRemainingTime - 1;
-          const newProgress = Math.floor((newRemainingTime / (totalMinutes * 60)) * 100);
+          const newProgress = Math.floor((newRemainingTime / dueTime) * 100);
           setProgress(newProgress);
           return newRemainingTime;
         } else {
-          clearInterval(intervalId);
+          clearInterval(timer);
+          setIsCompleted(true);
           return 0;
         }
       });
     }, 1000);
+  };
 
-    return () => clearInterval(intervalId);
-  }, [totalMinutes]);
+  useEffect(() => {
+    if (dueTime <= parseInt(timeToReach) * 60 && dueTime > 0) {
+      setRemainingTime(dueTime);
+      createIntervalTimer();
+    }
+  }, [dueTime]);
 
   const formatTime = seconds => {
     const minutes = Math.floor(seconds / 60);
@@ -99,10 +119,6 @@ export default function VerticalStepIndicator({ data, timlineType }) {
   };
 
   const renderPage = ({ item, index }) => {
-    const isCircularProgressBarVisible = index === 1;
-    const isCompleted = stepsCompleted[10];
-    const isStartTimer = isOneHourOrLessBefore(item.time);
-
     return (
       <>
         <View style={styles.rowItem}>
@@ -112,27 +128,25 @@ export default function VerticalStepIndicator({ data, timlineType }) {
             <Text style={styles.body}>{convertToAMPM(item.time)}</Text>
           </View>
           <View>
-            {timlineType === 'active' && isCircularProgressBarVisible && !isCompleted ? (
-              isStartTimer && (
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  {remainingTime < 1 ? (
-                    <Text style={{ color: '#A77246', marginRight: 10 }}>You are late</Text>
-                  ) : (
-                    <CircularProgressBar
-                      progress={progress}
-                      isText={formatTime(remainingTime)}
-                      radius={35}
-                      strokeWidth={2}
-                      color="#84668C"
-                      textStyle={{
-                        fontSize: 14,
-                        fontWeight: 'bold',
-                        fill: '#29AAE2',
-                      }}
-                    />
-                  )}
-                </View>
-              )
+            {dueTime <= parseInt(timeToReach) * 60 && !isCompleted ? (
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                {remainingTime < 1 ? (
+                  <Text style={{ color: '#A77246', marginRight: 10 }}>You are late</Text>
+                ) : (
+                  <CircularProgressBar
+                    progress={progress}
+                    isText={formatTime(remainingTime)}
+                    radius={35}
+                    strokeWidth={2}
+                    color="#84668C"
+                    textStyle={{
+                      fontSize: 14,
+                      fontWeight: 'bold',
+                      fill: '#29AAE2',
+                    }}
+                  />
+                )}
+              </View>
             ) : (
               <Feather
                 name="check"
