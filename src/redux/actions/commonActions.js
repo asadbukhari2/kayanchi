@@ -225,15 +225,18 @@ export const getAvailableDays = token => async dispatch => {
 export const addAvailableDays = (data, token) => async dispatch => {
   try {
     let res = await Fetch.put('/api/available_day/add', data, token);
+    // console.log('this is the response form the api ', res);
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
 
+      console.log('this is the res.json', res);
       dispatch({
         type: GET_AVAILABLE_DAYS,
         payload: res.days,
       });
     } else {
       const { message } = await res.json();
+      console.log('this is the res.json in the error', res);
       showMessage({
         message: message,
         type: 'danger',

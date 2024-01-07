@@ -31,8 +31,9 @@ const ArtistBookingSlots = () => {
 
   const [timePeriod, setTimePeriod] = useState('AM');
   const [showNewSlot, setShowNewSlot] = useState(false);
-  const [newSlotStart, setNewSlotStart] = useState('');
+  const [newSlotStart, toogleBookingSlot] = useState('');
   const [newSlotEnd, setNewSlotEnd] = useState('');
+  // const [newSlotStartH, setNewSlotStart] = useState('');
 
   const theme = useTheme();
 
@@ -42,12 +43,16 @@ const ArtistBookingSlots = () => {
 
   const { availableDays, bookingSlots } = useSelector(state => state.common);
 
+  console.log('this is the selectedTimeSlots', selectedTimeSlots);
   useEffect(() => {
-    setSelectedDay(availableDays);
-    let uniqueArray = Array.from(new Set(bookingSlots?.map(item => item.group)))?.map(id =>
-      bookingSlots?.find(item => item.group === id),
+    setSelectedDay(Object.keys(bookingSlots));
+    const allBookings = Object.values(bookingSlots).flat();
+    console.log('this is the all booking', allBookings);
+    // Finding unique items based on the combination of start_time and artist_id
+    const uniqueArray = Array.from(
+      new Map(allBookings.map((item) => [`${item.start_time}-${item.artist_id}`, item])).values()
     );
-
+    console.log('this is the map', uniqueArray);
     setSelectedTimeSlots(uniqueArray);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookingSlots]);
@@ -69,7 +74,7 @@ const ArtistBookingSlots = () => {
           is_active: true,
         },
       ]);
-      setNewSlotStart('');
+      // setNewSlotStart('');
       setNewSlotEnd('');
       setShowNewSlot(false);
     }
@@ -114,6 +119,7 @@ const ArtistBookingSlots = () => {
 
   const handleConfirmClick = () => {
     const daysToAdd = { days: selectedDay };
+    console.log('this is the new days', daysToAdd, newSlotStart, newSlotEnd);
     dispatch(addAvailableDays(daysToAdd));
     const daysToRemove = daysOfWeek.filter(_ => !selectedDay.includes(_));
     dispatch(removeAvailableDays({ days: daysToRemove }));
@@ -266,7 +272,7 @@ const ArtistBookingSlots = () => {
                 placeholder="00:00"
                 value={newSlotStart}
                 placeholderTextColor={theme.greyText}
-                onChangeText={text => setNewSlotStart(text)}
+                onChangeText={text => toogleBookingSlot(text)}
               />
               <Text style={{ color: theme.greyText }}>to</Text>
               <TextInput

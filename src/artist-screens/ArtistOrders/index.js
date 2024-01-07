@@ -15,7 +15,7 @@ import { getMyOrders } from '../../redux/actions';
 const theme = useTheme();
 
 const ArtistOrders = () => {
-  const [filter, setFilter] = useState('Booking');
+  const [filter, setFilter] = useState('');
   const [activeTab, setActiveTab] = useState('new');
   const [newOrders, setNewOrders] = useState([]);
   const [cancelledOrders, setCancelledOrders] = useState([]);
@@ -26,7 +26,7 @@ const ArtistOrders = () => {
   const dispatch = useDispatch();
 
   const { waiting, accepted, completed, cancelled } = useSelector(state => state.common);
-
+  console.log(completed, 'this is the states in the artists order');
   useEffect(() => {
     const focusHandler = navigation.addListener('focus', () => {
       dispatch(getMyOrders());
@@ -63,10 +63,19 @@ const ArtistOrders = () => {
       isMounted = false;
     };
   }, [activeTab, filter]);
-
+  const convertObjectsOfArrayToArray = (data) => {
+    const keys = Object.keys(data);
+    console.log('this is the keys in the data', keys);
+    let newArray = keys.map(key => {
+      return data[key]
+    })
+    // Flatten the array of arrays into a single array
+    const flatArray = newArray.flat();
+    return flatArray;
+  }
   const handleTabChange = tab => {
     setActiveTab(tab);
-    setFilter('Booking');
+    setFilter('');
     if (tab === 'active') {
       setDisplayedOrders(activeOrders);
     } else if (tab === 'completed') {
@@ -153,7 +162,9 @@ const ArtistOrders = () => {
           </TouchableOpacity>
         </View>
         <View>
-          {displayedOrders[filter]?.map((order, index) => (
+          {filter.length > 0 ? displayedOrders[filter]?.map((order, index) => (
+            <ListingCardButton key={index} order={order} navigation={navigation} />
+          )) : convertObjectsOfArrayToArray(displayedOrders)?.map((order, index) => (
             <ListingCardButton key={index} order={order} navigation={navigation} />
           ))}
         </View>

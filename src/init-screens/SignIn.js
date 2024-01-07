@@ -20,7 +20,7 @@ const SignIn = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const isLoading = useSelector(state => state.auth.isLoading);
-
+  console.log('this is the loading', isLoading);
   const [formData, setFormData] = useState({ phone: '', password: '' });
 
   const submitForm = () => {

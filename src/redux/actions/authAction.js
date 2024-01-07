@@ -31,7 +31,7 @@ export const EMAIL_LOGIN =
       let res = await Fetch.post('/api/users/login', data);
       if (res.status >= 200 && res.status < 300) {
         res = await res.json();
-
+        console.log('this is the token', res.token);
         await AsyncStorage.setItem('userToken', JSON.stringify(res.token));
         dispatch(module.exports.getMyProfile(res.token));
         dispatch(getMyOrders(res.token));
@@ -61,6 +61,7 @@ export const EMAIL_LOGIN =
         });
       }
     } catch (error) {
+      console.log('this is the error', error);
       showMessage({
         message: 'Something went wrong',
         type: 'danger',
