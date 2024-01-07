@@ -53,7 +53,7 @@ const ProfileDetailIcons = () => {
   }
   return (
     <View style={styles.icons}>
-      <TouchableOpacity onPress={() => handleHostingMoodStatus(!hostMood)}>
+      <TouchableOpacity onPress={() => handleHostingMoodStatus(!hosting_mood)}>
         <View style={[styles.iconConatiner, { backgroundColor: hosting_mood === true ? theme.linkTxt : '#ebebeb' }]}>
           <Image
             source={
