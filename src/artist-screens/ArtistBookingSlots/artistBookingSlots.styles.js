@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { fonts } from '../../utils/theme';
+import { transparent } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 
 const makeStyle = theme => {
   const styles = StyleSheet.create({
@@ -61,6 +62,13 @@ const makeStyle = theme => {
       height: 40,
       width: 40,
     },
+    highLightDayButton: {
+      backgroundColor: theme.lightPrimary,
+      borderColor: theme.primary,
+      borderRadius: 50,
+      height: 40,
+      width: 40,
+    },
     dayOfWeekText: {
       fontSize: 12,
       lineHeight: 16,
@@ -89,6 +97,28 @@ const makeStyle = theme => {
       marginHorizontal: widthToDp(4),
       color: theme.darkBlack,
     },
+    modal: {
+      height: "100%",
+      display: 'flex',
+      justifyContent: 'center'
+    },
+    modalButtonContainer: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingHorizontal: 20
+    },
+    modalButton: {
+      padding: 0,
+      backgroundColor: theme.primary,
+      paddingHorizontal: 20,
+      paddingVertical: 5,
+      borderRadius: 5
+    },
+    textWhite: {
+      color: 'white'
+    }
   });
   return styles;
 };

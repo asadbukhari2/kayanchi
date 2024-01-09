@@ -41,7 +41,7 @@ const Comission = () => {
           </TouchableOpacity>
         </View>
         <View>
-          <Text style={{ color: theme.greyText, fontSize: 16 }}>{commission.comission ?? 'loading'}</Text>
+          <Text style={{ color: theme.greyText, fontSize: 16 }}>{commission?.commission ?? 'loading'}</Text>
         </View>
       </View>
       <Text style={{ color: theme.greyText, marginTop: 5 }}>Coming soon!</Text>

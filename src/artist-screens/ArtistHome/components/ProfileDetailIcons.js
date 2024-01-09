@@ -32,7 +32,7 @@ const ProfileDetailIcons = () => {
     dispatch(
       updateProfile({
         travel_mood: status,
-        hosting_mood: false,
+        // hosting_mood: false,
       }),
     );
   }
@@ -40,7 +40,7 @@ const ProfileDetailIcons = () => {
     dispatch(
       updateProfile({
         hosting_mood: status,
-        travel_mood: false,
+        // travel_mood: false,
       }),
     );
   }

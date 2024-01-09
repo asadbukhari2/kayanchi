@@ -294,7 +294,8 @@ export const getBookingSlots = token => async dispatch => {
   }
 };
 
-export const toogleBookingSlot = (id, data, token) => async dispatch => {
+export const toogleBookingSlots = (id, data, token) => async dispatch => {
+  console.log('this is the id', id, 'this is the data', data);
   try {
     let res = await Fetch.put(`/api/bookingSlot/toggleActiveSlot/${id}`, data, token);
     if (res.status >= 200 && res.status < 300) {
@@ -335,9 +336,9 @@ export const removeBookingSlot = (id, token) => async dispatch => {
 export const addBookingSlot = (data, token) => async dispatch => {
   try {
     let res = await Fetch.post('/api/bookingSlot/', data, token);
-    console.log(res);
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
+      console.log('this is the response from the add booking slot', res);
       dispatch(getBookingSlots());
     } else {
       const e = await res.json();
@@ -362,7 +363,25 @@ export const updateBookingSlot = (id, data, token) => async dispatch => {
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
       console.log(res);
-      // dispatch(getBookingSlots());
+      dispatch(getBookingSlots());
+    } else {
+      const { message } = await res.json();
+      showMessage({
+        message: message,
+        type: 'danger',
+      });
+    }
+  } catch (error) {
+    console.log('addBookingSlot', error);
+  }
+};
+export const deleteBookingSlot = (id, data, token) => async dispatch => {
+  try {
+    let res = await Fetch.delete(`/api/bookingSlot/${id}`, data, token);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      console.log(res);
+      dispatch(getBookingSlots());
     } else {
       const { message } = await res.json();
       showMessage({

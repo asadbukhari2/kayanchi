@@ -8,35 +8,42 @@ import { useTheme, fonts } from '../../utils/theme';
 
 import arrowupcolor from '../../assets/arrowupcolor.png';
 import arrowdowncolor from '../../assets/arrowdowncolor.png';
+import { Modal } from 'react-native'
 
 import ToggleSwitch from 'toggle-switch-react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  addAvailableDays,
   addBookingSlot,
-  removeAvailableDays,
-  removeBookingSlot,
-  toogleBookingSlot,
+  deleteBookingSlot,
+
+  toogleBookingSlots,
+  updateBookingSlot,
 } from '../../redux/actions';
 import makeStyle from './artistBookingSlots.styles';
 
 const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 const ArtistBookingSlots = () => {
+  // this is for the data come from the database it shows all the set the user selected days
   const [selectedDay, setSelectedDay] = useState([]);
   const [selectedTimeSlots, setSelectedTimeSlots] = useState([]);
+
+  const [selectedDayTimeSlots, setSelectedDayTimeSlots] = useState([])
+  const [selectDay, setDay] = useState("")
   const [slotsToToggle, setSlotsToToggle] = useState([]);
   const [slotsToRemove, setSlotsToRemove] = useState([]);
   const [slotsToCreate, setSlotsToCreate] = useState([]);
 
+  const [updateBookingSlotId, setUpdateBookingSlotId] = useState("")
   const [timePeriod, setTimePeriod] = useState('AM');
   const [showNewSlot, setShowNewSlot] = useState(false);
-  const [newSlotStart, toogleBookingSlot] = useState('');
+  const [newSlotStart, setNewSlotStart] = useState('');
   const [newSlotEnd, setNewSlotEnd] = useState('');
   // const [newSlotStartH, setNewSlotStart] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   const theme = useTheme();
-
+  console.log('this is the theme', theme);
   const styles = makeStyle(theme);
 
   const dispatch = useDispatch();
@@ -49,13 +56,18 @@ const ArtistBookingSlots = () => {
     const allBookings = Object.values(bookingSlots).flat();
     console.log('this is the all booking', allBookings);
     // Finding unique items based on the combination of start_time and artist_id
-    const uniqueArray = Array.from(
-      new Map(allBookings.map((item) => [`${item.start_time}-${item.artist_id}`, item])).values()
-    );
-    console.log('this is the map', uniqueArray);
-    setSelectedTimeSlots(uniqueArray);
+    // const uniqueArray = Array.from(
+    //   new Map(allBookings.map((item) => [`${item.start_time}-${item.artist_id}`, item])).values()
+    // );
+    if (bookingSlots[selectDay]) {
+
+      setSelectedTimeSlots(bookingSlots[selectDay]);
+    } else {
+      setSelectedTimeSlots([])
+    }
+    // console.log('this is the map', uniqueArray);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bookingSlots]);
+  }, [bookingSlots, selectDay]);
 
   const handleAddNewSlot = () => {
     setSlotsToCreate(prev => [
@@ -75,7 +87,7 @@ const ArtistBookingSlots = () => {
         },
       ]);
       // setNewSlotStart('');
-      setNewSlotEnd('');
+      // setNewSlotEnd('');
       setShowNewSlot(false);
     }
   };
@@ -106,6 +118,10 @@ const ArtistBookingSlots = () => {
         return _;
       }
     });
+    let newStatus = {
+      status: !itm.is_active
+    }
+    dispatch(toogleBookingSlots(itm.id, newStatus));
     setSelectedTimeSlots(updated);
   };
 
@@ -118,38 +134,47 @@ const ArtistBookingSlots = () => {
   };
 
   const handleConfirmClick = () => {
-    const daysToAdd = { days: selectedDay };
-    console.log('this is the new days', daysToAdd, newSlotStart, newSlotEnd);
-    dispatch(addAvailableDays(daysToAdd));
-    const daysToRemove = daysOfWeek.filter(_ => !selectedDay.includes(_));
-    dispatch(removeAvailableDays({ days: daysToRemove }));
+    const newSlots = { day: selectDay, start_time: `${newSlotStart} ${timePeriod}`, end_time: `${newSlotEnd} ${timePeriod}` };
+    console.log('this is the new days', newSlots);
+    dispatch(addBookingSlot(newSlots));
+    setNewSlotStart('');
+    setNewSlotEnd('');
+    // const daysToRemove = daysOfWeek.filter(_ => !selectedDay.includes(_));
+    // dispatch(removeAvailableDays({ days: daysToRemove }));
 
-    slotsToToggle.length > 0 &&
-      slotsToToggle.forEach(_ => {
-        dispatch(toogleBookingSlot(_.id, { status: _.status }));
-        setSlotsToToggle([]);
-      });
+    // slotsToToggle.length > 0 &&
+    //   slotsToToggle.forEach(_ => {
+    //     dispatch(toogleBookingSlot(_.id, { status: _.status }));
+    //     setSlotsToToggle([]);
+    //   });
 
-    slotsToRemove.length > 0 &&
-      slotsToRemove.forEach(_ => {
-        dispatch(removeBookingSlot(_));
-        setSlotsToRemove([]);
-      });
+    // slotsToRemove.length > 0 &&
+    //   slotsToRemove.forEach(_ => {
+    //     dispatch(removeBookingSlot(_));
+    //     setSlotsToRemove([]);
+    //   });
 
-    slotsToCreate.length > 0 &&
-      slotsToCreate.forEach(_ => {
-        dispatch(addBookingSlot(_));
-        setSlotsToCreate([]);
-      });
     // time slot
   };
 
-  const removeSlot = itm => {
-    setSlotsToRemove(prev => [...prev, itm.group]);
-    const removed = selectedTimeSlots.filter(_ => _.id !== itm.id);
-    setSelectedTimeSlots(removed);
+  const handelRemoveSlot = async (id) => {
+    console.log('remove this time slot', id);
+    try {
+
+      dispatch(deleteBookingSlot(id));
+    } catch (error) {
+
+    }
   };
 
+  const handelTimeSlotUpdate = (id, startTime, endTime) => {
+    let newData = {
+      start_time: `${startTime} ${timePeriod}`,
+      end_time: `${endTime} ${timePeriod}`
+    }
+    dispatch(updateBookingSlot(id, newData));
+    setShowModal(!showModal)
+  }
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -198,8 +223,11 @@ const ArtistBookingSlots = () => {
           {daysOfWeek.map((day, index) => (
             <TouchableOpacity
               key={day}
-              onPress={() => handleSelectDay(day)}
-              style={[styles.dayOfWeekButton, selectedDay.includes(day) && styles.selectedDayButton]}>
+              onPress={() => {
+                // handleSelectDay(day)
+                setDay(day)
+              }}
+              style={[styles.dayOfWeekButton, day === selectDay ? styles.selectedDayButton : selectedDay.includes(day) && styles.highLightDayButton]}>
               <Text style={[styles.dayOfWeekText, selectedDay.includes(day) && styles.selectedDayText]}>
                 {day?.slice(0, 2)}
               </Text>
@@ -228,7 +256,12 @@ const ArtistBookingSlots = () => {
         {selectedTimeSlots?.map(item => {
           return (
             <View style={{ marginBottom: 12 }} key={item.id}>
-              <View style={styles.timeSlotContent}>
+              <TouchableOpacity style={styles.timeSlotContent} onPress={() => {
+                setNewSlotStart(item.start_time);
+                setUpdateBookingSlotId(item.id)
+                setNewSlotEnd(item.end_time);
+                setShowModal(!showModal);
+              }}>
                 <Text
                   style={{
                     ...styles.time,
@@ -244,7 +277,7 @@ const ArtistBookingSlots = () => {
                       size={18}
                       color="black"
                       style={{ paddingHorizontal: widthToDp(4), paddingTop: 10, paddingBottom: 6 }}
-                      onPress={() => removeSlot(item)}
+                      onPress={() => handelRemoveSlot(item.id)}
                     />
                   </TouchableOpacity>
                   <View style={styles.switchContainer}>
@@ -259,7 +292,7 @@ const ArtistBookingSlots = () => {
                     />
                   </View>
                 </View>
-              </View>
+              </TouchableOpacity>
             </View>
           );
         })}
@@ -272,7 +305,7 @@ const ArtistBookingSlots = () => {
                 placeholder="00:00"
                 value={newSlotStart}
                 placeholderTextColor={theme.greyText}
-                onChangeText={text => toogleBookingSlot(text)}
+                onChangeText={text => setNewSlotStart(text)}
               />
               <Text style={{ color: theme.greyText }}>to</Text>
               <TextInput
@@ -325,6 +358,62 @@ const ArtistBookingSlots = () => {
         <View style={styles.btn}>
           <Button title="Confirm" onPress={handleConfirmClick} />
         </View>
+        <Modal
+          animationType={'slide'}
+          transparent={false}
+          visible={showModal}
+          onRequestClose={() => {
+            console.log('Modal has been closed.');
+          }}>
+          {/*All views of Modal*/}
+          {/*Animation can be slide, slide, none*/}
+          <View style={styles.modal}>
+            <View style={styles.newSlotContainer}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="00:00"
+                  value={newSlotStart}
+                  placeholderTextColor={theme.greyText}
+                  onChangeText={text => setNewSlotStart(text)}
+                />
+                <Text style={{ color: theme.greyText }}>to</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="24:00"
+                  value={newSlotEnd}
+                  placeholderTextColor={theme.greyText}
+                  onChangeText={text => setNewSlotEnd(text)}
+                />
+
+                <View style={{ justifyContent: 'center' }}>
+                  <TouchableOpacity onPress={toggleTimePeriod}>
+                    <Image source={arrowupcolor} style={{ width: 12, height: 8, marginLeft: 5 }} />
+                  </TouchableOpacity>
+                  <Text style={{ paddingVertical: 5, color: theme.greyText }}>{timePeriod}</Text>
+                  <TouchableOpacity onPress={toggleTimePeriod}>
+                    <Image source={arrowdowncolor} style={{ width: 12, height: 8, marginLeft: 5 }} />
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+
+            </View>
+            <View style={styles.modalButtonContainer} >
+              <TouchableOpacity style={styles.modalButton} onPress={() => {
+                setShowModal(!showModal)
+              }}>
+                <Text style={styles.textWhite}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.modalButton]} onPress={() => {
+                handelTimeSlotUpdate(updateBookingSlotId, newSlotStart, newSlotEnd);
+              }}>
+                <Text style={styles.textWhite}>Update</Text>
+              </TouchableOpacity>
+
+            </View>
+          </View>
+        </Modal>
       </ScrollView>
     </SafeAreaView>
   );

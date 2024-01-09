@@ -54,6 +54,7 @@ const darkTheme = {
 
 const lightTheme = {
   primary: '#84668C',
+  lightPrimary: '#e7befa',
   background: '#FFFFFF',
   darkBlack: '#333333',
   lightBlack: '#2F3A58',
