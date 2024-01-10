@@ -10,6 +10,7 @@ import LinearGradient from 'react-native-linear-gradient'; // Import the LinearG
 import deducted from '../../assets/deducted.png';
 import refund from '../../assets/refund.png';
 import PaymentComponent from './components/PaymentComponent';
+import makeStyle from './artistPaymentHistory.style';
 const theme = useTheme();
 const payments = [
   {
@@ -43,6 +44,7 @@ const payments = [
 ];
 
 const ArtistPaymentHistory = props => {
+  const styles = makeStyle(theme)
   return (
     <SafeAreaView style={GLOBAL_STYLES.containerHome}>
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: heightToDp(30) }}>
@@ -80,24 +82,6 @@ const ArtistPaymentHistory = props => {
   );
 };
 
-const styles = StyleSheet.create({
-  paymentContainer: {
-    flexDirection: 'row',
-    marginHorizontal: widthToDp(5),
-    paddingVertical: heightToDp(2),
-    width: width * 0.45,
-  },
-  reason: { marginLeft: widthToDp(5) },
-  image: { height: 36, width: 38 },
-  separator: {
-    height: 1,
-    backgroundColor: '#DDDDDD',
-    marginVertical: 5,
-  },
-  transId: {
-    position: 'absolute',
-    right: 10,
-  },
-});
+
 
 export default ArtistPaymentHistory;

@@ -5,11 +5,13 @@ import { Button, Header } from '../../components';
 import { useNavigation } from '@react-navigation/native';
 import { fonts, useTheme } from '../../utils/theme';
 import { heightToDp } from '../../utils/Dimensions';
+import makeStyle from './artistCommisionStyles/Commision.style';
 
 const theme = useTheme();
 
 const Commision = () => {
   const navigation = useNavigation();
+  const styles = makeStyle(theme)
   return (
     <SafeAreaView style={styles.container}>
       <Header backBtn />
@@ -28,27 +30,5 @@ const Commision = () => {
     </SafeAreaView>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  container2: {
-    padding: 12,
-  },
-  heading: {
-    fontSize: 40,
-    fontFamily: fonts.hk_bold,
-    color: '#0F2851',
-  },
-  text: {
-    marginVertical: 6,
-    fontSize: 16,
-    color: theme.dark,
-  },
-  btn: {
-    marginTop: 40,
-    bottom: heightToDp(5.5),
-  },
-});
+
 export default Commision;

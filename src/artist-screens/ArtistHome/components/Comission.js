@@ -41,11 +41,11 @@ const Comission = () => {
           </TouchableOpacity>
         </View>
         <View>
-          <Text style={{ color: theme.greyText, fontSize: 16 }}>{commission?.commission ?? 'loading'}</Text>
+          <Text style={{ color: theme.greyText, fontSize: 16 }}>{commission?.comission ?? 'loading'}</Text>
         </View>
       </View>
       <Text style={{ color: theme.greyText, marginTop: 5 }}>Coming soon!</Text>
-      {!loading && commission.level.toLowerCase() === 'yellow' ? (
+      {!loading && commission && commission?.level.toLowerCase() === 'yellow' ? (
         <View
           style={{
             flex: 1,
@@ -64,7 +64,7 @@ const Comission = () => {
 
           <View style={styles.arrowYellow} />
         </View>
-      ) : commission.level.toLowerCase() === 'green' ? (
+      ) : commission?.level.toLowerCase() === 'green' ? (
         <View
           style={{
             flex: 1,
@@ -83,7 +83,7 @@ const Comission = () => {
 
           <View style={styles.arrowGreen} />
         </View>
-      ) : commission.level.toLowerCase() === 'red' ? (
+      ) : commission?.level.toLowerCase() === 'red' ? (
         <View
           style={{
             flex: 1,

@@ -1,7 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { fonts } from '../../utils/theme';
-import { transparent } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 
 const makeStyle = theme => {
   const styles = StyleSheet.create({

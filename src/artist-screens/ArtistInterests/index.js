@@ -17,6 +17,7 @@ import massage from '../../assets/massage_interest.png';
 import medicure from '../../assets/medicure_interest.png';
 import pedicure from '../../assets/pedicure_interest.png';
 import waxing from '../../assets/waxing_interest.png';
+import makeStyle from './artistInterests.style';
 
 const theme = useTheme();
 
@@ -61,7 +62,7 @@ const DATA = [
 
 const ArtistInterests = props => {
   const { navigation } = props;
-
+  const styles = makeStyle(theme)
   const dispatch = useDispatch();
   let [data, setData] = useState([]);
   const [interest, setInterest] = useState([]);
@@ -147,29 +148,6 @@ const ArtistInterests = props => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: theme.background,
-  },
-  btn: {
-    position: 'absolute',
-    bottom: heightToDp(5.5),
-  },
-  labelText: {
-    fontSize: 20,
-    fontFamily: fonts.robo_med,
-    lineHeight: 23.44,
-    color: theme.lightBlack,
-    marginTop: heightToDp(5),
-  },
-  subLabel: {
-    fontSize: 16,
-    lineHeight: 18.75,
-    fontFamily: fonts.robo_reg,
-    color: theme.darkBlack,
-    marginTop: heightToDp(2.2),
-  },
-});
+
 
 export default ArtistInterests;

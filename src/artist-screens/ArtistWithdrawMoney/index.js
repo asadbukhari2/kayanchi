@@ -9,6 +9,7 @@ import CheckBox from '@react-native-community/checkbox';
 import { RadioButton } from 'react-native-paper';
 import EasyPaisa from '../../assets/easypaisa.png';
 import JazzCash from '../../assets/jaazzcash.png';
+import makeStyle from './artistWithDrawalMoney.styles';
 
 const paymentMethod = [
   {
@@ -26,6 +27,7 @@ const amount = [500, 1000, 2000, 5000];
 const theme = useTheme();
 
 const ArtistWithdrawMoney = props => {
+  const styles = makeStyle(theme)
   const [isSelected, setSelection] = useState(false);
   const [selectedMethod, setSelectedMethod] = useState(null);
   const [checked, setChecked] = useState('first');
@@ -157,64 +159,6 @@ const ArtistWithdrawMoney = props => {
   );
 };
 
-const styles = StyleSheet.create({
-  txt: {
-    color: '#1583D8',
-    borderColor: '#1583D8',
-    borderWidth: 1,
-    paddingHorizontal: widthToDp(6),
-    paddingVertical: heightToDp(2),
-    borderRadius: 20,
-  },
-  input: {
-    marginTop: 20,
-    width: widthToDp(58),
-    backgroundColor: '#E7E7E7',
-    marginHorizontal: widthToDp(5),
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderWidth: 1,
-    borderColor: '#E7E7E7',
-    borderRadius: 5,
-  },
-  loadContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    // justifyContent: 'center',
-  },
-  load: {
-    backgroundColor: theme.primary,
-    paddingHorizontal: widthToDp(6),
-    paddingVertical: heightToDp(3),
-    borderRadius: 30,
-    marginTop: 20,
-  },
-  balanceContainer: {
-    backgroundColor: 'white',
-    marginVertical: heightToDp(2),
-    marginHorizontal: widthToDp(5),
-    paddingHorizontal: widthToDp(4),
-    paddingVertical: heightToDp(5),
-    borderRadius: 10,
-  },
-  checkboxContainer: { flexDirection: 'row', alignItems: 'center' },
-  paymentContainer: {
-    flexDirection: 'row',
-    marginHorizontal: widthToDp(5),
-    paddingVertical: heightToDp(2),
-    width: width * 0.45,
-  },
-  reason: { marginLeft: widthToDp(5) },
-  image: { height: 36, width: 38 },
-  separator: {
-    height: 1,
-    backgroundColor: '#DDDDDD',
-    marginVertical: 5,
-  },
-  transId: {
-    position: 'absolute',
-    right: 10,
-  },
-});
+
 
 export default ArtistWithdrawMoney;

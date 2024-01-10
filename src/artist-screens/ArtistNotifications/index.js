@@ -6,6 +6,7 @@ import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { GLOBAL_STYLES } from '../../utils/styles';
 import { fonts, useTheme } from '../../utils/theme';
 import Msg from './component';
+import makeStyle from './artistNotifications.styles';
 
 const theme = useTheme();
 
@@ -29,6 +30,7 @@ const DATA = [
 
 const ArtistNotifications = props => {
   const [unRead, setUnRead] = useState(false);
+  const styles = makeStyle(theme)
   return (
     <SafeAreaView style={GLOBAL_STYLES.containerHome}>
       <Header backBtnGrey />
@@ -43,16 +45,6 @@ const ArtistNotifications = props => {
   );
 };
 
-const styles = StyleSheet.create({
-  markRead: {
-    fontFamily: fonts.robo_reg,
-    fontSize: 14,
-    lineHeight: 20,
-    color: theme.linkTxt,
-    marginTop: heightToDp(4.5),
-    marginLeft: widthToDp(6),
-    fontWeight: 'bold',
-  },
-});
+
 
 export default ArtistNotifications;

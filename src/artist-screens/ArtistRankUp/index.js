@@ -6,10 +6,12 @@ import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import ListItem from '../../components/ListItem';
 import Rankup from './Components/Rankup';
 import Star_Yellow from '../../assets/star_yellow.png';
+import makeStyle from './artistRankUp.styles';
 const data = ['20% Commision', '5 Gigs', '2 Promos'];
 
 const theme = useTheme();
 export default function ArtistRankUp(props) {
+  const styles = makeStyle(theme)
   return (
     <SafeAreaView style={styles.container}>
       <Header backBtn />
@@ -83,24 +85,4 @@ export default function ArtistRankUp(props) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: theme.background,
-    paddingTop: heightToDp(8),
-  },
-  welcomeTxt: {
-    fontSize: 40,
-    color: '#193356',
-    fontFamily: fonts.hk_bold,
-    paddingHorizontal: widthToDp(4),
-  },
-  seperator: {
-    height: 2,
-    backgroundColor: '#DEDEDE',
-  },
-  new: {
-    paddingVertical: heightToDp(5),
-    paddingHorizontal: widthToDp(4),
-  },
-});
+

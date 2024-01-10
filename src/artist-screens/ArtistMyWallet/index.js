@@ -9,12 +9,14 @@ import Feather from 'react-native-vector-icons/Feather';
 import LinearGradient from 'react-native-linear-gradient'; // Import the LinearGradient component
 import arrowdownloadmoney from '../../assets/arrowdownloadmoney.png';
 import withdrawnarrow from '../../assets/withdrawnarrow.png';
+import makeStyle from './artistMyWallet.style';
 
 // import CardComponent from './components/CardComponent';
 // import PromoCodeComponent from './components/PromoCodeComponent';
 const theme = useTheme();
 
 const ArtistMyWallet = props => {
+  const styles = makeStyle(theme)
   return (
     <SafeAreaView style={GLOBAL_STYLES.containerHome}>
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: heightToDp(30) }}>
@@ -111,37 +113,4 @@ const ArtistMyWallet = props => {
 
 export default ArtistMyWallet;
 
-const styles = StyleSheet.create({
-  loadMoney: {
-    width: widthToDp(44),
-    height: heightToDp(27),
-    borderRadius: 10,
-  },
-  withdrawmoney: {
-    width: widthToDp(44),
-    height: heightToDp(27),
-    borderRadius: 10,
-  },
-  balanceContainer: {
-    flexDirection: 'row',
-    marginHorizontal: widthToDp(5),
-    justifyContent: 'space-between',
-    marginTop: 15,
-  },
-  iconloadMoney: { width: 25, height: 25, resizeMode: 'contain', margin: 13 },
-  iconwithdrawmoney: {
-    width: 25,
-    height: 31,
-    resizeMode: 'contain',
-    position: 'absolute',
-    right: 5,
-  },
-  text: { color: 'white', paddingLeft: 15, marginRight: widthToDp(19) },
-  text2: {
-    color: 'white',
-    paddingLeft: 15,
-    position: 'absolute',
-    bottom: heightToDp(5),
-    marginRight: widthToDp(15),
-  },
-});
+

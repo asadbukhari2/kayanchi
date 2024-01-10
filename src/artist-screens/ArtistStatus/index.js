@@ -4,12 +4,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Header, RadioButton, TextInput } from '../../components';
 import { heightToDp, width } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
+import makeStyle from './artistStatus.styles';
 
 const theme = useTheme();
 
 const ArtistStatus = props => {
   const [radio, setRadio] = useState(null);
-
+  const styles = makeStyle(theme)
   return (
     <SafeAreaView style={styles.container}>
       <Header title={'Status'} />
@@ -48,28 +49,6 @@ const ArtistStatus = props => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: theme.background,
-  },
-  title: {
-    fontSize: 24,
-    fontFamily: fonts.robo_reg,
-    lineHeight: 28.13,
-    color: theme.lightBlack,
-  },
-  txt: {
-    fontSize: 16,
-    fontFamily: fonts.robo_med,
-    lineHeight: 18.75,
-    color: theme.darkBlack,
-    marginTop: heightToDp(4.5),
-  },
-  center: {
-    width: width * 0.868,
-    alignSelf: 'center',
-  },
-});
+
 
 export default ArtistStatus;

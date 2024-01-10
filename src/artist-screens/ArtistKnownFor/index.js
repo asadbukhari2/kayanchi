@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { SIGNUP } from '../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { showMessage } from 'react-native-flash-message';
+import makeStyle from './artistKnownFor.style';
 
 const theme = useTheme();
 
@@ -17,7 +18,7 @@ export default function ArtistKnownFor() {
   const [title, setTitle] = useState('');
   const [skills, setSkills] = useState([]);
   const [selectedSkills, setSelectedSkills] = useState([]);
-
+  const styles = makeStyle(theme)
   const dispatch = useDispatch();
   const dataToSave = useSelector(state => state.auth.signUpUserData);
 
@@ -148,49 +149,4 @@ export default function ArtistKnownFor() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: theme.background,
-  },
-  btn: {
-    marginBottom: heightToDp(3.5),
-  },
-  genTxt: {
-    fontFamily: fonts.hk_bold,
-    fontSize: 20,
-    lineHeight: 21,
-    color: theme.background,
-  },
-  genView: {
-    width: width * 0.91,
-    alignSelf: 'center',
-    marginTop: heightToDp(4.5),
 
-    // marginTopightToDp(8.5),
-  },
-  genBtn: {
-    //   width: widthToDp(27.5),
-    // height: heightToDp(9),
-    paddingVertical: heightToDp(2.5),
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 24,
-  },
-  iconContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: width * 0.9,
-    marginTop: heightToDp(4.5),
-    marginBottom: heightToDp(4.5),
-  },
-  iconWrapper: {
-    alignItems: 'center',
-    flexDirection: 'column',
-  },
-  iconText: {
-    textTransform: 'uppercase',
-    marginTop: heightToDp(3),
-    fontFamily: fonts.robo_reg,
-  },
-});

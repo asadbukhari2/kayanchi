@@ -1,9 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { heightToDp, widthToDp } from '../../../utils/Dimensions';
-import { fonts } from '../../../utils/theme';
-
+import { fonts, useTheme } from '../../../utils/theme';
+import makeStyle from './rankup.styles';
+const theme = useTheme()
 const Rankup = ({ title, heading, description, rating, total, imageLink }) => {
+  const styles = makeStyle(theme)
   return (
     <View style={{ paddingVertical: heightToDp(7) }}>
       {title && (
@@ -37,44 +39,6 @@ const Rankup = ({ title, heading, description, rating, total, imageLink }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  //   containerDetail: {
-  //     flexDirection: 'row',
-  //     alignItems: 'center',
-  //     justifyContent: 'space-between',
-  //     paddingHorizontal: 16,
-  //     paddingVertical: 8,
-  //     backgroundColor: '#FFFFFF',
-  //     borderRadius: 8,
-  //     marginVertical: 8,
-  //   },
-  containerDetail: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: widthToDp(5),
-  },
-  title: {
-    fontSize: 16,
-    // fontWeight: 'bold',
-    fontFamily: fonts.robo_med,
-    color: '#0F2851',
-  },
-  heading: {
-    color: '#668C6A',
-    fontSize: 14,
-    fontFamily: fonts.robo_med,
-    paddingVertical: heightToDp(2),
-  },
-  description: {
-    color: '#707993',
-    fontSize: 12,
-    fontFamily: fonts.robo_reg,
-  },
-  rating: {
-    color: '#84668C',
-    fontFamily: fonts.robo_me2,
-    marginLeft: widthToDp(1),
-  },
-});
+
 
 export default Rankup;

@@ -6,6 +6,7 @@ import { Header } from '../../components';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { GLOBAL_STYLES } from '../../utils/styles';
 import { useTheme, fonts } from '../../utils/theme';
+import makeStyle from './artistYourOrders.styles';
 
 const theme = useTheme();
 
@@ -46,6 +47,7 @@ const ALL = [
 
 const ArtistYourOrders = props => {
   const [tab, setTab] = useState('All');
+  const styles = makeStyle(theme)
   return (
     <SafeAreaView style={GLOBAL_STYLES.containerHome}>
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: heightToDp(30) }}>
@@ -268,6 +270,5 @@ const ArtistYourOrders = props => {
   );
 };
 
-const styles = StyleSheet.create({});
 
 export default ArtistYourOrders;

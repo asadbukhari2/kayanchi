@@ -8,6 +8,7 @@ import { useTheme, fonts } from '../../utils/theme';
 import CardComponent from './components/CardComponent';
 import logo1 from '../../assets/logo1.png';
 import PromoCodeComponent from './components/PromoCodeComponent';
+import makeStyle from './styles/artistPaymentMethod.style';
 const theme = useTheme();
 const promocodeData = [
   {
@@ -51,6 +52,7 @@ const DATA = [
 ];
 
 const ArtistPaymentMethods = props => {
+  const styles = makeStyle(theme)
   return (
     <SafeAreaView style={GLOBAL_STYLES.containerHome}>
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: heightToDp(30) }}>

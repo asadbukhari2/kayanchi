@@ -10,6 +10,7 @@ import api from '../../utils/APIservice';
 import { saveUserData, signup } from '../../redux/actions';
 import { showMessage } from 'react-native-flash-message';
 import { useNavigation } from '@react-navigation/native';
+import makeStyle from './artistNumberSignUp.style';
 
 const theme = useTheme();
 
@@ -18,7 +19,7 @@ const ArtistNumberSignUp = () => {
   const [number, setNumber] = useState(null);
   const [code, setCode] = useState(null);
   const dispatch = useDispatch();
-
+const styles = makeStyle(theme)
   const phoneSignup = async () => {
     try {
       // const res = await api.post('/api/users/sendotp', {phone_number: number});
@@ -60,33 +61,6 @@ const ArtistNumberSignUp = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: theme.background,
-    // paddingTop: heightToDp(8),
-  },
-  bottomTxt: {
-    fontFamily: fonts.robo_reg,
-    fontSize: 14,
-    lineHeight: 22,
-    color: theme.darkBlack,
-  },
-  bottomTxtView: {
-    width: width * 0.868,
-    alignSelf: 'center',
-    flexDirection: 'row',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    marginBottom: heightToDp(7.8),
-    marginTop: heightToDp(4.5),
-    position: 'absolute',
-    bottom: heightToDp(14),
-  },
-  btn: {
-    position: 'absolute',
-    bottom: heightToDp(5.5),
-  },
-});
+
 
 export default ArtistNumberSignUp;

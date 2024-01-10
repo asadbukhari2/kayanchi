@@ -8,12 +8,13 @@ import { fonts, useTheme } from '../../utils/theme';
 import { useNavigation } from '@react-navigation/native';
 
 import { showMessage } from 'react-native-flash-message';
+import makeStyle from './artistOtpSignUp.style';
 
 const theme = useTheme();
 
 const ArtistOtpSignUp = () => {
   const navigation = useNavigation();
-
+const styles = makeStyle(theme)
   const [otp, setOtp] = useState(null);
 
   const handleOTPVerification = async () => {
@@ -56,31 +57,6 @@ const ArtistOtpSignUp = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: theme.background,
-    // paddingTop: heightToDp(8),
-  },
-  bottomTxt: {
-    fontFamily: fonts.robo_reg,
-    fontSize: 14,
-    lineHeight: 22,
-    color: theme.darkBlack,
-  },
-  bottomTxtView: {
-    width: width * 0.868,
-    alignSelf: 'center',
-    flexDirection: 'row',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    marginBottom: heightToDp(7.8),
-    marginTop: heightToDp(4.5),
-  },
-  btn: {
-    position: 'absolute',
-    bottom: heightToDp(5.5),
-  },
-});
+
 
 export default ArtistOtpSignUp;

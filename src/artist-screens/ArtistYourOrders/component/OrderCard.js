@@ -4,9 +4,11 @@ import { heightToDp, width, widthToDp } from '../../../utils/Dimensions';
 
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { Button } from '../../../components';
+import makeStyle from './styles/orderCard.styles';
 const theme = useTheme();
 
 export default function OrderCard({ onPressView }) {
+  const styles = makeStyle(theme)
   return (
     <View
       style={{

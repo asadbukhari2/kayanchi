@@ -5,6 +5,7 @@ import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
 import { Button, Header, OrderServiceCard } from '../../components';
 import Octicons from 'react-native-vector-icons/Octicons';
+import makeStyle from './artistOrderConfirm.style';
 
 const theme = useTheme();
 
@@ -22,6 +23,7 @@ const DATA = [
 ];
 
 const ArtistOrderConfirm = props => {
+  const styles = makeStyle(theme)
   return (
     <SafeAreaView style={styles.container}>
       <Header backBtnGrey />
@@ -81,34 +83,4 @@ const ArtistOrderConfirm = props => {
 
 export default ArtistOrderConfirm;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: theme.homeBackground,
-  },
-  title: {
-    marginTop: heightToDp(5.5),
-    width: width * 0.868,
-    alignSelf: 'center',
-    fontFamily: fonts.hk_bold,
-    fontSize: 34,
-    lineHeight: 40.81,
-    color: theme.lightBlack,
-  },
-  subTitle: {
-    marginTop: heightToDp(6.7),
-    width: width * 0.868,
-    alignSelf: 'center',
-    fontFamily: fonts.hk_bold,
-    fontSize: 14,
-    lineHeight: 20,
-    color: theme.backIcon,
-  },
-  titleTxt: {
-    fontFamily: fonts.robo_reg,
-    fontSize: 16,
-    lineHeight: 20,
-    color: theme.darkBlack,
-    marginLeft: widthToDp(6.7),
-  },
-});
+

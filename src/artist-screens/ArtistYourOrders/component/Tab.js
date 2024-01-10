@@ -2,12 +2,14 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import { widthToDp } from '../../../utils/Dimensions';
 import { fonts, useTheme } from '../../../utils/theme';
+import makeStyle from './styles/tab.styles';
 
 const theme = useTheme();
 
 const ArtistYourOrders = props => {
   const { title } = props;
   const [tab, setTab] = useState('All');
+  const styles = makeStyle(theme)
   return (
     <TouchableOpacity
       style={{
@@ -32,4 +34,3 @@ const ArtistYourOrders = props => {
 
 export default ArtistYourOrders;
 
-const styles = StyleSheet.create({});

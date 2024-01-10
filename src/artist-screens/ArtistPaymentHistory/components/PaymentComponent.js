@@ -1,9 +1,12 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { heightToDp, widthToDp, width } from '../../../utils/Dimensions';
-import { fonts } from '../../../utils/theme';
-
-const PaymentComponent = ({ payment }) => (
+import { fonts, useTheme } from '../../../utils/theme';
+import makeStyle from './styles';
+const theme = useTheme()
+const PaymentComponent = ({ payment }) => {
+  const styles = makeStyle(theme)
+  return (
   <View style={styles.paymentContainer}>
     <View>
       <Image source={payment.imageLink} style={styles.image} />
@@ -33,26 +36,9 @@ const PaymentComponent = ({ payment }) => (
       </Text>
     </View>
   </View>
-);
+  )
+};
 
 export default PaymentComponent;
 
-const styles = StyleSheet.create({
-  paymentContainer: {
-    flexDirection: 'row',
-    marginHorizontal: widthToDp(5),
-    paddingVertical: heightToDp(2),
-    width: width * 0.45,
-  },
-  reason: { marginLeft: widthToDp(5) },
-  image: { height: 36, width: 38 },
-  separator: {
-    height: 1,
-    backgroundColor: '#DDDDDD',
-    marginVertical: 5,
-  },
-  transId: {
-    position: 'absolute',
-    right: 10,
-  },
-});
+

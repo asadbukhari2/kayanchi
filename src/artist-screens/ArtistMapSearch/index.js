@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header, SearchBox } from '../../components';
 import { heightToDp, width } from '../../utils/Dimensions';
 import { useTheme, fonts } from '../../utils/theme';
+import makeStyle from './artistMapSearch.style';
 
 const theme = useTheme();
 
@@ -20,6 +21,7 @@ const DATA = [
 
 const ArtistMapSearch = props => {
   const [keyword, setKeyword] = useState('Dha phase 6, itthad commercia');
+  const styles = makeStyle(theme)
   return (
     <SafeAreaView style={styles.container}>
       <Header backBtnGrey title={'Locate kaynchi'} titleStyle={{ fontFamily: fonts.hk_bold }} />
@@ -66,11 +68,6 @@ const ArtistMapSearch = props => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: theme.homeBackground,
-  },
-});
+
 
 export default ArtistMapSearch;

@@ -7,13 +7,14 @@ import { GLOBAL_STYLES } from '../../utils/styles';
 import { useTheme } from '../../utils/theme';
 import Address from './component';
 import { getSavedAddresses } from '../../redux/actions';
+import makeStyle from './artistSavedAddress.styles';
 
 const theme = useTheme();
 
 const ArtistSavedAddresses = props => {
   const [loading, setLoading] = useState(false);
   const [address, setAddresses] = useState([]);
-
+const styles = makeStyle(theme)
   useEffect(() => {
     setLoading(true);
     getSavedAddresses()
@@ -62,14 +63,4 @@ const ArtistSavedAddresses = props => {
 
 export default ArtistSavedAddresses;
 
-const styles = StyleSheet.create({
-  loading: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    marginTop: 50,
-  },
-  loadingText: {
-    color: theme.dark,
-  },
-});
+
