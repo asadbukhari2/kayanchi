@@ -277,7 +277,7 @@ const ArtistUpdateProfile = () => {
           onChangeText={setDescription}
           onSavePress={handleSavePress}
           placeholder="For e.g Make up artist, Stylist, Barber"
-          limitText={`${description.length}/15`}
+          limitText={`${description?.length}/15`}
         />
 
         <ContainerWorkCertificate
