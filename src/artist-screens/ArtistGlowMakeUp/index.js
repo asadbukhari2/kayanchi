@@ -129,7 +129,7 @@ export default function ArtistGlowMakeUp() {
               marginRight: 10,
             }}>
             <Image
-              source={catName === 'hair' && hair}
+              source={catName === 'Body' && hair}
               style={{
                 width: 15,
                 height: 15,

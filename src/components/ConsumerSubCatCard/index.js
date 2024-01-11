@@ -28,7 +28,6 @@ const ConsumerSubCatCard = props => {
   const [showMore, setShowMore] = useState(false);
 
   const navigation = useNavigation();
-
   return (
     <View style={styles.container}>
       <View style={styles.shownView}>

@@ -26,6 +26,7 @@ const Tabs = props => {
           <TouchableOpacity
             onPress={() => setSelected(index)}
             activeOpacity={0.7}
+            disabled={item.name}
             style={[
               styles.btnView,
               {

@@ -6,13 +6,14 @@ import { fonts, useTheme } from '../../utils/theme';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Assuming you want to use FontAwesome icons, you can change it to any other supported icon library.
 import { useSelector } from 'react-redux';
+import makeStyle from './artistProfileSved.styles';
 
 const whatsappphone = require('../../assets/whatsappphone.png');
 const theme = useTheme();
 
 export default function ArtistProfileSaved(props) {
   const { userProfileDetails } = useSelector(state => state.auth);
-
+  const styles = makeStyle(theme)
   const editClickHandler = () => {
     props.navigation.navigate('ArtistPersonalDetails');
   };

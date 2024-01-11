@@ -5,7 +5,7 @@ import { Button, Header } from '../../components';
 import { useNavigation } from '@react-navigation/native';
 import { fonts, useTheme } from '../../utils/theme';
 import { heightToDp } from '../../utils/Dimensions';
-import makeStyle from './artistCommisionStyles/Commision.style';
+import makeStyle from './artistCommisionStyles/commision.style';
 
 const theme = useTheme();
 

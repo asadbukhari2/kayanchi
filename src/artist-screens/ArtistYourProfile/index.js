@@ -22,7 +22,8 @@ const ArtistYourProfile = props => {
   const [tabsData, setTabsData] = useState([]);
   const [subHeading, setSubHeading] = useState('');
   // const [modalVisible, setModalVisible] = useState(false);
-
+  const [categoryNameWithLength, setCategoryNameWithLength] = useState([])
+  const [sortedTabWithWeight, setSortedTabWithWeight] = useState([])
   const theme = useTheme();
   const styles = makeStyle(theme);
 
@@ -31,7 +32,6 @@ const ArtistYourProfile = props => {
   const { name } = auth.user;
   const { followers, title, level, rating, rating_count, hosting_mood, travel_mood, availability_status } =
     auth.profile;
-
   const scrollY = useRef(new Animated.Value(0)).current;
 
   const offset = headerHeight - headerFinalHeight;
@@ -101,12 +101,46 @@ const ArtistYourProfile = props => {
 
       return d;
     });
-
     data ? setTabsData(data) : setTabsData([]);
+    let newCategoryWithLength = services.map(ser => {
+      return { name: ser.category_name, length: ser.category_services.length };
+    })
+    setCategoryNameWithLength(newCategoryWithLength);
   };
+  function array_move(arr, old_index, new_index) {
+    if (new_index >= arr.length) {
+      var k = new_index - arr.length + 1;
+      while (k--) {
+        arr.push(undefined);
+      }
+    }
+    arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+    return arr; // for testing
+  };
+  const sortTheTabsWithBigWeightData = () => {
+    let newCategoryWithLength = services.map(ser => {
+      if (ser.category_services.length !== 0) {
+        return { name: ser.category_name, weight: ser.category_services.length };
+      }
+    });
 
+    if (newCategoryWithLength.length > 0) {
+
+
+      // Sort categories based on the weight in newCategoryWithLength array
+      categories.sort((a, b) => {
+        const weightA = newCategoryWithLength.find(categoryWeight => categoryWeight.name === a.name)?.weight || 0;
+        const weightB = newCategoryWithLength.find(categoryWeight => categoryWeight.name === b.name)?.weight || 0;
+
+        return weightB - weightA;
+      });
+
+      setSortedTabWithWeight(categories);
+    }
+  }
   useEffect(() => {
     services.length > 0 && handleTabButtonClick(categories[0].name);
+    sortTheTabsWithBigWeightData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categories]);
 
@@ -125,7 +159,10 @@ const ArtistYourProfile = props => {
             resizeMode: 'cover',
             overflow: 'hidden',
           }}>
-          <Image source={require('../../assets/profile.png')} style={{ width: '100%', height: '100%' }} />
+          <Image
+            source={auth.user.profilePicture ? auth.user.profilePicture : require('../../assets/profile.png')}
+            style={{ width: '100%', height: '100%' }}
+          />
         </View>
 
         <Animated.View style={[{ transform: [{ translateY: opacityHeader }] }]}>
@@ -180,7 +217,6 @@ const ArtistYourProfile = props => {
           </View>
         </View>
       </Animated.View>
-
       <ScrollView
         scrollEventThrottle={10}
         style={{ height: height }}
@@ -345,7 +381,7 @@ const ArtistYourProfile = props => {
         </View>
 
         <View style={{ borderBottomWidth: 1, borderColor: theme.inputText }}>
-          <Tabs selectedTab={handleTabButtonClick} DATA={categories} />
+          <Tabs selectedTab={handleTabButtonClick} DATA={sortedTabWithWeight} />
         </View>
 
         <View style={{ marginTop: heightToDp(4.5) }}>

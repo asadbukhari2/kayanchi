@@ -44,7 +44,7 @@ const ArtistGigMood = () => {
   const [travelFee, setTravelFee] = useState(0);
   const navigation = useNavigation();
   const route = useRoute();
-  const styles = makeStyle(theme)
+  const styles = makeStyle(theme);
   const dispatch = useDispatch();
 
   const auth = useSelector(state => state.auth);
@@ -123,7 +123,7 @@ const ArtistGigMood = () => {
       });
     }
   };
-
+  console.log('this is the gig mood', gigMood);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -159,7 +159,7 @@ const ArtistGigMood = () => {
                     if (gigMood.includes(mood.id)) {
                       setGigMood(gigMood.filter(mo => mo !== mood.id));
                     } else {
-                      setGigMood([...gigMood, mood.id]);
+                      setGigMood([mood.id]);
                     }
                   }}
                   key={mood.id}>
@@ -177,48 +177,52 @@ const ArtistGigMood = () => {
             })}
           </View>
         </View>
-        <View style={styles.serviceDuration}>
-          <Text style={styles.title2}>{'Default Travelling cost'}</Text>
-          <Image source={travelling} />
-          <View style={styles.childServiceDuration} />
-        </View>
+        {gigMood.includes('travel') && (
+          <View>
+            <View style={styles.serviceDuration}>
+              <Text style={styles.title2}>{'Default Travelling cost'}</Text>
+              <Image source={travelling} />
+              <View style={styles.childServiceDuration} />
+            </View>
 
-        <Text style={styles.warning}>
-          Budget your travel cost within the city. Offer travel for free, to get more orders.
-        </Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignContent: 'center',
-          }}>
-          <Text style={styles.warning}>{'Offer free travel'}</Text>
+            <Text style={styles.warning}>
+              Budget your travel cost within the city. Offer travel for free, to get more orders.
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignContent: 'center',
+              }}>
+              <Text style={styles.warning}>{'Offer free travel'}</Text>
 
-          <View style={styles.switchContainer}>
-            <ToggleSwitch
-              isOn={isFree}
-              style={{ height: 20, marginRight: 10 }}
-              value={gigMood === 'host' ? false : isFree}
-              onColor="#84668C"
-              offColor="#9A9A9A"
-              size="small"
-              disabled={gigMood === 'host'}
-              onToggle={isOn => setIsFree(isOn)}
-            />
+              <View style={styles.switchContainer}>
+                <ToggleSwitch
+                  isOn={isFree}
+                  style={{ height: 20, marginRight: 10 }}
+                  value={gigMood === 'host' ? false : isFree}
+                  onColor="#84668C"
+                  offColor="#9A9A9A"
+                  size="small"
+                  disabled={gigMood === 'host'}
+                  onToggle={isOn => setIsFree(isOn)}
+                />
+              </View>
+            </View>
+
+            <View style={styles.parentPrice}>
+              <TextInput
+                style={styles.priceField}
+                placeholderTextColor={'#8D8A94'}
+                editable={gigMood !== 'host' && !isFree}
+                value={travelFee}
+                keyboardType="number-pad"
+                onChangeText={e => setTravelFee(e)}
+                placeholder="100-1000"
+              />
+            </View>
           </View>
-        </View>
-
-        <View style={styles.parentPrice}>
-          <TextInput
-            style={styles.priceField}
-            placeholderTextColor={'#8D8A94'}
-            editable={gigMood !== 'host' && !isFree}
-            value={travelFee}
-            keyboardType="number-pad"
-            onChangeText={e => setTravelFee(e)}
-            placeholder="100-1000"
-          />
-        </View>
+        )}
 
         <View style={styles.gigVersion}>
           <Text style={styles.title}>Upload pictures of your hosting spot</Text>
@@ -269,5 +273,3 @@ const ArtistGigMood = () => {
 };
 
 export default ArtistGigMood;
-
-
