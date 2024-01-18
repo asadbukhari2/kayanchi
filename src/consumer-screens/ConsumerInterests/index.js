@@ -66,7 +66,6 @@ const ConsumerInterests = props => {
   const dispatch = useDispatch();
   const [interest, setInterest] = useState([]);
   const dataToSave = useSelector(state => state.auth.signUpUserData);
-
   const createAccount = async () => {
     if (interest.length < 1) {
       showMessage({

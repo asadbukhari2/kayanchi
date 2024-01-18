@@ -14,16 +14,16 @@ export default function Root() {
 
   const isArtist = auth?.isArtist === true;
   const isConsumer = auth?.isConsumer === true;
-  console.log('-=-=-=-=-', isArtist, isConsumer, auth?.token?.length > 0);
+  console.log('-=-=-=-=-', isArtist, isConsumer, auth.token);
   // dispatch({ type: 'SIGN_OUT' });
 
   return !auth.token && isArtist ? (
     <ArtistAuthStack />
   ) : auth.token && isArtist ? (
     <ArtistMainStack />
-  ) : !auth.token && isConsumer ? (
+    ) : !auth?.userDetails?.token && isConsumer ? (
     <ConsumerAuthStack />
-  ) : auth.token && isConsumer ? (
+      ) : auth?.userDetails?.token && isConsumer ? (
     <ConsumerMainStack />
   ) : (
     <InitStack />

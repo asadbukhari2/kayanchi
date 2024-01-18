@@ -14,11 +14,13 @@ export default function InitScreen() {
   const navigation = useNavigation();
 
   function gotoConsumer() {
+    console.log('navigation');
+    navigation.navigate('ConsumerWelcome');
     dispatch({ type: SET_IS_CONSUMER });
   }
 
   function gotoArtist() {
-    navigation.navigate('ArtistType');
+    navigation.navigate('InitScreen');
   }
 
   return (

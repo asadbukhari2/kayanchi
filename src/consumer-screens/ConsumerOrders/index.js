@@ -127,7 +127,7 @@ const ConsumerOrders = props => {
       setDisplayedOrders([]);
     }
   };
-
+  console.log('this is the order', orders);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -177,7 +177,7 @@ const ConsumerOrders = props => {
         </View>
         <View>
           {displayedOrders.map((order, index) => (
-            <OrderCard key={index} order={order} navigation={props.navigation} />
+            <OrderCard key={index} order={orders} navigation={props.navigation} />
           ))}
         </View>
       </ScrollView>

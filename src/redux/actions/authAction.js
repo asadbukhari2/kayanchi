@@ -78,14 +78,15 @@ export const SIGNUP = (data, navigation) => async dispatch => {
     type: SIGN_UP,
   });
   let res = await Fetch.post(
-    `/api/users/${data.type_login == 'artist' ? 'artist' : data.type_login == 'studio' ? 'studio' : 'consumer'}`,
+    `/api/users/${data.type_login === 'artist' ? 'artist' : data.type_login === 'studio' ? 'studio' : 'consumer'}`,
     data,
   );
-  console.log('signup action res', res.data);
+  console.log('signup action res', res.token, res.status, res);
   if (res.status >= 200 && res.status < 300) {
     res = await res.json();
 
-    await AsyncStorage.setItem('userToken', JSON.stringify(res.token));
+
+    await AsyncStorage.setItem('userToken', res.token);
     showMessage({
       message: 'Successfully Created Your Account',
       type: 'success',
@@ -94,15 +95,15 @@ export const SIGNUP = (data, navigation) => async dispatch => {
       type: SIGN_UP_SUCCESS,
       payload: res,
     });
-    if (data.type_login == 'artist' || data.type_login == 'studio') navigation.navigate('ArtistOnBoardingWelcome');
+    if (res.user.type_login === 'artist' || res.user.type_login === 'studio') navigation.navigate('ArtistOnBoardingWelcome');
     else navigation.navigate('ConsumerOnBoardingWelcome');
   } else if (res.status >= 500) {
     showMessage({
-      message: 'Server Issues',
+      message: res.message,
       type: 'danger',
     });
   } else {
-    const { message } = await res.json();
+    const { message } = res;
     showMessage({
       message: message || 'Something Went Wrong',
       type: 'danger',

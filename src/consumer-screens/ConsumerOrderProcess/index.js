@@ -96,7 +96,7 @@ const ConsumerOrderProcess = props => {
     return (
       <ScrollView>
         <View style={{ flex: 1 }}>
-          <Header title={item.heading} skip backBtn onSkip={() => navigation.replace('ArtistHome')} />
+          <Header title={item.heading} skip backBtn onSkip={() => navigation.replace('ConsumerHome')} />
           <Image style={styles.img} source={item.image} resizeMode="contain" />
 
           <Text style={styles.title}>{item.title}</Text>
@@ -498,7 +498,6 @@ const ConsumerOrderProcess = props => {
                       screen: 'ConsumerDisocver',
                     })
                   }
-                  disable
                 />
               </View>
             </>

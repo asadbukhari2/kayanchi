@@ -51,10 +51,10 @@ const OrderCard = ({ order, navigation }) => {
           justifyContent: 'space-between',
         }}>
         <View>
-          <Text style={styles.headingName}>{order.order.consumer.name}</Text>
+          <Text style={styles.headingName}>{order?.order?.consumer?.name}</Text>
 
           <Text style={[styles.textBold, { marginVertical: 3 }]}>SERVICES:</Text>
-          {order.order.order_items.map((service, serviceIndex) => {
+          {order?.order?.order_items.map((service, serviceIndex) => {
             const maxServicesToShow = 2;
 
             if (serviceIndex < maxServicesToShow) {
@@ -88,17 +88,17 @@ const OrderCard = ({ order, navigation }) => {
               fontFamily: fonts.hk_bold,
               marginTop: 4,
             }}>
-            Rs {order.order.total_service_charges}
+            Rs {order?.order?.total_service_charges}
           </Text>
         </View>
 
-        {order.order.order_status !== 'Cancelled' && (
+        {order?.order?.order_status !== 'Cancelled' && (
           <View>
-            {order.order.is_hosting ? (
+            {order?.order?.is_hosting ? (
               <View style={styles.orderDetails}>
                 <Text style={{ color: '#0F2851' }}>wants to</Text>
                 <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>HOST</Text>
-                {order.order.order_availibity_status === 'On-Demand' ? (
+                {order?.order?.order_availibity_status === 'On-Demand' ? (
                   <Image source={car_brown} style={styles.OrderImage} />
                 ) : (
                   <Image source={host_green} style={styles.OrderImage} />
@@ -108,20 +108,20 @@ const OrderCard = ({ order, navigation }) => {
               <View style={styles.orderDetails}>
                 <Text style={{ color: '#0F2851' }}>wants to</Text>
                 <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>TRAVEL</Text>
-                {order.order.order_availibity_status === 'On-Demand' ? (
+                  {order?.order?.order_availibity_status === 'On-Demand' ? (
                   <Image source={car_brown} style={styles.OrderImage} />
                 ) : (
                   <Image source={host_green} style={styles.OrderImage} />
                 )}
               </View>
             )}
-            {order.order.is_hosting && (
+            {order?.order?.is_hosting && (
               <Text style={{ color: '#29AAE2', fontFamily: fonts.robo_reg }}>
                 {order.distance} kms <Text style={{ color: '#0F2851' }}>away for you </Text>{' '}
               </Text>
             )}
             <Text style={[styles.textBold, { marginTop: 5 }]}>
-              {order.order.is_hosting ? 'HOSTING AT:' : 'TRVELLING TO:'}
+              {order?.order?.is_hosting ? 'HOSTING AT:' : 'TRVELLING TO:'}
             </Text>
             <View
               style={{
@@ -136,11 +136,11 @@ const OrderCard = ({ order, navigation }) => {
                   fontSize: 14,
                   fontFamily: fonts.robo_reg,
                 }}>
-                {order.default_artist_address.text}
+                {order?.salonAddress}
               </Text>
             </View>
 
-            {order.order.order_status === 'Accepted' ? (
+            {order?.order?.order_status === 'Accepted' ? (
               <TouchableOpacity
                 onPress={viewTimelineHandler}
                 style={{
@@ -158,7 +158,7 @@ const OrderCard = ({ order, navigation }) => {
                 }}>
                 <Text>View Timeline</Text>
               </TouchableOpacity>
-            ) : order.order.order_status === 'Waiting' ? (
+            ) : order.order_status === 'Waiting' ? (
               <View style={styles.indicatorView}>
                 <View style={styles.row}>
                   <MultiButton
@@ -182,7 +182,7 @@ const OrderCard = ({ order, navigation }) => {
                   />
                 </View>
               </View>
-            ) : order.order.order_status === 'Completed' ? (
+              ) : order.order_status === 'Completed' ? (
               <View style={styles.indicatorView}>
                 <View style={styles.row}>
                   <MultiButton
@@ -208,22 +208,22 @@ const OrderCard = ({ order, navigation }) => {
           </View>
         )}
 
-        {order.order.order_status === 'Cancelled' && (
+        {order.order_status === 'Cancelled' && (
           <>
             <View style={styles.orderDetails}>
               <View>
                 <Text style={[styles.textBold, { marginTop: 5 }]}>
-                  {order.order.is_hosting ? 'HOSTING AT:' : 'TRVELLING TO:'}
+                  {order.is_hosting ? 'HOSTING AT:' : 'TRVELLING TO:'}
                 </Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <Image source={location} style={{ height: 15, width: 15, resizeMode: 'contain' }} />
-                  <Text style={{ color: '#32aee3' }}>{order.default_artist_address.text}</Text>
+                  <Text style={{ color: '#32aee3' }}>{order?.default_artist_address?.text}</Text>
                 </View>
               </View>
-              <Image source={order.imageLink} style={styles.OrderImage} resizeMode="contain" />
+              <Image source={order?.imageLink} style={styles.OrderImage} resizeMode="contain" />
             </View>
 
-            <Text style={styles.orderStatus}>{order.order.order_status}</Text>
+            <Text style={styles.orderStatus}>{order.order_status}</Text>
             <Text style={[styles.subheading, { overflow: 'hidden' }]}>{order.cancelReason} </Text>
           </>
         )}

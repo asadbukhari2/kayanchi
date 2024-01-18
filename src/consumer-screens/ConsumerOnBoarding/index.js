@@ -91,7 +91,7 @@ const ConsumerOnBoarding = props => {
               </View>
             </View>
           )}
-          {item.key == 2 && (
+          {item.key === 2 && (
             <View style={[styles.indicatorView, { marginVertical: 25 }]}>
               <View style={styles.row}>
                 <MultiButton title={'Travel to Client'} image={car} disable />
@@ -133,7 +133,7 @@ const ConsumerOnBoarding = props => {
         dotStyle={{ height: 0, width: 0 }}
         // renderNextButton={() => <Button title={'Next'} disable />}
         renderDoneButton={() => (
-          <Button title={'Go to home'} onPress={() => props.navigation.navigate('ConsumerHomeStack')} disable />
+          <Button title={'Go to home'} onPress={() => props.navigation.navigate('ConsumerHomeStack')} />
         )}
         data={slides}
         onDone={addData}
