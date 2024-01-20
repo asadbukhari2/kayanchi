@@ -73,8 +73,16 @@ const DATA = [
 const data = ['Cart', 'Delivery Address', 'Order Summary', 'Payment Method', 'Track'];
 
 const ConsumerHomeSearch = props => {
-  const [searchKeyword, setSearchKeyword] = useState('');
-  const [clickedIndex, setClickedIndex] = useState(0);
+  const { searchKeyword: searchText, category } = props.route.params;
+  console.log('props.route', props.route);
+  const [searchKeyword, setSearchKeyword] = useState(searchText);
+  const [searchCategory, setSearchCategory] = useState(category);
+  // const [clickedIndex, setClickedIndex] = useState(0);
+
+  useEffect(() => {
+    setSearchKeyword(searchText);
+    setSearchCategory(category)
+  }, [props.route.params])
 
   // const getService = async () => {
   //   try {
@@ -102,7 +110,7 @@ const ConsumerHomeSearch = props => {
   // }, []);
   const renderItem = ({ item, index }) => (
     <TouchableOpacity
-      onPress={() => setClickedIndex(index)}
+      onPress={() => setSearchCategory(item.name)}
       activeOpacity={0.7}
       style={{
         flexDirection: 'row',
@@ -113,12 +121,12 @@ const ConsumerHomeSearch = props => {
         paddingHorizontal: 10,
         paddingVertical: 5,
         borderRadius: 20,
-        backgroundColor: clickedIndex === index ? '#5EAC66' : '#EEEEEE',
+        backgroundColor: searchCategory === item.name ? '#5EAC66' : '#EEEEEE',
       }}>
       <Image source={item.imageLink} style={{ width: 12.5, height: 16, resizeMode: 'cover', marginRight: 5 }} />
       <Text
         style={{
-          color: clickedIndex === index ? 'white' : '#0F2851',
+          color: searchCategory === item.name ? 'white' : '#0F2851',
           fontFamily: fonts.robo_med,
         }}>
         {item.name}

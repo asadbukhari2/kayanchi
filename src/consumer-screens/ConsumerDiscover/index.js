@@ -51,8 +51,30 @@ const DATA = [
 const ConsumerDisocver = props => {
   const [artistModalVisible, setArtistModalVisible] = useState(false);
   const [studioModalVisible, setStudioModalVisible] = useState(false);
-  const [clickedIndex, setClickedIndex] = useState(null);
-
+  const [clickedIndex, setClickedIndex] = useState(0);
+  const [filter, setFilter] = useState('artist');
+  const [dynamicData, setDynamicData] = useState([
+    {
+      name: 'Narmeen Iqbal',
+      artistType: 'Beautician',
+      artistStatus: 'New Artist',
+      priceRange: '~$$$',
+      imageLink: [hair],
+      imageText: ['hair'],
+      backImg: background_image,
+    },
+    {
+      name: 'Sernic Clininc',
+      artistType: 'Makeup Artist',
+      artistStatus: 'Experienced',
+      priceRange: '~$$',
+      imageLink: [face, face],
+      imageText: ['face', 'makeup'],
+      backImg: clinic_image,
+    },
+  ]);
+  const artistDiscovires = useSelector(state => state.common.artistDiscovires);
+  const studiosDiscovires = useSelector(state => state.common.studiosDiscovires);
   // const getService = async () => {
   //   try {
   //     const res = await api.get('/api/service');
@@ -77,26 +99,6 @@ const ConsumerDisocver = props => {
   //   getService();
   //   getArtist();
   // }, []);
-  const dynamicData = [
-    {
-      name: 'Narmeen Iqbal',
-      artistType: 'Beautician',
-      artistStatus: 'New Artist',
-      priceRange: '~$$$',
-      imageLink: [hair],
-      imageText: ['hair'],
-      backImg: background_image,
-    },
-    {
-      name: 'Sernic Clininc',
-      artistType: 'Makeup Artist',
-      artistStatus: 'Experienced',
-      priceRange: '~$$',
-      imageLink: [face, face],
-      imageText: ['face', 'makeup'],
-      backImg: clinic_image,
-    },
-  ];
 
   const openModal = (index, artistType) => {
     setClickedIndex(index);
@@ -108,7 +110,14 @@ const ConsumerDisocver = props => {
       setStudioModalVisible(true);
     }
   };
-
+  useEffect(() => {
+    // if filter type equal to the artist then set the data to artist else studio
+    if (filter === 'artist') {
+      setDynamicData(artistDiscovires);
+    } else {
+      setDynamicData(studiosDiscovires);
+    }
+  }, [filter]);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 90 }}>
@@ -139,20 +148,20 @@ const ConsumerDisocver = props => {
             marginTop: 10,
             marginHorizontal: widthToDp(5),
           }}>
-          <TouchableOpacity>
-            <Text style={styles.artist}>Artist</Text>
+          <TouchableOpacity onPress={() => setFilter('artist')}>
+            <Text style={[styles.btn, filter === 'artist' && styles.activeFilter]}>Artist</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity>
-            <Text style={styles.studio}>Studio</Text>
+          <TouchableOpacity onPress={() => setFilter('studio')}>
+            <Text style={[styles.btn, filter === 'studio' && styles.activeFilter]}>Studio</Text>
           </TouchableOpacity>
         </View>
 
-        <DiscoverModal
+        {/* <DiscoverModal
           visible={artistModalVisible}
           closeModal={() => setArtistModalVisible(false)}
           background_image={background_image}
-          name="Narmeen Iqbal"
+          name={dynamicData[clickedIndex].name}
           profession="Beautician"
           experience=" New Artist"
           knownFor="Known for something"
@@ -161,19 +170,27 @@ const ConsumerDisocver = props => {
           dollars="~$$$"
           data={DATA}
           navigation={props.navigation}
-        />
+        /> */}
         <DiscoverModal
           visible={studioModalVisible}
           closeModal={() => setStudioModalVisible(false)}
           background_image={clinic_image}
-          name="Serene Clinic"
-          profession="Wellness Clinic"
+          name={dynamicData[clickedIndex].name}
+          profession={dynamicData[clickedIndex].title}
           experience=" New Studio"
           knownFor="Known for something"
-          additionalInfo="Welcome to Serene Wellness Clinic, Pakistan’s premier destination for face and skin treatments. We make sure you achieve natural well-being."
-          distance="1.1 Km away"
-          dollars="~$$"
-          data={DATA}
+          additionalInfo={dynamicData[clickedIndex].bio ? dynamicData[clickedIndex].bio : "Welcome to Serene Wellness Clinic, Pakistan’s premier destination for face and skin treatments. We make sure you achieve natural well-being."}
+          distance={dynamicData[clickedIndex].distance}
+          dollars={
+            dynamicData[clickedIndex].price_range_classified === 'low'
+              ? '$'
+              : dynamicData[clickedIndex].price_range_classified === 'medium'
+                ? '$$'
+                : dynamicData[clickedIndex].price_range_classified === 'high'
+                  ? '$$$'
+                  : ''
+          }
+          data={dynamicData[clickedIndex]?.known_for}
         />
 
         {dynamicData.map((item, index) => (
@@ -182,38 +199,46 @@ const ConsumerDisocver = props => {
             onPress={() => {
               openModal(index, item.artistType);
             }}>
-            <ImageBackground source={item.backImg} resizeMode="cover" style={styles.backgroundImage}>
+            <ImageBackground source={clinic_image} resizeMode="cover" style={styles.backgroundImage}>
               <View key={index} style={styles.background_image}>
                 <View style={styles.favouriteContainer}>
                   <Image source={favourite} style={{ width: 21, height: 20 }} />
                 </View>
                 <View style={styles.discoverContainer}>
-                  {item.imageLink.map((image, idx) => (
-                    <TouchableOpacity
-                      key={idx}
-                      onPress={() => setClickedIndex(index)}
-                      activeOpacity={0.7}
-                      style={styles.dicoverImageContainer}>
-                      <Image source={image} style={styles.dicoverImage} />
-                      <Text style={{ color: '#0F2851', fontFamily: fonts.robo_med }}>{item.imageText[idx]}</Text>
-                    </TouchableOpacity>
-                  ))}
+                  <TouchableOpacity
+                    // key={idx}
+                    onPress={() => setClickedIndex(index)}
+                    activeOpacity={0.7}
+                    style={styles.dicoverImageContainer}>
+                    <Image source={face} style={styles.dicoverImage} />
+                    <Text style={{ color: '#0F2851', fontFamily: fonts.robo_med }}>{item.title}</Text>
+                  </TouchableOpacity>
                 </View>
 
-                <Text
-                  style={{
-                    fontSize: 34,
-                    fontFamily: fonts.hk_bold,
-                    color: 'white',
-                    marginHorizontal: widthToDp(5),
-                  }}>
-                  {item.name}
-                </Text>
+                {item.name && (
+                  <Text
+                    style={{
+                      fontSize: 34,
+                      fontFamily: fonts.hk_bold,
+                      color: 'white',
+                      marginHorizontal: widthToDp(5),
+                    }}>
+                    {item.name}
+                  </Text>
+                )}
                 <View style={styles.InfoContainer}>
                   <Image source={beautician} style={{ height: 13, width: 14, resizeMode: 'contain', marginRight: 5 }} />
                   <Text style={{ color: 'white', fontFamily: fonts.robo_med, fontSize: 14 }}>{item.artistType} •</Text>
-                  <Text style={{ color: 'white', fontFamily: fonts.robo_med, fontSize: 14 }}>{item.artistStatus}</Text>
-                  <Text style={{ color: '#1583D8', fontFamily: fonts.robo_med, fontSize: 14 }}>{item.priceRange}</Text>
+                  <Text style={{ color: 'white', fontFamily: fonts.robo_med, fontSize: 14 }}>{item.level}</Text>
+                  <Text style={{ color: '#1583D8', fontFamily: fonts.robo_med, fontSize: 14 }}>
+                    {item.price_range_classified === 'low'
+                      ? '$'
+                      : item.price_range_classified === 'medium'
+                        ? '$$'
+                        : item.price_range_classified === 'high'
+                          ? '$$$'
+                          : ''}
+                  </Text>
                 </View>
               </View>
             </ImageBackground>
@@ -291,22 +316,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: widthToDp(5),
   },
-  studio: {
+
+  activeFilter: {
+    backgroundColor: '#5EAC66',
+    color: 'white',
+  },
+  btn: {
     paddingVertical: 5,
     paddingHorizontal: 15,
     borderRadius: 15,
     backgroundColor: '#D9D9D9',
+    fontFamily: fonts.hk_regular,
     color: '#193356',
-    marginLeft: 10,
-    fontFamily: fonts.hk_regular,
-  },
-  artist: {
-    paddingVertical: 5,
-    paddingHorizontal: 15,
-    borderRadius: 15,
-    backgroundColor: '#5EAC66',
-    fontFamily: fonts.hk_regular,
-    color: 'white',
+    marginRight: 10,
   },
 });
 

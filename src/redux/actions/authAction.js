@@ -13,11 +13,13 @@ import {
   GET_MY_PROFILE,
   GET_USER_DETAIL,
   GET_PROFILE,
+  SET_IS_CONSUMER,
 } from '../constants/constants';
 import { showMessage } from 'react-native-flash-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import API, { Fetch } from '../../utils/APIservice';
-import { getBookingSlots, getMyOrders } from './commonActions';
+import { getBookingSlots, getConsumerBrowse, getMyOrders, getUserDiscoveries } from './commonActions';
+import { useSelector } from 'react-redux';
 
 export const EMAIL_LOGIN =
   ({ email, password }) =>
@@ -31,11 +33,10 @@ export const EMAIL_LOGIN =
       let res = await Fetch.post('/api/users/login', data);
       if (res.status >= 200 && res.status < 300) {
         res = await res.json();
-        console.log('this is the token', res.token);
+        console.log('this is the token', res.type_login);
         await AsyncStorage.setItem('userToken', JSON.stringify(res.token));
         dispatch(module.exports.getMyProfile(res.token));
-        dispatch(getMyOrders(res.token));
-        dispatch(getBookingSlots(res.token));
+
         showMessage({
           message: 'Logged In Successfully!',
           type: 'success',
@@ -46,12 +47,22 @@ export const EMAIL_LOGIN =
         });
 
         if (res.type_login === 'artist') {
+          dispatch(getMyOrders(res.token));
+          dispatch(getBookingSlots(res.token));
           dispatch({
             type: SET_IS_ARTIST,
+          });
+        } else {
+          const location = useSelector(state => state.common.currentLocation)
+          dispatch(getUserDiscoveries(res.token, location.latitude, location.longitude));
+          dispatch(getConsumerBrowse(res.token, location.latitude, location.longitude));
+          dispatch({
+            type: SET_IS_CONSUMER,
           });
         }
       } else {
         const { message } = await res.json();
+        console.log('this is the message', message);
         showMessage({
           message: message,
           type: 'danger',
@@ -95,11 +106,15 @@ export const SIGNUP = (data, navigation) => async dispatch => {
       type: SIGN_UP_SUCCESS,
       payload: res,
     });
-    if (res.user.type_login === 'artist' || res.user.type_login === 'studio') navigation.navigate('ArtistOnBoardingWelcome');
-    else navigation.navigate('ConsumerOnBoardingWelcome');
+    if (res.user.type_login === 'artist' || res.user.type_login === 'studio') {
+      navigation.navigate('ArtistOnBoardingWelcome');
+    } else {
+      navigation.navigate('ConsumerInterests');
+    }
   } else if (res.status >= 500) {
+    res = await res.json();
     showMessage({
-      message: res.message,
+      message: 'Something went wrong ' || res.message,
       type: 'danger',
     });
   } else {

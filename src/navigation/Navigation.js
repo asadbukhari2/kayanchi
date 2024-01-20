@@ -112,6 +112,7 @@ import {
   ConsumerOrderCancellation,
   ConsumerWhyCancel,
   ConsumerOrders,
+  ConsumerHomeSearch,
 } from '../consumer-screens';
 import ConsumerVerification from '../consumer-screens/ConsumerVerification';
 
@@ -555,7 +556,7 @@ const ConsumerHomeStack = ({ navigation }) => (
     />
     <Stack.Screen
       name="ConsumerSearch"
-      component={ConsumerSearch}
+      component={ConsumerHomeSearch}
       options={{
         headerShown: false,
       }}

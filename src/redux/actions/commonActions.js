@@ -15,6 +15,12 @@ import {
   GET_ORDERS,
   GET_ORDERS_DATA,
   GET_ORDERS_ERROR,
+  GET_DISCOVERIES,
+  GET_DISCOVERIES_DATA,
+  GET_DISCOVERIES_ERROR,
+  GET_CONSUMER_BROWSE,
+  GET_CONSUMER_BROWSE_DATA,
+  GET_CONSUMER_BROWSE_ERROR,
 } from '../constants/constants';
 
 export const getCategory = () => async dispatch => {
@@ -535,6 +541,68 @@ export const getOrderTimeline = async (id, token) => {
     });
   }
 };
+export const getUserDiscoveries = (token, latitude, longitude) => async dispatch => {
+  dispatch({
+    type: GET_DISCOVERIES
+  })
+  try {
+    let res = await Fetch.get(`/api/artistview/discover/1?coords={"longitude": ${longitude}, "latitude": ${latitude}}`, token);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      console.log('this is the data from discoveries', res);
+      dispatch({
+        type: GET_DISCOVERIES_DATA,
+        payload: res,
+      });
+    } else {
+      const { message } = await res.json();
+      showMessage({
+        message: message,
+        type: 'danger',
+      });
+      dispatch({
+        type: GET_DISCOVERIES_ERROR,
+        payload: message,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: GET_DISCOVERIES_ERROR,
+      payload: 'Something went wrong',
+    });
+  }
+}
+export const getConsumerBrowse = (token, latitude, longitude) => async dispatch => {
+  dispatch({
+    type: GET_CONSUMER_BROWSE
+  })
+  try {
+    let res = await Fetch.get(`/api/search/browse?coords={"longitude": ${longitude}, "latitude": ${latitude}}&city=Karachi`, token);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      console.log('this is the data from consumer', res);
+      dispatch({
+        type: GET_CONSUMER_BROWSE_DATA,
+        payload: res,
+      });
+    } else {
+      const { message } = await res.json();
+      showMessage({
+        message: message,
+        type: 'danger',
+      });
+      dispatch({
+        type: GET_CONSUMER_BROWSE_ERROR,
+        payload: message,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: GET_CONSUMER_BROWSE_ERROR,
+      payload: 'Something went wrong',
+    });
+  }
+}
 export const rateConsumer = async (body, token) => {
   try {
     let res = await Fetch.post('/api/rating/consumer/', body, token);

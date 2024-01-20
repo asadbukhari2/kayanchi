@@ -95,7 +95,7 @@ const DiscoverModal = ({
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          {data.map((item, index) => (
+          {data && data.map((item, index) => (
             <View
               key={index}
               style={{
@@ -123,12 +123,12 @@ const DiscoverModal = ({
         </Text>
         <View style={styles.indicatorView}>
           <View style={styles.row}>
-            <MultiButton
+            {distance && <MultiButton
               image={LocationAway}
-              title={'1.1 Km away'}
+              title={`${distance} Km away`}
               btnStyle={{ backgroundColor: '#E7E7E7' }}
               titleStyle={{ color: '#1583D8' }}
-            />
+            />}
             <MultiButton
               title={'View Profile'}
               btnStyle={{ backgroundColor: '#84668C' }}

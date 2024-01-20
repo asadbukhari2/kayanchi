@@ -8,7 +8,7 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 const theme = useTheme();
 
 const HomeCard = props => {
-  const { imageLink, verified, location, mainText, subText, popular, style, onPress } = props;
+  const { imageLink, verified, location, mainText, subText, popular, style, onPress, rating, ratingCount } = props;
 
   return (
     <TouchableOpacity onPress={onPress} activeOpacity={0.7} style={[styles.container, style]}>
@@ -19,8 +19,8 @@ const HomeCard = props => {
       </View>
       <View style={styles.starContainer}>
         <Image source={require('../../assets/star_yellow.png')} style={{ height: 10, width: 10 }} />
-        <Text style={{ paddingHorizontal: 3, color: '#333333', fontFamily: fonts.robo_reg }}>5.0</Text>
-        <Text style={{ paddingHorizontal: 2, color: '#9A9A9A', fontFamily: fonts.robo_reg }}>(13)</Text>
+        <Text style={{ paddingHorizontal: 3, color: '#333333', fontFamily: fonts.robo_reg }}>{rating}.0</Text>
+        <Text style={{ paddingHorizontal: 2, color: '#9A9A9A', fontFamily: fonts.robo_reg }}>({ratingCount})</Text>
         <Text style={{ color: '#1583D8', fontFamily: fonts.hk_regular, paddingLeft: 4 }}>~$$</Text>
       </View>
       <View style={[styles.row, { marginTop: 4 }]}>

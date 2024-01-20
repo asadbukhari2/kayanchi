@@ -139,10 +139,10 @@ const ConsumerHome = props => {
   const [modalVisible, setModalVisible] = useState(false);
   const [feedbackModalVisible2, setFeedbackModalVisible2] = useState(false);
   const [feedbackModalVisible3, setFeedbackModalVisible3] = useState(false);
+  let consumerBrowse = useSelector(state => state.common.consumerBrowse);
+  console.log('consumerBrowse ---- ', consumerBrowse);
+  const [category, setCategory] = useState('""')
 
-  const [service, setService] = useState([]);
-  const [artist, setArtist] = useState([]);
-  const user = useSelector(state => console.log(state.auth.token));
   // const getService = async () => {
   //   try {
   //     const res = await api.get('/api/service');
@@ -345,20 +345,22 @@ const ConsumerHome = props => {
   );
 
   const renderItem = ({ item }) => (
-    <View
+    <TouchableOpacity
       style={{
         flexDirection: 'row',
         alignItems: 'center',
         margin: 10,
         padding: 10,
         borderRadius: 20,
-        backgroundColor: '#EEEEEE',
-      }}>
+        backgroundColor: category === item.name ? '#5EAC66' : '#EEEEEE'
+      }}
+      onPress={() => setCategory(item.name)}
+    >
       <Image source={item.imageLink} style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 10 }} />
-      <TouchableOpacity>
-        <Text style={{ color: '#0F2851', fontFamily: fonts.robo_med }}>{item.name}</Text>
+      <TouchableOpacity >
+        <Text style={{ color: category === item.name ? 'white' : '#0F2851', fontFamily: fonts.robo_med }}>{item.name}</Text>
       </TouchableOpacity>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -392,15 +394,31 @@ const ConsumerHome = props => {
 
         <SearchBox
           value={searchKeyword}
-          onChange={txt => setSearchKeyword(txt)}
+          onChange={txt => {
+            setSearchKeyword(txt);
+            setTimeout(() => {
+              props.navigation.navigate('ConsumerHomeStack', {
+                screen: 'ConsumerSearch',
+                params: {
+                  searchKeyword: txt,
+                  category
+                },
+              })
+            }, 1000);
+
+          }}
           placeholder={'Find your Artist, salon, or service…'}
           onSearch={() =>
             props.navigation.navigate('ConsumerHomeStack', {
               screen: 'ConsumerHomeSearch',
+
             })
           }
         />
-        <FlatList data={DATA} renderItem={renderItem} keyExtractor={item => item.name} horizontal />
+        <FlatList
+          data={DATA}
+          renderItem={renderItem} keyExtractor={item => item.name} horizontal
+        />
         <Text style={styles.buzzTxt}>Explore what's Buzzing</Text>
         <View style={styles.explorContainer}>
           <View style={styles.discover}>
@@ -517,7 +535,7 @@ const ConsumerHome = props => {
           </View>
         </View>
         <FlatList
-          data={popularData}
+          data={consumerBrowse.popular_artist_in_your_city}
           horizontal
           style={{ marginLeft: widthToDp(4.5) }}
           contentContainerStyle={{ paddingVertical: heightToDp(3) }}
@@ -532,7 +550,9 @@ const ConsumerHome = props => {
                 subText={item.address_text}
                 verified={item.verified}
                 popular={item.popular}
-                imageLink={item.imageLink}
+                imageLink={popular_image}
+                rating={item.rating}
+                ratingCount={item.rating_count}
               />
             );
           }}

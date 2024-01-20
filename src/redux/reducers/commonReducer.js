@@ -20,6 +20,13 @@ const initialState = {
   rejected: [],
   feedbackCategory: [],
   currentLocation: null,
+  artistDiscovires: [],
+  studiosDiscovires: [],
+  discoviresLoading: false,
+  discoviresError: null,
+  consumerBrowse: {},
+  consumerBrowseError: null,
+  consumerBrowseLoading: false,
 };
 
 import {
@@ -36,6 +43,12 @@ import {
   GET_ORDERS_DATA,
   GET_ORDERS_ERROR,
   GET_CURRENT_LOCATION,
+  GET_DISCOVERIES,
+  GET_DISCOVERIES_DATA,
+  GET_DISCOVERIES_ERROR,
+  GET_CONSUMER_BROWSE,
+  GET_CONSUMER_BROWSE_DATA,
+  GET_CONSUMER_BROWSE_ERROR,
 } from '../constants/constants';
 
 const reducer = (state = initialState, action) => {
@@ -125,6 +138,46 @@ const reducer = (state = initialState, action) => {
         ...state,
         ordersLoading: false,
         ordersError: 'Orders Found Error',
+      };
+    case GET_DISCOVERIES:
+      return {
+        ...state,
+        discoviresLoading: true,
+      };
+    case GET_DISCOVERIES_DATA:
+      console.log('action.payload', action.payload.artists);
+      return {
+        ...state,
+        discoviresLoading: false,
+        artistDiscovires: action.payload.artists,
+        studiosDiscovires: action.payload.studios,
+      };
+    case GET_DISCOVERIES_ERROR:
+      return {
+        ...state,
+        discoviresLoading: false,
+        discoviresError: 'Discovires not found'
+      };
+
+    case GET_CONSUMER_BROWSE:
+      return {
+        ...state,
+        discoviresLoading: true,
+      };
+    case GET_CONSUMER_BROWSE_DATA:
+      return {
+        ...state,
+        discoviresLoading: false,
+        consumerBrowse: action.payload
+      };
+    // consumerBrowse: { },
+    // consumerBrowseError: null,
+    //   consumerBrowseLoading: false,
+    case GET_CONSUMER_BROWSE_ERROR:
+      return {
+        ...state,
+        consumerBrowseLoading: false,
+        consumerBrowseError: 'Browse not found'
       };
     case 'GET_FEEDBACK_CATEGORY':
       return {

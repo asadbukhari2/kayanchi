@@ -5,8 +5,8 @@ import { Button, Header, TextInput } from '../../components';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { useTheme } from '../../utils/theme';
 
-import { useDispatch } from 'react-redux';
-import { saveUserData } from '../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { SIGNUP, saveUserData } from '../../redux/actions';
 
 import DatePicker from 'react-native-date-picker';
 import ReactNativeModal from 'react-native-modal';
@@ -42,7 +42,7 @@ const ConsumerPasswordSignUp = () => {
   const age = currentYear - dobYear;
 
   const dispatch = useDispatch();
-
+  const dataToSave = useSelector(state => state.auth.signUpUserData);
   useEffect(() => {
     dispatch(getCategory());
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -71,7 +71,8 @@ const ConsumerPasswordSignUp = () => {
     } else {
       const formatedDOB = moment(dob).format('DD/MM/YYYY');
       dispatch(saveUserData({ name, password, dob: formatedDOB, gender }));
-      navigation.navigate('ConsumerInterests');
+      dispatch(SIGNUP({ ...dataToSave, name, password, dob: formatedDOB, gender }, navigation));
+      // navigation.navigate('ConsumerInterests');
     }
   };
 

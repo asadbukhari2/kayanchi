@@ -19,6 +19,8 @@ const SearchBox = props => {
         placeholder={placeholder}
         placeholderTextColor={theme.darkBlack}
         onChangeText={txt => onChange(txt)}
+        
+        
       />
     </View>
   );

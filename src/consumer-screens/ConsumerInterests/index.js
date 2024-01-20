@@ -18,6 +18,7 @@ import pedicure from '../../assets/pedicure_interest.png';
 import waxing from '../../assets/waxing_interest.png';
 import axios from 'axios';
 import { baseURL } from '../../utils/constants';
+import { Fetch } from '../../utils/APIservice';
 
 const theme = useTheme();
 
@@ -59,13 +60,18 @@ const DATA = [
     imageLink: facials,
   },
 ];
-
+const fetchInterests = async () => {
+  let res = await Fetch.get('/api/interest/app');
+  res = await res.json();
+  console.log('this is the resonse form the interests api', res);
+}
 const ConsumerInterests = props => {
   const { navigation } = props;
 
   const dispatch = useDispatch();
   const [interest, setInterest] = useState([]);
   const dataToSave = useSelector(state => state.auth.signUpUserData);
+  console.log('data to save', dataToSave);
   const createAccount = async () => {
     if (interest.length < 1) {
       showMessage({
@@ -76,7 +82,9 @@ const ConsumerInterests = props => {
       dispatch(SIGNUP({ ...dataToSave, interests: interest }, navigation));
     }
   };
-
+  useEffect(() => {
+    // fetchInterests()
+  }, [])
   return (
     <SafeAreaView style={styles.container}>
       <Header backBtn title={'Interests'} />
