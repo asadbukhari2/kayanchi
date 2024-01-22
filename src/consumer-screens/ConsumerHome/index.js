@@ -141,7 +141,7 @@ const ConsumerHome = props => {
   const [feedbackModalVisible3, setFeedbackModalVisible3] = useState(false);
   let consumerBrowse = useSelector(state => state.common.consumerBrowse);
   console.log('consumerBrowse ---- ', consumerBrowse);
-  const [category, setCategory] = useState('""')
+  const [category, setCategory] = useState('');
 
   // const getService = async () => {
   //   try {
@@ -484,7 +484,8 @@ const ConsumerHome = props => {
             </TouchableOpacity>
           </View>
         </View>
-        <View
+        {consumerBrowse.services_you_may_like.length > 0 && <View>
+          <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -499,7 +500,7 @@ const ConsumerHome = props => {
           </View>
         </View>
         <FlatList
-          data={serviceData}
+            data={consumerBrowse.services_you_may_like}
           horizontal
           style={{ marginLeft: widthToDp(4.5) }}
           contentContainerStyle={{ paddingVertical: heightToDp(3) }}
@@ -515,12 +516,16 @@ const ConsumerHome = props => {
                 subText={item.address_text}
                 verified={item.verified}
                 popular={item.popular}
-                imageLink={item.imageLink}
+                imageLink={popular_image}
+                rating={item.rating}
+                ratingCount={item.rating_count}
               />
             );
           }}
-        />
-        <View
+          />
+        </View>}
+        {consumerBrowse.popular_artist_in_your_city.length > 0 && <View>
+          <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -556,8 +561,10 @@ const ConsumerHome = props => {
               />
             );
           }}
-        />
-        <View
+          />
+        </View>}
+        {consumerBrowse.studios_around_you.length > 0 && <View>
+          <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -572,7 +579,7 @@ const ConsumerHome = props => {
           </View>
         </View>
         <FlatList
-          data={artistData}
+            data={consumerBrowse.studios_around_you}
           horizontal
           style={{ marginLeft: widthToDp(4.5) }}
           contentContainerStyle={{ paddingVertical: heightToDp(3) }}
@@ -584,14 +591,17 @@ const ConsumerHome = props => {
                 style={{ marginRight: widthToDp(2.2) }}
                 mainText={item.name}
                 location={item.location}
-                subText={item.subText}
+                subText={item.address_text}
                 verified={item.verified}
                 popular={item.popular}
-                imageLink={item.imageLink}
+                imageLink={popular_image}
+                rating={item.rating}
+                ratingCount={item.rating_count}
               />
             );
           }}
-        />
+          />
+        </View>}
       </ScrollView>
       {/* <Button
         title={'Continue'}

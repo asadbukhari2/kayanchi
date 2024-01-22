@@ -8,6 +8,9 @@ import ArtistItem from '../../components/ArtistItem';
 import HorizantalStepIndicator from '../../components/HorizantalStepIndicator';
 import Feather from 'react-native-vector-icons/Feather';
 import { useSelector } from 'react-redux';
+import { Fetch } from '../../utils/APIservice';
+import CardSkeleton from './components/CardSkeleton';
+// import CardSkeleton from './components/Skelton';
 // import api from '../../utils/APIservice';
 
 const hair = require('../../assets/HairDark.png');
@@ -24,25 +27,7 @@ const ondemandSearch = require('../../assets/ondemandSearch.png');
 const People_flying = require('../../assets/People_flying.png');
 const bookingSearch = require('../../assets/bookingSearch.png');
 const theme = useTheme();
-const artistData = [
-  {
-    name: 'Nabeela Ahmed',
-    rating: 5.0,
-    reviewCount: 13,
-    address: 'Phase VI, Ittehad Commercial...',
-    category: 'Beautician • Top',
-    distance: '4.5 Km away',
-  },
-  {
-    name: 'Nabeela Ahmed',
-    rating: 5.0,
-    reviewCount: 13,
-    address: 'Phase VI, Ittehad Commercial...',
-    category: 'Beautician • Top',
-    distance: '4.5 Km away',
-  },
-  // Add more artist data here as needed
-];
+
 
 const DATA = [
   {
@@ -74,15 +59,38 @@ const data = ['Cart', 'Delivery Address', 'Order Summary', 'Payment Method', 'Tr
 
 const ConsumerHomeSearch = props => {
   const { searchKeyword: searchText, category } = props.route.params;
-  console.log('props.route', props.route);
+  const auth = useSelector(state => state.auth);
   const [searchKeyword, setSearchKeyword] = useState(searchText);
   const [searchCategory, setSearchCategory] = useState(category);
+  const [isLoading, setIsLoading] = useState(false)
   // const [clickedIndex, setClickedIndex] = useState(0);
-
+  const [artistData, setArtistData] = useState([]);
   useEffect(() => {
     setSearchKeyword(searchText);
-    setSearchCategory(category)
+    setSearchCategory(category.length > 0 ? category.length : 'Top')
+    filterdData(auth.token, category.length > 0 ? category.length : 'Top');
   }, [props.route.params])
+
+  useEffect(() => {
+    filterdData(auth?.token, searchCategory);
+    console.log('this is the seaech category', searchCategory);
+  }, [searchCategory])
+  const filterdData = async (token, cat) => {
+    try {
+      setIsLoading(true)
+      let res = await Fetch.get(`/api/search?keyword=&coords={"longitude": 24.823916, "latitude": 67.141875}&filter=${cat}&distance=5516`, token);
+      let resData = await res.json();
+      setArtistData(resData);
+      setIsLoading(false)
+      console.log('this is the resData', resData);
+      return resData;
+    } catch (error) {
+      setIsLoading(false)
+      console.log('Network request failed. Error:', error);
+
+      throw error;
+    }
+  };
 
   // const getService = async () => {
   //   try {
@@ -207,9 +215,8 @@ const ConsumerHomeSearch = props => {
           data={artistData}
           renderItem={({item}) => <ArtistItem {...item} />}
           keyExtractor={(item, index) => index.toString()}
-        />
-         */}
-        {artistData.map(item => (
+        /> */}
+        {isLoading ? (<CardSkeleton />) : artistData.length > 0 && artistData?.map(item => (
           <ArtistItem item={item} />
         ))}
         <View style={styles.inviteContainer}>

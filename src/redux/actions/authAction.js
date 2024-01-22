@@ -53,9 +53,9 @@ export const EMAIL_LOGIN =
             type: SET_IS_ARTIST,
           });
         } else {
-          const location = useSelector(state => state.common.currentLocation)
-          dispatch(getUserDiscoveries(res.token, location.latitude, location.longitude));
-          dispatch(getConsumerBrowse(res.token, location.latitude, location.longitude));
+          // const location = useSelector(state => state.common.currentLocation);
+          dispatch(getUserDiscoveries(res.token));
+          dispatch(getConsumerBrowse(res.token));
           dispatch({
             type: SET_IS_CONSUMER,
           });

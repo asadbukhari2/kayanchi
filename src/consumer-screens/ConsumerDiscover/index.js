@@ -53,26 +53,7 @@ const ConsumerDisocver = props => {
   const [studioModalVisible, setStudioModalVisible] = useState(false);
   const [clickedIndex, setClickedIndex] = useState(0);
   const [filter, setFilter] = useState('artist');
-  const [dynamicData, setDynamicData] = useState([
-    {
-      name: 'Narmeen Iqbal',
-      artistType: 'Beautician',
-      artistStatus: 'New Artist',
-      priceRange: '~$$$',
-      imageLink: [hair],
-      imageText: ['hair'],
-      backImg: background_image,
-    },
-    {
-      name: 'Sernic Clininc',
-      artistType: 'Makeup Artist',
-      artistStatus: 'Experienced',
-      priceRange: '~$$',
-      imageLink: [face, face],
-      imageText: ['face', 'makeup'],
-      backImg: clinic_image,
-    },
-  ]);
+  const [dynamicData, setDynamicData] = useState([]);
   const artistDiscovires = useSelector(state => state.common.artistDiscovires);
   const studiosDiscovires = useSelector(state => state.common.studiosDiscovires);
   // const getService = async () => {
@@ -117,7 +98,7 @@ const ConsumerDisocver = props => {
     } else {
       setDynamicData(studiosDiscovires);
     }
-  }, [filter]);
+  }, [artistDiscovires, studiosDiscovires, filter]);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 90 }}>
@@ -161,7 +142,7 @@ const ConsumerDisocver = props => {
           visible={artistModalVisible}
           closeModal={() => setArtistModalVisible(false)}
           background_image={background_image}
-          name={dynamicData[clickedIndex].name}
+          name={dynamicData[clickedIndex]?.name}
           profession="Beautician"
           experience=" New Artist"
           knownFor="Known for something"
@@ -175,18 +156,18 @@ const ConsumerDisocver = props => {
           visible={studioModalVisible}
           closeModal={() => setStudioModalVisible(false)}
           background_image={clinic_image}
-          name={dynamicData[clickedIndex].name}
-          profession={dynamicData[clickedIndex].title}
+          name={dynamicData[clickedIndex]?.name}
+          profession={dynamicData[clickedIndex]?.title}
           experience=" New Studio"
           knownFor="Known for something"
-          additionalInfo={dynamicData[clickedIndex].bio ? dynamicData[clickedIndex].bio : "Welcome to Serene Wellness Clinic, Pakistan’s premier destination for face and skin treatments. We make sure you achieve natural well-being."}
-          distance={dynamicData[clickedIndex].distance}
+          additionalInfo={dynamicData[clickedIndex]?.bio ? dynamicData[clickedIndex]?.bio : "Welcome to Serene Wellness Clinic, Pakistan’s premier destination for face and skin treatments. We make sure you achieve natural well-being."}
+          distance={dynamicData[clickedIndex]?.distance}
           dollars={
-            dynamicData[clickedIndex].price_range_classified === 'low'
+            dynamicData[clickedIndex]?.price_range_classified === 'low'
               ? '$'
-              : dynamicData[clickedIndex].price_range_classified === 'medium'
+              : dynamicData[clickedIndex]?.price_range_classified === 'medium'
                 ? '$$'
-                : dynamicData[clickedIndex].price_range_classified === 'high'
+                : dynamicData[clickedIndex]?.price_range_classified === 'high'
                   ? '$$$'
                   : ''
           }

@@ -546,7 +546,7 @@ export const getUserDiscoveries = (token, latitude, longitude) => async dispatch
     type: GET_DISCOVERIES
   })
   try {
-    let res = await Fetch.get(`/api/artistview/discover/1?coords={"longitude": ${longitude}, "latitude": ${latitude}}`, token);
+    let res = await Fetch.get(`/api/artistview/discover/1/?coords={"longitude": 24.924341, "latitude": 67.254276}`, token);
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
       console.log('this is the data from discoveries', res);
@@ -577,7 +577,7 @@ export const getConsumerBrowse = (token, latitude, longitude) => async dispatch 
     type: GET_CONSUMER_BROWSE
   })
   try {
-    let res = await Fetch.get(`/api/search/browse?coords={"longitude": ${longitude}, "latitude": ${latitude}}&city=Karachi`, token);
+    let res = await Fetch.get(`/api/search/browse?coords={"longitude": 24.823916, "latitude": 67.141875}&city=Karachi`, token);
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
       console.log('this is the data from consumer', res);
