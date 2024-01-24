@@ -60,6 +60,7 @@ const data = ['Cart', 'Delivery Address', 'Order Summary', 'Payment Method', 'Tr
 const ConsumerHomeSearch = props => {
   const { searchKeyword: searchText, category } = props.route.params;
   const auth = useSelector(state => state.auth);
+  console.log('token', auth);
   const [searchKeyword, setSearchKeyword] = useState(searchText);
   const [searchCategory, setSearchCategory] = useState(category);
   const [isLoading, setIsLoading] = useState(false)
@@ -67,12 +68,13 @@ const ConsumerHomeSearch = props => {
   const [artistData, setArtistData] = useState([]);
   useEffect(() => {
     setSearchKeyword(searchText);
-    setSearchCategory(category.length > 0 ? category.length : 'Top')
-    filterdData(auth.token, category.length > 0 ? category.length : 'Top');
-  }, [props.route.params])
+    setSearchCategory(category)
+    filterdData(auth.userDetails?.token, category.length > 0 ? category.length : 'Top');
+    console.log('auth.userDetails---->', auth.userDetails.token);
+  }, [props.route])
 
   useEffect(() => {
-    filterdData(auth?.token, searchCategory);
+    filterdData(auth.userDetails?.token, searchCategory);
     console.log('this is the seaech category', searchCategory);
   }, [searchCategory])
   const filterdData = async (token, cat) => {

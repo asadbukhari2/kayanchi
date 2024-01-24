@@ -60,16 +60,12 @@ const DATA = [
     imageLink: facials,
   },
 ];
-const fetchInterests = async () => {
-  let res = await Fetch.get('/api/interest/app');
-  res = await res.json();
-  console.log('this is the resonse form the interests api', res);
-}
 const ConsumerInterests = props => {
   const { navigation } = props;
 
   const dispatch = useDispatch();
   const [interest, setInterest] = useState([]);
+  const [interestData, setInterestData] = useState([])
   const dataToSave = useSelector(state => state.auth.signUpUserData);
   console.log('data to save', dataToSave);
   const createAccount = async () => {
@@ -82,8 +78,15 @@ const ConsumerInterests = props => {
       dispatch(SIGNUP({ ...dataToSave, interests: interest }, navigation));
     }
   };
+  const fetchInterests = async () => {
+    let res = await Fetch.get('/api/interest/app');
+    res = await res.json();
+    setInterestData(res);
+    return res;
+  }
   useEffect(() => {
-    // fetchInterests()
+    fetchInterests()
+    console.log('interestData', interestData);
   }, [])
   return (
     <SafeAreaView style={styles.container}>
@@ -99,24 +102,24 @@ const ConsumerInterests = props => {
           marginTop: heightToDp(1.1),
         }}>
         <FlatList
-          data={DATA}
+          data={interestData}
           columnWrapperStyle={{ justifyContent: 'space-between' }}
           contentContainerStyle={{ paddingBottom: heightToDp(70) }}
-          keyExtractor={(item, index) => index}
+          keyExtractor={(item, index) => item.id}
           numColumns={3}
           renderItem={({ item }) => {
             return (
               <ImageCard
-                name={item.service.toUpperCase()}
-                imageLink={item.imageLink}
+                name={item.name.toUpperCase()}
+                imageLink={item.image}
                 onPress={() => {
-                  if (interest.includes(item.service)) {
-                    setInterest(interest.filter(e => e !== item.service));
+                  if (interest.includes(item.id)) {
+                    setInterest(interest.filter(e => e !== item.id));
                   } else {
-                    setInterest([...interest, item.service]);
+                    setInterest([...interest, item.id]);
                   }
                 }}
-                isSelected={interest.includes(item.service)}
+                isSelected={interest.includes(item.id)}
               />
             );
           }}

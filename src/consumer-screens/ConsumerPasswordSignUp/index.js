@@ -71,8 +71,8 @@ const ConsumerPasswordSignUp = () => {
     } else {
       const formatedDOB = moment(dob).format('DD/MM/YYYY');
       dispatch(saveUserData({ name, password, dob: formatedDOB, gender }));
-      dispatch(SIGNUP({ ...dataToSave, name, password, dob: formatedDOB, gender }, navigation));
-      // navigation.navigate('ConsumerInterests');
+      // dispatch(SIGNUP({ ...dataToSave, name, password, dob: formatedDOB, gender }, navigation));
+      navigation.navigate('ConsumerInterests');
     }
   };
 

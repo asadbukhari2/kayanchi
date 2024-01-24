@@ -92,9 +92,9 @@ export const SIGNUP = (data, navigation) => async dispatch => {
     `/api/users/${data.type_login === 'artist' ? 'artist' : data.type_login === 'studio' ? 'studio' : 'consumer'}`,
     data,
   );
-  console.log('signup action res', res.token, res.status, res);
   if (res.status >= 200 && res.status < 300) {
     res = await res.json();
+    console.log('signup action res', res.token, res.status, res);
 
 
     await AsyncStorage.setItem('userToken', res.token);
@@ -109,7 +109,8 @@ export const SIGNUP = (data, navigation) => async dispatch => {
     if (res.user.type_login === 'artist' || res.user.type_login === 'studio') {
       navigation.navigate('ArtistOnBoardingWelcome');
     } else {
-      navigation.navigate('ConsumerInterests');
+      console.log('signup action res', res.token, res.status, res);
+      // navigation.navigate('ConsumerHome');
     }
   } else if (res.status >= 500) {
     res = await res.json();
