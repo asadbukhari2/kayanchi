@@ -5,7 +5,7 @@ import { heightToDp, width } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
 import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { SET_IS_CONSUMER } from '../../redux/constants/constants';
+import { SET_IS_CONSUMER, SET_IS_ARTIST } from '../../redux/constants/constants';
 
 const theme = useTheme();
 
@@ -20,7 +20,8 @@ export default function InitScreen() {
   }
 
   function gotoArtist() {
-    navigation.navigate('InitScreen');
+    navigation.navigate('ArtistWelcome');
+    dispatch({ type: SET_IS_ARTIST });
   }
 
   return (
@@ -37,12 +38,12 @@ export default function InitScreen() {
         </Text>
       </ScrollView>
       <View style={styles.bottomCardContainer}>
-        <TouchableOpacity style={styles.bottomCard} onPress={gotoConsumer}>
+        <TouchableOpacity style={styles.bottomCard} onPress={() => gotoConsumer()}>
           <Image source={require('../../assets/services.png')} style={styles.cardImg} resizeMode="contain" />
           <Text style={styles.bottomCardTitle}>Find a Service</Text>
           <Text style={styles.desc}>You purchase grooming services on the Marketplace.</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomCard} onPress={gotoArtist}>
+        <TouchableOpacity style={styles.bottomCard} onPress={() => gotoArtist()}>
           <Image source={require('../../assets/artist.png')} style={styles.cardImg} resizeMode="contain" />
           <Text style={styles.bottomCardTitle}>Become an Artist</Text>
           <Text style={styles.desc}>You offer and perform grooming services through Gigs & Promos</Text>

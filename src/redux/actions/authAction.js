@@ -109,8 +109,7 @@ export const SIGNUP = (data, navigation) => async dispatch => {
     if (res.user.type_login === 'artist' || res.user.type_login === 'studio') {
       navigation.navigate('ArtistOnBoardingWelcome');
     } else {
-      console.log('signup action res', res.token, res.status, res);
-      // navigation.navigate('ConsumerHome');
+      navigation.navigate('ConsumerOnBoardingWelcome');
     }
   } else if (res.status >= 500) {
     res = await res.json();

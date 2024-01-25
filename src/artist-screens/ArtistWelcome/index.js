@@ -6,6 +6,8 @@ import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
 import { useNavigation } from '@react-navigation/native';
 import makeStyle from './artistWelcome.styles';
+import { useDispatch } from 'react-redux';
+import { signout } from '../../redux/actions';
 
 const facebook = require('../../assets/facebook.png');
 const google = require('../../assets/google.png');
@@ -15,7 +17,7 @@ const ArtistWelcome = () => {
   const theme = useTheme();
   const navigation = useNavigation();
   const styles = makeStyle(theme);
-
+  const dispatch = useDispatch();
   return (
     <SafeAreaView style={styles.container}>
       <Image source={require('../../assets/Signup.png')} style={styles.img} resizeMode="contain" />
@@ -28,7 +30,9 @@ const ArtistWelcome = () => {
           title={'Continue With Email'}
           btnStyle={[styles.whiteBtn, { marginTop: heightToDp(6.8) }]}
           titleStyle={styles.blackText}
-          onPress={() => navigation.navigate('ArtistEmailSignUp')}
+          onPress={() => {
+            navigation.navigate('ArtistEmailSignUp')
+          }}
           image={email}
           imageStyle={styles.iconStyles}
         />

@@ -140,7 +140,8 @@ const ConsumerHome = props => {
   const [feedbackModalVisible2, setFeedbackModalVisible2] = useState(false);
   const [feedbackModalVisible3, setFeedbackModalVisible3] = useState(false);
   let consumerBrowse = useSelector(state => state.common.consumerBrowse);
-  console.log('consumerBrowse ---- ', consumerBrowse);
+  let auth = useSelector(state => state.auth);
+  console.log('auth ---- ', auth.token);
   const [category, setCategory] = useState('');
 
   // const getService = async () => {
@@ -354,7 +355,18 @@ const ConsumerHome = props => {
         borderRadius: 20,
         backgroundColor: category === item.name ? '#5EAC66' : '#EEEEEE'
       }}
-      onPress={() => setCategory(item.name)}
+      onPress={() => {
+        setCategory(item.name)
+        setTimeout(() => {
+          props.navigation.navigate('ConsumerHomeStack', {
+            screen: 'ConsumerSearch',
+            params: {
+
+              category: item.name
+            },
+          })
+        }, 1000);
+      }}
     >
       <Image source={item.imageLink} style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 10 }} />
       <TouchableOpacity >
@@ -370,7 +382,7 @@ const ConsumerHome = props => {
           <Image source={require('../../assets/KAYNCHI.png')} style={styles.logo} />
           <Text style={styles.text}>Get 15% off</Text>
         </View>
-        <View
+        {/* <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -390,17 +402,17 @@ const ConsumerHome = props => {
           renderItem={renderOfferingItem}
           keyExtractor={(item, index) => index.toString()}
           horizontal
-        />
+        /> */}
 
         <SearchBox
           value={searchKeyword}
-          onChange={txt => {
-            setSearchKeyword(txt);
+          onPress={txt => {
+
             setTimeout(() => {
               props.navigation.navigate('ConsumerHomeStack', {
                 screen: 'ConsumerSearch',
                 params: {
-                  searchKeyword: txt,
+
                   category
                 },
               })
@@ -419,10 +431,10 @@ const ConsumerHome = props => {
           data={DATA}
           renderItem={renderItem} keyExtractor={item => item.name} horizontal
         />
-        <Text style={styles.buzzTxt}>Explore what's Buzzing</Text>
+        <Text style={styles.buzzTxt}>Explore who's buzzing</Text>
         <View style={styles.explorContainer}>
           <View style={styles.discover}>
-            <Image source={dummyHome} style={{ height: 150, width: 150, resizeMode: 'contain' }} />
+            <Image source={dummyHome} style={styles.image} />
             <TouchableOpacity
               onPress={() =>
                 props.navigation.navigate('ConsumerHomeStack', {
@@ -551,6 +563,7 @@ const ConsumerHome = props => {
                 onPress={() => props.navigation.navigate('ConsumerHomeStack', { screen: 'Artist' })}
                 style={{ marginRight: widthToDp(2.2) }}
                 mainText={item.name}
+                title={item.title}
                 location={item.location}
                 subText={item.address_text}
                 verified={item.verified}
@@ -698,7 +711,12 @@ const styles = StyleSheet.create({
   },
   row: { flexDirection: 'row', alignItems: 'center' },
 
-  discover: { backgroundColor: 'white', width: width * 0.42, borderRadius: 10 },
+  discover: { backgroundColor: 'white', width: width * 0.45, borderRadius: 10, overflow: 'hidden' },
+  image: {
+    height: 150,
+    width: 175,
+    borderRadius: 10
+  },
   chart: {
     backgroundColor: 'white',
     width: width * 0.45,

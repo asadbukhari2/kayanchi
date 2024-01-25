@@ -133,7 +133,7 @@ const ConsumerOnBoarding = props => {
         dotStyle={{ height: 0, width: 0 }}
         // renderNextButton={() => <Button title={'Next'} disable />}
         renderDoneButton={() => (
-          <Button title={'Go to home'} onPress={() => props.navigation.navigate('ConsumerHomeStack')} />
+          <Button title={'Go to home'} onPress={() => props.navigation.navigate('ConsumerHome')} />
         )}
         data={slides}
         onDone={addData}

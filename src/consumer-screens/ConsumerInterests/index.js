@@ -79,15 +79,23 @@ const ConsumerInterests = props => {
     }
   };
   const fetchInterests = async () => {
-    let res = await Fetch.get('/api/interest/app');
-    res = await res.json();
-    setInterestData(res);
-    return res;
+    console.log('function call fetchInterests');
+    try {
+
+      let res = await Fetch.get('/api/interest/app');
+      res = await res.json();
+      console.log("this is the response form the fetchInterests", res)
+      setInterestData(res);
+      return res;
+    } catch (error) {
+      console.log('error in the fetchinterests api response', error);
+      return error;
+    }
   }
   useEffect(() => {
     fetchInterests()
     console.log('interestData', interestData);
-  }, [])
+  }, [navigation])
   return (
     <SafeAreaView style={styles.container}>
       <Header backBtn title={'Interests'} />

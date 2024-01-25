@@ -43,8 +43,8 @@ const ConsumerProfile = props => {
     setModalNavigation(navigation); // Save the navigation object in the state
   };
   const dispatch = useDispatch();
-  const user = useSelector(state => state.auth.userDetails);
-  console.log('22', user);
+  const user = useSelector(state => state.auth.user);
+  console.log('22', user.name);
 
   function gotoConsumer() {
     dispatch(testUpdateIsArtist({ isArtist: false, isConsumer: true }));
@@ -235,7 +235,7 @@ const ConsumerProfile = props => {
         <View style={styles.userProfileView}>
           <Image source={require('../../assets/profile.png')} style={styles.userImg} />
           <View style={styles.userDetailsView}>
-            <Text style={styles.userName}>{'Rizwan Noor'}</Text>
+            <Text style={styles.userName}>{user.name}</Text>
           </View>
           <View>
             <TouchableOpacity

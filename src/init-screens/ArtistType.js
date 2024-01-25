@@ -14,6 +14,7 @@ export default function ArtistType(props) {
   const navigation = useNavigation();
 
   function gotoArtist() {
+    console.log('calling SET_IS_ARTIST');
     dispatch({ type: SET_IS_ARTIST });
   }
 

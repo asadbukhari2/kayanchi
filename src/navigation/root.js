@@ -11,7 +11,6 @@ import InitStack from './InitStack';
 export default function Root() {
   const auth = useSelector(state => state.auth);
   const dispatch = useDispatch();
-
   const isArtist = auth?.isArtist === true;
   const isConsumer = auth?.isConsumer === true;
   console.log('-=-=-=-=-', isArtist, isConsumer, auth.token);

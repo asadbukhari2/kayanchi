@@ -7,10 +7,10 @@ import Feather from 'react-native-vector-icons/Feather';
 const theme = useTheme();
 
 const SearchBox = props => {
-  const { onChange, value, placeholder, containerView, onSearch } = props;
+  const { onChange, value, placeholder, containerView, onSearch, onPress } = props;
   return (
-    <View style={[styles.searchBar, containerView]}>
-      <TouchableOpacity activeOpacity={0.7} onPress={onSearch}>
+    <View style={[styles.searchBar, containerView]} onPress={onPress}>
+      <TouchableOpacity activeOpacity={0.7} onPress={onPress}>
         <Feather name={'search'} style={styles.icon} />
       </TouchableOpacity>
       <TextInput

@@ -6,6 +6,7 @@ import { fonts, useTheme } from '../../utils/theme';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Assuming you want to use FontAwesome icons, you can change it to any other supported icon library.
 import { showMessage } from 'react-native-flash-message';
+import { useSelector } from 'react-redux';
 
 const whatsappphone = require('../../assets/whatsappphone.png');
 const theme = useTheme();
@@ -15,9 +16,10 @@ export default function ConsumerProfileSaved(props) {
   const [name, setName] = useState('');
 
   const [loading, setLoading] = useState(false);
-
+  const user = useSelector(state => state.auth.user);
+  console.log('--------- user ----', user);
   const SkillsHandler = async () => {
-    navigation.navigate('ArtistOnBoardingWelcome');
+    // navigation.navigate('ArtistOnBoardingWelcome');
     // try {
     //   const res = await api.post('/api/users/verifypassword', {
     //     email,
@@ -59,7 +61,7 @@ export default function ConsumerProfileSaved(props) {
           <View style={styles.personalContainer}>
             <View style={{ paddingLeft: widthToDp(4) }}>
               <Text style={styles.subheading}>Name</Text>
-              <Text>Marmeen Iqbal</Text>
+              <Text>{user.name}</Text>
             </View>
             <View>
               <TouchableOpacity
@@ -82,7 +84,7 @@ export default function ConsumerProfileSaved(props) {
           <View style={styles.personalContainer}>
             <View style={{ paddingLeft: widthToDp(4) }}>
               <Text style={styles.subheading}>Email</Text>
-              <Text>Marmeen@pk.com</Text>
+              <Text>{user.email}</Text>
             </View>
             <View>
               <TouchableOpacity
@@ -105,7 +107,7 @@ export default function ConsumerProfileSaved(props) {
           <View style={styles.personalContainer}>
             <View style={{ paddingLeft: widthToDp(4) }}>
               <Text style={styles.subheading}>Mobile Number</Text>
-              <Text>0332 1234567</Text>
+              <Text>{user.phone_number && user.phone_number}</Text>
             </View>
             <View>
               <TouchableOpacity
@@ -128,7 +130,7 @@ export default function ConsumerProfileSaved(props) {
             <View style={{ paddingLeft: widthToDp(4) }}>
               <Text style={[styles.subheading]}>Your default address</Text>
               <Text style={{ width: widthToDp(54) }}>
-                House B91, Street 2, DHA Phase VI, Ithehad commercial Lane 8 Karachi
+                {user.address}
               </Text>
             </View>
             <View>
