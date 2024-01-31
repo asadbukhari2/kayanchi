@@ -21,6 +21,7 @@ import {
   GET_CONSUMER_BROWSE,
   GET_CONSUMER_BROWSE_DATA,
   GET_CONSUMER_BROWSE_ERROR,
+  ADD_TO_CART,
 } from '../constants/constants';
 
 export const getCategory = () => async dispatch => {
@@ -575,7 +576,7 @@ export const getUserDiscoveries = (token, latitude, longitude) => async dispatch
 export const getConsumerBrowse = (token, latitude, longitude) => async dispatch => {
   dispatch({
     type: GET_CONSUMER_BROWSE
-  })
+  });
   try {
     let res = await Fetch.get(`/api/search/browse?coords={"longitude": 24.823916, "latitude": 67.141875}&city=Karachi`, token);
     if (res.status >= 200 && res.status < 300) {
@@ -754,3 +755,21 @@ export const updateProfilePicture = async (body, token) => {
     });
   }
 };
+export const addToCart = (data) => (dispatch) => {
+  try {
+    dispatch({
+      type: ADD_TO_CART,
+      payload: data,
+    });
+    showMessage({
+      message: 'Add to the cart successfully',
+      type: 'success',
+    });
+  } catch (error) {
+    showMessage({
+      message: 'Cart is not update',
+      type: 'danger',
+    });
+
+  }
+}

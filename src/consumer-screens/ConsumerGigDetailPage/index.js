@@ -1,9 +1,11 @@
 import React from 'react';
-import { SafeAreaView, View, Text, ImageBackground, StyleSheet, Image } from 'react-native';
+import { SafeAreaView, View, Text, ImageBackground, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { fonts, useTheme } from '../../utils/theme';
 import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { Button, Header } from '../../components';
 import Feather from 'react-native-vector-icons/Feather';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart } from '../../redux/actions/commonActions';
 
 const clinic_image = require('../../assets/clinic_image.png');
 const clockcolor = require('../../assets/clockcolor.png');
@@ -29,6 +31,22 @@ const data = [
 ];
 
 export default function ConsumerGigDetailPage() {
+  const dispatch = useDispatch();
+  const cart = useSelector(state => state.common.cart);
+  console.log('this is the cart', cart);
+  const handleAddToCart = () => {
+    const sampleData = {
+      id: 'mark_removal',
+      name: 'Mark Removal',
+      title: 'spa',
+
+      category: 'Booking only',
+      price: '5000',
+      type: 'hosting',
+    };
+    dispatch(addToCart(sampleData));
+    console.log('add to the cart');
+  };
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground source={clinic_image} style={styles.backgroundImage}>
@@ -99,6 +117,8 @@ export default function ConsumerGigDetailPage() {
             marginHorizontal: widthToDp(5),
           }}>
           <Text style={{ color: '#84668C', fontSize: 24, fontFamily: fonts.hk_bold }}>Rs 5,000</Text>
+          <TouchableOpacity onPress={() => handleAddToCart()}>
+
           <Feather
             name="plus"
             size={24}
@@ -108,7 +128,8 @@ export default function ConsumerGigDetailPage() {
               backgroundColor: '#84668C',
               borderRadius: 10,
             }}
-          />
+            />
+          </TouchableOpacity>
         </View>
         <View style={styles.separator}></View>
         <View

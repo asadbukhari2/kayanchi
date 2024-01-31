@@ -518,7 +518,6 @@ const ConsumerHome = props => {
           contentContainerStyle={{ paddingVertical: heightToDp(3) }}
           keyExtractor={({ item, index }) => index}
           renderItem={({ item, index }) => {
-            console.log({ item });
             return (
               <HomeCard
                 onPress={() => props.navigation.navigate('ConsumerHomeStack', { screen: 'ConsumerGigDetailPage' })}

@@ -27,6 +27,7 @@ const initialState = {
   consumerBrowse: {},
   consumerBrowseError: null,
   consumerBrowseLoading: false,
+  cart: [],
 };
 
 import {
@@ -49,6 +50,8 @@ import {
   GET_CONSUMER_BROWSE,
   GET_CONSUMER_BROWSE_DATA,
   GET_CONSUMER_BROWSE_ERROR,
+  ADD_TO_CART,
+  REMOVE_FROM_CART,
 } from '../constants/constants';
 
 const reducer = (state = initialState, action) => {
@@ -188,6 +191,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         currentLocation: action.payload,
+      };
+    case ADD_TO_CART:
+      return {
+        ...state,
+        cart: [...state.cart, action.payload],
+      };
+    case REMOVE_FROM_CART:
+      return {
+        ...state,
+        cart: action.payload,
       };
     default:
       return state;

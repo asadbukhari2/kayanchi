@@ -1,9 +1,11 @@
 import React from 'react';
-import { SafeAreaView, View, Text, ImageBackground, StyleSheet, Image, ScrollView } from 'react-native';
+import { SafeAreaView, View, Text, ImageBackground, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { fonts, useTheme } from '../../utils/theme';
 import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { Button, Header } from '../../components';
 import Feather from 'react-native-vector-icons/Feather';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart } from '../../redux/actions/commonActions';
 
 const clinic_image = require('../../assets/clinic_image.png');
 const clockcolor = require('../../assets/clockcolor.png');
@@ -30,6 +32,21 @@ const data = [
 ];
 
 export default function ConsumerPromoDetailsPage() {
+  const dispatch = useDispatch();
+  const cart = useSelector(state => state.common.cart);
+  console.log('this is the cart', cart);
+  const handleAddToCart = () => {
+    const sampleData = {
+      id: 'face_promo_max',
+      title: 'face',
+      name: 'Hydrial ficial',
+      category: 'on Demand',
+      price: '5000',
+      type: 'hosting',
+    };
+    dispatch(addToCart(sampleData));
+    console.log('add to the cart');
+  };
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground source={face_promo} style={styles.backgroundImage}>
@@ -137,6 +154,7 @@ export default function ConsumerPromoDetailsPage() {
             marginHorizontal: widthToDp(5),
           }}>
           <Text style={{ color: '#84668C', fontSize: 24, fontFamily: fonts.hk_bold, fontWeight: '700' }}>Rs 5,000</Text>
+          <TouchableOpacity onPress={() => handleAddToCart()}>
 
           <Feather
             name="plus"
@@ -147,7 +165,8 @@ export default function ConsumerPromoDetailsPage() {
               backgroundColor: '#84668C',
               borderRadius: 10,
             }}
-          />
+            />
+          </TouchableOpacity>
         </View>
         <View style={styles.separator}></View>
         <View

@@ -2,9 +2,16 @@ import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { fonts } from '../../utils/theme';
+import { useNavigation } from '@react-navigation/native';
 const star = require('../../assets/star_yellow.png');
 
 const ArtistTreatmentCard = ({ name, rating, reviews, expertise, orders, imageSource }) => {
+  const navigation = useNavigation();
+
+  const handleArtistProfileDetails = () => {
+    // ConsumerArtistDetails
+    navigation.navigate('ConsumerHomeStack', { screen: 'ConsumerArtistDetails' });
+  };
   return (
     <View style={styles.artistContainer}>
       <Image source={imageSource} style={styles.artistImage} />
@@ -23,7 +30,7 @@ const ArtistTreatmentCard = ({ name, rating, reviews, expertise, orders, imageSo
       </View>
       <View style={styles.viewContainer}>
         <Text style={styles.viewStyle}>View</Text>
-        <Text style={[styles.viewStyle, styles.profileLink]}>Profile</Text>
+        <Text onPress={() => handleArtistProfileDetails()} style={[styles.viewStyle, styles.profileLink]}>Profile</Text>
       </View>
     </View>
   );

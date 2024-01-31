@@ -115,6 +115,7 @@ import {
   ConsumerHomeSearch,
 } from '../consumer-screens';
 import ConsumerVerification from '../consumer-screens/ConsumerVerification';
+import ConsumerArtistDetails from '../consumer-screens/ConsumerArtistDetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -761,6 +762,13 @@ const ConsumerHomeStack = ({ navigation }) => (
     <Stack.Screen
       name="ConsumerNotifications"
       component={ConsumerNotifications}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <Stack.Screen
+      name="ConsumerArtistDetails"
+      component={ConsumerArtistDetails}
       options={{
         headerShown: false,
       }}
