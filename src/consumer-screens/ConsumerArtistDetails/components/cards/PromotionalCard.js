@@ -1,10 +1,19 @@
 import React from 'react'
-import { Image, Text, View } from 'react-native'
+import { Image, Text, TouchableOpacity, View } from 'react-native'
 import face_promo from "../../../../assets/face_promo.png"
 import { styles } from "../styles/Promotional.style"
 import plus from '../../../../assets/plus.png'
+import { useDispatch } from 'react-redux'
+import { addToCart } from '../../../../redux/actions/commonActions'
 
 const PromotionalCard = ({ id, title, price, imageLink }) => {
+    const dispatch = useDispatch();
+    const handelAddToCart = () => {
+        let data = {
+            id, title, price, imageLink
+        }
+        dispatch(addToCart(data))
+    }
     return (
         <View style={[styles.container]}>
             <View style={[styles.cardImageContainer]}>
@@ -15,9 +24,9 @@ const PromotionalCard = ({ id, title, price, imageLink }) => {
                     <Text style={[styles.textBlack, styles.fontSize15]}>{title}</Text>
                     <Text style={[styles.fontWeightBold, styles.textColorBlue]}>Rs {price}</Text>
                 </View>
-                <View style={[styles.btn, styles.center]}>
+                <TouchableOpacity onPress={() => handelAddToCart()} style={[styles.btn, styles.center]}>
                     <Image style={[styles.plusIcon]} source={plus} />
-                </View>
+                </TouchableOpacity>
             </View>
         </View>
     )
