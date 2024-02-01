@@ -86,5 +86,22 @@ export const styles = StyleSheet.create({
     },
     paddingleftl0: {
         paddingLeft: 10
+    },
+    cardHeading: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#2f3a58'
+    },
+    marginBottom10: {
+        marginBottom: 10
+    },
+    borderBottom1: {
+        borderBottom: 1
+    },
+    borderBottomColorLightGray: {
+        borderBottomColor: "#d5d5d5"
+    },
+    marginTop30: {
+        marginTop: 30
     }
 })

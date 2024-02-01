@@ -22,6 +22,11 @@ import {
   GET_CONSUMER_BROWSE_DATA,
   GET_CONSUMER_BROWSE_ERROR,
   ADD_TO_CART,
+  REMOVE_FROM_CART,
+  ADD_TO_CART_LOADING,
+  ADD_TO_CART_ERROR,
+  GET_CART_ITEM,
+  GET_CART_ITEM_LOADING,
 } from '../constants/constants';
 
 export const getCategory = () => async dispatch => {
@@ -755,21 +760,144 @@ export const updateProfilePicture = async (body, token) => {
     });
   }
 };
-export const addToCart = (data) => (dispatch) => {
+export const getCartItems = (token) => async (dispatch) => {
   try {
     dispatch({
-      type: ADD_TO_CART,
-      payload: data,
+      type: GET_CART_ITEM_LOADING,
+      payload: true,
     });
-    showMessage({
-      message: 'Add to the cart successfully',
-      type: 'success',
-    });
-  } catch (error) {
-    showMessage({
-      message: 'Cart is not update',
-      type: 'danger',
-    });
+    let res = await Fetch.get("/api/cart/mycart", token);
+    console.log('this is the get cart item status', res.status === 200);
+    if (res.staus === 200) {
+      res = await res.json()
+      console.log('loading false krnay kaay liya');
+      dispatch({
+        type: GET_CART_ITEM_LOADING,
+        payload: false,
+      });
+      dispatch({
+        type: GET_CART_ITEM,
+        payload: res.cart_items,
+      });
+    } else {
 
+      dispatch({
+        type: GET_CART_ITEM_LOADING,
+        payload: false,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: GET_CART_ITEM_LOADING,
+      payload: false,
+    });
+    if (error) {
+
+      showMessage({
+        message: error.toString(),
+        type: 'danger',
+      });
+    } else {
+      showMessage({
+        message: 'Something went wrong with get cart items',
+        type: 'danger',
+      });
+    }
+  }
+}
+export const addToCart = (data, token) => async dispatch => {
+  try {
+    dispatch({
+      type: ADD_TO_CART_LOADING,
+      payload: true,
+    });
+    let res = await Fetch.post('/api/cartItem/', data, token);
+    // console.log('--->', res);
+    if (res.status === 200) {
+      dispatch({
+        type: ADD_TO_CART_LOADING,
+        payload: false,
+      });
+      res = await res.json();
+      console.log('this is the response', res, res.data);
+      dispatch(getCartItems(token))
+      showMessage({
+        message: 'Add to the cart successfully',
+        type: 'success',
+      });
+    } else {
+      dispatch({
+        type: ADD_TO_CART_LOADING,
+        payload: false,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: ADD_TO_CART_LOADING,
+      payload: false,
+    });
+    dispatch({
+      type: ADD_TO_CART_ERROR,
+      payload: error,
+    });
+    console.log(error);
+    if (error) {
+
+      showMessage({
+        message: error.toString(),
+        type: 'danger',
+      });
+    } else {
+      showMessage({
+        message: 'Cart is not update',
+        type: 'danger',
+      });
+    }
+
+  }
+}
+export const removeFromCart = (data, token) => async (dispatch) => {
+  try {
+    dispatch({
+      type: GET_CART_ITEM_LOADING,
+      payload: true,
+    });
+    let res = await Fetch.delete(`/api/cartItem/${data.id}`, token);
+    console.log('this is the response form the removeFromCart', res);
+    if (res.staus === 200) {
+      res = await res.json()
+      dispatch({
+        type: GET_CART_ITEM_LOADING,
+        payload: false,
+      });
+      dispatch(getCartItems(token))
+      showMessage({
+        message: 'Item remove successfully',
+        type: 'success',
+      });
+    } else {
+      if (res.status === 404) {
+
+        throw new Error("Item not found")
+      }
+    }
+  } catch (error) {
+    dispatch({
+      type: GET_CART_ITEM_LOADING,
+      payload: false,
+    });
+    console.log('error in the delete item', error);
+    if (error) {
+
+      showMessage({
+        message: error.toString(),
+        type: 'danger',
+      });
+    } else {
+      showMessage({
+        message: 'Something went wrong in cart',
+        type: 'danger',
+      });
+    }
   }
 }

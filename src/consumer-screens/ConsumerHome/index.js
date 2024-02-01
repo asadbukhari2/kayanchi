@@ -4,13 +4,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Header, HomeCard, SearchBox } from '../../components';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // import api from '../../utils/APIservice';
 import FeedBackModal from '../../components/FeedbackModal';
 
-const hair = require('../../assets/HairDark.png');
 const feedback = require('../../assets/feedback.png');
 const feedback1 = require('../../assets/feedback1.png');
+const hair = require('../../assets/HairDark.png');
 const face = require('../../assets/FaceDark.png');
 const waxing = require('../../assets/BodyDark.png');
 const Massages = require('../../assets/SpaDark.png');
@@ -26,6 +26,7 @@ const googlemap = require('../../assets/googlemap.png');
 import LinearGradient from 'react-native-linear-gradient';
 
 import MultiButton from '../../components/MultiButton';
+import { removeFromCart } from '../../redux/actions/commonActions';
 const theme = useTheme();
 
 const DATA = [
@@ -143,7 +144,8 @@ const ConsumerHome = props => {
   let auth = useSelector(state => state.auth);
   console.log('auth ---- ', auth.token);
   const [category, setCategory] = useState('');
-
+  // const dispatch = useDispatch();
+  // dispatch(removeFromCart())
   // const getService = async () => {
   //   try {
   //     const res = await api.get('/api/service');

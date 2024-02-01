@@ -28,6 +28,11 @@ const initialState = {
   consumerBrowseError: null,
   consumerBrowseLoading: false,
   cart: [],
+  cartLoading: null,
+  cartError: null,
+  addToCartLoading: false,
+  addToCartError: false,
+
 };
 
 import {
@@ -52,6 +57,11 @@ import {
   GET_CONSUMER_BROWSE_ERROR,
   ADD_TO_CART,
   REMOVE_FROM_CART,
+  ADD_TO_CART_LOADING,
+  ADD_TO_CART_ERROR,
+  GET_CART_ITEM,
+  GET_CART_ITEM_LOADING,
+  GET_CART_ITEM_ERROR,
 } from '../constants/constants';
 
 const reducer = (state = initialState, action) => {
@@ -192,15 +202,36 @@ const reducer = (state = initialState, action) => {
         ...state,
         currentLocation: action.payload,
       };
-    case ADD_TO_CART:
+    case GET_CART_ITEM:
       return {
         ...state,
-        cart: [...state.cart, action.payload],
+        cart: action.payload,
+      };
+    case GET_CART_ITEM_LOADING:
+      console.log('GET_CART_ITEM_LOADING', action.payload);
+      return {
+        ...state,
+        cartLoading: action.payload,
+      };
+    case GET_CART_ITEM_ERROR:
+      return {
+        ...state,
+        cartError: action.payload,
+      };
+    case ADD_TO_CART_LOADING:
+      return {
+        ...state,
+        addToCartLoading: action.payload,
+      };
+    case ADD_TO_CART_ERROR:
+      return {
+        ...state,
+        addToCartError: action.payload,
       };
     case REMOVE_FROM_CART:
       return {
         ...state,
-        cart: action.payload,
+        cart: [],
       };
     default:
       return state;
