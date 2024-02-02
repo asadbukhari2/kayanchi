@@ -103,5 +103,36 @@ export const styles = StyleSheet.create({
     },
     marginTop30: {
         marginTop: 30
+    },
+    heightFull: {
+        height: '100%'
+    },
+    padding10: {
+        padding: 10
+    },
+    releative: {
+        position: "relative"
+    },
+    marginTop500: {
+        marginTop: 500
+    },
+    marginHorizontal0: {
+        marginHorizontal: 0
+    },
+    marginBottom0: {
+        marginBottom: 0
+    },
+    backGroundWhite: {
+        backgroundColor: 'white'
+    },
+    flex1: {
+        flex: 1
+    },
+    borderRadiusTop: {
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+    },
+    marginLeftAuto: {
+        marginLeft: 'auto'
     }
 })

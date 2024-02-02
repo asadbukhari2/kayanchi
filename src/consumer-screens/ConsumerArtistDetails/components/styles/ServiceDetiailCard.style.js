@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { color } from "react-native-reanimated";
 
 export const styles = StyleSheet.create({
     container: {
@@ -66,5 +67,15 @@ export const styles = StyleSheet.create({
     },
     link: {
         color: '#3c97de'
+    },
+    colorBlack: {
+        color: 'black'
+    },
+    fontSize10: {
+        fontSize: 18,
+    },
+    marginHorizontal5: {
+        marginHorizontal: 5
+
     }
 })

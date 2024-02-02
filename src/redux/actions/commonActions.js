@@ -767,10 +767,10 @@ export const getCartItems = (token) => async (dispatch) => {
       payload: true,
     });
     let res = await Fetch.get("/api/cart/mycart", token);
-    console.log('this is the get cart item status', res.status === 200);
-    if (res.staus === 200) {
+    console.log('this is the get cart item status', res.status);
+    if (res.status === 200) {
       res = await res.json()
-      console.log('loading false krnay kaay liya');
+      console.log('loading false krnay kaay liya aur res.json( krna kaay liya', res.cart_items);
       dispatch({
         type: GET_CART_ITEM_LOADING,
         payload: false,
@@ -819,7 +819,7 @@ export const addToCart = (data, token) => async dispatch => {
         payload: false,
       });
       res = await res.json();
-      console.log('this is the response', res, res.data);
+      console.log('this is the response addToCart', res, res.data);
       dispatch(getCartItems(token))
       showMessage({
         message: 'Add to the cart successfully',
@@ -901,3 +901,4 @@ export const removeFromCart = (data, token) => async (dispatch) => {
     }
   }
 }
+

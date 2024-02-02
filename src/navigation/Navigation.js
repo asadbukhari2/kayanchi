@@ -116,6 +116,7 @@ import {
 } from '../consumer-screens';
 import ConsumerVerification from '../consumer-screens/ConsumerVerification';
 import ConsumerArtistDetails from '../consumer-screens/ConsumerArtistDetails';
+import ConsumerCart from '../consumer-screens/consumerCart';
 
 const Stack = createNativeStackNavigator();
 
@@ -769,6 +770,13 @@ const ConsumerHomeStack = ({ navigation }) => (
     <Stack.Screen
       name="ConsumerArtistDetails"
       component={ConsumerArtistDetails}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <Stack.Screen
+      name="ConsumerCart"
+      component={ConsumerCart}
       options={{
         headerShown: false,
       }}

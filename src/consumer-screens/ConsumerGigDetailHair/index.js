@@ -32,14 +32,14 @@ const data = [
 
 export default function ConsumerGigDetailHair() {
   const dispatch = useDispatch();
+  const token = useSelector(state => state.auth.token)
   const cart = useSelector(state => state.common.cart);
   const addToCartLoading = useSelector(state => state.common.addToCartLoading);
   console.log(addToCartLoading);
-  const token = useSelector(state => state.auth.token)
   console.log('this is the cart', token);
   useEffect(() => {
     dispatch(getCartItems(token));
-    console.log('this is the cart', cart, addToCartLoading);
+    console.log('this is the cart getCartItems', cart, addToCartLoading);
   }, [])
   const handleAddToCart = () => {
     const sampleData = {
