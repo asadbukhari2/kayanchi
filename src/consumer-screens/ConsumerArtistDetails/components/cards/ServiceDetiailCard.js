@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import { Image, Text, View } from 'react-native';
+import { Image, Text, View, TouchableOpacity } from 'react-native';
 import plus from '../../../../assets/plus.png';
 import minus from '../../../../assets/minus.png';
 import travelIcon from '../../../../assets/travel_brown.png';
@@ -7,7 +8,7 @@ import hostingIcon from '../../../../assets/hosting_brown.png';
 import { styles } from '../styles/ServiceDetiailCard.style';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../../../redux/actions/commonActions';
-import { TouchableOpacity } from '@gorhom/bottom-sheet';
+
 import { Button } from '../../../../components';
 
 const ServiceDetiailCard = ({ id, name, discount_percentage, amount, discounted_price, is_travelling, is_hosting }) => {

@@ -72,6 +72,7 @@ const serviceDetailData = [
         hosting: true,
     },
 ];
+
 const ModalData = [
     {
         id: '1',
