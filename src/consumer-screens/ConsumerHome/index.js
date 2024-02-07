@@ -233,8 +233,7 @@ const ConsumerHome = props => {
   }, [props.route.params]);
   useEffect(() => {
     dispatch(getCartItems(auth.token));
-
-  }, [])
+  }, []);
   const renderOfferingItem = ({ item }) => (
     <TouchableOpacity
       onPress={() =>
@@ -359,24 +358,24 @@ const ConsumerHome = props => {
         margin: 10,
         padding: 10,
         borderRadius: 20,
-        backgroundColor: category === item.name ? '#5EAC66' : '#EEEEEE'
+        backgroundColor: category === item.name ? '#5EAC66' : '#EEEEEE',
       }}
       onPress={() => {
-        setCategory(item.name)
+        setCategory(item.name);
         setTimeout(() => {
           props.navigation.navigate('ConsumerHomeStack', {
             screen: 'ConsumerSearch',
             params: {
-
-              category: item.name
+              category: item.name,
             },
-          })
+          });
         }, 1000);
-      }}
-    >
+      }}>
       <Image source={item.imageLink} style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 10 }} />
-      <TouchableOpacity >
-        <Text style={{ color: category === item.name ? 'white' : '#0F2851', fontFamily: fonts.robo_med }}>{item.name}</Text>
+      <TouchableOpacity>
+        <Text style={{ color: category === item.name ? 'white' : '#0F2851', fontFamily: fonts.robo_med }}>
+          {item.name}
+        </Text>
       </TouchableOpacity>
     </TouchableOpacity>
   );
@@ -413,30 +412,23 @@ const ConsumerHome = props => {
         <SearchBox
           value={searchKeyword}
           onPress={txt => {
-
             setTimeout(() => {
               props.navigation.navigate('ConsumerHomeStack', {
                 screen: 'ConsumerSearch',
                 params: {
-
-                  category
+                  category,
                 },
-              })
+              });
             }, 1000);
-
           }}
           placeholder={'Find your Artist, salon, or service…'}
           onSearch={() =>
             props.navigation.navigate('ConsumerHomeStack', {
               screen: 'ConsumerHomeSearch',
-
             })
           }
         />
-        <FlatList
-          data={DATA}
-          renderItem={renderItem} keyExtractor={item => item.name} horizontal
-        />
+        <FlatList data={DATA} renderItem={renderItem} keyExtractor={item => item.name} horizontal />
         <Text style={styles.buzzTxt}>Explore who's buzzing</Text>
         <View style={styles.explorContainer}>
           <View style={styles.discover}>
@@ -502,124 +494,130 @@ const ConsumerHome = props => {
             </TouchableOpacity>
           </View>
         </View>
-        {consumerBrowse.services_you_may_like.length > 0 && <View>
-          <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginHorizontal: widthToDp(5),
-          }}>
-          <Text style={[styles.title, { marginTop: heightToDp(8.5) }]}>Services you may like</Text>
+        {consumerBrowse && consumerBrowse?.services_you_may_like.length > 0 && (
           <View>
-            <TouchableOpacity>
-              <Text style={{ color: '#32aee3', fontWeight: fonts.robo_reg }}>View all</Text>
-            </TouchableOpacity>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginHorizontal: widthToDp(5),
+              }}>
+              <Text style={[styles.title, { marginTop: heightToDp(8.5) }]}>Services you may like</Text>
+              <View>
+                <TouchableOpacity>
+                  <Text style={{ color: '#32aee3', fontWeight: fonts.robo_reg }}>View all</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <FlatList
+              data={consumerBrowse?.services_you_may_like}
+              horizontal
+              style={{ marginLeft: widthToDp(4.5) }}
+              contentContainerStyle={{ paddingVertical: heightToDp(3) }}
+              keyExtractor={({ item, index }) => index}
+              renderItem={({ item, index }) => {
+                return (
+                  <HomeCard
+                    onPress={() => props.navigation.navigate('ConsumerHomeStack', { screen: 'ConsumerGigDetailPage' })}
+                    style={{ marginRight: widthToDp(2.7) }}
+                    mainText={item.name}
+                    location={item.location}
+                    subText={item.address_text}
+                    verified={item.verified}
+                    popular={item.popular}
+                    imageLink={popular_image}
+                    rating={item.rating}
+                    ratingCount={item.rating_count}
+                  />
+                );
+              }}
+            />
           </View>
-        </View>
-        <FlatList
-            data={consumerBrowse.services_you_may_like}
-          horizontal
-          style={{ marginLeft: widthToDp(4.5) }}
-          contentContainerStyle={{ paddingVertical: heightToDp(3) }}
-          keyExtractor={({ item, index }) => index}
-          renderItem={({ item, index }) => {
-            return (
-              <HomeCard
-                onPress={() => props.navigation.navigate('ConsumerHomeStack', { screen: 'ConsumerGigDetailPage' })}
-                style={{ marginRight: widthToDp(2.7) }}
-                mainText={item.name}
-                location={item.location}
-                subText={item.address_text}
-                verified={item.verified}
-                popular={item.popular}
-                imageLink={popular_image}
-                rating={item.rating}
-                ratingCount={item.rating_count}
-              />
-            );
-          }}
-          />
-        </View>}
-        {consumerBrowse.popular_artist_in_your_city.length > 0 && <View>
-          <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginHorizontal: widthToDp(5),
-          }}>
-          <Text style={[styles.title, { marginTop: heightToDp(8.5) }]}>Popular artist in your city</Text>
+        )}
+        {consumerBrowse && consumerBrowse?.popular_artist_in_your_city.length > 0 && (
           <View>
-            <TouchableOpacity>
-              <Text style={{ color: '#32aee3' }}>View all</Text>
-            </TouchableOpacity>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginHorizontal: widthToDp(5),
+              }}>
+              <Text style={[styles.title, { marginTop: heightToDp(8.5) }]}>Popular artist in your city</Text>
+              <View>
+                <TouchableOpacity>
+                  <Text style={{ color: '#32aee3' }}>View all</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <FlatList
+              data={consumerBrowse?.popular_artist_in_your_city}
+              horizontal
+              style={{ marginLeft: widthToDp(4.5) }}
+              contentContainerStyle={{ paddingVertical: heightToDp(3) }}
+              keyExtractor={({ item, index }) => index}
+              renderItem={({ item, index }) => {
+                return (
+                  <HomeCard
+                    onPress={() => props.navigation.navigate('ConsumerHomeStack', { screen: 'Artist' })}
+                    style={{ marginRight: widthToDp(2.2) }}
+                    mainText={item.name}
+                    title={item.title}
+                    location={item.location}
+                    subText={item.address_text}
+                    verified={item.verified}
+                    popular={item.popular}
+                    imageLink={popular_image}
+                    rating={item.rating}
+                    ratingCount={item.rating_count}
+                  />
+                );
+              }}
+            />
           </View>
-        </View>
-        <FlatList
-          data={consumerBrowse.popular_artist_in_your_city}
-          horizontal
-          style={{ marginLeft: widthToDp(4.5) }}
-          contentContainerStyle={{ paddingVertical: heightToDp(3) }}
-          keyExtractor={({ item, index }) => index}
-          renderItem={({ item, index }) => {
-            return (
-              <HomeCard
-                onPress={() => props.navigation.navigate('ConsumerHomeStack', { screen: 'Artist' })}
-                style={{ marginRight: widthToDp(2.2) }}
-                mainText={item.name}
-                title={item.title}
-                location={item.location}
-                subText={item.address_text}
-                verified={item.verified}
-                popular={item.popular}
-                imageLink={popular_image}
-                rating={item.rating}
-                ratingCount={item.rating_count}
-              />
-            );
-          }}
-          />
-        </View>}
-        {consumerBrowse.studios_around_you.length > 0 && <View>
-          <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginHorizontal: widthToDp(5),
-          }}>
-          <Text style={[styles.title, { marginTop: heightToDp(8.5) }]}>Studios around you</Text>
+        )}
+        {consumerBrowse && consumerBrowse?.studios_around_you.length > 0 && (
           <View>
-            <TouchableOpacity>
-              <Text style={{ color: '#32aee3' }}>View all</Text>
-            </TouchableOpacity>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginHorizontal: widthToDp(5),
+              }}>
+              <Text style={[styles.title, { marginTop: heightToDp(8.5) }]}>Studios around you</Text>
+              <View>
+                <TouchableOpacity>
+                  <Text style={{ color: '#32aee3' }}>View all</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <FlatList
+              data={consumerBrowse?.studios_around_you}
+              horizontal
+              style={{ marginLeft: widthToDp(4.5) }}
+              contentContainerStyle={{ paddingVertical: heightToDp(3) }}
+              keyExtractor={({ item, index }) => index}
+              renderItem={({ item, index }) => {
+                console.log(item.name);
+                return (
+                  <HomeCard
+                    style={{ marginRight: widthToDp(2.2) }}
+                    mainText={item.name}
+                    location={item.location}
+                    subText={item.address_text}
+                    verified={item.verified}
+                    popular={item.popular}
+                    imageLink={popular_image}
+                    rating={item.rating}
+                    ratingCount={item.rating_count}
+                  />
+                );
+              }}
+            />
           </View>
-        </View>
-        <FlatList
-            data={consumerBrowse.studios_around_you}
-          horizontal
-          style={{ marginLeft: widthToDp(4.5) }}
-          contentContainerStyle={{ paddingVertical: heightToDp(3) }}
-          keyExtractor={({ item, index }) => index}
-          renderItem={({ item, index }) => {
-            console.log(item.name);
-            return (
-              <HomeCard
-                style={{ marginRight: widthToDp(2.2) }}
-                mainText={item.name}
-                location={item.location}
-                subText={item.address_text}
-                verified={item.verified}
-                popular={item.popular}
-                imageLink={popular_image}
-                rating={item.rating}
-                ratingCount={item.rating_count}
-              />
-            );
-          }}
-          />
-        </View>}
+        )}
       </ScrollView>
       {/* <Button
         title={'Continue'}
@@ -720,7 +718,7 @@ const styles = StyleSheet.create({
   image: {
     height: 150,
     width: 175,
-    borderRadius: 10
+    borderRadius: 10,
   },
   chart: {
     backgroundColor: 'white',

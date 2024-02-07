@@ -24,7 +24,7 @@ const initialState = {
   studiosDiscovires: [],
   discoviresLoading: false,
   discoviresError: null,
-  consumerBrowse: {},
+  consumerBrowse: null,
   consumerBrowseError: null,
   consumerBrowseLoading: false,
   cart: [],
