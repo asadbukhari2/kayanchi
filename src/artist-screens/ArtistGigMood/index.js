@@ -89,6 +89,7 @@ const ArtistGigMood = () => {
   }
 
   const gotoArtist = async () => {
+    console.log(gigMood, image);
     if (gigMood && image) {
       const data = {
         ...route.params,

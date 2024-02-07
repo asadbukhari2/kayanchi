@@ -25,7 +25,7 @@ const moreImages = require('../../assets/moreImages.png');
 const googlemap = require('../../assets/googlemap.png');
 import LinearGradient from 'react-native-linear-gradient';
 
-import { getCartItems } from '../../redux/actions/commonActions';
+import { getCartItems, getConsumerBrowse, getUserDiscoveries } from '../../redux/actions/commonActions';
 const theme = useTheme();
 
 const DATA = [
@@ -59,10 +59,16 @@ const ConsumerHome = props => {
   const [feedbackModalVisible2, setFeedbackModalVisible2] = useState(false);
   const [feedbackModalVisible3, setFeedbackModalVisible3] = useState(false);
   let consumerBrowse = useSelector(state => state.common.consumerBrowse);
-  let auth = useSelector(state => state.auth);
-  console.log('auth ---- ', auth.token);
+  let token = useSelector(state => state.auth.token);
+  console.log('auth ---- ', token);
   const dispatch = useDispatch();
   const [category, setCategory] = useState('');
+  useEffect(() => {
+    dispatch(getUserDiscoveries(token));
+    dispatch(getConsumerBrowse(token));
+    dispatch(getCartItems(token));
+
+  }, [token])
   // const dispatch = useDispatch();
   // dispatch(removeAllFromCart())
   // const getService = async () => {
@@ -149,9 +155,7 @@ const ConsumerHome = props => {
       setModalVisible(true);
     }
   }, [props.route.params]);
-  useEffect(() => {
-    dispatch(getCartItems(auth.token));
-  }, []);
+
   const renderOfferingItem = ({ item }) => (
     <TouchableOpacity
       onPress={() =>

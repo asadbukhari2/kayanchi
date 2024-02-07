@@ -20,7 +20,7 @@ const ServiceDetiailCard = ({ id, name, discount_percentage, amount, discounted_
   };
   const [cardCartItem, setCardCartItem] = useState({});
   const cart = useSelector(state => state.common.cart);
-  console.log('this is the id', id);
+  console.log('this is the cart', cart);
   const calculateCartItem = (idItem, cartItem) => {
     return cartItem.filter(item => item.service_id === idItem)[0];
   };
@@ -34,7 +34,7 @@ const ServiceDetiailCard = ({ id, name, discount_percentage, amount, discounted_
   }
   useEffect(() => {
     setCardCartItem(calculateCartItem(id, cart));
-  }, []);
+  }, [cart]);
   return (
     <View style={[styles.container]}>
       <View style={[styles.flex, styles.flexDirectionRow, styles.justifyBetween, styles.alignItemStart]}>
@@ -64,7 +64,7 @@ const ServiceDetiailCard = ({ id, name, discount_percentage, amount, discounted_
             </View>
           )}
 
-          {cardCartItem?.id?.length > 0 && (
+          {cart?.length > 0 && (
             <Text style={[styles.colorBlack, styles.fontSize10, styles.marginHorizontal5]}>
               {cardCartItem?.quantity}
             </Text>
@@ -72,7 +72,7 @@ const ServiceDetiailCard = ({ id, name, discount_percentage, amount, discounted_
 
           <TouchableOpacity
             onPress={() => {
-              console.log('hi main click hova hoon');
+              handleAddToCart();
             }}
             style={[styles.plusBtnContainer]}>
             <Image style={[styles.plusIcon]} source={plus} />

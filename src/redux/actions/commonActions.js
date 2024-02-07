@@ -126,7 +126,7 @@ export const getServices = (id, token) => async dispatch => {
   let res = await Fetch.get(`/api/artistview/${id}`, token);
   if (res.status >= 200 && res.status < 300) {
     res = await res.json();
-
+    console.log('this is the response in the get services data', res);
     dispatch({
       type: GET_SERVICES_DATA,
       payload: res.services['basic services'],
@@ -554,10 +554,13 @@ export const getOrderTimeline = async (id, token) => {
 };
 export const getUserDiscoveries = (token, latitude, longitude) => async dispatch => {
   dispatch({
-    type: GET_DISCOVERIES
-  })
+    type: GET_DISCOVERIES,
+  });
   try {
-    let res = await Fetch.get(`/api/artistview/discover/1/?coords={"longitude": 24.924341, "latitude": 67.254276}`, token);
+    let res = await Fetch.get(
+      `/api/artistview/discover/1/?coords={"longitude": 24.924341, "latitude": 67.254276}`,
+      token,
+    );
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
       console.log('this is the data from discoveries', res);
@@ -582,13 +585,16 @@ export const getUserDiscoveries = (token, latitude, longitude) => async dispatch
       payload: 'Something went wrong',
     });
   }
-}
+};
 export const getConsumerBrowse = (token, latitude, longitude) => async dispatch => {
   dispatch({
-    type: GET_CONSUMER_BROWSE
+    type: GET_CONSUMER_BROWSE,
   });
   try {
-    let res = await Fetch.get(`/api/search/browse?coords={"longitude": 24.823916, "latitude": 67.141875}&city=Karachi`, token);
+    let res = await Fetch.get(
+      `/api/search/browse?coords={"longitude": 24.823916, "latitude": 67.141875}&city=Karachi`,
+      token,
+    );
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
       console.log('this is the data from consumer', res);
@@ -613,7 +619,7 @@ export const getConsumerBrowse = (token, latitude, longitude) => async dispatch 
       payload: 'Something went wrong',
     });
   }
-}
+};
 export const rateConsumer = async (body, token) => {
   try {
     let res = await Fetch.post('/api/rating/consumer/', body, token);
@@ -765,16 +771,16 @@ export const updateProfilePicture = async (body, token) => {
     });
   }
 };
-export const getCartItems = (token) => async (dispatch) => {
+export const getCartItems = token => async dispatch => {
   try {
     dispatch({
       type: GET_CART_ITEM_LOADING,
       payload: true,
     });
-    let res = await Fetch.get("/api/cart/mycart", token);
+    let res = await Fetch.get('/api/cart/mycart', token);
     console.log('this is the get cart item status', res.status);
     if (res.status === 200) {
-      res = await res.json()
+      res = await res.json();
       console.log('loading false krnay kaay liya aur res.json( krna kaay liya', res.cart_items);
       dispatch({
         type: GET_CART_ITEM_LOADING,
@@ -785,7 +791,6 @@ export const getCartItems = (token) => async (dispatch) => {
         payload: res.cart_items,
       });
     } else {
-
       dispatch({
         type: GET_CART_ITEM_LOADING,
         payload: false,
@@ -797,7 +802,6 @@ export const getCartItems = (token) => async (dispatch) => {
       payload: false,
     });
     if (error) {
-
       showMessage({
         message: error.toString(),
         type: 'danger',
@@ -809,7 +813,7 @@ export const getCartItems = (token) => async (dispatch) => {
       });
     }
   }
-}
+};
 export const addToCart = (data, token) => async dispatch => {
   try {
     dispatch({
@@ -825,7 +829,7 @@ export const addToCart = (data, token) => async dispatch => {
       });
       res = await res.json();
       console.log('this is the response addToCart', res, res.data);
-      dispatch(getCartItems(token))
+      dispatch(getCartItems(token));
       showMessage({
         message: 'Add to the cart successfully',
         type: 'success',
@@ -847,7 +851,6 @@ export const addToCart = (data, token) => async dispatch => {
     });
     console.log(error);
     if (error) {
-
       showMessage({
         message: error.toString(),
         type: 'danger',
@@ -858,10 +861,9 @@ export const addToCart = (data, token) => async dispatch => {
         type: 'danger',
       });
     }
-
   }
-}
-export const removeFromCart = (data, token) => async (dispatch) => {
+};
+export const removeFromCart = (data, token) => async dispatch => {
   try {
     dispatch({
       type: GET_CART_ITEM_LOADING,
@@ -870,20 +872,19 @@ export const removeFromCart = (data, token) => async (dispatch) => {
     let res = await Fetch.delete(`/api/cartItem/${data.id}`, token);
     console.log('this is the response form the removeFromCart', res);
     if (res.staus === 200) {
-      res = await res.json()
+      res = await res.json();
       dispatch({
         type: GET_CART_ITEM_LOADING,
         payload: false,
       });
-      dispatch(getCartItems(token))
+      dispatch(getCartItems(token));
       showMessage({
         message: 'Item remove successfully',
         type: 'success',
       });
     } else {
       if (res.status === 404) {
-
-        throw new Error("Item not found")
+        throw new Error('Item not found');
       }
     }
   } catch (error) {
@@ -893,7 +894,6 @@ export const removeFromCart = (data, token) => async (dispatch) => {
     });
     console.log('error in the delete item', error);
     if (error) {
-
       showMessage({
         message: error.toString(),
         type: 'danger',
@@ -905,5 +905,4 @@ export const removeFromCart = (data, token) => async (dispatch) => {
       });
     }
   }
-}
-
+};

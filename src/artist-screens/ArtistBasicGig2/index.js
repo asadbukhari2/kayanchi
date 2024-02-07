@@ -43,6 +43,7 @@ const ArtistGig2 = () => {
   };
 
   const handleContinue = () => {
+    console.log('description && duration && amount', description, duration, amount);
     if (description && duration && amount) {
       navigation.navigate('ArtistGigMood', {
         category_id,

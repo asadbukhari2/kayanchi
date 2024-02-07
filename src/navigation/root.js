@@ -13,16 +13,16 @@ export default function Root() {
   const dispatch = useDispatch();
   const isArtist = auth?.isArtist === true;
   const isConsumer = auth?.isConsumer === true;
-  console.log('-=-=-=-=-', isArtist, isConsumer, auth.token);
+  console.log('-=-=-=-=-', isArtist, isConsumer, auth);
   // dispatch({ type: 'SIGN_OUT' });
 
   return !auth.token && isArtist ? (
     <ArtistAuthStack />
   ) : auth.token && isArtist ? (
     <ArtistMainStack />
-    ) : !auth?.userDetails?.token && isConsumer ? (
+  ) : !auth?.token && isConsumer ? (
     <ConsumerAuthStack />
-      ) : auth?.userDetails?.token && isConsumer ? (
+  ) : auth?.token && isConsumer ? (
     <ConsumerMainStack />
   ) : (
     <InitStack />

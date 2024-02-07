@@ -28,7 +28,7 @@ const initialState = {
   consumerBrowseError: null,
   consumerBrowseLoading: false,
   cart: [],
-  artistServices: {},
+  artistServices: null,
   cartLoading: null,
   cartError: null,
   addToCartLoading: false,
@@ -166,7 +166,6 @@ const reducer = (state = initialState, action) => {
         discoviresLoading: true,
       };
     case GET_DISCOVERIES_DATA:
-      console.log('action.payload', action.payload.artists);
       return {
         ...state,
         discoviresLoading: false,

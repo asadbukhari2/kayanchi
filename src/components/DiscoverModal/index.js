@@ -7,7 +7,7 @@ import { fonts } from '../../utils/theme';
 const LocationAway = require('../../assets/LocationAway.png');
 const beauty_color = require('../../assets/beauty_color.png');
 import { useNavigation } from '@react-navigation/native';
-
+const hair1 = require('../../assets/hair.png');
 const DiscoverModal = ({
   visible,
   closeModal,
@@ -21,16 +21,18 @@ const DiscoverModal = ({
   dollars,
   data,
   navigation,
-  id
+  id,
 }) => {
   const handleArtistProfileDetails = () => {
     // ConsumerArtistDetails
     navigation.navigate('ConsumerHomeStack', {
-      screen: 'ConsumerArtistDetails', params: {
-        id
-      }
+      screen: 'ConsumerArtistDetails',
+      params: {
+        id,
+      },
     });
   };
+  console.log('this is the data in the discover modal ', data);
   return (
     <Modal visible={visible} animationType="slide">
       <View>
@@ -105,21 +107,25 @@ const DiscoverModal = ({
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          {data && data.map((item, index) => (
-            <View
-              key={index}
-              style={{
-                alignItems: 'center',
-                margin: 10,
-                backgroundColor: '#84668C',
-                paddingVertical: heightToDp(7),
-                paddingHorizontal: widthToDp(4),
-                borderRadius: 20,
-              }}>
-              <Image source={item.imageLink} style={{ width: 50, height: 50, resizeMode: 'contain' }} />
-              <Text style={{ color: 'white' }}>{item.name}</Text>
-            </View>
-          ))}
+          {data ? (
+            data.map((item, index) => (
+              <View
+                key={index}
+                style={{
+                  alignItems: 'center',
+                  margin: 10,
+                  backgroundColor: '#84668C',
+                  paddingVertical: heightToDp(7),
+                  paddingHorizontal: widthToDp(4),
+                  borderRadius: 20,
+                }}>
+                <Image source={hair1} style={{ width: 50, height: 50, resizeMode: 'contain' }} />
+                <Text style={{ color: 'white' }}>{item}</Text>
+              </View>
+            ))
+          ) : (
+            <View></View>
+          )}
         </View>
         <Text
           style={{
@@ -133,19 +139,19 @@ const DiscoverModal = ({
         </Text>
         <View style={styles.indicatorView}>
           <View style={styles.row}>
-            {distance && <MultiButton
-              image={LocationAway}
-              title={`${distance} Km away`}
-              btnStyle={{ backgroundColor: '#E7E7E7' }}
-              titleStyle={{ color: '#1583D8' }}
-            />}
+            {distance && (
+              <MultiButton
+                image={LocationAway}
+                title={`${distance} Km away`}
+                btnStyle={{ backgroundColor: '#E7E7E7' }}
+                titleStyle={{ color: '#1583D8' }}
+              />
+            )}
             <MultiButton
               title={'View Profile'}
               btnStyle={{ backgroundColor: '#84668C' }}
               titleStyle={{ fontFamily: fonts.robo_bold, fontSize: 16 }}
-              onPress={() =>
-                handleArtistProfileDetails()
-              }
+              onPress={() => handleArtistProfileDetails()}
             />
           </View>
         </View>

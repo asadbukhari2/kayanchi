@@ -44,6 +44,7 @@ const ConsumerTreatmentCharts = props => {
     },
   ];
   const artistDiscovires = useSelector(state => state.common.artistDiscovires);
+  console.log(artistDiscovires);
   // const getService = async () => {
   //   try {
   //     const res = await api.get('/api/service');

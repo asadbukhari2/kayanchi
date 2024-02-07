@@ -56,6 +56,7 @@ const ConsumerDisocver = props => {
   const [dynamicData, setDynamicData] = useState([]);
   const artistDiscovires = useSelector(state => state.common.artistDiscovires);
   const studiosDiscovires = useSelector(state => state.common.studiosDiscovires);
+  console.log('dynamicData[clickedIndex]?.known_for', dynamicData[clickedIndex]?.known_for);
   // const getService = async () => {
   //   try {
   //     const res = await api.get('/api/service');
@@ -161,17 +162,21 @@ const ConsumerDisocver = props => {
           profession={dynamicData[clickedIndex]?.title}
           experience=" New Studio"
           knownFor="Known for something"
-          additionalInfo={dynamicData[clickedIndex]?.bio ? dynamicData[clickedIndex]?.bio : "Welcome to Serene Wellness Clinic, Pakistan’s premier destination for face and skin treatments. We make sure you achieve natural well-being."}
+          additionalInfo={
+            dynamicData[clickedIndex]?.bio
+              ? dynamicData[clickedIndex]?.bio
+              : 'Welcome to Serene Wellness Clinic, Pakistan’s premier destination for face and skin treatments. We make sure you achieve natural well-being.'
+          }
           navigation={props.navigation}
           distance={dynamicData[clickedIndex]?.distance}
           dollars={
             dynamicData[clickedIndex]?.price_range_classified === 'low'
               ? '$'
               : dynamicData[clickedIndex]?.price_range_classified === 'medium'
-                ? '$$'
-                : dynamicData[clickedIndex]?.price_range_classified === 'high'
-                  ? '$$$'
-                  : ''
+              ? '$$'
+              : dynamicData[clickedIndex]?.price_range_classified === 'high'
+              ? '$$$'
+              : ''
           }
           data={dynamicData[clickedIndex]?.known_for}
         />
@@ -217,10 +222,10 @@ const ConsumerDisocver = props => {
                     {item.price_range_classified === 'low'
                       ? '$'
                       : item.price_range_classified === 'medium'
-                        ? '$$'
-                        : item.price_range_classified === 'high'
-                          ? '$$$'
-                          : ''}
+                      ? '$$'
+                      : item.price_range_classified === 'high'
+                      ? '$$$'
+                      : ''}
                   </Text>
                 </View>
               </View>
