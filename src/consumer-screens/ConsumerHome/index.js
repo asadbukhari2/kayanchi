@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Image, StyleSheet, FlatList, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button, Header, HomeCard, SearchBox } from '../../components';
+import { HomeCard, SearchBox } from '../../components';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,8 +25,7 @@ const moreImages = require('../../assets/moreImages.png');
 const googlemap = require('../../assets/googlemap.png');
 import LinearGradient from 'react-native-linear-gradient';
 
-import MultiButton from '../../components/MultiButton';
-import { getCartItems, removeAllFromCart, removeFromCart } from '../../redux/actions/commonActions';
+import { getCartItems } from '../../redux/actions/commonActions';
 const theme = useTheme();
 
 const DATA = [
@@ -52,88 +51,7 @@ const DATA = [
   },
 ];
 
-const ModalData = [
-  {
-    title: 'will it easy to order?',
-    image: feedback,
-  },
-];
-const serviceData = [
-  {
-    name: 'Mark Removal',
-    address_text: '123 Main St',
-    location: googlemap,
 
-    // verified: true,
-    popular: true,
-    imageLink: Mask_group,
-  },
-  // {
-  //   name: 'Service 2',
-  //   address_text: '456 Elm St',
-  //   // verified: true,
-  //   popular: false,
-  //   imageLink: eye_face
-  // },
-];
-
-const popularData = [
-  {
-    name: 'Rizwan Noor',
-    location: diamond_home,
-
-    address_text: 'Barber',
-    // verified: true,
-    popular: true,
-    imageLink: popular_image,
-  },
-];
-
-const artistData = [
-  {
-    name: 'Rose Gold',
-    location: googlemap,
-    subText: 'Gulshan Iqbal',
-    // verified: true,
-    popular: true,
-    imageLink: rose_gold,
-  },
-];
-
-const ALL = [
-  {
-    orderNumber: '#334758',
-    address: 'itehad lane 8 DHA Phase 6...',
-    date: '2 Dec, 2022',
-    preference: 'Travelling',
-    icon: require('../../assets/car-front.png'),
-    status: 'new',
-  },
-  {
-    orderNumber: '#334758',
-    address: 'DHA Phase 6...',
-    date: '2 Dec, 2022',
-    preference: 'Travelling',
-    icon: require('../../assets/car-front.png'),
-    status: 'new',
-  },
-  {
-    orderNumber: '#334758',
-    address: 'DHA Phase 6...',
-    date: '2 Dec, 2022',
-    preference: 'Travelling',
-    icon: require('../../assets/hosting.png'),
-    status: 'new',
-  },
-  {
-    orderNumber: '#334758',
-    address: 'DHA Phase 6...',
-    date: '2 Dec, 2022',
-    preference: 'Travelling',
-    icon: require('../../assets/hosting.png'),
-    status: 'new',
-  },
-];
 
 const ConsumerHome = props => {
   const [searchKeyword, setSearchKeyword] = useState('');
@@ -411,15 +329,15 @@ const ConsumerHome = props => {
 
         <SearchBox
           value={searchKeyword}
-          onPress={txt => {
-            setTimeout(() => {
-              props.navigation.navigate('ConsumerHomeStack', {
-                screen: 'ConsumerSearch',
-                params: {
-                  category,
-                },
-              });
-            }, 1000);
+          onPress={() => {
+
+            props.navigation.navigate('ConsumerHomeStack', {
+              screen: 'ConsumerSearch',
+              params: {
+                category,
+              },
+            });
+
           }}
           placeholder={'Find your Artist, salon, or service…'}
           onSearch={() =>
