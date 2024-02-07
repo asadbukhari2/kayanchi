@@ -21,7 +21,8 @@ import { useTheme } from '../../utils/theme.js';
 import HostAndTravel from './components/cards/HostAndTravel.js';
 import hosting from "../../assets/hosting_white.png"
 import travel from "../../assets/travel_white.png"
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getServices } from '../../redux/actions/commonActions.js';
 const DATA = [
     {
         id: '1',
@@ -86,19 +87,30 @@ const ModalData = [
 ]
 const theme = useTheme();
 
-const ConsumerArtistDetails = () => {
+const ConsumerArtistDetails = (props) => {
+    console.log('this is the params in the artist details', props.route.params.id);
+    const dispatch = useDispatch();
     const navigation = useNavigation();
     const cart = useSelector(state => state.common.cart);
-    console.log(cart, '----->');
+    const artistServices = useSelector(state => state.common.artistServices);
     const [openModal, setOpenModal] = useState(false);
-    console.log(openModal);
+    const [navCategory, setNavCategory] = useState("Hair");
+    const [serviceData, setServiceData] = useState([]);
     const handleCLoseModal = () => {
         setOpenModal(prev => !prev);
         console.log('close and open');
     }
     useEffect(() => {
+        dispatch(getServices(props.route.params.id))
+
+    }, [props.route.params.i])
+    useEffect(() => {
         setOpenModal(prev => !prev);
     }, [cart])
+    useEffect(() => {
+        handleCategoryFilter(artistServices)
+        console.log('change---->', navCategory);
+    }, [navCategory])
     const calculateCartTotal = (cartItem) => {
         let total = 0;
         for (let i = 0; i < cartItem.length; i++) {
@@ -112,6 +124,20 @@ const ConsumerArtistDetails = () => {
         }
         return total;
     }
+    const handleCategoryFilter = (ser) => {
+        console.log('hi--->', ser.services["basic services"][0].category_name);
+        setServiceData([])
+        ser.services["basic services"].filter(data => {
+            console.log('data.category_name === navCategory', data.category_name, navCategory, data.category_name === navCategory);
+            if (data.category_name === navCategory) {
+                console.log('data__equal', data.category_services);
+                setServiceData(data.category_services);
+            } else {
+                setServiceData([]);
+            }
+        })
+    }
+
     return (
         <SafeAreaView style={styles.container} >
             <ScrollView contentContainerStyle={{ paddingBottom: 90 }}>
@@ -120,11 +146,11 @@ const ConsumerArtistDetails = () => {
 
                 </View>
                 <View style={[styles.flex, styles.flexDirectionRow, styles.justifyContentBetween, styles.paddingVertical15, styles.paddingHorizontal0]}>
-                    <AvailablityStatus />
-                    <Mood />
-                    <Socials />
+                    <AvailablityStatus status={artistServices.availability} />
+                    <Mood travel_mood={artistServices.travel_mood} hosting_mood={artistServices.hosting_mood} />
+                    <Socials followers={artistServices?.followers} rating_count={artistServices?.rating_count} rating={artistServices?.rating} />
                 </View>
-                <View
+                {artistServices.services["promotional services"].length > 0 && <View
                     style={[styles.paddingleftl0]}
                 >
 
@@ -141,12 +167,9 @@ const ConsumerArtistDetails = () => {
                         renderItem={({ item }) => <PromotionalCard {...item} />}
                         keyExtractor={item => item.id}
                     />
-                    {/* <PromotionalCard />
-                    <PromotionalCard />
-                    <PromotionalCard />
-                <PromotionalCard /> */}
+
                 </ScrollView>
-                </View>
+                </View>}
 
 
 
@@ -154,16 +177,16 @@ const ConsumerArtistDetails = () => {
                 <View >
 
                     <View style={[styles.borderBottom1, styles.borderBottomColorLightGray]} >
-                        <NavigationTabs />
+                        <NavigationTabs navCategory={navCategory} setNavCategory={setNavCategory} />
                     </View>
                     <View style={[styles.paddingleftl0]}>
                         <FlatList
 
-                            data={serviceDetailData}
+                            data={serviceData}
                             renderItem={({ item }) => <ServiceDetiailCard {...item} />}
                             keyExtractor={item => item.id}
                         />
-
+                        <Text>{serviceData.length <= 0 && `No record found`}</Text>
                     </View>
                 </View>
                 <TouchableOpacity style={[styles.marginTop30]}>

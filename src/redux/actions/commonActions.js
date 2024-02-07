@@ -27,6 +27,7 @@ import {
   ADD_TO_CART_ERROR,
   GET_CART_ITEM,
   GET_CART_ITEM_LOADING,
+  GET_SERVICES_ALL_DATA,
 } from '../constants/constants';
 
 export const getCategory = () => async dispatch => {
@@ -129,6 +130,10 @@ export const getServices = (id, token) => async dispatch => {
     dispatch({
       type: GET_SERVICES_DATA,
       payload: res.services['basic services'],
+    });
+    dispatch({
+      type: GET_SERVICES_ALL_DATA,
+      payload: res,
     });
   } else {
     dispatch({

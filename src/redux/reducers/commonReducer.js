@@ -28,6 +28,7 @@ const initialState = {
   consumerBrowseError: null,
   consumerBrowseLoading: false,
   cart: [],
+  artistServices: {},
   cartLoading: null,
   cartError: null,
   addToCartLoading: false,
@@ -62,6 +63,7 @@ import {
   GET_CART_ITEM,
   GET_CART_ITEM_LOADING,
   GET_CART_ITEM_ERROR,
+  GET_SERVICES_ALL_DATA,
 } from '../constants/constants';
 
 const reducer = (state = initialState, action) => {
@@ -110,6 +112,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         services: action.payload,
+        serviceLoading: false,
+      };
+    case GET_SERVICES_ALL_DATA:
+      return {
+        ...state,
+        artistServices: action.payload,
         serviceLoading: false,
       };
     case GET_SERVICES_ERROR:

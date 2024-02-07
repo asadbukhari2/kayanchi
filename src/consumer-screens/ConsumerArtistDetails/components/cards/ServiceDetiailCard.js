@@ -8,10 +8,11 @@ import { styles } from '../styles/ServiceDetiailCard.style';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../../../redux/actions/commonActions';
 import { TouchableOpacity } from '@gorhom/bottom-sheet';
+import { Button } from '../../../../components';
 
-const ServiceDetiailCard = ({ id, title, off, price, reachTime, travel, hosting }) => {
+const ServiceDetiailCard = ({ id, name, discount_percentage, amount, discounted_price, is_travelling, is_hosting }) => {
     const dispatch = useDispatch();
-    const token = useSelector(state => state.auth.token)
+    const token = useSelector(state => state.auth.token);
     const calculatePrice = (discount, actualPrice) => {
         let val = (discount / 100) * actualPrice;
         return actualPrice - val;
@@ -22,13 +23,13 @@ const ServiceDetiailCard = ({ id, title, off, price, reachTime, travel, hosting 
     const calculateCartItem = (idItem, cartItem) => {
         return cartItem.filter(item => item.service_id === idItem)[0];
     };
-    const handleAddToCart = () => {
-        console.log('add to the cart in service detail page');
-        const sampleData = {
+    function handleAddToCart() {
+        console.log('handleadd to the cart press');
+        const cartData = {
             quantity: 1,
-            service_id: 'c28c63f7-7255-40e7-a874-4ed6e847fd34'
+            service_id: id,
         };
-        dispatch(addToCart(sampleData, token));
+        dispatch(addToCart(cartData, token));
     }
     useEffect(() => {
         setCardCartItem(calculateCartItem(id, cart));
@@ -38,32 +39,41 @@ const ServiceDetiailCard = ({ id, title, off, price, reachTime, travel, hosting 
             <View style={[styles.flex, styles.flexDirectionRow, styles.justifyBetween, styles.alignItemStart]}>
                 <View>
                     <View style={[styles.flex, styles.flexDirectionRow, styles.alignItemCenter]}>
-                        <Text style={[styles.heading]}>{title}</Text>
-                        {off > 0 && <Text style={[styles.offerContainer]}>{off}% Off</Text>}
+                        <Text style={[styles.heading]}>{name}</Text>
+                        {discount_percentage > 0 && <Text style={[styles.offerContainer]}>{discount_percentage}% Off</Text>}
                     </View>
                     <View>
-                        {off > 0 ? (
+                        {discount_percentage > 0 ? (
                             <View style={[styles.flex, styles.flexDirectionRow, styles.alignItemCenter]}>
-                                <Text style={[styles.colorBlue]}>Rs {calculatePrice(off, price)}</Text>
-                                <Text style={[styles.colorGray, off > 0 && styles.textLilneThrough, styles.marginLeft10]}>
-                                    Rs {price}
+                                <Text style={[styles.colorBlue]}>Rs {amount - discounted_price}</Text>
+                                <Text
+                                    style={[styles.colorGray, discount_percentage > 0 && styles.textLilneThrough, styles.marginLeft10]}>
+                                    Rs {amount}
                                 </Text>
                             </View>
                         ) : (
-                            <Text style={[styles.colorBlue]}>Rs {price}</Text>
+                            <Text style={[styles.colorBlue]}>Rs {amount}</Text>
                         )}
                     </View>
                 </View>
                 <View style={[styles.flex, styles.flexDirectionRow, styles.alignItemCenter]}>
+                    {cardCartItem?.id?.length > 0 && (
+                        <View style={[styles.plusBtnContainer]}>
+                            <Image style={[styles.plusIcon]} source={minus} />
+                        </View>
+                    )}
 
-                    {cardCartItem?.id?.length > 0 && <View style={[styles.plusBtnContainer]}>
-                        <Image style={[styles.plusIcon]} source={minus} />
-                    </View>}
+                    {cardCartItem?.id?.length > 0 && (
+                        <Text style={[styles.colorBlack, styles.fontSize10, styles.marginHorizontal5]}>
+                            {cardCartItem?.quantity}
+                        </Text>
+                    )}
 
-
-                    {cardCartItem?.id?.length > 0 && <Text style={[styles.colorBlack, styles.fontSize10, styles.marginHorizontal5]}>{cardCartItem?.quantity}</Text>}
-
-                    <TouchableOpacity onPress={() => handleAddToCart()} style={[styles.plusBtnContainer]}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            console.log('hi main click hova hoon');
+                        }}
+                        style={[styles.plusBtnContainer]}>
                         <Image style={[styles.plusIcon]} source={plus} />
                     </TouchableOpacity>
                 </View>
@@ -73,8 +83,8 @@ const ServiceDetiailCard = ({ id, title, off, price, reachTime, travel, hosting 
                     <Text style={[styles.colorGray]}>Takes 40 min</Text>
                 </View>
                 <View style={[styles.flex, styles.flexDirectionRow, styles.justifyBetween, styles.alignItemCenter]}>
-                    {travel && <Image style={[styles.icons, styles.marginLeft10]} source={travelIcon} />}
-                    {hosting && <Image style={[styles.icons, styles.marginLeft10]} source={hostingIcon} />}
+                    {is_travelling && <Image style={[styles.icons, styles.marginLeft10]} source={travelIcon} />}
+                    {is_hosting && <Image style={[styles.icons, styles.marginLeft10]} source={hostingIcon} />}
                     <Text style={[styles.marginLeft10, styles.link]}>View</Text>
                 </View>
             </View>

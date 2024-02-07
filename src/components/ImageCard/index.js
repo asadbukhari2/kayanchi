@@ -33,7 +33,7 @@ const ImageCard = props => {
           borderRadius: 100,
         }}>
         <View style={[styles.img, imgStyle, { backgroundColor: circleBackgroundColor }]}>
-          <Image source={imageLink} style={{ width: 50, height: 50, resizeMode: 'contain' }} />
+          <Image source={{ uri: imageLink }} style={{ width: 50, height: 50, resizeMode: 'contain' }} />
         </View>
       </View>
       <Text style={[styles.name, nameStyle]}>{name}</Text>

@@ -4,28 +4,33 @@ import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { fonts } from '../../utils/theme';
 import { useNavigation } from '@react-navigation/native';
 const star = require('../../assets/star_yellow.png');
+const background_image = require('../../assets/background_image.png');
 
-const ArtistTreatmentCard = ({ name, rating, reviews, expertise, orders, imageSource }) => {
+const ArtistTreatmentCard = ({ id, name, score, expertise, bio, level }) => {
   const navigation = useNavigation();
 
   const handleArtistProfileDetails = () => {
     // ConsumerArtistDetails
-    navigation.navigate('ConsumerHomeStack', { screen: 'ConsumerArtistDetails' });
+    navigation.navigate('ConsumerHomeStack', {
+      screen: 'ConsumerArtistDetails', params: {
+        id
+      }
+    });
   };
   return (
     <View style={styles.artistContainer}>
-      <Image source={imageSource} style={styles.artistImage} />
+      <Image source={background_image} style={styles.artistImage} />
       <Text style={{ color: '#84668C', fontSize: 18, fontFamily: fonts.robo_bold, marginLeft: 7 }}>1</Text>
       <View style={styles.artistInfo}>
         <View style={styles.artistHeader}>
           <Text style={styles.artistName}>{name}</Text>
           <Image source={star} style={styles.starIcon} />
-          <Text style={styles.artistRating}>{rating}</Text>
-          <Text style={styles.artistReviews}>({reviews})</Text>
+          <Text style={styles.artistRating}>{score}</Text>
+          <Text style={styles.artistReviews}>(1)</Text>
         </View>
-        <Text style={styles.artistExpertise}>{expertise}</Text>
+        {bio && level && <Text style={styles.artistExpertise}>{bio} • {level}</Text>}
         <Text style={styles.artistOrders}>
-          Completed {orders} orders{'\n'}with promos & discounts
+          Completed 10 orders{'\n'}with promos & discounts
         </Text>
       </View>
       <View style={styles.viewContainer}>

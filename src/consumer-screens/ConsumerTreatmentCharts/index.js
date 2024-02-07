@@ -43,6 +43,7 @@ const ConsumerTreatmentCharts = props => {
       imageSource: background_image,
     },
   ];
+  const artistDiscovires = useSelector(state => state.common.artistDiscovires);
   // const getService = async () => {
   //   try {
   //     const res = await api.get('/api/service');
@@ -79,7 +80,7 @@ const ConsumerTreatmentCharts = props => {
         </View>
         <Text style={styles.TopArtist}>Top 10 Artists of the Week</Text>
 
-        <FlatList data={artistData} renderItem={renderItem} keyExtractor={(item, index) => index.toString()} />
+        <FlatList data={artistDiscovires} renderItem={renderItem} keyExtractor={(item, index) => item.id} />
       </ScrollView>
     </SafeAreaView>
   );

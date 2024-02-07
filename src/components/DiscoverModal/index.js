@@ -6,6 +6,7 @@ import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { fonts } from '../../utils/theme';
 const LocationAway = require('../../assets/LocationAway.png');
 const beauty_color = require('../../assets/beauty_color.png');
+import { useNavigation } from '@react-navigation/native';
 
 const DiscoverModal = ({
   visible,
@@ -20,7 +21,16 @@ const DiscoverModal = ({
   dollars,
   data,
   navigation,
+  id
 }) => {
+  const handleArtistProfileDetails = () => {
+    // ConsumerArtistDetails
+    navigation.navigate('ConsumerHomeStack', {
+      screen: 'ConsumerArtistDetails', params: {
+        id
+      }
+    });
+  };
   return (
     <Modal visible={visible} animationType="slide">
       <View>
@@ -134,9 +144,7 @@ const DiscoverModal = ({
               btnStyle={{ backgroundColor: '#84668C' }}
               titleStyle={{ fontFamily: fonts.robo_bold, fontSize: 16 }}
               onPress={() =>
-                navigation.navigate('ConsumerHomeStack', {
-                  screen: 'ConsumerYourProfile',
-                })
+                handleArtistProfileDetails()
               }
             />
           </View>

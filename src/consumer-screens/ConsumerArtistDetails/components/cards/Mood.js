@@ -3,18 +3,18 @@ import { Image, Text, View } from 'react-native';
 import { styles } from "../styles/Mood.style"
 import travel_white from "../../../../assets/travel_white.png"
 import hosting_white from "../../../../assets/hosting_white.png"
-const Mood = () => {
+const Mood = ({ travel_mood, hosting_mood }) => {
     return (
         <View style={[styles.container]}>
             <View style={[styles.iconContainer]} >
-                <View style={[styles.moodIconBg, styles.marginRight5]}>
+                {hosting_mood && <View style={[styles.moodIconBg, styles.marginRight5]}>
 
                     <Image style={[styles.moodIcon]} source={hosting_white} />
-                </View>
-                <View style={[styles.moodIconBg]}>
+                </View>}
+                {travel_mood && <View style={[styles.moodIconBg]}>
 
                     <Image style={[styles.moodIcon]} source={travel_white} />
-                </View>
+                </View>}
             </View>
             <View>
                 <Text style={[styles.fontSize18, styles.colorBlack, styles.fontWeightSemiBold, styles.marginTop5, , styles.textCenter]}>Mood</Text>

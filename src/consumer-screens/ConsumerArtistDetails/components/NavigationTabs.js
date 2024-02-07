@@ -29,19 +29,19 @@ const DATA = [
         imageLink: Botox,
     },
 ];
-const NavigationTabs = () => {
-    const [category, setCategory] = useState("")
-    console.log(category);
+const NavigationTabs = ({ navCategory, setNavCategory }) => {
+
     const renderItem = ({ item }) => (
         <TouchableOpacity
-            style={[styles.container, category === item.name ? styles.activeBorder : styles.extraLightGrayBorder]}
+            style={[styles.container, navCategory === item.name ? styles.activeBorder : styles.extraLightGrayBorder]}
             onPress={() => {
-                setCategory(item.name)
+                setNavCategory(item.name)
+                console.log('navCategory__item.name', item.name);
             }}
         >
             <Image source={item.imageLink} style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 10, }} />
             <TouchableOpacity >
-                <Text style={[category === item.name ? styles.active : styles.colorLightGray, styles.fontFamilyRobo_med]}>{item.name}</Text>
+                <Text style={[navCategory === item.name ? styles.active : styles.colorLightGray, styles.fontFamilyRobo_med]}>{item.name}</Text>
             </TouchableOpacity>
         </TouchableOpacity>
     );

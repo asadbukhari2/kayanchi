@@ -157,10 +157,12 @@ const ConsumerDisocver = props => {
           closeModal={() => setStudioModalVisible(false)}
           background_image={clinic_image}
           name={dynamicData[clickedIndex]?.name}
+          id={dynamicData[clickedIndex]?.id}
           profession={dynamicData[clickedIndex]?.title}
           experience=" New Studio"
           knownFor="Known for something"
           additionalInfo={dynamicData[clickedIndex]?.bio ? dynamicData[clickedIndex]?.bio : "Welcome to Serene Wellness Clinic, Pakistan’s premier destination for face and skin treatments. We make sure you achieve natural well-being."}
+          navigation={props.navigation}
           distance={dynamicData[clickedIndex]?.distance}
           dollars={
             dynamicData[clickedIndex]?.price_range_classified === 'low'
