@@ -1,22 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, Switch, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 
-import Feather from 'react-native-vector-icons/Feather';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header, Button, AddNewBtn, TextInput } from '../../components';
-import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { useTheme, fonts } from '../../utils/theme';
 import current_Location from '../../assets/current_Location.png';
-import { Calendar } from 'react-native-calendars';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { handleConsumerOrder } from '../../redux/actions';
+import { useNavigation } from '@react-navigation/native';
 const theme = useTheme();
 
 const daysOfWeek = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
 
 const ConsumerHostingLocation = props => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const consumerOrder = useSelector(state => state.common.consumerOrder);
   const [checked, setChecked] = useState('first');
-
+  const [name, setName] = useState('');
+  const token = useSelector(state => state.auth.token);
+  const handleOrder = () => {
+    console.log('consumerOrder.consumerMood', consumerOrder.consumerMood);
+    if (consumerOrder.consumerMood === 'hosting') {
+      let orderData = {
+        ...consumerOrder,
+        note: name,
+      };
+      dispatch(handleConsumerOrder(orderData));
+      // ConsumerPaymentMethods;
+      // navigation.navigate('ConsumerProfileStack', {
+      //   screen: 'ConsumerPaymentMethods',
+      // });
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -141,6 +159,7 @@ const ConsumerHostingLocation = props => {
           <TextInput
             input={text => setName(text)}
             placeholder={'Please tell us anything that may assist with the order...'}
+            value={name}
             multiline
             inputBoxStyle={{
               backgroundColor: '#ffffff',
@@ -163,7 +182,7 @@ const ConsumerHostingLocation = props => {
           </Text>
         </View>
         <View style={{ marginVertical: 10 }}>
-          <Button title="Place Order" />
+          <Button title="Select Payment Method" onPress={() => handleOrder()} />
         </View>
       </ScrollView>
     </SafeAreaView>

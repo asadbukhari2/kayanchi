@@ -33,7 +33,16 @@ const initialState = {
   cartError: null,
   addToCartLoading: false,
   addToCartError: false,
-
+  artistBookingSlots: null,
+  artistBookingSlotsLoading: false,
+  artistBookingSlotsError: null,
+  consumerOrder: {
+    consumerMood: '',
+    artistTimeSLot: null,
+    bookingNote: '',
+    artistId: '',
+    note: '',
+  },
 };
 
 import {
@@ -56,7 +65,6 @@ import {
   GET_CONSUMER_BROWSE,
   GET_CONSUMER_BROWSE_DATA,
   GET_CONSUMER_BROWSE_ERROR,
-  ADD_TO_CART,
   REMOVE_FROM_CART,
   ADD_TO_CART_LOADING,
   ADD_TO_CART_ERROR,
@@ -64,6 +72,10 @@ import {
   GET_CART_ITEM_LOADING,
   GET_CART_ITEM_ERROR,
   GET_SERVICES_ALL_DATA,
+  GET_ARTIST_SLOTS,
+  GET_ARTIST_SLOTS_LOADING,
+  GET_ARTIST_SLOTS_ERROR,
+  CONSUMER_ORDER,
 } from '../constants/constants';
 
 const reducer = (state = initialState, action) => {
@@ -176,7 +188,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         discoviresLoading: false,
-        discoviresError: 'Discovires not found'
+        discoviresError: 'Discovires not found',
       };
 
     case GET_CONSUMER_BROWSE:
@@ -188,7 +200,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         discoviresLoading: false,
-        consumerBrowse: action.payload
+        consumerBrowse: action.payload,
       };
     // consumerBrowse: { },
     // consumerBrowseError: null,
@@ -197,7 +209,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         consumerBrowseLoading: false,
-        consumerBrowseError: 'Browse not found'
+        consumerBrowseError: 'Browse not found',
       };
     case 'GET_FEEDBACK_CATEGORY':
       return {
@@ -234,6 +246,31 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         addToCartError: action.payload,
+      };
+    //     artistBookingSlots: null,
+    // artistBookingSlotsLoading: false,
+    // artistBookingSlotsError: null,
+    // consumerMood: '',
+    case GET_ARTIST_SLOTS:
+      return {
+        ...state,
+        artistBookingSlots: action.payload,
+      };
+    case GET_ARTIST_SLOTS_LOADING:
+      return {
+        ...state,
+        artistBookingSlotsLoading: action.payload,
+      };
+    case GET_ARTIST_SLOTS_ERROR:
+      return {
+        ...state,
+        artistBookingSlotsError: action.payload,
+      };
+    case CONSUMER_ORDER:
+      return {
+        ...state,
+        ...state.consumerOrder,
+        consumerOrder: action.payload,
       };
     case REMOVE_FROM_CART:
       return {

@@ -13,6 +13,9 @@ import CheckBox from '@react-native-community/checkbox';
 import Feather from 'react-native-vector-icons/Feather';
 import CircularProgressBar from '../../components/CircularProgressBar';
 import MultiButton from '../../components/MultiButton';
+import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
+import { postOrder } from '../../redux/actions/commonActions';
 const paymentMethod = [
   {
     title: 'pay using ',
@@ -75,7 +78,12 @@ const ConsumerCashPayment = props => {
   const [isPrivate, setIsPrivate] = useState(false);
   const [name, setName] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
-
+  const artistBookingSlots = useSelector(state => state.common.artistBookingSlots);
+  const cart = useSelector(state => state.common.cart);
+  const token = useSelector(state => state.auth.token);
+  const dispatch = useDispatch();
+  const consumerOrder = useSelector(state => state.common.consumerOrder);
+  console.log('consumerdata', consumerOrder);
   const handlePrivate = () => {
     setIsPrivate(previousState => !previousState);
   };
@@ -83,7 +91,43 @@ const ConsumerCashPayment = props => {
   const closeModal = () => {
     setIsModalVisible(false);
   };
+  const calculateTotalCart = data => {
+    if (data.length > 0) {
+      let sum = 0;
+      for (let i = 0; i < data.length; i++) {
+        const element = data[i];
+        sum += element.quantity * element.price;
+      }
+      return sum;
+    } else {
+      return 0;
+    }
+  };
 
+  const handleOrder = () => {
+    if (consumerOrder.consumerMood === 'traveling') {
+      const order = {
+        is_hosting: true,
+        date: moment(Date.now()).format('YYYY-MM-DD'),
+        booking_slot_id: consumerOrder.artistTimeSLot.id,
+        booking_notes: name,
+        hostingspot_id: null,
+        address_id: null,
+        payment_method_id: null,
+        // "payment_method_id": "94b655ec-6e40-4b25-b323-0fa8dfc6d438"
+      };
+      dispatch(postOrder(order, token));
+      setIsModalVisible(true);
+    } else {
+      // const order = {
+      //   is_hosting: false,
+      //   date: moment(Date.now()).format('YYYY-MM-DD'),
+      //   booking_slot_id: consumerOrder.artistTimeSLot.id,
+      //   // "payment_method_id": "94b655ec-6e40-4b25-b323-0fa8dfc6d438"
+      // };
+      // dispatch(postOrder(order, token));
+    }
+  };
   return (
     <SafeAreaView style={GLOBAL_STYLES.containerHome}>
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: heightToDp(10) }}>
@@ -96,25 +140,26 @@ const ConsumerCashPayment = props => {
           onPress={() => props.navigation.navigate('ConsumerApplyPromoCode')}
         />
         <View style={styles.balanceContainer}>
-          <View style={styles.alignRow}>
-            <Text style={styles.heading}>
-              2x <Text style={{ color: '#84668C' }}>Haircut</Text>{' '}
-            </Text>
-            <Text style={styles.subHeading}>Rs 2,300</Text>
-          </View>
-          <View style={styles.alignRow}>
-            <Text style={styles.heading}>
-              2x <Text style={{ color: '#84668C' }}>Haircolor</Text>
-            </Text>
-            <Text style={styles.subHeading}>Rs 2,300</Text>
-          </View>
-          <View style={[styles.alignRow, { marginVertical: 5 }]}>
+          {cart &&
+            cart.cart_items.map(data => {
+              return (
+                <View style={styles.alignRow}>
+                  <Text style={styles.heading}>
+                    {data.quantity}x <Text style={{ color: '#84668C' }}>{data.service_name}</Text>
+                  </Text>
+                  <Text style={styles.subHeading}>Rs {data.quantity * data.price}</Text>
+                </View>
+              );
+            })}
+          {/* <View style={[styles.alignRow, { marginVertical: 5 }]}>
             <Text style={[styles.subHeading, { fontFamily: fonts.robo_med }]}>GST (13%)</Text>
             <Text style={styles.subHeading}>Rs 800</Text>
-          </View>
+          </View> */}
           <View style={[styles.alignRow, { alignItems: 'center' }]}>
             <Text style={[{ color: '#84668C', fontFamily: fonts.robo_med, fontSize: 16 }]}>TOTAL</Text>
-            <Text style={{ color: '#84668C', fontSize: 24, fontFamily: fonts.robo_bold }}>Rs 12,300</Text>
+            <Text style={{ color: '#84668C', fontSize: 24, fontFamily: fonts.robo_bold }}>
+              Rs {calculateTotalCart(cart.cart_items)}
+            </Text>
           </View>
         </View>
         <Text
@@ -246,6 +291,7 @@ const ConsumerCashPayment = props => {
               borderRadius: 10,
               textAlignVertical: 'top',
             }}
+            value={name}
           />
           <Text
             style={{
@@ -258,7 +304,13 @@ const ConsumerCashPayment = props => {
           </Text>
         </View>
         <View style={{ marginTop: 20 }}>
-          <Button title="Place your Order" onPress={() => props.navigation.navigate('ConsumerApplyPromoCode')} />
+          <Button
+            title="Place your Order"
+            onPress={() => {
+              handleOrder();
+              // props.navigation.navigate('ConsumerApplyPromoCode')
+            }}
+          />
         </View>
 
         <Modal visible={isModalVisible} animationType="slide" onRequestClose={closeModal}>

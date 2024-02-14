@@ -56,7 +56,6 @@ const ConsumerDisocver = props => {
   const [dynamicData, setDynamicData] = useState([]);
   const artistDiscovires = useSelector(state => state.common.artistDiscovires);
   const studiosDiscovires = useSelector(state => state.common.studiosDiscovires);
-  console.log('dynamicData[clickedIndex]?.known_for', dynamicData[clickedIndex]?.known_for);
   // const getService = async () => {
   //   try {
   //     const res = await api.get('/api/service');

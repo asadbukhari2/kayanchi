@@ -113,6 +113,7 @@ import {
   ConsumerWhyCancel,
   ConsumerOrders,
   ConsumerHomeSearch,
+  ConsumerHostingLocation,
 } from '../consumer-screens';
 import ConsumerVerification from '../consumer-screens/ConsumerVerification';
 import ConsumerArtistDetails from '../consumer-screens/ConsumerArtistDetails';
@@ -790,6 +791,13 @@ const ConsumerOrderStack = ({ navigation }) => (
     <Stack.Screen
       name="ConsumerHostingSpot"
       component={ConsumerHostingSpot}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <Stack.Screen
+      name="ConsumerHostingLocation"
+      component={ConsumerHostingLocation}
       options={{
         headerShown: false,
       }}

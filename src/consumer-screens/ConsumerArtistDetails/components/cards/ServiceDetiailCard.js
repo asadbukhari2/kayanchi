@@ -7,22 +7,49 @@ import travelIcon from '../../../../assets/travel_brown.png';
 import hostingIcon from '../../../../assets/hosting_brown.png';
 import { styles } from '../styles/ServiceDetiailCard.style';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '../../../../redux/actions/commonActions';
+import { addToCart, handleConsumerOrder } from '../../../../redux/actions/commonActions';
 
 import { Button } from '../../../../components';
-
+import moment from 'moment';
+const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const ServiceDetiailCard = ({ id, name, discount_percentage, amount, discounted_price, is_travelling, is_hosting }) => {
   const dispatch = useDispatch();
+
+  let today = moment(Date.now()).day();
+
+  const artistBookingSlots = useSelector(state => state.common.artistBookingSlots);
+  const consumerOrder = useSelector(state => state.common.consumerOrder);
   const token = useSelector(state => state.auth.token);
-  const calculatePrice = (discount, actualPrice) => {
-    let val = (discount / 100) * actualPrice;
-    return actualPrice - val;
-  };
+
   const [cardCartItem, setCardCartItem] = useState({});
   const cart = useSelector(state => state.common.cart);
-  console.log('this is the cart', cart);
+  console.log('cardCartItem?.quantity', cardCartItem?.quantity);
+  console.log('this is the cart-----------)(', cart);
   const calculateCartItem = (idItem, cartItem) => {
-    return cartItem.filter(item => item.service_id === idItem)[0];
+    if (cartItem) {
+      return cartItem.filter(item => item.service_id === idItem)[0];
+    }
+    return [];
+  };
+  useEffect(() => {
+    selectActiveBookingSLot(artistBookingSlots, DAYS[today]);
+  }, []);
+  const selectActiveBookingSLot = (slots, day) => {
+    console.log('calling selectActiveBookingSLot');
+    console.log('this is the day', day);
+    const keys = Object.keys(slots);
+    if (keys.length > 0) {
+      for (let i = 0; i < keys.length; i++) {
+        const element = keys[i];
+        if (slots[element].length > 0) {
+          // if (element === day) {
+          console.log('element, slots[element]', element, slots[element]);
+          return slots[element][0];
+          // }
+        }
+      }
+    }
+    return [];
   };
   function handleAddToCart() {
     console.log('handleadd to the cart press');
@@ -31,9 +58,17 @@ const ServiceDetiailCard = ({ id, name, discount_percentage, amount, discounted_
       service_id: id,
     };
     dispatch(addToCart(cartData, token));
+    let slot = selectActiveBookingSLot(artistBookingSlots, DAYS[today]);
+    if (slot) {
+      let orderData = {
+        ...consumerOrder,
+        artistTimeSLot: slot,
+      };
+      dispatch(handleConsumerOrder(orderData));
+    }
   }
   useEffect(() => {
-    setCardCartItem(calculateCartItem(id, cart));
+    setCardCartItem(calculateCartItem(id, cart.cart_items));
   }, [cart]);
   return (
     <View style={[styles.container]}>
@@ -64,7 +99,7 @@ const ServiceDetiailCard = ({ id, name, discount_percentage, amount, discounted_
             </View>
           )}
 
-          {cart?.length > 0 && (
+          {cart?.cart_items?.length > 0 && (
             <Text style={[styles.colorBlack, styles.fontSize10, styles.marginHorizontal5]}>
               {cardCartItem?.quantity}
             </Text>

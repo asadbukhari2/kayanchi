@@ -28,6 +28,10 @@ import {
   GET_CART_ITEM,
   GET_CART_ITEM_LOADING,
   GET_SERVICES_ALL_DATA,
+  GET_ARTIST_SLOTS_LOADING,
+  GET_ARTIST_SLOTS,
+  GET_ARTIST_SLOTS_ERROR,
+  CONSUMER_ORDER,
 } from '../constants/constants';
 
 export const getCategory = () => async dispatch => {
@@ -373,7 +377,61 @@ export const addBookingSlot = (data, token) => async dispatch => {
     console.log('addBookingSlot', error);
   }
 };
-
+// GET_ARTIST_SLOTS,
+// GET_ARTIST_SLOTS_LOADING,
+// GET_ARTIST_SLOTS_ERROR,
+export const getArtistBookingSlot = (id, token) => async dispatch => {
+  try {
+    dispatch({
+      type: GET_ARTIST_SLOTS_LOADING,
+      payload: true,
+    });
+    // /api/bookingSlot/artist/9c02be37-1363-4310-9407-532a992ff03e
+    let res = await Fetch.get(`/api/bookingSlot/artist/${id}`, token);
+    console.log('res===>getArtistBookingSlot', res);
+    if (res.status === 200) {
+      res = await res.json();
+      dispatch({
+        type: GET_ARTIST_SLOTS,
+        payload: res,
+      });
+      dispatch({
+        type: GET_ARTIST_SLOTS_LOADING,
+        payload: false,
+      });
+      showMessage({
+        message: 'artist booking slots get successfully',
+        type: 'success',
+        color: '#000',
+      });
+    } else {
+      // throw new Error()
+      dispatch({
+        type: GET_ARTIST_SLOTS_LOADING,
+        payload: false,
+      });
+      showMessage({
+        message: 'Something went wrong',
+        type: 'warning',
+        color: '#000',
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: GET_ARTIST_SLOTS_LOADING,
+      payload: false,
+    });
+    dispatch({
+      type: GET_ARTIST_SLOTS_ERROR,
+      payload: error,
+    });
+    showMessage({
+      message: 'error in the artist get booking slots',
+      type: 'error',
+      color: '#000',
+    });
+  }
+};
 export const updateBookingSlot = (id, data, token) => async dispatch => {
   try {
     let res = await Fetch.put(`/api/bookingSlot/${id}`, data, token);
@@ -788,7 +846,7 @@ export const getCartItems = token => async dispatch => {
       });
       dispatch({
         type: GET_CART_ITEM,
-        payload: res.cart_items,
+        payload: res,
       });
     } else {
       dispatch({
@@ -904,5 +962,41 @@ export const removeFromCart = (data, token) => async dispatch => {
         type: 'danger',
       });
     }
+  }
+};
+
+export const handleConsumerOrder = data => async dispatch => {
+  dispatch({
+    type: CONSUMER_ORDER,
+    payload: data,
+  });
+};
+
+export const postOrder = (data, token) => async dispatch => {
+  // /api/orders/
+  try {
+    let res = await Fetch.post('/api/orders/', data, token);
+    console.log('this is the response in the post order', res);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      showMessage({
+        message: 'Order Place successfully',
+        type: 'success',
+      });
+      return res;
+    } else {
+      const { message } = await res.json();
+      showMessage({
+        message: message,
+        type: 'danger',
+      });
+      throw new Error(message ?? 'Something went wrong');
+    }
+  } catch (error) {
+    console.log('saveAddress', error);
+    showMessage({
+      message: 'Something went wrong',
+      type: 'danger',
+    });
   }
 };

@@ -21,7 +21,7 @@ import HostAndTravel from './components/cards/HostAndTravel.js';
 import hosting from '../../assets/hosting_white.png';
 import travel from '../../assets/travel_white.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { getServices } from '../../redux/actions/commonActions.js';
+import { getArtistBookingSlot, getServices, handleConsumerOrder } from '../../redux/actions/commonActions.js';
 const DATA = [
   {
     id: '1',
@@ -75,14 +75,16 @@ const serviceDetailData = [
 
 const ModalData = [
   {
-    id: '1',
+    id: '10',
     icon: travel,
     title: 'Travel to their studio',
+    status: 'traveling',
   },
   {
-    id: '2',
+    id: '20',
     icon: hosting,
     title: 'Host them at your place',
+    status: 'hosting',
   },
 ];
 const theme = useTheme();
@@ -93,6 +95,10 @@ const ConsumerArtistDetails = props => {
   const navigation = useNavigation();
   const cart = useSelector(state => state.common.cart);
   const artistServices = useSelector(state => state.common.artistServices);
+  console.log('this is the artistServices', artistServices);
+  const token = useSelector(state => state.auth.token);
+  const consumerOrder = useSelector(state => state.common.consumerOrder);
+  console.log('this is the consumer order in the consumer artist detail', consumerOrder);
   const [openModal, setOpenModal] = useState(false);
   const [navCategory, setNavCategory] = useState('Hair');
   const [serviceData, setServiceData] = useState([]);
@@ -100,14 +106,15 @@ const ConsumerArtistDetails = props => {
     setOpenModal(prev => !prev);
   };
   useEffect(() => {
-    dispatch(getServices(props.route.params.id));
+    dispatch(getServices(id));
+    dispatch(getArtistBookingSlot(id, token));
   }, [id]);
+  console.log(id);
   useEffect(() => {
     setOpenModal(prev => !prev);
   }, [cart]);
   useEffect(() => {
     handleCategoryFilter(artistServices);
-    console.log('change---->', navCategory);
   }, [navCategory]);
   const calculateCartTotal = cartItem => {
     let total = 0;
@@ -122,6 +129,7 @@ const ConsumerArtistDetails = props => {
     }
     return total;
   };
+
   const handleCategoryFilter = ser => {
     setServiceData([]);
     if (ser && ser.services) {
@@ -146,7 +154,7 @@ const ConsumerArtistDetails = props => {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={{ paddingBottom: 90 }}>
         <View>
-          <ArtistDetailHeader />
+          <ArtistDetailHeader artistServices={artistServices} />
         </View>
         <View
           style={[
@@ -156,7 +164,7 @@ const ConsumerArtistDetails = props => {
             styles.paddingVertical15,
             styles.paddingHorizontal0,
           ]}>
-          <AvailablityStatus status={artistServices?.availability} />
+          <AvailablityStatus status={artistServices?.availability} name={artistServices.artist} />
           <Mood travel_mood={artistServices.travel_mood} hosting_mood={artistServices?.hosting_mood} />
           <Socials
             followers={artistServices?.followers}
@@ -194,14 +202,14 @@ const ConsumerArtistDetails = props => {
           </View>
         </View>
         <TouchableOpacity style={[styles.marginTop30]}>
-          {cart.length > 0 ? (
+          {cart.cart_items.length > 0 ? (
             <Button
               onPress={() =>
                 navigation.navigate('ConsumerHomeStack', {
                   screen: 'ConsumerCart',
                 })
               }
-              title={`View your cart Rs ${calculateCartTotal(cart)}`}
+              title={`View your cart Rs ${calculateCartTotal(cart.cart_items)}`}
             />
           ) : (
             <View></View>
@@ -250,7 +258,7 @@ const ConsumerArtistDetails = props => {
               horizontal
             />
           </View>
-          <Button title="Add to cart" />
+          <Button onPress={() => handleCLoseModal()} title="Add to cart" />
         </View>
       </Modal>
     </SafeAreaView>
