@@ -1,19 +1,21 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 
 import Feather from 'react-native-vector-icons/Feather';
-import { widthToDp, heightToDp, width } from '../../../utils/Dimensions';
+import { widthToDp } from '../../../utils/Dimensions';
 
 import { fonts, useTheme } from '../../../utils/theme';
 import moment from 'moment';
 import makeStyle from './styles/containerWorkCretificate.styles';
 const AddMore = require('../../../assets/addMore.png');
-const theme = useTheme()
+const theme = useTheme();
 const ContainerWorkCertificate = ({ as, imageSource, title, data = [], toggleEditModal, toggleModal }) => {
+  const styles = makeStyle(theme);
+
   function calculateTimePeriod(start, end) {
     const startDate = new Date(start);
     const endDate = new Date(end);
-    const styles = makeStyle(theme)
+
     const totalMonths =
       (endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth());
     const years = Math.floor(totalMonths / 12);
@@ -99,5 +101,3 @@ const ContainerWorkCertificate = ({ as, imageSource, title, data = [], toggleEdi
 };
 
 export default ContainerWorkCertificate;
-
-

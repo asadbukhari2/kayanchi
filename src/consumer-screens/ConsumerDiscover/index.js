@@ -33,21 +33,6 @@ const theme = useTheme();
 const hair1 = require('../../assets/hair.png');
 const face1 = require('../../assets/face.png');
 
-const DATA = [
-  {
-    name: 'Hair',
-    imageLink: hair1,
-  },
-  {
-    name: 'Face',
-    imageLink: face1,
-  },
-  {
-    name: 'Body',
-    imageLink: waxing,
-  },
-];
-
 const ConsumerDisocver = props => {
   const [artistModalVisible, setArtistModalVisible] = useState(false);
   const [studioModalVisible, setStudioModalVisible] = useState(false);
@@ -56,30 +41,6 @@ const ConsumerDisocver = props => {
   const [dynamicData, setDynamicData] = useState([]);
   const artistDiscovires = useSelector(state => state.common.artistDiscovires);
   const studiosDiscovires = useSelector(state => state.common.studiosDiscovires);
-  // const getService = async () => {
-  //   try {
-  //     const res = await api.get('/api/service');
-
-  //     console.log(res.data);
-  //     setService(res.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // const getArtist = async () => {
-  //   try {
-  //     const res = await api.get('/api/users/artists');
-
-  //     console.log(res.data);
-  //     setArtist(res.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // useEffect(() => {
-  //   getService();
-  //   getArtist();
-  // }, []);
 
   const openModal = (index, artistType) => {
     setClickedIndex(index);
@@ -103,7 +64,6 @@ const ConsumerDisocver = props => {
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 90 }}>
         <Header backBtn />
-
         <Text
           style={{
             color: '#193356',
@@ -245,7 +205,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.homeBackground,
-    paddingTop: heightToDp(4),
   },
 
   indicatorView: {

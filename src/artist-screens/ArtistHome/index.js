@@ -61,13 +61,13 @@ const ArtistHome = () => {
             message: 'App needs access to your location',
           });
           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            getCurrentLocation(dispatch);
+            getCurrentLocation({ dispatch });
           }
         } catch (err) {
           console.warn(err);
         }
       } else if (Platform.OS === 'ios') {
-        getCurrentLocation(dispatch);
+        getCurrentLocation({ dispatch });
       }
     };
 
@@ -154,7 +154,7 @@ const ArtistHome = () => {
               </Text>
             )}
           </View>
-        ) : bookingSlots?.length < 1 ? (
+        ) : bookingSlots.length < 1 ? (
           <View style={styles.hosted}>
             <TouchableOpacity onPress={bookingSlotHandler}>
               <Text style={styles.createBookingSlot}>Create Your booking slots</Text>

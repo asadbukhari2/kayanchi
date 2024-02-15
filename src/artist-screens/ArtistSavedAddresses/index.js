@@ -14,7 +14,7 @@ const theme = useTheme();
 const ArtistSavedAddresses = props => {
   const [loading, setLoading] = useState(false);
   const [address, setAddresses] = useState([]);
-const styles = makeStyle(theme)
+  const styles = makeStyle(theme);
   useEffect(() => {
     setLoading(true);
     getSavedAddresses()
@@ -62,5 +62,3 @@ const styles = makeStyle(theme)
 };
 
 export default ArtistSavedAddresses;
-
-

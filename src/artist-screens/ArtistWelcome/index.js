@@ -1,13 +1,11 @@
 import React from 'react';
-import { Image, Text, View } from 'react-native';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from '../../components';
 import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
 import { useNavigation } from '@react-navigation/native';
 import makeStyle from './artistWelcome.styles';
-import { useDispatch } from 'react-redux';
-import { signout } from '../../redux/actions';
 
 const facebook = require('../../assets/facebook.png');
 const google = require('../../assets/google.png');
@@ -17,9 +15,12 @@ const ArtistWelcome = () => {
   const theme = useTheme();
   const navigation = useNavigation();
   const styles = makeStyle(theme);
-  const dispatch = useDispatch();
+
   return (
     <SafeAreaView style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
+        <Text style={styles.signIn}>Sign In</Text>
+      </TouchableOpacity>
       <Image source={require('../../assets/Signup.png')} style={styles.img} resizeMode="contain" />
       <Text style={styles.heading}>
         Earn with <Text style={{ color: theme.primary }}>Kaynchi</Text>
@@ -31,7 +32,7 @@ const ArtistWelcome = () => {
           btnStyle={[styles.whiteBtn, { marginTop: heightToDp(6.8) }]}
           titleStyle={styles.blackText}
           onPress={() => {
-            navigation.navigate('ArtistEmailSignUp')
+            navigation.navigate('ArtistEmailSignUp');
           }}
           image={email}
           imageStyle={styles.iconStyles}

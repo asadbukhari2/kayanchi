@@ -20,7 +20,7 @@ const LatestOrders = () => {
   const navigation = useNavigation();
 
   const { waiting } = useSelector(state => state.common);
-  const latest = waiting ? [...waiting.Booking, ...waiting['On-Demand']] : [];
+  const latest = waiting ? [...(waiting?.Booking || []), ...(waiting['On-Demand'] || [])] : [];
 
   const handleOrder = () => {
     navigation.navigate('ArtistOrder', { screen: 'ArtistOrders' });

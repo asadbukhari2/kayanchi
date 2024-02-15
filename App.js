@@ -1,4 +1,4 @@
-import 'react-native-gesture-handler'
+import 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -25,14 +25,14 @@ function App() {
             message: 'App needs access to your location',
           });
           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            getCurrentLocation(store);
+            getCurrentLocation({ store });
           } else {
           }
         } catch (err) {
           console.warn(err);
         }
       } else if (Platform.OS === 'ios') {
-        getCurrentLocation(store);
+        getCurrentLocation({ store });
       }
     };
 

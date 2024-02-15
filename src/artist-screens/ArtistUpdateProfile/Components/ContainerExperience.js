@@ -61,7 +61,7 @@ const ContainerWorkCertificate = ({
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
   const [gender, setGender] = useState('');
   const [name, setName] = useState('');
-const styles = makeStyle(theme)
+  const styles = makeStyle(theme);
   const handleDateChange = date => {
     console.log('clikced');
     setSelectedDate(date);
@@ -400,5 +400,3 @@ const styles = makeStyle(theme)
 };
 
 export default ContainerWorkCertificate;
-
-

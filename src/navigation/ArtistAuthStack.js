@@ -19,7 +19,6 @@ import {
   ArtistGlowMakeUp,
 } from '../artist-screens';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { InitScreen } from '../init-screens';
 import SignIn from '../init-screens/SignIn';
 
 const Stack = createNativeStackNavigator();
@@ -49,6 +48,7 @@ export default class ArtistAuthStack extends Component {
         <Stack.Screen name="ArtistPublishGig" component={ArtistPublishGig} />
         <Stack.Screen name="ArtistUpdateProfile" component={ArtistUpdateProfile} />
         <Stack.Screen name="ArtistGlowMakeUp" component={ArtistGlowMakeUp} />
+        <Stack.Screen name="SignIn" component={SignIn} />
         {/* end */}
       </Stack.Navigator>
     );

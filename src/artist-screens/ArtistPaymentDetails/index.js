@@ -26,7 +26,7 @@ const ArtistPersonalDetails = props => {
   const [walletPayment, setWalletPayment] = useState(false);
   const [sufficientBallance, setSufficientBallance] = useState(false);
   const [card, setCard] = useState('');
-  const styles = makeStyle(theme)
+  const styles = makeStyle(theme);
   return (
     <SafeAreaView style={styles.container}>
       <Header backBtnGrey />
@@ -112,5 +112,3 @@ const ArtistPersonalDetails = props => {
 };
 
 export default ArtistPersonalDetails;
-
-

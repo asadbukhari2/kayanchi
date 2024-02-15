@@ -129,9 +129,7 @@ export default function ConsumerProfileSaved(props) {
           <View style={styles.personalContainer}>
             <View style={{ paddingLeft: widthToDp(4) }}>
               <Text style={[styles.subheading]}>Your default address</Text>
-              <Text style={{ width: widthToDp(54) }}>
-                {user.address}
-              </Text>
+              <Text style={{ width: widthToDp(54) }}>{user.address}</Text>
             </View>
             <View>
               <TouchableOpacity

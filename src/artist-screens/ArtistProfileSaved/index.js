@@ -13,7 +13,7 @@ const theme = useTheme();
 
 export default function ArtistProfileSaved(props) {
   const { userProfileDetails } = useSelector(state => state.auth);
-  const styles = makeStyle(theme)
+  const styles = makeStyle(theme);
   const editClickHandler = () => {
     props.navigation.navigate('ArtistPersonalDetails');
   };

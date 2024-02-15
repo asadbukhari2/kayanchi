@@ -58,7 +58,6 @@ import {
 import {
   ConsumerHome,
   ConsumerStatus,
-  ConsumerSearch,
   ConsumerAddress,
   ConsumerHostingSpot,
   ConsumerBookingDate,

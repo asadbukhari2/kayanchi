@@ -7,7 +7,6 @@ const makeStyle = theme => {
     container: {
       flex: 1,
       backgroundColor: theme.background,
-      paddingTop: heightToDp(10),
     },
     btnText: { marginVertical: 10 },
     img: {
@@ -66,6 +65,11 @@ const makeStyle = theme => {
       bottom: 32,
       left: 0,
       right: 0,
+    },
+    signIn: {
+      padding: 16,
+      fontSize: 16,
+      color: '#1583D8',
     },
   });
   return styles;

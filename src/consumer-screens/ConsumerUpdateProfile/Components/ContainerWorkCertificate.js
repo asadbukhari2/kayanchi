@@ -55,21 +55,21 @@ const ContainerWorkCertificate = ({
   const [isSelected, setSelection] = useState(false);
   const [dob, setDob] = useState(new Date());
   const [pickerDate, setPickerDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [isDatePickerVisible, setDatePickerVisible] = useState(false);
+  // const [selectedDate, setSelectedDate] = useState(new Date());
+  // const [isDatePickerVisible, setDatePickerVisible] = useState(false);
   const [gender, setGender] = useState('');
   const [name, setName] = useState('');
 
-  const handleDateChange = date => {
-    console.log('clikced');
-    setSelectedDate(date);
-    setDatePickerVisible(false);
-  };
+  // const handleDateChange = date => {
+  //   console.log('clikced');
+  //   setSelectedDate(date);
+  //   setDatePickerVisible(false);
+  // };
 
-  const toggleDatePicker = () => {
-    console.log('clikced2');
-    setDatePickerVisible(!isDatePickerVisible);
-  };
+  // const toggleDatePicker = () => {
+  //   console.log('clikced2');
+  //   setDatePickerVisible(!isDatePickerVisible);
+  // };
 
   const toggleModalDate = () => {
     setModalVisible(!modalVisible);
@@ -84,7 +84,7 @@ const ContainerWorkCertificate = ({
         <Text style={styles.heading}>{title}</Text>
         <Image source={AddMore} style={{ width: 20, height: 20 }} />
       </View>
-      <View style={styles.separator}></View>
+      <View style={styles.separator} />
       <View style={styles.DiplomaConatiner}>
         <Image source={imageSource} style={{ width: 50, height: 50, marginLeft: 10 }} />
         <View style={{ flex: 1, marginLeft: 10 }}>
@@ -191,8 +191,8 @@ const ContainerWorkCertificate = ({
                     textColor={theme.background}
                     mode="date"
                     maximumDate={new Date()}
-                    onDateChange={date => {
-                      setPickerDate(date);
+                    onDateChange={_ => {
+                      setPickerDate(_);
                     }}
                   />
                 </View>
@@ -231,8 +231,8 @@ const ContainerWorkCertificate = ({
                     textColor={theme.background}
                     mode="date"
                     maximumDate={new Date()}
-                    onDateChange={date => {
-                      setPickerDate(date);
+                    onDateChange={_ => {
+                      setPickerDate(_);
                     }}
                   />
                 </View>
@@ -314,7 +314,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 10,
   },
-  input: { backgroundColor: 'red' },
   titleContainer: {
     marginTop: 10,
     backgroundColor: 'white',
@@ -338,6 +337,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 10,
+    backgroundColor: 'red',
   },
   datePicker: {
     width: 200,
@@ -370,7 +370,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#333333',
     paddingHorizontal: widthToDp(4),
-    color: '#67718C',
   },
   DiplomaConatiner: {
     width: width * 0.91,

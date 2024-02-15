@@ -21,7 +21,7 @@ const ArtistLocateKaynchi = props => {
   const [location, setLocation] = useState('');
   const [name, setName] = useState('');
   const [floor, setFloor] = useState('');
-  const styles = makeStyle(theme)
+  const styles = makeStyle(theme);
   const [userLocation, setUserLocation] = useState(null);
 
   const handleGeocode = async () => {
@@ -89,7 +89,7 @@ const ArtistLocateKaynchi = props => {
     };
 
     saveAddress(data);
-    // props.navigation.goBack();
+    props.navigation.goBack();
   };
 
   return (
@@ -160,5 +160,3 @@ const ArtistLocateKaynchi = props => {
 };
 
 export default ArtistLocateKaynchi;
-
-

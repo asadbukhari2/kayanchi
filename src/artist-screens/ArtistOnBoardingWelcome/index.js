@@ -1,9 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
+import { Text, TouchableOpacity, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header, Button } from '../../components';
-import { heightToDp, widthToDp } from '../../utils/Dimensions';
-import { useTheme, fonts } from '../../utils/theme';
+import { useTheme } from '../../utils/theme';
 import { useNavigation } from '@react-navigation/native';
 import makeStyle from './artistOnBoardingWelcome.style';
 
@@ -11,7 +10,7 @@ const theme = useTheme();
 
 const ArtistOnBoardingWelcome = () => {
   const navigation = useNavigation();
-const styles = makeStyle(theme)
+  const styles = makeStyle(theme);
   return (
     <SafeAreaView style={styles.container}>
       <Header title={'Perfecto!'} />
@@ -40,5 +39,3 @@ const styles = makeStyle(theme)
 };
 
 export default ArtistOnBoardingWelcome;
-
-

@@ -19,69 +19,68 @@ import { showMessage } from 'react-native-flash-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import API, { Fetch } from '../../utils/APIservice';
 import { getBookingSlots, getConsumerBrowse, getMyOrders, getUserDiscoveries } from './commonActions';
-import { useSelector } from 'react-redux';
 
 export const EMAIL_LOGIN =
   ({ email, password }) =>
-    async dispatch => {
-      dispatch({
-        type: SIGN_IN,
-      });
-      try {
-        const data = { password, email };
+  async dispatch => {
+    dispatch({
+      type: SIGN_IN,
+    });
+    try {
+      const data = { password, email };
 
-        let res = await Fetch.post('/api/users/login', data);
-        if (res.status >= 200 && res.status < 300) {
-          res = await res.json();
-          console.log('this is the token', res.type_login);
-          await AsyncStorage.setItem('userToken', JSON.stringify(res.token));
-          dispatch(module.exports.getMyProfile(res.token));
+      let res = await Fetch.post('/api/users/login', data);
+      if (res.status >= 200 && res.status < 300) {
+        res = await res.json();
+        console.log('this is the token', res.type_login);
+        await AsyncStorage.setItem('userToken', JSON.stringify(res.token));
+        dispatch(module.exports.getMyProfile(res.token));
 
-          showMessage({
-            message: 'Logged In Successfully!',
-            type: 'success',
-          });
+        showMessage({
+          message: 'Logged In Successfully!',
+          type: 'success',
+        });
+        dispatch({
+          type: SIGN_IN_SUCCESS,
+          payload: res,
+        });
+
+        if (res.type_login === 'artist') {
+          dispatch(getMyOrders(res.token));
+          dispatch(getBookingSlots(res.token));
           dispatch({
-            type: SIGN_IN_SUCCESS,
-            payload: res,
+            type: SET_IS_ARTIST,
           });
-
-          if (res.type_login === 'artist') {
-            dispatch(getMyOrders(res.token));
-            dispatch(getBookingSlots(res.token));
-            dispatch({
-              type: SET_IS_ARTIST,
-            });
-          } else {
-            // const location = useSelector(state => state.common.currentLocation);
-            dispatch(getUserDiscoveries(res.token));
-            dispatch(getConsumerBrowse(res.token));
-            dispatch({
-              type: SET_IS_CONSUMER,
-            });
-          }
         } else {
-          const { message } = await res.json();
-          console.log('this is the message', message);
-          showMessage({
-            message: message,
-            type: 'danger',
-          });
+          // const location = useSelector(state => state.common.currentLocation);
+          dispatch(getUserDiscoveries(res.token));
+          dispatch(getConsumerBrowse(res.token));
           dispatch({
-            type: SIGN_IN_FAILED,
+            type: SET_IS_CONSUMER,
           });
         }
-      } catch (error) {
-        console.log('this is the error', error);
+      } else {
+        const { message } = await res.json();
+        console.log('this is the message', message);
         showMessage({
-          message: 'Something went wrong',
+          message: message,
           type: 'danger',
         });
         dispatch({
           type: SIGN_IN_FAILED,
         });
       }
-    };
+    } catch (error) {
+      console.log('this is the error', error);
+      showMessage({
+        message: 'Something went wrong',
+        type: 'danger',
+      });
+      dispatch({
+        type: SIGN_IN_FAILED,
+      });
+    }
+  };
 
 export const SIGNUP = (data, navigation) => async dispatch => {
   console.log('signup action data', data);
@@ -95,7 +94,6 @@ export const SIGNUP = (data, navigation) => async dispatch => {
   if (res.status >= 200 && res.status < 300) {
     res = await res.json();
     console.log('signup action res', res.token, res.status, res);
-
 
     await AsyncStorage.setItem('userToken', res.token);
     showMessage({

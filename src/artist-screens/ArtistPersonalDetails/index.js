@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Header, TextInput } from '../../components';
 import { Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
@@ -27,10 +27,6 @@ export default function ArtistPersonalDetails(props) {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log('currentLocation', currentLocation);
-  }, [currentLocation]);
-
   const saveClickHandler = async () => {
     const data = {
       name,
@@ -40,6 +36,7 @@ export default function ArtistPersonalDetails(props) {
       longitude: currentLocation?.longitude,
       latitude: currentLocation?.latitude,
     };
+
     await updateUserDetail(data);
     dispatch(getUserProfileDetails());
     props.navigation.goBack();
@@ -103,7 +100,7 @@ export default function ArtistPersonalDetails(props) {
           </Text>
           <TouchableOpacity
             onPress={() => {
-              getCurrentLocation(dispatch);
+              getCurrentLocation({ dispatch });
             }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Image source={currentlocation} style={{ width: 12, height: 12 }} />

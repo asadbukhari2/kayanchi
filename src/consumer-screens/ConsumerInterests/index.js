@@ -1,73 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button, Header, ImageCard, TextInput } from '../../components';
-import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { Button, Header, ImageCard } from '../../components';
+import { heightToDp, width } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
 import { showMessage } from 'react-native-flash-message';
 import { useDispatch, useSelector } from 'react-redux';
-import { SIGNUP, saveUserData } from '../../redux/actions';
-import haircolor from '../../assets/haircolor_interest.png';
-import haircut from '../../assets/haircut_interest.png';
-import facials from '../../assets/facials_interest.png';
-import lashes from '../../assets/lashes_interest.png';
-import makeup from '../../assets/makeup_interest.png';
-import massage from '../../assets/massage_interest.png';
-import medicure from '../../assets/medicure_interest.png';
-import pedicure from '../../assets/pedicure_interest.png';
-import waxing from '../../assets/waxing_interest.png';
-import axios from 'axios';
-import { baseURL } from '../../utils/constants';
+import { SIGNUP } from '../../redux/actions';
+
 import { Fetch } from '../../utils/APIservice';
 
 const theme = useTheme();
 
-const DATA = [
-  {
-    service: 'Haircut',
-    imageLink: haircut,
-  },
-  {
-    service: 'Hair colour',
-    imageLink: haircolor,
-  },
-  {
-    service: 'Make up',
-    imageLink: makeup,
-  },
-  {
-    service: 'Massages',
-    imageLink: massage,
-  },
-  {
-    service: 'Pedicure',
-    imageLink: pedicure,
-  },
-  {
-    service: 'Medicure',
-    imageLink: medicure,
-  },
-  {
-    service: 'Waxing',
-    imageLink: waxing,
-  },
-  {
-    service: 'Eyelashes',
-    imageLink: lashes,
-  },
-  {
-    service: 'Facials',
-    imageLink: facials,
-  },
-];
 const ConsumerInterests = props => {
   const { navigation } = props;
 
   const dispatch = useDispatch();
   const [interest, setInterest] = useState([]);
-  const [interestData, setInterestData] = useState([])
+  const [interestData, setInterestData] = useState([]);
   const dataToSave = useSelector(state => state.auth.signUpUserData);
-  console.log('data to save', dataToSave);
+
   const createAccount = async () => {
     if (interest.length < 1) {
       showMessage({
@@ -81,21 +33,21 @@ const ConsumerInterests = props => {
   const fetchInterests = async () => {
     console.log('function call fetchInterests');
     try {
-
       let res = await Fetch.get('/api/interest/app');
       res = await res.json();
-      console.log("this is the response form the fetchInterests", res)
+      console.log('this is the response form the fetchInterests', res);
       setInterestData(res);
       return res;
     } catch (error) {
       console.log('error in the fetchinterests api response', error);
       return error;
     }
-  }
+  };
   useEffect(() => {
-    fetchInterests()
+    fetchInterests();
     console.log('interestData', interestData);
-  }, [navigation])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigation]);
   return (
     <SafeAreaView style={styles.container}>
       <Header backBtn title={'Interests'} />
