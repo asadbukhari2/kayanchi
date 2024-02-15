@@ -10,6 +10,7 @@ import OffersCard from './component/OffersCard';
 import face_promo from '../../assets/face_promo.png';
 import girl_hair from '../../assets/girl_hair.png';
 import { useSelector } from 'react-redux';
+
 const DATA = [
   {
     id: '1',
@@ -28,12 +29,8 @@ const ConsumerCart = () => {
   const navigation = useNavigation();
   const artistServices = useSelector(state => state.common.artistServices);
   const consumerOrder = useSelector(state => state.common.consumerOrder);
-  console.log('artistServicesartistServicesartistServices', artistServices);
+
   const handleOrderProceed = () => {
-    // navigation.navigate('ConsumerOrderStack', {
-    //   screen: 'ConsumerHostingSpot',
-    // });
-    console.log(artistServices.availability, artistServices.hosting_mood, consumerOrder.consumerMood);
     if (
       artistServices.availability === 'on_demand' &&
       artistServices.hosting_mood &&
@@ -51,6 +48,15 @@ const ConsumerCart = () => {
       // todo open the modal for setting the time slots
       navigation.navigate('ConsumerOrderStack', {
         screen: 'ConsumerHostingLocation',
+      });
+    } else if (
+      artistServices.availability === 'booking_only' &&
+      artistServices.hosting_mood &&
+      consumerOrder.consumerMood === 'traveling'
+    ) {
+      // todo open the modal for setting the time slots
+      navigation.navigate('ConsumerOrderStack', {
+        screen: 'ConsumerBookingDate',
       });
     }
   };

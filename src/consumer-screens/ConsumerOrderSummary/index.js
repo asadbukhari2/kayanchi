@@ -1,11 +1,15 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+
 import { Button, Header } from '../../components';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Service from './component';
+import { useSelector } from 'react-redux';
+import { ca } from 'date-fns/locale';
 
 const theme = useTheme();
 
@@ -28,6 +32,27 @@ const DATA = [
 ];
 
 const ConsumerOrderSummary = props => {
+  const cart = useSelector(state => state.common.cart);
+  const navigation = useNavigation();
+  const { artistTimeSLot } = useSelector(state => state.common.consumerOrder);
+  const calculateTotalCart = data => {
+    if (data.length > 0) {
+      let sum = 0;
+      for (let i = 0; i < data.length; i++) {
+        const element = data[i];
+        sum += element.quantity * element.price;
+      }
+      return sum;
+    } else {
+      return 0;
+    }
+  };
+  const handlePayment = () => {
+    console.log('call hova hoon');
+    navigation.navigate('ConsumerHomeStack', {
+      screen: 'ConsumerCashPayment',
+    });
+  };
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: heightToDp(30) }}>
@@ -43,28 +68,33 @@ const ConsumerOrderSummary = props => {
           </TouchableOpacity>
         </View>
         <View style={styles.centerView}>
-          {DATA.map((item, index) => {
-            return (
-              <View style={{ marginTop: index > 0 ? heightToDp(6.7) : 0 }}>
-                <Service
-                  key={index}
-                  serviceName={item.serviceName}
-                  artistName={item.artistName}
-                  serviceCount={item.serviceCount}
-                />
-              </View>
-            );
-          })}
+          {cart &&
+            cart.cart_items.map((item, index) => {
+              return (
+                <View style={{ marginTop: index > 0 ? heightToDp(6.7) : 0 }}>
+                  <Service
+                    key={index}
+                    serviceName={item.service_name}
+                    // artistName={item.artistName}
+                    navigation={navigation}
+                    serviceCount={item.quantity}
+                    serviceId={item.service_id}
+                  />
+                </View>
+              );
+            })}
           <Text style={styles.dateLabel}>{'Date and time'}</Text>
           <Text style={styles.dateValue}>{'Thurday, 2nd December'}</Text>
-          <Text style={styles.dateValue}>{'7:30 - 8:30 AM'}</Text>
+          {artistTimeSLot && (
+            <Text style={styles.dateValue}>{`${artistTimeSLot.start_time} - ${artistTimeSLot.end_time}`}</Text>
+          )}
           <View style={styles.chargesView}>
             <Text style={styles.dateValue}>{'TOTAL incl VAT'}</Text>
-            <Text style={styles.charges}>{'Rs 5680'}</Text>
+            <Text style={styles.charges}>{`Rs ${calculateTotalCart(cart.cart_items)}`}</Text>
           </View>
         </View>
       </ScrollView>
-      <Button title={'Continue'} btnStyle={styles.btn} onPress={() => props.navigation.navigate('PaymentDetails')} />
+      <Button title={'Continue'} btnStyle={styles.btn} onPress={() => handlePayment()} />
     </SafeAreaView>
   );
 };

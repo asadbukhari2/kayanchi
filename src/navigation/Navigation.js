@@ -118,6 +118,7 @@ import {
 import ConsumerVerification from '../consumer-screens/ConsumerVerification';
 import ConsumerArtistDetails from '../consumer-screens/ConsumerArtistDetails';
 import ConsumerCart from '../consumer-screens/consumerCart';
+import ConsumerHostCashPayment from '../consumer-screens/ConsumerHostCashPayment';
 
 const Stack = createNativeStackNavigator();
 
@@ -819,6 +820,13 @@ const ConsumerOrderStack = ({ navigation }) => (
     <Stack.Screen
       name="ConsumerPaymentDetails"
       component={ConsumerPaymentDetails}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <Stack.Screen
+      name="ConsumerHostCashPayment"
+      component={ConsumerHostCashPayment}
       options={{
         headerShown: false,
       }}

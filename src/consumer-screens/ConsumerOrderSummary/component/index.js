@@ -3,16 +3,23 @@ import { StyleSheet, Text, View } from 'react-native';
 import { fonts, useTheme } from '../../../utils/theme';
 import { Counter } from '../../../components';
 import { heightToDp, widthToDp } from '../../../utils/Dimensions';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart } from '../../../redux/actions';
 
 const theme = useTheme();
 
 const ConsumerOrderSummmaryComp = props => {
   const { serviceCount, serviceName, artistName } = props;
-
+  const dispatch = useDispatch();
+  const token = useSelector(state => state.auth.token);
   const [count, setCount] = useState(serviceCount);
 
   const increment = () => {
-    setCount(count + 1);
+    const cartData = {
+      quantity: 1,
+      service_id: props.serviceId,
+    };
+    dispatch(addToCart(cartData, token));
   };
 
   const decrement = () => {
@@ -20,6 +27,7 @@ const ConsumerOrderSummmaryComp = props => {
       setCount(count - 1);
     }
   };
+
   return (
     <View style={styles.container}>
       <View>

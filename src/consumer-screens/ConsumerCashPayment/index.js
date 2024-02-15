@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Switch, TouchableOpacity, Text, View, ScrollView, Image, Modal } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AddNewBtn, Button, Header, TextInput } from '../../components';
 import { heightToDp, widthToDp, width } from '../../utils/Dimensions';
@@ -10,12 +10,12 @@ import JazzCash from '../../assets/jaazzcash.png';
 import ToggleSwitch from 'toggle-switch-react-native';
 import { RadioButton } from 'react-native-paper';
 import CheckBox from '@react-native-community/checkbox';
-import Feather from 'react-native-vector-icons/Feather';
-import CircularProgressBar from '../../components/CircularProgressBar';
-import MultiButton from '../../components/MultiButton';
+import { useNavigation } from '@react-navigation/native';
+
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { postOrder } from '../../redux/actions/commonActions';
+import ConsumerOrderConRejModal from '../ConsumerOrderConRejModal';
 const paymentMethod = [
   {
     title: 'pay using ',
@@ -78,7 +78,8 @@ const ConsumerCashPayment = props => {
   const [isPrivate, setIsPrivate] = useState(false);
   const [name, setName] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const artistBookingSlots = useSelector(state => state.common.artistBookingSlots);
+  const navigation = useNavigation();
+
   const cart = useSelector(state => state.common.cart);
   const token = useSelector(state => state.auth.token);
   const dispatch = useDispatch();
@@ -107,7 +108,7 @@ const ConsumerCashPayment = props => {
   const handleOrder = () => {
     if (consumerOrder.consumerMood === 'traveling') {
       const order = {
-        is_hosting: true,
+        is_hosting: false,
         date: moment(Date.now()).format('YYYY-MM-DD'),
         booking_slot_id: consumerOrder.artistTimeSLot.id,
         booking_notes: name,
@@ -312,56 +313,7 @@ const ConsumerCashPayment = props => {
             }}
           />
         </View>
-
-        <Modal visible={isModalVisible} animationType="slide" onRequestClose={closeModal}>
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              <Text
-                style={{
-                  fontSize: 34,
-                  fontFamily: fonts.robo_bold,
-                  color: '#2F3A58',
-                  marginHorizontal: widthToDp(5),
-                }}>
-                Waiting for confirmation
-              </Text>
-              <View style={{ alignItems: 'center', marginVertical: 20 }}>
-                <CircularProgressBar
-                  progress={80}
-                  radius={80}
-                  strokeWidth={4}
-                  color="#84668C"
-                  textStyle={{
-                    fontSize: 20,
-                    fontWeight: 'bold',
-                    fill: '#29AAE2',
-                  }}
-                />
-              </View>
-              <Text style={{ fontSize: 16, marginHorizontal: widthToDp(5) }}>
-                Waiting for Narmeen Iqbal to accept your booking.
-              </Text>
-              <Text
-                style={{
-                  fontSize: 16,
-                  marginTop: 10,
-                  marginHorizontal: widthToDp(5),
-                }}>
-                You may cancel your booking in 3 minutes if she does not accept.
-              </Text>
-              <View style={styles.indicatorView}>
-                <View style={styles.row}>
-                  <MultiButton
-                    title={'Go Back Home'}
-                    btnStyle={{ backgroundColor: '#67506D' }}
-                    onPress={() => props.navigation.navigate('ConsumerHomeStack', { screen: 'ConsumerHome' })}
-                  />
-                  <MultiButton title={'Cancel Request'} btnStyle={{ backgroundColor: '#9A9A9A' }} />
-                </View>
-              </View>
-            </View>
-          </View>
-        </Modal>
+        <ConsumerOrderConRejModal navigation={navigation} visible={isModalVisible} close={closeModal} />
       </ScrollView>
     </SafeAreaView>
   );

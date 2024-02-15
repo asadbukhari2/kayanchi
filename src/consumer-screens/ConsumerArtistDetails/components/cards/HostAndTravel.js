@@ -5,7 +5,7 @@ import hosting from '../../../../assets/hosting_white.png';
 import travel from '../../../../assets/travel_white.png';
 import { handleConsumerOrder } from '../../../../redux/actions/commonActions';
 import { useDispatch, useSelector } from 'react-redux';
-const HostAndTravel = ({ icon, title, status }) => {
+const HostAndTravel = ({ icon, title, status, key }) => {
   const [type, setType] = useState(status);
   const consumerOrder = useSelector(state => state.common.consumerOrder);
   console.log('this is the status in the host and travel', status, consumerOrder);
@@ -19,12 +19,7 @@ const HostAndTravel = ({ icon, title, status }) => {
   };
 
   return (
-    <TouchableOpacity
-      onPress={() => handleType(status)}
-      style={[
-        styles.container,
-        type === 'hosting' ? styles.active : type === 'traveling' ? styles.active : styles.bgGray,
-      ]}>
+    <TouchableOpacity key={key} onPress={() => handleType(status)} style={[styles.container]}>
       <Image style={[styles.icon]} source={icon} />
       <Text style={[styles.width50, styles.title]}>{title}</Text>
     </TouchableOpacity>
@@ -34,7 +29,7 @@ const styles = StyleSheet.create({
   container: {
     width: 170,
     height: 120,
-    // backgroundColor: '#696969',
+    backgroundColor: '#696969',
     marginRight: 10,
     borderRadius: 15,
     padding: 15,

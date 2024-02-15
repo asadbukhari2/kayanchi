@@ -21,7 +21,7 @@ import HostAndTravel from './components/cards/HostAndTravel.js';
 import hosting from '../../assets/hosting_white.png';
 import travel from '../../assets/travel_white.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { getArtistBookingSlot, getServices, handleConsumerOrder } from '../../redux/actions/commonActions.js';
+import { getArtistBookingSlot, getServices } from '../../redux/actions/commonActions.js';
 const DATA = [
   {
     id: '1',
@@ -75,13 +75,13 @@ const serviceDetailData = [
 
 const ModalData = [
   {
-    id: '10',
+    id: 10,
     icon: travel,
     title: 'Travel to their studio',
     status: 'traveling',
   },
   {
-    id: '20',
+    id: 20,
     icon: hosting,
     title: 'Host them at your place',
     status: 'hosting',
@@ -253,7 +253,7 @@ const ConsumerArtistDetails = props => {
                 styles.marginLeftAuto,
               ]}
               data={ModalData}
-              renderItem={({ item }) => <HostAndTravel {...item} />}
+              renderItem={({ item }) => <HostAndTravel {...item} key={item.id} />}
               keyExtractor={item => item.id}
               horizontal
             />

@@ -84,6 +84,7 @@ const lightTheme = {
   addressHeadings: '#A4ADBC',
   blue: '#29AAE2',
   darkModeText: '#1a1a1a',
+  purple: '#84668c',
 };
 
 // export const themeAtom = atom({

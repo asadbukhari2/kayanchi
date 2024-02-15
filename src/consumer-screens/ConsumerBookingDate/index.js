@@ -5,7 +5,9 @@ import { fonts, useTheme } from '../../utils/theme';
 import { Button, ButtonList, Header, ListHeader, TextInput, GradientRadio } from '../../components';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import WeeklyCalendar from 'react-native-weekly-calendar';
-
+import { useSelector, useDispatch } from 'react-redux';
+import moment from 'moment';
+import { handleConsumerOrder } from '../../redux/actions/commonActions';
 const theme = useTheme();
 
 const DATA = [
@@ -19,9 +21,38 @@ const DATA = [
     name: '9:30 - 10:30 AM',
   },
 ];
-
+const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Saturday'];
 const ConsumerBookingDate = props => {
   const [timeSelected, setTimeSelected] = useState(null);
+  const [slots, setSlots] = useState([]);
+  const [note, setNote] = useState('');
+  const consumerOrder = useSelector(state => state.common.consumerOrder);
+  const dispatch = useDispatch();
+  const artistBookingSlots = useSelector(state => state.common.artistBookingSlots);
+  const handleSelectedSlot = date => {
+    let day = moment(date).days();
+    console.log(DAYS[day]);
+    if (artistBookingSlots[DAYS[day]]) {
+      setSlots(artistBookingSlots[DAYS[day]]);
+    } else {
+      setSlots([]);
+    }
+  };
+  const handleOrder = () => {
+    console.log('call hova hoon', timeSelected);
+    if (timeSelected) {
+      let orderData = {
+        ...consumerOrder,
+        artistTimeSLot: timeSelected,
+        note: note,
+      };
+      console.log('consumerOrderconsumerOrder', consumerOrder);
+      dispatch(handleConsumerOrder(orderData));
+      props.navigation.navigate('ConsumerOrderStack', {
+        screen: 'ConsumerOrderSummary',
+      });
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: heightToDp(30) }}>
@@ -34,7 +65,7 @@ const ConsumerBookingDate = props => {
           dayLabelStyle={styles.calendarDay}
           titleStyle={styles.calendarTitle}
           onDayPress={date => {
-            console.log(date);
+            handleSelectedSlot(date);
           }}
         />
         <ListHeader title={'CHOOSE TIME SLOT'} linkText={'Custom time'} />
@@ -48,20 +79,23 @@ const ConsumerBookingDate = props => {
           textColor={theme.darkBlack}
         /> */}
         <FlatList
-          data={DATA}
+          data={slots}
           horizontal
           keyExtractor={({ item, index }) => index}
           contentContainerStyle={{ paddingRight: widthToDp(4.5) }}
           renderItem={({ item, index }) => {
             return (
               <GradientRadio
-                onPress={() => setTimeSelected(item.name)}
-                title={item.name}
+                onPress={() => setTimeSelected(item)}
+                title={`${item.start_time} - ${item.end_time}`}
                 containerStyle={styles.btnListContainer}
-                titleStyle={{ marginTop: 0, color: timeSelected == item.name ? theme.background : theme.backIcon }}
+                titleStyle={{
+                  marginTop: 0,
+                  color: timeSelected && timeSelected.id === item.id ? theme.background : theme.backIcon,
+                }}
                 gradientEnd={{ x: 0, y: 1 }}
                 gradientStart={{ x: 0, y: 0 }}
-                gradients={timeSelected == item.name ? null : [theme.background, theme.background]}
+                gradients={timeSelected && timeSelected.id === item.id ? null : [theme.background, theme.background]}
               />
             );
           }}
@@ -71,14 +105,21 @@ const ConsumerBookingDate = props => {
           <Text style={styles.optional}>{'(Optional)'}</Text>
         </View>
         <TextInput
-          input={text => console.log(text)}
+          input={text => setNote(text)}
           multiline
           placeholder={'Please tell use anything that may assist with the order...'}
           inputMarginTop={{ marginTop: heightToDp(2.5) }}
           inputBoxStyle={styles.textInput}
         />
       </ScrollView>
-      <Button title={'Continue'} btnStyle={styles.btn} onPress={() => props.navigation.navigate('OrderSummary')} />
+      <Button
+        title={'Continue'}
+        btnStyle={styles.btn}
+        onPress={() => {
+          handleOrder();
+          // props.navigation.navigate('OrderSummary');
+        }}
+      />
     </SafeAreaView>
   );
 };
