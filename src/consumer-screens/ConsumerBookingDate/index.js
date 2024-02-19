@@ -39,18 +39,22 @@ const ConsumerBookingDate = props => {
     }
   };
   const handleOrder = () => {
-    console.log('call hova hoon', timeSelected);
     if (timeSelected) {
       let orderData = {
         ...consumerOrder,
         artistTimeSLot: timeSelected,
         note: note,
       };
-      console.log('consumerOrderconsumerOrder', consumerOrder);
       dispatch(handleConsumerOrder(orderData));
-      props.navigation.navigate('ConsumerOrderStack', {
-        screen: 'ConsumerOrderSummary',
-      });
+      if (consumerOrder.consumerMood === 'hosting') {
+        props.navigation.navigate('ConsumerOrderStack', {
+          screen: 'ConsumerHostingLocation',
+        });
+      } else {
+        props.navigation.navigate('ConsumerOrderStack', {
+          screen: 'ConsumerOrderSummary',
+        });
+      }
     }
   };
   return (

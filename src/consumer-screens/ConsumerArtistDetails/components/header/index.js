@@ -7,7 +7,6 @@ import { styles } from '../../style';
 import { Header } from '../../../../components';
 
 const ArtistDetailHeader = ({ artistServices }) => {
-  console.log('this is the artist service', artistServices.id);
   return (
     <ImageBackground source={background_image} resizeMode="cover" style={styles.backGroundImageContainer}>
       <View style={[styles.flex, styles.justifyContentBetween, styles.backGroundContainer]}>

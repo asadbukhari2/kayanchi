@@ -75,3 +75,7 @@ export const GET_ARTIST_SLOTS_LOADING = 'GET_ARTIST_SLOTS_LOADING';
 export const GET_ARTIST_SLOTS_ERROR = 'GET_ARTIST_SLOTS_ERROR';
 
 export const CONSUMER_ORDER = 'CONSUMER_ORDER';
+
+export const ORDER = 'ORDER';
+export const ORDER_LOADING = 'ORDER_LOADING';
+export const ORDER_Error = 'ORDER_Error';

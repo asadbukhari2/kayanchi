@@ -36,42 +36,6 @@ const DATA = [
     imageLink: girl_hair,
   },
 ];
-const serviceDetailData = [
-  {
-    id: 'c28c63f7-7255-40e7-a874-4ed6e847fd34',
-    title: 'Hair Cut',
-    off: 20,
-    price: 1500,
-    reachTime: '40 mins',
-    travel: true,
-    hosting: true,
-  },
-  {
-    id: 2,
-    title: 'Hydra Facial',
-    off: 0,
-    price: 1500,
-    reachTime: '1-2 hours',
-    travel: true,
-    hosting: true,
-  },
-  {
-    id: 3,
-    title: 'Rebonding',
-    off: 20,
-    price: 15000,
-    reachTime: '2-3 hours',
-    travel: true,
-  },
-  {
-    id: 4,
-    title: 'Special Braids',
-    off: 0,
-    price: 2000,
-    reachTime: '30 mins',
-    hosting: true,
-  },
-];
 
 const ModalData = [
   {
@@ -87,7 +51,6 @@ const ModalData = [
     status: 'hosting',
   },
 ];
-const theme = useTheme();
 
 const ConsumerArtistDetails = props => {
   const id = props.route.params.id;
@@ -95,15 +58,13 @@ const ConsumerArtistDetails = props => {
   const navigation = useNavigation();
   const cart = useSelector(state => state.common.cart);
   const artistServices = useSelector(state => state.common.artistServices);
-  console.log('this is the artistServices', artistServices);
   const token = useSelector(state => state.auth.token);
   const consumerOrder = useSelector(state => state.common.consumerOrder);
-  console.log('this is the consumer order in the consumer artist detail', consumerOrder);
   const [openModal, setOpenModal] = useState(false);
   const [navCategory, setNavCategory] = useState('Hair');
   const [serviceData, setServiceData] = useState([]);
   const handleCLoseModal = () => {
-    setOpenModal(prev => !prev);
+    setOpenModal(false);
   };
   useEffect(() => {
     dispatch(getServices(id));
@@ -112,7 +73,10 @@ const ConsumerArtistDetails = props => {
   console.log(id);
   useEffect(() => {
     setOpenModal(prev => !prev);
-  }, [cart]);
+    return () => {
+      handleCLoseModal();
+    };
+  }, [consumerOrder]);
   useEffect(() => {
     handleCategoryFilter(artistServices);
   }, [navCategory]);
@@ -164,8 +128,8 @@ const ConsumerArtistDetails = props => {
             styles.paddingVertical15,
             styles.paddingHorizontal0,
           ]}>
-          <AvailablityStatus status={artistServices?.availability} name={artistServices.artist} />
-          <Mood travel_mood={artistServices.travel_mood} hosting_mood={artistServices?.hosting_mood} />
+          <AvailablityStatus status={artistServices?.availability} name={artistServices?.artist} />
+          <Mood travel_mood={artistServices?.travel_mood} hosting_mood={artistServices?.hosting_mood} />
           <Socials
             followers={artistServices?.followers}
             rating_count={artistServices?.rating_count}
@@ -245,18 +209,9 @@ const ConsumerArtistDetails = props => {
             <View style={{ width: 60, height: 5, borderRadius: 3, backgroundColor: '#c4c4c4' }}></View>
           </TouchableOpacity>
           <View style={[styles.flex, styles.flexDirectionRow, styles.justifyContentCenter]}>
-            <FlatList
-              contentContainerStyle={[
-                styles.justifyContentCenter,
-                styles.alignItemsCenter,
-                styles.flex,
-                styles.marginLeftAuto,
-              ]}
-              data={ModalData}
-              renderItem={({ item }) => <HostAndTravel {...item} key={item.id} />}
-              keyExtractor={item => item.id}
-              horizontal
-            />
+            {ModalData.map(item => {
+              return <HostAndTravel {...item} key={item.id} />;
+            })}
           </View>
           <Button onPress={() => handleCLoseModal()} title="Add to cart" />
         </View>

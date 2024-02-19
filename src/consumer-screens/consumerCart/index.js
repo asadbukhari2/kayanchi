@@ -31,6 +31,7 @@ const ConsumerCart = () => {
   const consumerOrder = useSelector(state => state.common.consumerOrder);
 
   const handleOrderProceed = () => {
+    console.log(artistServices.availability, artistServices.hosting_mood, consumerOrder.consumerMood);
     if (
       artistServices.availability === 'on_demand' &&
       artistServices.hosting_mood &&
@@ -53,6 +54,15 @@ const ConsumerCart = () => {
       artistServices.availability === 'booking_only' &&
       artistServices.hosting_mood &&
       consumerOrder.consumerMood === 'traveling'
+    ) {
+      // todo open the modal for setting the time slots
+      navigation.navigate('ConsumerOrderStack', {
+        screen: 'ConsumerBookingDate',
+      });
+    } else if (
+      artistServices.availability === 'booking_only' &&
+      artistServices.travel_mood &&
+      consumerOrder.consumerMood === 'hosting'
     ) {
       // todo open the modal for setting the time slots
       navigation.navigate('ConsumerOrderStack', {
@@ -84,7 +94,7 @@ const ConsumerCart = () => {
         <Text style={[styles.colorBlue]}>+Add more services</Text>
       </View>
       <View>
-        <Text style={[styles.heading]}>Narmeen is also offering</Text>
+        <Text style={[styles.heading]}>{artistServices?.artist} is also offering</Text>
       </View>
       <View>
         <FlatList

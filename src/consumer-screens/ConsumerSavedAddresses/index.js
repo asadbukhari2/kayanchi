@@ -36,7 +36,7 @@ const ConsumerSavedAddresses = props => {
           title={'Add an address'}
           iconColor={theme.counterGrey}
           titleStyle={{ color: theme.counterGrey }}
-          onPress={() => props.navigation.navigate('ArtistProfileStack', { screen: 'ArtistLocateKaynchi' })}
+          onPress={() => props.navigation.navigate('ConsumerProfileStack', { screen: 'ConsumerLocateKaynchi' })}
         />
         {DATA.map((item, index) => {
           return (

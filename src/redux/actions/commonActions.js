@@ -32,6 +32,9 @@ import {
   GET_ARTIST_SLOTS,
   GET_ARTIST_SLOTS_ERROR,
   CONSUMER_ORDER,
+  ORDER_LOADING,
+  ORDER,
+  ORDER_Error,
 } from '../constants/constants';
 
 export const getCategory = () => async dispatch => {
@@ -929,7 +932,7 @@ export const removeFromCart = (data, token) => async dispatch => {
     });
     let res = await Fetch.delete(`/api/cartItem/${data.id}`, token);
     console.log('this is the response form the removeFromCart', res);
-    if (res.staus === 200) {
+    if (res.status === 200) {
       res = await res.json();
       dispatch({
         type: GET_CART_ITEM_LOADING,
@@ -972,6 +975,53 @@ export const handleConsumerOrder = data => async dispatch => {
   });
 };
 
+export const getOrder = token => async dispatch => {
+  try {
+    dispatch({
+      type: ORDER_LOADING,
+      payload: true,
+    });
+    console.log('token hai', token);
+    let res = await Fetch.get('/api/orders/consumer/myorders', token);
+    if (res.status === 200) {
+      res = await res.json();
+      console.log('yahn pr a gaya hoon', res);
+      dispatch({
+        type: ORDER_LOADING,
+        payload: false,
+      });
+      dispatch({
+        type: ORDER,
+        payload: res,
+      });
+      showMessage({
+        message: 'Active Orders get successfully',
+        type: 'success',
+      });
+    } else {
+      if (res.status === 404) {
+        throw new Error('Item not found');
+      }
+    }
+    dispatch({
+      type: ORDER_LOADING,
+      payload: false,
+    });
+  } catch (error) {
+    dispatch({
+      type: ORDER_LOADING,
+      payload: false,
+    });
+    dispatch({
+      type: ORDER_Error,
+      payload: error,
+    });
+    showMessage({
+      message: 'Something went wrong',
+      type: 'danger',
+    });
+  }
+};
 export const postOrder = (data, token) => async dispatch => {
   // /api/orders/
   try {
@@ -983,6 +1033,7 @@ export const postOrder = (data, token) => async dispatch => {
         message: 'Order Place successfully',
         type: 'success',
       });
+      dispatch(getOrder(token));
       return res;
     } else {
       const { message } = await res.json();

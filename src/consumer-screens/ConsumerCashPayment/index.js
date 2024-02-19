@@ -106,27 +106,16 @@ const ConsumerCashPayment = props => {
   };
 
   const handleOrder = () => {
+    console.log(consumerOrder.consumerMood === 'traveling');
     if (consumerOrder.consumerMood === 'traveling') {
       const order = {
         is_hosting: false,
         date: moment(Date.now()).format('YYYY-MM-DD'),
         booking_slot_id: consumerOrder.artistTimeSLot.id,
         booking_notes: name,
-        hostingspot_id: null,
-        address_id: null,
-        payment_method_id: null,
-        // "payment_method_id": "94b655ec-6e40-4b25-b323-0fa8dfc6d438"
       };
       dispatch(postOrder(order, token));
       setIsModalVisible(true);
-    } else {
-      // const order = {
-      //   is_hosting: false,
-      //   date: moment(Date.now()).format('YYYY-MM-DD'),
-      //   booking_slot_id: consumerOrder.artistTimeSLot.id,
-      //   // "payment_method_id": "94b655ec-6e40-4b25-b323-0fa8dfc6d438"
-      // };
-      // dispatch(postOrder(order, token));
     }
   };
   return (

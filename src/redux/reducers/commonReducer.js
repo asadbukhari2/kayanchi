@@ -43,6 +43,9 @@ const initialState = {
     artistId: '',
     note: '',
   },
+  order: null,
+  orderLoading: false,
+  orderError: null,
 };
 
 import {
@@ -76,6 +79,9 @@ import {
   GET_ARTIST_SLOTS_LOADING,
   GET_ARTIST_SLOTS_ERROR,
   CONSUMER_ORDER,
+  ORDER,
+  ORDER_LOADING,
+  ORDER_Error,
 } from '../constants/constants';
 
 const reducer = (state = initialState, action) => {
@@ -271,6 +277,21 @@ const reducer = (state = initialState, action) => {
         ...state,
         ...state.consumerOrder,
         consumerOrder: action.payload,
+      };
+    case ORDER:
+      return {
+        ...state,
+        order: action.payload,
+      };
+    case ORDER_LOADING:
+      return {
+        ...state,
+        orderLoading: action.payload,
+      };
+    case ORDER_Error:
+      return {
+        ...state,
+        orderError: action.payload,
       };
     case REMOVE_FROM_CART:
       return {

@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { color } from 'react-native-reanimated';
-import hosting from '../../../../assets/hosting_white.png';
-import travel from '../../../../assets/travel_white.png';
-import { handleConsumerOrder } from '../../../../redux/actions/commonActions';
+import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { handleConsumerOrder } from '../../../../redux/actions/commonActions';
+
 const HostAndTravel = ({ icon, title, status, key }) => {
-  const [type, setType] = useState(status);
   const consumerOrder = useSelector(state => state.common.consumerOrder);
-  console.log('this is the status in the host and travel', status, consumerOrder);
   const dispatch = useDispatch();
+
   const handleType = data => {
     let orderData = {
       ...consumerOrder,
@@ -18,13 +15,19 @@ const HostAndTravel = ({ icon, title, status, key }) => {
     dispatch(handleConsumerOrder(orderData));
   };
 
+  const isActive = consumerOrder.consumerMood === status;
+
   return (
-    <TouchableOpacity key={key} onPress={() => handleType(status)} style={[styles.container]}>
-      <Image style={[styles.icon]} source={icon} />
+    <TouchableOpacity
+      key={key}
+      onPress={() => handleType(status)}
+      style={[styles.container, isActive && styles.active]}>
+      <Image style={styles.icon} source={icon} />
       <Text style={[styles.width50, styles.title]}>{title}</Text>
     </TouchableOpacity>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     width: 170,
@@ -38,12 +41,6 @@ const styles = StyleSheet.create({
   },
   active: {
     backgroundColor: '#7c6083',
-  },
-  colorWhite: {
-    color: 'white',
-  },
-  bgGray: {
-    backgroundColor: 'gray',
   },
   icon: {
     width: 40,
@@ -60,4 +57,5 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
 });
+
 export default HostAndTravel;

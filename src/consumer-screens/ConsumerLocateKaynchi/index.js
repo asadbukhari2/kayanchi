@@ -13,6 +13,8 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import { TextInput } from '../../components';
 import googlemap from '../../assets/googlemap.png';
+import Geocoder from 'react-native-geocoding';
+import { saveAddress } from '../../redux/actions';
 
 const theme = useTheme();
 
@@ -30,6 +32,10 @@ const STATUS_RADIO = [
 const ConsumerLocateKaynchi = props => {
   const modalizeRef = useRef(null);
   const [name, setName] = useState('');
+  const [floor, setFloor] = useState('');
+  const [userLocation, setUserLocation] = useState(null);
+  const [address, setAddress] = useState('');
+
   const [searchKeyword, setSearchKeyword] = useState('');
   const [preferenceStatus, setPreferenceStatus] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
@@ -37,7 +43,16 @@ const ConsumerLocateKaynchi = props => {
   const onOpen = () => {
     modalizeRef.current?.open();
   };
-
+  const handleGeocode = async data => {
+    try {
+      const response = await Geocoder.from(data);
+      const { lat, lng } = response.results[0].geometry.location;
+      console.log('data', data);
+      setUserLocation({ latitude: lat, longitude: lng });
+    } catch (error) {
+      console.error('Error during geocoding:', error);
+    }
+  };
   const map_style = [
     {
       elementType: 'labels.icon',
@@ -48,7 +63,17 @@ const ConsumerLocateKaynchi = props => {
       ],
     },
   ];
-
+  const handleSaveConsumerAddress = () => {
+    console.log(floor, name);
+    // handleGeocode(floor + name);
+    const data = {
+      text: name + ' ' + floor,
+      city: 'Lahore',
+      country: 'Pakistan',
+      // ...userLocation,
+    };
+    saveAddress(data);
+  };
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <MapView
@@ -126,7 +151,7 @@ const ConsumerLocateKaynchi = props => {
         <View style={styles.separator}></View>
 
         <TextInput
-          input={text => setName(text)}
+          input={text => setFloor(text)}
           placeholder={'Floor/Unit#'}
           inputBoxStyle={{
             borderBottomColor: '#f3f0f3',
@@ -135,12 +160,13 @@ const ConsumerLocateKaynchi = props => {
             padding: 10,
             marginBottom: heightToDp(20),
           }}
+          value={floor}
           underlineColorAndroid="transparent"
           underlineColorIOS="transparent"
         />
       </View>
       <View style={styles.btn}>
-        <Button title="Save" />
+        <Button onPress={() => handleSaveConsumerAddress()} title="Save" />
       </View>
       <Modal
         coverScreen={false}

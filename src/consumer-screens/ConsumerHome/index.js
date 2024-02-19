@@ -17,15 +17,14 @@ const Massages = require('../../assets/SpaDark.png');
 const Botox = require('../../assets/TreatDark.png');
 const dummyHome = require('../../assets/dummyHome.png');
 const beauty_color = require('../../assets/beauty_color.png');
-const diamond_home = require('../../assets/diamond_home.png');
-const Mask_group = require('../../assets/Mask_group.png');
 const popular_image = require('../../assets/popular_image.png');
-const rose_gold = require('../../assets/rose_gold.png');
+const traveling = require('../../assets/travel_white.png');
+const hosting = require('../../assets/hosting_white.png');
 const moreImages = require('../../assets/moreImages.png');
-const googlemap = require('../../assets/googlemap.png');
 import LinearGradient from 'react-native-linear-gradient';
 
-import { getCartItems, getConsumerBrowse, getUserDiscoveries } from '../../redux/actions/commonActions';
+import { getCartItems, getConsumerBrowse, getOrder, getUserDiscoveries } from '../../redux/actions/commonActions';
+import moment from 'moment';
 const theme = useTheme();
 
 const DATA = [
@@ -51,24 +50,18 @@ const DATA = [
   },
 ];
 
-
-
 const ConsumerHome = props => {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [feedbackModalVisible2, setFeedbackModalVisible2] = useState(false);
   const [feedbackModalVisible3, setFeedbackModalVisible3] = useState(false);
   let consumerBrowse = useSelector(state => state.common.consumerBrowse);
+  let order = useSelector(state => state.common.order);
   let token = useSelector(state => state.auth.token);
-  console.log('auth ---- ', token);
+  console.log('this is the order', order);
   const dispatch = useDispatch();
   const [category, setCategory] = useState('');
-  useEffect(() => {
-    dispatch(getUserDiscoveries(token));
-    dispatch(getConsumerBrowse(token));
-    dispatch(getCartItems(token));
 
-  }, [token])
   // const dispatch = useDispatch();
   // dispatch(removeAllFromCart())
   // const getService = async () => {
@@ -148,19 +141,26 @@ const ConsumerHome = props => {
     console.log('clicked');
   };
   useEffect(() => {
+    dispatch(getUserDiscoveries(token));
+    dispatch(getConsumerBrowse(token));
+    dispatch(getCartItems(token));
+    dispatch(getOrder(token));
     console.log('props.route.params', props.route.params);
     const shouldShowFeedbackModal = props.route.params?.showFeedbackModal;
     console.log('showFeedbackModal:', shouldShowFeedbackModal);
     if (shouldShowFeedbackModal) {
       setModalVisible(true);
     }
-  }, [props.route.params]);
+  }, [props.route.params, token]);
 
   const renderOfferingItem = ({ item }) => (
     <TouchableOpacity
       onPress={() =>
         props.navigation.navigate('ConsumerHomeStack', {
           screen: 'ConsumerOrderConfirm',
+          params: {
+            orderId: item.id,
+          },
         })
       }>
       <View
@@ -189,12 +189,13 @@ const ConsumerHome = props => {
             }}>
             <Text
               style={{
-                color: item.preference === 'Travelling' ? theme.background : theme.darkBlack,
+                // color: item.is_hosting === false ? theme.background : 'white',
+                color: 'white',
                 fontFamily: fonts.robo_bold,
                 fontSize: heightToDp(5.1),
                 lineHeight: heightToDp(5.9),
               }}>
-              {item.orderNumber}
+              {item.id.slice(0, 6)}
             </Text>
             <View
               style={{
@@ -209,19 +210,31 @@ const ConsumerHome = props => {
                   fontSize: 14,
                   lineHeight: heightToDp(5),
                   // marginRight: 10,
-                  color: item.preference === 'Travelling' ? theme.background : theme.darkBlack,
+                  // color: item.is_hosting === false ? theme.background : theme.darkBlack,
+                  color: 'white',
                 }}>
-                {item.preference}
+                {item.is_hosting ? 'Hosting' : 'Traveling'}
               </Text>
-              <Image
-                source={item.icon}
-                style={{
-                  width: 16,
-
-                  height: 18,
-                  tintColor: item.preference === 'Travelling' ? 'white' : 'black',
-                }}
-              />
+              {item.is_hosting ? (
+                <Image
+                  source={hosting}
+                  style={{
+                    width: 16,
+                    height: 18,
+                    // tintColor: item.is_hosting === false ? 'white' : 'black',
+                    tintColor: 'white',
+                  }}
+                />
+              ) : (
+                <Image
+                  source={traveling}
+                  style={{
+                    width: 16,
+                    height: 18,
+                    tintColor: item.is_hosting === false ? 'white' : 'black',
+                  }}
+                />
+              )}
             </View>
           </View>
           <View
@@ -236,9 +249,9 @@ const ConsumerHome = props => {
                 fontSize: 14,
                 marginTop: 10,
                 lineHeight: heightToDp(4.3),
-                color: item.preference === 'Travelling' ? theme.background : theme.darkBlack,
+                color: item.is_hosting === false ? theme.background : theme.darkBlack,
               }}>
-              {item.address}
+              {item.address_id && 'Address'}
             </Text>
           </View>
           <View
@@ -253,16 +266,19 @@ const ConsumerHome = props => {
                 fontFamily: fonts.hk_medium,
                 fontSize: 14,
                 lineHeight: heightToDp(5),
-                color: item.preference === 'Travelling' ? theme.background : theme.darkBlack,
+                // color: item.is_hosting === false ? theme.background : theme.darkBlack,
+                color: 'white',
               }}>
-              {item.date}
+              {moment(item.createdAt).format('DD,MMMM,YYYY')}
             </Text>
             <Text
               style={{
                 fontFamily: fonts.hk_medium,
                 fontSize: 14,
                 lineHeight: heightToDp(5),
-                color: item.preference === 'Travelling' ? theme.background : theme.darkBlack,
+                // color: item.is_hosting === false ? theme.background : theme.darkBlack,
+                color: 'white',
+                marginLeft: 5,
               }}>
               {'7:30 - 8:30 AM'}
             </Text>
@@ -309,7 +325,7 @@ const ConsumerHome = props => {
           <Image source={require('../../assets/KAYNCHI.png')} style={styles.logo} />
           <Text style={styles.text}>Get 15% off</Text>
         </View>
-        {/* <View
+        <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -325,23 +341,21 @@ const ConsumerHome = props => {
         </View>
 
         <FlatList
-          data={ALL}
+          data={order?.Waiting}
           renderItem={renderOfferingItem}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item, index) => item.id}
           horizontal
-        /> */}
+        />
 
         <SearchBox
           value={searchKeyword}
           onPress={() => {
-
             props.navigation.navigate('ConsumerHomeStack', {
               screen: 'ConsumerSearch',
               params: {
                 category,
               },
             });
-
           }}
           placeholder={'Find your Artist, salon, or service…'}
           onSearch={() =>

@@ -7,10 +7,10 @@ import { heightToDp } from '../../utils/Dimensions';
 const theme = useTheme();
 
 const OrderServiceCard = props => {
-  const { serviceCount, serviceName, artistName, screen, distance } = props;
+  const { serviceCount, serviceName, artistName, screen, distance, total } = props;
 
   const [count, setCount] = useState(serviceCount);
-
+  console.log('serviceName', serviceName);
   const increment = () => {
     setCount(count + 1);
   };
@@ -23,13 +23,15 @@ const OrderServiceCard = props => {
   return (
     <View style={styles.container}>
       <View>
-        {screen == 'OrderConfirm' ? (
+        {screen === 'OrderConfirm' ? (
           <View>
             <Text style={styles.artistLabel}>ARTIST</Text>
             <Text style={styles.artistName}>{artistName}</Text>
-            <Text style={{ color: '#50A2E1' }}>
-              {distance} <Text style={{ color: '#67718C' }}>away from you</Text>
-            </Text>
+            {distance && (
+              <Text style={{ color: '#50A2E1' }}>
+                {distance} <Text style={{ color: '#67718C' }}>away from you</Text>
+              </Text>
+            )}
             <View
               style={{
                 flexDirection: 'row',
@@ -50,16 +52,19 @@ const OrderServiceCard = props => {
                   {'X'}
                 </Text>
                 <View style={{ flexDirection: 'column' }}>
-                  {serviceName.map((service, index) => (
-                    <Text key={index} style={styles.serviceName}>
-                      {service}
-                    </Text>
-                  ))}
+                  {serviceName.map((service, index) => {
+                    console.log('in the map of the service name', service.service_name);
+                    return (
+                      <Text key={index} style={styles.serviceName}>
+                        {service.service_name}
+                      </Text>
+                    );
+                  })}
                 </View>
               </View>
               <View>
                 <Text style={{ color: '#50A2E1', fontFamily: fonts.robo_med }}>Total amount inc travel</Text>
-                <Text style={{ fontSize: 24, fontFamily: fonts.hk_bold, color: '#84668C' }}>Rs 5,699 </Text>
+                <Text style={{ fontSize: 24, fontFamily: fonts.hk_bold, color: '#84668C' }}>Rs {total} </Text>
               </View>
             </View>
           </View>
@@ -67,7 +72,7 @@ const OrderServiceCard = props => {
           <Text style={styles.serviceName}>{serviceName}</Text>
         )}
       </View>
-      {!screen == 'OrderConfirm' && (
+      {!screen === 'OrderConfirm' && (
         <View>
           <Counter
             count={count}

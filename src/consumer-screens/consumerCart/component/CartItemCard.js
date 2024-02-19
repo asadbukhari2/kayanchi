@@ -19,8 +19,8 @@ const CartItemCard = ({ data }) => {
     <View style={[styles.container, styles.flex, styles.directionRow, styles.justifyBetween]}>
       <View>
         <Text style={[styles.heading]}>{data.service_name}</Text>
-        <Text style={[styles.subText]}>{data.service_time}</Text>
-        <Text style={[styles.colorBlue]}>Rs{data.quantity * data.price}</Text>
+        <Text style={[styles.subText]}>{data.service_time} min</Text>
+        <Text style={[styles.colorBlue]}>Rs {data.quantity * data.price}</Text>
       </View>
       <View>
         <View
