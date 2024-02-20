@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { Modal, View, Text, TouchableOpacity, Image, StyleSheet, ScrollView } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import MultiButton from '../MultiButton';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
@@ -7,7 +7,11 @@ import { fonts } from '../../utils/theme';
 const LocationAway = require('../../assets/LocationAway.png');
 const beauty_color = require('../../assets/beauty_color.png');
 import { useNavigation } from '@react-navigation/native';
-const hair1 = require('../../assets/hair.png');
+const Hair = require('../../assets/hair.png');
+const Face = require('../../assets/face.png');
+const Body = require('../../assets/body.png');
+const Treatment = require('../../assets/treatment.png');
+const spa = require('../../assets/spa.png');
 const DiscoverModal = ({
   visible,
   closeModal,
@@ -32,10 +36,10 @@ const DiscoverModal = ({
       },
     });
   };
-  console.log('this is the data in the discover modal ', data);
+  console.log('this is the data in the discover modal ', data, visible);
   return (
-    <Modal visible={visible} animationType="slide">
-      <View>
+    <Modal onRequestClose={closeModal} visible={visible} animationType="slide">
+      <ScrollView>
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={closeModal}
@@ -106,6 +110,7 @@ const DiscoverModal = ({
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
+            flexWrap: 'wrap',
           }}>
           {data ? (
             data.map((item, index) => (
@@ -118,8 +123,21 @@ const DiscoverModal = ({
                   paddingVertical: heightToDp(7),
                   paddingHorizontal: widthToDp(4),
                   borderRadius: 20,
+                  width: 100,
                 }}>
-                <Image source={hair1} style={{ width: 50, height: 50, resizeMode: 'contain' }} />
+                {item === 'Hair' ? (
+                  <Image source={Hair} style={{ width: 50, height: 50, resizeMode: 'contain' }} />
+                ) : item === 'Face' ? (
+                  <Image source={Face} style={{ width: 50, height: 50, resizeMode: 'contain' }} />
+                ) : item === 'Body' ? (
+                  <Image source={Body} style={{ width: 50, height: 50, resizeMode: 'contain' }} />
+                ) : item === 'Treatment' ? (
+                  <Image source={Treatment} style={{ width: 50, height: 50, resizeMode: 'contain' }} />
+                ) : item === 'Spa' ? (
+                  <Image source={spa} style={{ width: 50, height: 50, resizeMode: 'contain' }} />
+                ) : (
+                  <></>
+                )}
                 <Text style={{ color: 'white' }}>{item}</Text>
               </View>
             ))
@@ -155,7 +173,7 @@ const DiscoverModal = ({
             />
           </View>
         </View>
-      </View>
+      </ScrollView>
     </Modal>
   );
 };

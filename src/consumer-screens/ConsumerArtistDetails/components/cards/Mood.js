@@ -3,7 +3,7 @@ import { Image, Text, View } from 'react-native';
 import { styles } from '../styles/Mood.style';
 import travel_white from '../../../../assets/travel_white.png';
 import hosting_white from '../../../../assets/hosting_white.png';
-const Mood = ({ travel_mood, hosting_mood }) => {
+const Mood = ({ travel_mood, hosting_mood, name }) => {
   console.log('travel_mood, hosting_mood', travel_mood, hosting_mood);
   return (
     <View style={[styles.container]}>
@@ -31,7 +31,7 @@ const Mood = ({ travel_mood, hosting_mood }) => {
           ]}>
           Mood
         </Text>
-        <Text style={[styles.textLightGray, styles.textCenter]}>Narmeen will either visit or host you</Text>
+        <Text style={[styles.textLightGray, styles.textCenter]}>{name} will either visit or host you</Text>
       </View>
     </View>
   );

@@ -12,14 +12,15 @@ import {
 export const publishSimpleGig = (body, token, navigation, screen) => async dispatch => {
   dispatch({
     type: PUBLISH_GIG,
+    payload: true,
   });
 
   try {
     let res = await Fetch.postFormData('/api/service/user', body, token);
 
+    console.log('data challa gaya hai', res);
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
-
       dispatch({
         type: PUBLISH_GIG_SUCCESS,
         payload: res,
@@ -43,9 +44,17 @@ export const publishSimpleGig = (body, token, navigation, screen) => async dispa
         type: 'danger',
       });
     }
+    dispatch({
+      type: PUBLISH_GIG,
+      payload: false,
+    });
   } catch (error) {
     dispatch({
       type: PUBLISH_GIG_ERROR,
+    });
+    dispatch({
+      type: PUBLISH_GIG,
+      payload: false,
     });
     console.log('err', error);
   }

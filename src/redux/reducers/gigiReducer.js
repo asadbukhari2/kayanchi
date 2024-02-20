@@ -19,7 +19,7 @@ const reducer = (state = initialState, action) => {
     case PUBLISH_GIG:
       return {
         ...state,
-        loading: true,
+        loading: action.payload,
       };
     case PUBLISH_GIG_SUCCESS:
       return {

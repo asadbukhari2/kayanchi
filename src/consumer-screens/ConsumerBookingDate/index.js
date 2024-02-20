@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { fonts, useTheme } from '../../utils/theme';
@@ -25,11 +25,12 @@ const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Saturday'
 const ConsumerBookingDate = props => {
   const [timeSelected, setTimeSelected] = useState(null);
   const [slots, setSlots] = useState([]);
-  const [note, setNote] = useState('');
+  // const [note, setNote] = useState('');
   const consumerOrder = useSelector(state => state.common.consumerOrder);
   const dispatch = useDispatch();
   const artistBookingSlots = useSelector(state => state.common.artistBookingSlots);
   const handleSelectedSlot = date => {
+    console.log('this is the date', date);
     let day = moment(date).days();
     console.log(DAYS[day]);
     if (artistBookingSlots[DAYS[day]]) {
@@ -38,12 +39,16 @@ const ConsumerBookingDate = props => {
       setSlots([]);
     }
   };
+  useEffect(() => {
+    console.log('call hova hoon time slots main');
+    handleSelectedSlot(Date.now());
+  }, []);
   const handleOrder = () => {
     if (timeSelected) {
       let orderData = {
         ...consumerOrder,
         artistTimeSLot: timeSelected,
-        note: note,
+        // note: note,
       };
       dispatch(handleConsumerOrder(orderData));
       if (consumerOrder.consumerMood === 'hosting') {
@@ -104,7 +109,7 @@ const ConsumerBookingDate = props => {
             );
           }}
         />
-        <View style={styles.bookingHeader}>
+        {/* <View style={styles.bookingHeader}>
           <Text style={styles.note}>{'BOOKING NOTES:'}</Text>
           <Text style={styles.optional}>{'(Optional)'}</Text>
         </View>
@@ -114,7 +119,7 @@ const ConsumerBookingDate = props => {
           placeholder={'Please tell use anything that may assist with the order...'}
           inputMarginTop={{ marginTop: heightToDp(2.5) }}
           inputBoxStyle={styles.textInput}
-        />
+        /> */}
       </ScrollView>
       <Button
         title={'Continue'}

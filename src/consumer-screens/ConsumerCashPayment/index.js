@@ -116,6 +116,15 @@ const ConsumerCashPayment = props => {
       };
       dispatch(postOrder(order, token));
       setIsModalVisible(true);
+    } else {
+      const order = {
+        is_hosting: true,
+        date: moment(Date.now()).format('YYYY-MM-DD'),
+        booking_slot_id: consumerOrder.artistTimeSLot.id,
+        booking_notes: name,
+      };
+      dispatch(postOrder(order, token));
+      setIsModalVisible(true);
     }
   };
   return (
@@ -166,7 +175,7 @@ const ConsumerCashPayment = props => {
             <Text style={{ fontWeight: fonts.robo_reg, fontSize: 16, color: '#67718C' }}>{'Cash'}</Text>
             <View style={styles.switchContainer}>
               <ToggleSwitch
-                isOn={isPrivate}
+                isOn={true}
                 style={{ height: 20, marginRight: 10 }}
                 value={isPrivate}
                 onColor="#84668C"
@@ -183,17 +192,11 @@ const ConsumerCashPayment = props => {
               /> */}
             </View>
           </View>
-          <View style={[styles.SwitchContent, { marginTop: 10, marginBottom: 15 }]}>
+          {/* <View style={[styles.SwitchContent, { marginTop: 10, marginBottom: 15 }]}>
             <Text style={{ fontWeight: fonts.robo_reg, fontSize: 16, color: '#67718C' }}>{'Kayanchi Wallet'}</Text>
             <Text style={{ color: '#668C6A', fontFamily: fonts.hk_bold, fontSize: 16 }}>RS 5000</Text>
             <View style={styles.switchContainer}>
-              {/* <Switch
-                value={isPrivate}
-                onValueChange={handlePrivate}
-                thumbColor={isPrivate ? theme.primary : '#eee'}
-                trackColor={{false: 'grey', true: 'grey'}}
-                style={styles.switch}
-              /> */}
+              
               <ToggleSwitch
                 isOn={isPrivate}
                 style={{ height: 20, marginRight: 10 }}
@@ -204,9 +207,9 @@ const ConsumerCashPayment = props => {
                 onToggle={handlePrivate}
               />
             </View>
-          </View>
+          </View> */}
 
-          {paymentMethod.map((payment, index) => (
+          {/* {paymentMethod.map((payment, index) => (
             <View key={index}>
               <View style={styles.checkboxContainer}>
                 <CheckBox
@@ -254,7 +257,7 @@ const ConsumerCashPayment = props => {
                 </View>
               )}
             </View>
-          ))}
+          ))} */}
         </View>
         <Text
           style={{

@@ -58,7 +58,7 @@ const ArtistOnBoarding = () => {
   const [selectedItem, setSelectedItem] = React.useState(slides[0]);
 
   const myFlatList = useRef(null);
-  const styles = makeStyle(theme)
+  const styles = makeStyle(theme);
   const addData = async () => {
     //   navigation.replace('MainStack');
   };
@@ -175,5 +175,3 @@ const ArtistOnBoarding = () => {
 };
 
 export default ArtistOnBoarding;
-
-

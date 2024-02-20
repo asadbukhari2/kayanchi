@@ -21,8 +21,6 @@ import {
   GET_CONSUMER_BROWSE,
   GET_CONSUMER_BROWSE_DATA,
   GET_CONSUMER_BROWSE_ERROR,
-  ADD_TO_CART,
-  REMOVE_FROM_CART,
   ADD_TO_CART_LOADING,
   ADD_TO_CART_ERROR,
   GET_CART_ITEM,
@@ -188,7 +186,7 @@ export const getSavedAddresses = async token => {
     let res = await Fetch.get('/api/address/myaddress', token);
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
-
+      console.log('api response address', res);
       return res;
     } else {
       const { message } = await res.json();
@@ -876,6 +874,7 @@ export const getCartItems = token => async dispatch => {
   }
 };
 export const addToCart = (data, token) => async dispatch => {
+  console.log('cart main aya aur data', data);
   try {
     dispatch({
       type: ADD_TO_CART_LOADING,

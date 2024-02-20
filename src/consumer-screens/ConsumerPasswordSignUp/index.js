@@ -196,10 +196,11 @@ const styles = StyleSheet.create({
   },
   genView: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     width: width * 0.91,
     alignSelf: 'center',
     marginTop: heightToDp(4.5),
+    // gap: 5,
   },
   genBtn: {
     width: widthToDp(27.5),
@@ -207,6 +208,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 24,
+    marginRight: 10,
   },
 
   pickerOuterView: {

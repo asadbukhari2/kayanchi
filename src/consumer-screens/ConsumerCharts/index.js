@@ -60,7 +60,7 @@ const DATA = [
     screen: 'ConsumerGigGlowMakeup',
   },
 ];
-
+// navigate('ConsumerHomeStack', { screen: ConsumerGigDetailHair })}
 const ConsumerCharts = props => {
   const renderItem = ({ item }) => (
     <TouchableOpacity onPress={() => props.navigation.navigate('ConsumerHomeStack', { screen: item.screen })}>

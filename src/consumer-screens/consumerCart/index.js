@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, Image, ScrollView, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -10,6 +10,7 @@ import OffersCard from './component/OffersCard';
 import face_promo from '../../assets/face_promo.png';
 import girl_hair from '../../assets/girl_hair.png';
 import { useSelector } from 'react-redux';
+import { getSavedAddresses } from '../../redux/actions/commonActions';
 
 const DATA = [
   {
@@ -28,8 +29,19 @@ const DATA = [
 const ConsumerCart = () => {
   const navigation = useNavigation();
   const artistServices = useSelector(state => state.common.artistServices);
+  const [address, setAddress] = useState(null);
   const consumerOrder = useSelector(state => state.common.consumerOrder);
-
+  let token = useSelector(state => state.auth.token);
+  const getAddress = async () => {
+    try {
+      const add = await getSavedAddresses(token);
+      setAddress(add[0].address);
+    } catch (error) {}
+  };
+  useEffect(() => {
+    getAddress();
+    console.log('this is the address', address);
+  }, []);
   const handleOrderProceed = () => {
     console.log(artistServices.availability, artistServices.hosting_mood, consumerOrder.consumerMood);
     if (
@@ -70,8 +82,9 @@ const ConsumerCart = () => {
       });
     }
   };
+  console.log('address', address);
   return (
-    <ScrollView style={[styles.container]}>
+    <ScrollView contentContainerStyle={{ padding: 15 }} style={[styles.container]}>
       <View>
         <Header backBtn />
       </View>
@@ -82,9 +95,12 @@ const ConsumerCart = () => {
         <Text style={[styles.colorLightGray, styles.marginVertical8]}>Hosting Address</Text>
       </View>
       <View style={[styles.flex, styles.directionRow, styles.alignCenter, styles.justifyBetween]}>
-        <Text style={[styles.width50, styles.colorBlue]}>
-          House A9, Lane 14-C, Main Mina Bazzar Commercial, Block 6, Karachi
-        </Text>
+        {address ? (
+          <Text
+            style={[styles.width50, styles.colorBlue]}>{`${address?.text} ${address.city} ,${address.country}`}</Text>
+        ) : (
+          <View />
+        )}
         <Image style={[styles.icon]} source={hostborwn} />
       </View>
       <View>
@@ -93,17 +109,21 @@ const ConsumerCart = () => {
       <View style={[styles.paddingHorizontal20, styles.marginVertical10]}>
         <Text style={[styles.colorBlue]}>+Add more services</Text>
       </View>
-      <View>
-        <Text style={[styles.heading]}>{artistServices?.artist} is also offering</Text>
-      </View>
-      <View>
-        <FlatList
-          horizontal
-          data={DATA}
-          renderItem={({ item }) => <OffersCard {...item} />}
-          keyExtractor={item => item.id}
-        />
-      </View>
+      {artistServices['promotional services'] && (
+        <>
+          <View>
+            <Text style={[styles.heading]}>{artistServices?.artist} is also offering</Text>
+          </View>
+          <View>
+            <FlatList
+              horizontal
+              data={DATA}
+              renderItem={({ item }) => <OffersCard {...item} />}
+              keyExtractor={item => item.id}
+            />
+          </View>
+        </>
+      )}
       <View style={[styles.marginVertical10]}>
         <Button onPress={() => handleOrderProceed()} title="Proced to order" />
       </View>

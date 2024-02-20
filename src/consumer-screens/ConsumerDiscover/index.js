@@ -41,16 +41,21 @@ const ConsumerDisocver = props => {
   const [dynamicData, setDynamicData] = useState([]);
   const artistDiscovires = useSelector(state => state.common.artistDiscovires);
   const studiosDiscovires = useSelector(state => state.common.studiosDiscovires);
-
+  console.log('dynamicData[clickedIndex]', dynamicData[clickedIndex]);
   const openModal = (index, artistType) => {
     setClickedIndex(index);
-    if (artistType === 'Beautician') {
-      setArtistModalVisible(true);
-      setStudioModalVisible(false);
-    } else {
-      setArtistModalVisible(false);
-      setStudioModalVisible(true);
-    }
+    // if (artistType === 'Beautician') {
+    //   setStudioModalVisible(false);
+    //   setArtistModalVisible(true);
+    //   console.log('beautician');
+    // } else {
+    //   setArtistModalVisible(true);
+    //   // setStudioModalVisible(true);
+    //   console.log('else');
+    // }
+    // setStudioModalVisible(false);
+    setStudioModalVisible(true);
+    console.log('studioModalVisible', studioModalVisible);
   };
   useEffect(() => {
     // if filter type equal to the artist then set the data to artist else studio
@@ -60,6 +65,7 @@ const ConsumerDisocver = props => {
       setDynamicData(studiosDiscovires);
     }
   }, [artistDiscovires, studiosDiscovires, filter]);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 90 }}>
@@ -121,11 +127,7 @@ const ConsumerDisocver = props => {
           profession={dynamicData[clickedIndex]?.title}
           experience=" New Studio"
           knownFor="Known for something"
-          additionalInfo={
-            dynamicData[clickedIndex]?.bio
-              ? dynamicData[clickedIndex]?.bio
-              : 'Welcome to Serene Wellness Clinic, Pakistan’s premier destination for face and skin treatments. We make sure you achieve natural well-being.'
-          }
+          additionalInfo={dynamicData[clickedIndex]?.bio ? dynamicData[clickedIndex]?.bio : ''}
           navigation={props.navigation}
           distance={dynamicData[clickedIndex]?.distance}
           dollars={
@@ -144,6 +146,7 @@ const ConsumerDisocver = props => {
           <TouchableOpacity
             key={index}
             onPress={() => {
+              console.log('open modal');
               openModal(index, item.artistType);
             }}>
             <ImageBackground source={clinic_image} resizeMode="cover" style={styles.backgroundImage}>

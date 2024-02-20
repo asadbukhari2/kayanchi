@@ -16,7 +16,7 @@ import makeStyle from './artistOrders.style';
 const theme = useTheme();
 
 const ArtistOrders = () => {
-  const styles = makeStyle(theme)
+  const styles = makeStyle(theme);
   const [filter, setFilter] = useState('');
   const [activeTab, setActiveTab] = useState('new');
   const [newOrders, setNewOrders] = useState([]);
@@ -65,16 +65,16 @@ const ArtistOrders = () => {
       isMounted = false;
     };
   }, [activeTab, filter]);
-  const convertObjectsOfArrayToArray = (data) => {
+  const convertObjectsOfArrayToArray = data => {
     const keys = Object.keys(data);
     console.log('this is the keys in the data', keys);
     let newArray = keys.map(key => {
-      return data[key]
-    })
+      return data[key];
+    });
     // Flatten the array of arrays into a single array
     const flatArray = newArray.flat();
     return flatArray;
-  }
+  };
   const handleTabChange = tab => {
     setActiveTab(tab);
     setFilter('');
@@ -164,11 +164,13 @@ const ArtistOrders = () => {
           </TouchableOpacity>
         </View>
         <View>
-          {filter.length > 0 ? displayedOrders[filter]?.map((order, index) => (
-            <ListingCardButton key={index} order={order} navigation={navigation} />
-          )) : convertObjectsOfArrayToArray(displayedOrders)?.map((order, index) => (
-            <ListingCardButton key={index} order={order} navigation={navigation} />
-          ))}
+          {filter.length > 0
+            ? displayedOrders[filter]?.map((order, index) => (
+                <ListingCardButton key={index} order={order} navigation={navigation} />
+              ))
+            : convertObjectsOfArrayToArray(displayedOrders)?.map((order, index) => (
+                <ListingCardButton key={index} order={order} navigation={navigation} />
+              ))}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -176,5 +178,3 @@ const ArtistOrders = () => {
 };
 
 export default ArtistOrders;
-
-

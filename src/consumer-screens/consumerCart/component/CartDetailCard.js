@@ -3,11 +3,12 @@ import { ScrollView, Text, View } from 'react-native';
 import { styles } from './styles/CartDetailCard.style';
 import CartItemCard from './CartItemCard';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
 const CartDetailCard = () => {
   const cart = useSelector(state => state.common.cart);
   const { artistTimeSLot } = useSelector(state => state.common.consumerOrder);
   const artistServices = useSelector(state => state.common.artistServices);
-  console.log('artistServicesartistServicesartistServices', artistServices);
+  console.log('artistTimeSLot', artistTimeSLot);
   const calculateTotalCart = data => {
     let sum = 0;
     for (let i = 0; i < data.length; i++) {
@@ -28,7 +29,7 @@ const CartDetailCard = () => {
         {artistTimeSLot && (
           <View style={[styles.marginTop5, styles.paddingHorizontal10]}>
             <Text style={[styles.heading]}>Appointment Date & Time</Text>
-            <Text style={[styles.subText]}>26th, April, 2023</Text>
+            <Text style={[styles.subText]}>{moment(Date.now()).format('DD, MMMM, YYYY')}</Text>
             <Text style={[styles.subText]}>
               {artistTimeSLot.start_time} - {artistTimeSLot.end_time}
             </Text>

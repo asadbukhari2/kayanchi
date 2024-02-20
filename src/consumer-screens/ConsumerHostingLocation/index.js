@@ -30,8 +30,8 @@ const ConsumerHostingLocation = props => {
       };
       dispatch(handleConsumerOrder(orderData));
       // ConsumerPaymentMethods;
-      navigation.navigate('ConsumerOrderStack', {
-        screen: 'ConsumerHostCashPayment',
+      props.navigation.navigate('ConsumerOrderStack', {
+        screen: 'ConsumerOrderSummary',
       });
     }
   };

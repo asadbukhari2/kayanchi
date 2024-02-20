@@ -59,24 +59,22 @@ const ConsumerArtistDetails = props => {
   const cart = useSelector(state => state.common.cart);
   const artistServices = useSelector(state => state.common.artistServices);
   const token = useSelector(state => state.auth.token);
-  const consumerOrder = useSelector(state => state.common.consumerOrder);
   const [openModal, setOpenModal] = useState(false);
   const [navCategory, setNavCategory] = useState('Hair');
   const [serviceData, setServiceData] = useState([]);
+  console.log('artistServices', artistServices);
   const handleCLoseModal = () => {
     setOpenModal(false);
+  };
+  const handleOpenModal = () => {
+    setOpenModal(true);
   };
   useEffect(() => {
     dispatch(getServices(id));
     dispatch(getArtistBookingSlot(id, token));
   }, [id]);
-  console.log(id);
-  useEffect(() => {
-    setOpenModal(prev => !prev);
-    return () => {
-      handleCLoseModal();
-    };
-  }, [consumerOrder]);
+  console.log('serviceData', serviceData);
+
   useEffect(() => {
     handleCategoryFilter(artistServices);
   }, [navCategory]);
@@ -129,7 +127,11 @@ const ConsumerArtistDetails = props => {
             styles.paddingHorizontal0,
           ]}>
           <AvailablityStatus status={artistServices?.availability} name={artistServices?.artist} />
-          <Mood travel_mood={artistServices?.travel_mood} hosting_mood={artistServices?.hosting_mood} />
+          <Mood
+            name={artistServices.artist}
+            travel_mood={artistServices?.travel_mood}
+            hosting_mood={artistServices?.hosting_mood}
+          />
           <Socials
             followers={artistServices?.followers}
             rating_count={artistServices?.rating_count}
@@ -159,7 +161,13 @@ const ConsumerArtistDetails = props => {
           <View style={[styles.paddingleftl0]}>
             <FlatList
               data={serviceData}
-              renderItem={({ item }) => <ServiceDetiailCard {...item} />}
+              renderItem={({ item }) => (
+                <ServiceDetiailCard
+                  {...item}
+                  travel_mood={artistServices?.travel_mood}
+                  hosting_mood={artistServices?.hosting_mood}
+                />
+              )}
               keyExtractor={item => item.id}
             />
             <Text>{serviceData.length <= 0 && `No record found`}</Text>
@@ -168,11 +176,7 @@ const ConsumerArtistDetails = props => {
         <TouchableOpacity style={[styles.marginTop30]}>
           {cart.cart_items.length > 0 ? (
             <Button
-              onPress={() =>
-                navigation.navigate('ConsumerHomeStack', {
-                  screen: 'ConsumerCart',
-                })
-              }
+              onPress={() => handleOpenModal()}
               title={`View your cart Rs ${calculateCartTotal(cart.cart_items)}`}
             />
           ) : (
@@ -213,7 +217,15 @@ const ConsumerArtistDetails = props => {
               return <HostAndTravel {...item} key={item.id} />;
             })}
           </View>
-          <Button onPress={() => handleCLoseModal()} title="Add to cart" />
+          <Button
+            onPress={() => {
+              handleCLoseModal();
+              navigation.navigate('ConsumerHomeStack', {
+                screen: 'ConsumerCart',
+              });
+            }}
+            title="Add to cart"
+          />
         </View>
       </Modal>
     </SafeAreaView>

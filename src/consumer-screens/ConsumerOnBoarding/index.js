@@ -1,17 +1,14 @@
 import React, { useRef } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { fonts, useTheme } from '../../utils/theme';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { Button, Header } from '../../components';
-import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
+import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { useDispatch, useSelector } from 'react-redux';
-import { showMessage } from 'react-native-flash-message';
-import { saveUserData } from '../../redux/actions';
-import Icon from 'react-native-vector-icons/FontAwesome';
+
 import MultiButton from '../../components/MultiButton';
 import LocationTracking from '../../assets/Location_tracking.png';
-import Finance_leaders from '../../assets/Finance_leaders.png';
 
 const theme = useTheme();
 
@@ -59,8 +56,8 @@ const ConsumerOnBoarding = props => {
   console.log('this is the data', route.params);
   const dispatch = useDispatch();
   const myFlatList = useRef(null);
-  const token = useSelector(state => state?.auth?.userDetails?.token)
-  const token2 = useSelector(state => state?.auth?.token)
+  const token = useSelector(state => state?.auth?.userDetails?.token);
+  const token2 = useSelector(state => state?.auth?.token);
   console.log('this is the token', token, token2);
   const addData = async () => {
     // navigation.replace('ConsumerHomeStack');
@@ -86,7 +83,7 @@ const ConsumerOnBoarding = props => {
 
           <Text style={styles.title}>{item.title}</Text>
           <Text style={styles.txt}>{item.text}</Text>
-          {item.key == 1 && (
+          {item.key === 1 && (
             <View style={[styles.indicatorView, { marginVertical: 15 }]}>
               <View style={styles.row}>
                 <MultiButton title={'On-Demand'} btnStyle={{ backgroundColor: '#a77246' }} image={ondemand} disable />
@@ -136,12 +133,15 @@ const ConsumerOnBoarding = props => {
         dotStyle={{ height: 0, width: 0 }}
         // renderNextButton={() => <Button title={'Next'} disable />}
         renderDoneButton={() => (
-          <Button title={'Go to home'} onPress={() => {
-            dispatch({
-              type: 'SIGN_UP_SUCCESS_TOKEN_SET'
-            })
-            // props.navigation.navigate('ConsumerHome')
-          }} />
+          <Button
+            title={'Go to home'}
+            onPress={() => {
+              dispatch({
+                type: 'SIGN_UP_SUCCESS_TOKEN_SET',
+              });
+              // props.navigation.navigate('ConsumerHome')
+            }}
+          />
         )}
         data={slides}
         onDone={addData}

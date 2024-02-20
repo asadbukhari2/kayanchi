@@ -23,7 +23,13 @@ const hosting = require('../../assets/hosting_white.png');
 const moreImages = require('../../assets/moreImages.png');
 import LinearGradient from 'react-native-linear-gradient';
 
-import { getCartItems, getConsumerBrowse, getOrder, getUserDiscoveries } from '../../redux/actions/commonActions';
+import {
+  getCartItems,
+  getConsumerBrowse,
+  getOrder,
+  getSavedAddresses,
+  getUserDiscoveries,
+} from '../../redux/actions/commonActions';
 import moment from 'moment';
 const theme = useTheme();
 

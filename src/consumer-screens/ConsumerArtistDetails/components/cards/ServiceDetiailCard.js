@@ -5,6 +5,8 @@ import plus from '../../../../assets/plus.png';
 import minus from '../../../../assets/minus.png';
 import travelIcon from '../../../../assets/travel_brown.png';
 import hostingIcon from '../../../../assets/hosting_brown.png';
+import { useNavigation } from '@react-navigation/native';
+
 import { styles } from '../styles/ServiceDetiailCard.style';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, handleConsumerOrder } from '../../../../redux/actions/commonActions';
@@ -12,8 +14,9 @@ import { addToCart, handleConsumerOrder } from '../../../../redux/actions/common
 import { Button } from '../../../../components';
 import moment from 'moment';
 const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-const ServiceDetiailCard = ({ id, name, discount_percentage, amount, discounted_price, is_travelling, is_hosting }) => {
+const ServiceDetiailCard = ({ id, name, discount_percentage, amount, discounted_price, travel_mood, hosting_mood }) => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   let today = moment(Date.now()).day();
 
@@ -119,9 +122,16 @@ const ServiceDetiailCard = ({ id, name, discount_percentage, amount, discounted_
           <Text style={[styles.colorGray]}>Takes 40 min</Text>
         </View>
         <View style={[styles.flex, styles.flexDirectionRow, styles.justifyBetween, styles.alignItemCenter]}>
-          {is_travelling && <Image style={[styles.icons, styles.marginLeft10]} source={travelIcon} />}
-          {is_hosting && <Image style={[styles.icons, styles.marginLeft10]} source={hostingIcon} />}
-          <Text style={[styles.marginLeft10, styles.link]}>View</Text>
+          {travel_mood && <Image style={[styles.icons, styles.marginLeft10]} source={travelIcon} />}
+          {hosting_mood && <Image style={[styles.icons, styles.marginLeft10]} source={hostingIcon} />}
+          <TouchableOpacity
+            onPress={() => {
+              console.log('service id', id);
+              navigation.navigate('ConsumerHomeStack', { screen: 'ConsumerGigDetailHair' });
+            }}
+            style={[styles.marginLeft10, styles.link]}>
+            <Text>View</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
