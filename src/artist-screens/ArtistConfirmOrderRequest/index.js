@@ -22,9 +22,9 @@ const theme = useTheme();
 export default function ArtistConfirmOrderRequest(props) {
   const [isPrivate, setIsPrivate] = useState(false);
   const [selectedTime, setSelectedTime] = useState(null);
-  const styles = makeStyle(theme)
+  const styles = makeStyle(theme);
   const order = props.route.params;
-
+  console.log('this is the order', order);
   const CancelHandler = () => {
     rejectOrder(order.order.id)
       .then(res => {
@@ -54,7 +54,7 @@ export default function ArtistConfirmOrderRequest(props) {
 
   const handleAcceptOrder = () => {
     const data = { free_travel: isPrivate, timeToReach: selectedTime };
-
+    console.log('order accept');
     if (!selectedTime) {
       showMessage({ message: 'Data Must not be empty', type: 'warning' });
     } else {
@@ -201,5 +201,3 @@ export default function ArtistConfirmOrderRequest(props) {
     </SafeAreaView>
   );
 }
-
-

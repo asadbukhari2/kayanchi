@@ -153,7 +153,22 @@ export const getServices = (id, token) => async dispatch => {
     throw new Error(message ?? 'Something went wrong');
   }
 };
-
+export const getServiceById = (id, token) => async dispatch => {
+  console.log('callinggetServiceById', id);
+  try {
+    let res = await Fetch.get(`/api/service/${id}`, token);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      console.log('this is the response in the get services data', res);
+      return res;
+    }
+  } catch (error) {
+    showMessage({
+      message: 'smoething went wrong',
+      type: 'danger',
+    });
+  }
+};
 export const getPortfolio = token => async dispatch => {
   try {
     let res = await Fetch.get('/api/portfolio/myportfolio/', token);
@@ -924,19 +939,20 @@ export const addToCart = (data, token) => async dispatch => {
   }
 };
 export const removeFromCart = (data, token) => async dispatch => {
+  console.log('cart data', token);
   try {
     dispatch({
       type: GET_CART_ITEM_LOADING,
       payload: true,
     });
-    let res = await Fetch.delete(`/api/cartItem/${data.id}`, token);
-    console.log('this is the response form the removeFromCart', res);
+    let res = await Fetch.put(`/api/cartItem/dec/${data.id}`, token);
     if (res.status === 200) {
       res = await res.json();
       dispatch({
         type: GET_CART_ITEM_LOADING,
         payload: false,
       });
+      console.log('this is the response form the removeFromCart', res);
       dispatch(getCartItems(token));
       showMessage({
         message: 'Item remove successfully',
@@ -1022,7 +1038,7 @@ export const getOrder = token => async dispatch => {
   }
 };
 export const postOrder = (data, token) => async dispatch => {
-  // /api/orders/
+  console.log('this is the data in the order', data);
   try {
     let res = await Fetch.post('/api/orders/', data, token);
     console.log('this is the response in the post order', res);

@@ -46,7 +46,7 @@ const ConsumerOrderConfirm = props => {
       <Header backBtnGrey />
       {orderById && (
         <View>
-          <Text style={[styles.title, { fontFamily: fonts.hk_bold }]}>{'Order confirmed #334758'}</Text>
+          <Text style={[styles.title, { fontFamily: fonts.hk_bold }]}>{`Order confirmed ${id.slice(0, 6)}`}</Text>
           {orderById?.createdAt && (
             <Text style={[styles.titleTxt, { marginTop: 24 }]}>
               {moment(orderById?.createdAt).format('DD MMMM,YYYY')}

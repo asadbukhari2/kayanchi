@@ -12,7 +12,7 @@ const theme = useTheme();
 
 const ListingCardButton = ({ order, onPress, type, navigation }) => {
   const dispatch = useDispatch();
-
+  console.log('this is the order detail', order);
   const activeOrderHandler = () => {
     navigation.navigate('ArtistOrderStack', {
       screen: 'ArtistConfirmOrderRequest',

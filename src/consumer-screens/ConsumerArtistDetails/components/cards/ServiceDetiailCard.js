@@ -9,12 +9,19 @@ import { useNavigation } from '@react-navigation/native';
 
 import { styles } from '../styles/ServiceDetiailCard.style';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart, handleConsumerOrder } from '../../../../redux/actions/commonActions';
-
-import { Button } from '../../../../components';
+import { addToCart, handleConsumerOrder, removeFromCart } from '../../../../redux/actions/commonActions';
 import moment from 'moment';
 const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-const ServiceDetiailCard = ({ id, name, discount_percentage, amount, discounted_price, travel_mood, hosting_mood }) => {
+const ServiceDetiailCard = ({
+  id,
+  name,
+  discount_percentage,
+  amount,
+  discounted_price,
+  duration,
+  travel_mood,
+  hosting_mood,
+}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -26,8 +33,6 @@ const ServiceDetiailCard = ({ id, name, discount_percentage, amount, discounted_
 
   const [cardCartItem, setCardCartItem] = useState({});
   const cart = useSelector(state => state.common.cart);
-  console.log('cardCartItem?.quantity', cardCartItem?.quantity);
-  console.log('this is the cart-----------)(', cart);
   const calculateCartItem = (idItem, cartItem) => {
     if (cartItem) {
       return cartItem.filter(item => item.service_id === idItem)[0];
@@ -38,15 +43,12 @@ const ServiceDetiailCard = ({ id, name, discount_percentage, amount, discounted_
     selectActiveBookingSLot(artistBookingSlots, DAYS[today]);
   }, []);
   const selectActiveBookingSLot = (slots, day) => {
-    console.log('calling selectActiveBookingSLot');
-    console.log('this is the day', day);
     const keys = Object.keys(slots);
     if (keys.length > 0) {
       for (let i = 0; i < keys.length; i++) {
         const element = keys[i];
         if (slots[element].length > 0) {
           // if (element === day) {
-          console.log('element, slots[element]', element, slots[element]);
           return slots[element][0];
           // }
         }
@@ -54,8 +56,7 @@ const ServiceDetiailCard = ({ id, name, discount_percentage, amount, discounted_
     }
     return [];
   };
-  function handleAddToCart() {
-    console.log('handleadd to the cart press');
+  const handleAddToCart = () => {
     const cartData = {
       quantity: 1,
       service_id: id,
@@ -69,7 +70,13 @@ const ServiceDetiailCard = ({ id, name, discount_percentage, amount, discounted_
       };
       dispatch(handleConsumerOrder(orderData));
     }
-  }
+  };
+  const handleRemoveFromCart = () => {
+    const cartData = {
+      id,
+    };
+    dispatch(removeFromCart(cartData, token));
+  };
   useEffect(() => {
     setCardCartItem(calculateCartItem(id, cart.cart_items));
   }, [cart]);
@@ -97,9 +104,9 @@ const ServiceDetiailCard = ({ id, name, discount_percentage, amount, discounted_
         </View>
         <View style={[styles.flex, styles.flexDirectionRow, styles.alignItemCenter]}>
           {cardCartItem?.id?.length > 0 && (
-            <View style={[styles.plusBtnContainer]}>
+            <TouchableOpacity onPress={() => handleRemoveFromCart()} style={[styles.plusBtnContainer]}>
               <Image style={[styles.plusIcon]} source={minus} />
-            </View>
+            </TouchableOpacity>
           )}
 
           {cart?.cart_items?.length > 0 && (
@@ -119,15 +126,17 @@ const ServiceDetiailCard = ({ id, name, discount_percentage, amount, discounted_
       </View>
       <View style={[styles.flex, styles.flexDirectionRow, styles.justifyBetween, styles.alignItemCenter]}>
         <View>
-          <Text style={[styles.colorGray]}>Takes 40 min</Text>
+          <Text style={[styles.colorGray]}>Takes {duration} min</Text>
         </View>
         <View style={[styles.flex, styles.flexDirectionRow, styles.justifyBetween, styles.alignItemCenter]}>
           {travel_mood && <Image style={[styles.icons, styles.marginLeft10]} source={travelIcon} />}
           {hosting_mood && <Image style={[styles.icons, styles.marginLeft10]} source={hostingIcon} />}
           <TouchableOpacity
             onPress={() => {
-              console.log('service id', id);
-              navigation.navigate('ConsumerHomeStack', { screen: 'ConsumerGigDetailHair' });
+              navigation.navigate('ConsumerHomeStack', {
+                screen: 'ConsumerGigDetailHair',
+                params: { id },
+              });
             }}
             style={[styles.marginLeft10, styles.link]}>
             <Text>View</Text>

@@ -5,10 +5,12 @@ import { heightToDp, widthToDp } from '../utils/Dimensions';
 import { fonts } from '../utils/theme';
 
 const host_green = require('../assets/host_green.png');
+const traveling = require('../assets/travelling.png');
 const car_brown = require('../assets/car_brown.png');
 const location = require('../assets/Path.png');
 
 const SimpleOrderCard = ({ order, onPress = () => {}, type, section }) => {
+  console.log('order?.order?.order_items', order?.order?.order_items);
   return (
     <View style={styles.orderContainer}>
       <TouchableOpacity onPress={onPress}>
@@ -64,20 +66,20 @@ const SimpleOrderCard = ({ order, onPress = () => {}, type, section }) => {
                 <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>
                   {order.order.is_hosting ? 'Is HOSTING' : 'Is TRAVELLING'}
                 </Text>
-                {order.order.order_availibity_status === 'On-Demand' ? (
-                  <Image source={car_brown} style={styles.OrderImage} />
-                ) : (
+                {order.order.is_hosting ? (
                   <Image source={host_green} style={styles.OrderImage} />
+                ) : (
+                  <Image source={traveling} style={styles.OrderImage} />
                 )}
               </View>
 
               {order.order.is_hosting ? (
                 <Text style={{ color: '#29AAE2' }}>
-                  {order.distance} kms <Text style={{ color: '#0F2851' }}>away for you </Text>
+                  {order.distance.text} kms <Text style={{ color: '#0F2851' }}>away for you </Text>
                 </Text>
               ) : (
                 <Text style={{ color: '#29AAE2' }}>
-                  Ariving in: <Text style={{ color: '#0F2851' }}>50 - 60mins</Text>
+                  Ariving in: <Text style={{ color: '#0F2851' }}>{order.estimated_time}mins</Text>
                 </Text>
               )}
 

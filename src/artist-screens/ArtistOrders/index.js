@@ -33,6 +33,8 @@ const ArtistOrders = () => {
     const focusHandler = navigation.addListener('focus', () => {
       dispatch(getMyOrders());
     });
+    setDisplayedOrders(newOrders);
+
     return focusHandler;
   }, [navigation]);
 

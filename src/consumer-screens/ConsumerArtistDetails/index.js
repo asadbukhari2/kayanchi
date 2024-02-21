@@ -62,7 +62,6 @@ const ConsumerArtistDetails = props => {
   const [openModal, setOpenModal] = useState(false);
   const [navCategory, setNavCategory] = useState('Hair');
   const [serviceData, setServiceData] = useState([]);
-  console.log('artistServices', artistServices);
   const handleCLoseModal = () => {
     setOpenModal(false);
   };
@@ -170,7 +169,7 @@ const ConsumerArtistDetails = props => {
               )}
               keyExtractor={item => item.id}
             />
-            <Text>{serviceData.length <= 0 && `No record found`}</Text>
+            <Text>{serviceData.length <= 0 && 'No record found'}</Text>
           </View>
         </View>
         <TouchableOpacity style={[styles.marginTop30]}>
@@ -180,7 +179,7 @@ const ConsumerArtistDetails = props => {
               title={`View your cart Rs ${calculateCartTotal(cart.cart_items)}`}
             />
           ) : (
-            <View></View>
+            <View />
           )}
         </TouchableOpacity>
       </ScrollView>
