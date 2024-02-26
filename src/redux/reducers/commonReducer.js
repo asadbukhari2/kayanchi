@@ -46,6 +46,9 @@ const initialState = {
   order: null,
   orderLoading: false,
   orderError: null,
+  orderById: null,
+  orderByIdLoading: false,
+  orderByIdError: null,
 };
 
 import {
@@ -82,6 +85,9 @@ import {
   ORDER,
   ORDER_LOADING,
   ORDER_Error,
+  ORDER_BY_ID,
+  ORDER_BY_ID_LOADING,
+  ORDER_BY_ID_ERROR,
 } from '../constants/constants';
 
 const reducer = (state = initialState, action) => {
@@ -233,7 +239,6 @@ const reducer = (state = initialState, action) => {
         cart: action.payload,
       };
     case GET_CART_ITEM_LOADING:
-      console.log('GET_CART_ITEM_LOADING', action.payload);
       return {
         ...state,
         cartLoading: action.payload,
@@ -253,10 +258,6 @@ const reducer = (state = initialState, action) => {
         ...state,
         addToCartError: action.payload,
       };
-    //     artistBookingSlots: null,
-    // artistBookingSlotsLoading: false,
-    // artistBookingSlotsError: null,
-    // consumerMood: '',
     case GET_ARTIST_SLOTS:
       return {
         ...state,
@@ -292,6 +293,22 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         orderError: action.payload,
+      };
+
+    case ORDER_BY_ID:
+      return {
+        ...state,
+        orderById: action.payload,
+      };
+    case ORDER_BY_ID_LOADING:
+      return {
+        ...state,
+        orderByIdLoading: action.payload,
+      };
+    case ORDER_BY_ID_ERROR:
+      return {
+        ...state,
+        orderByIdError: action.payload,
       };
     case REMOVE_FROM_CART:
       return {

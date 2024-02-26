@@ -79,3 +79,7 @@ export const CONSUMER_ORDER = 'CONSUMER_ORDER';
 export const ORDER = 'ORDER';
 export const ORDER_LOADING = 'ORDER_LOADING';
 export const ORDER_Error = 'ORDER_Error';
+
+export const ORDER_BY_ID = 'ORDER_BY_ID';
+export const ORDER_BY_ID_LOADING = 'ORDER_BY_ID_LOADING';
+export const ORDER_BY_ID_ERROR = 'ORDER_BY_ID_ERROR';

@@ -33,6 +33,8 @@ import {
   ORDER_LOADING,
   ORDER,
   ORDER_Error,
+  ORDER_BY_ID_LOADING,
+  ORDER_BY_ID,
 } from '../constants/constants';
 
 export const getCategory = () => async dispatch => {
@@ -1038,10 +1040,8 @@ export const getOrder = token => async dispatch => {
   }
 };
 export const postOrder = (data, token) => async dispatch => {
-  console.log('this is the data in the order', data);
   try {
     let res = await Fetch.post('/api/orders/', data, token);
-    console.log('this is the response in the post order', res);
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
       showMessage({
@@ -1064,5 +1064,32 @@ export const postOrder = (data, token) => async dispatch => {
       message: 'Something went wrong',
       type: 'danger',
     });
+  }
+};
+
+export const getConsumerOrder = (token, id) => async dispatch => {
+  dispatch({
+    type: ORDER_BY_ID_LOADING,
+    payload: true,
+  });
+  try {
+    let res = await Fetch.get(`/api/orders/${id}`, token);
+    if (res.status === 200) {
+      res = await res.json();
+      dispatch({
+        type: ORDER_BY_ID,
+        payload: res,
+      });
+    }
+    dispatch({
+      type: ORDER_BY_ID_LOADING,
+      payload: false,
+    });
+  } catch (error) {
+    dispatch({
+      type: ORDER_BY_ID_LOADING,
+      payload: false,
+    });
+    console.log('error in the get order by id', token, id);
   }
 };

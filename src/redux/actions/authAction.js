@@ -18,7 +18,7 @@ import {
 import { showMessage } from 'react-native-flash-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import API, { Fetch } from '../../utils/APIservice';
-import { getBookingSlots, getConsumerBrowse, getMyOrders, getUserDiscoveries } from './commonActions';
+import { getBookingSlots, getConsumerBrowse, getMyOrders, getOrder, getUserDiscoveries } from './commonActions';
 
 export const EMAIL_LOGIN =
   ({ email, password }) =>
@@ -55,6 +55,7 @@ export const EMAIL_LOGIN =
           // const location = useSelector(state => state.common.currentLocation);
           dispatch(getUserDiscoveries(res.token));
           dispatch(getConsumerBrowse(res.token));
+          dispatch(getOrder(res.token));
           dispatch({
             type: SET_IS_CONSUMER,
           });

@@ -147,10 +147,8 @@ const ConsumerHome = props => {
     console.log('clicked');
   };
   useEffect(() => {
-    dispatch(getUserDiscoveries(token));
-    dispatch(getConsumerBrowse(token));
     dispatch(getCartItems(token));
-    dispatch(getOrder(token));
+
     console.log('props.route.params', props.route.params);
     const shouldShowFeedbackModal = props.route.params?.showFeedbackModal;
     console.log('showFeedbackModal:', shouldShowFeedbackModal);
@@ -286,7 +284,7 @@ const ConsumerHome = props => {
                 color: 'white',
                 marginLeft: 5,
               }}>
-              {'7:30 - 8:30 AM'}
+              {`${item?.booking_slot?.start_time} - ${item?.booking_slot?.end_time}`}
             </Text>
           </View>
         </LinearGradient>
@@ -369,6 +367,7 @@ const ConsumerHome = props => {
               screen: 'ConsumerHomeSearch',
             })
           }
+          onChange={txt => setSearchKeyword(txt)}
         />
         <FlatList data={DATA} renderItem={renderItem} keyExtractor={item => item.name} horizontal />
         <Text style={styles.buzzTxt}>Explore who's buzzing</Text>

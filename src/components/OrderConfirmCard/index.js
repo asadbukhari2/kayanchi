@@ -4,12 +4,13 @@ import { fonts, useTheme } from '../../utils/theme';
 import { Counter } from '../../components';
 import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import carBrown from '../../assets/car_brown.png';
+import travelBrown from '../../assets/travel_brown.png';
 import MultiButton from '../../components/MultiButton';
 
 const theme = useTheme();
 
 const OrderConfirmCard = props => {
-  const { serviceCount, serviceName, artistName, screen, distance } = props;
+  const { serviceCount, serviceName, artistName, screen, distance, bookingSlot, artistAddress, hosting, total } = props;
 
   const [count, setCount] = useState(serviceCount);
 
@@ -25,7 +26,7 @@ const OrderConfirmCard = props => {
   return (
     <View style={styles.container}>
       <View>
-        {screen == 'OrderConfirm' ? (
+        {screen === 'OrderConfirm' ? (
           <View>
             <View style={styles.alignRight}>
               <Text
@@ -65,8 +66,7 @@ const OrderConfirmCard = props => {
                 fontFamily: fonts.robo_reg,
                 fontSize: 16,
               }}>
-              {' '}
-              7:30 - 8:30 AM
+              {bookingSlot && `${bookingSlot.start_time} - ${bookingSlot.end_time}`}
             </Text>
             <View style={styles.alignRight}>
               <Text
@@ -77,9 +77,13 @@ const OrderConfirmCard = props => {
                   fontFamily: fonts.robo_bold,
                   width: widthToDp(50),
                 }}>
-                You are travelling to the Narmeen’s location.
+                You are {hosting ? 'hosting' : 'travelling'} to the {artistName} location.
               </Text>
-              <Image source={carBrown} style={{ width: 30, height: 30, resizeMode: 'contain' }} />
+              {hosting ? (
+                <Image source={carBrown} style={{ width: 30, height: 30, resizeMode: 'contain' }} />
+              ) : (
+                <Image source={travelBrown} style={{ width: 30, height: 30, resizeMode: 'contain' }} />
+              )}
             </View>
             <Text
               style={{
@@ -89,7 +93,10 @@ const OrderConfirmCard = props => {
                 fontSize: 16,
                 marginTop: 7,
               }}>
-              House A9, Lane 14-C, Main Mina Bazaar Commercial, Block 6, Karachi
+              {artistAddress &&
+                `${artistAddress?.text}, ${artistAddress?.city !== null ? artistAddress?.city : ''} ${
+                  artistAddress?.country !== null ? artistAddress?.country : ''
+                }`}
             </Text>
 
             <View
@@ -114,7 +121,7 @@ const OrderConfirmCard = props => {
                     fontSize: 24,
                     fontFamily: fonts.hk_bold,
                   }}>
-                  Rs 5,699
+                  Rs {total}
                 </Text>
               </View>
             </View>
@@ -133,7 +140,7 @@ const OrderConfirmCard = props => {
           <Text style={styles.serviceName}>{serviceName}</Text>
         )}
       </View>
-      {!screen == 'OrderConfirm' && (
+      {!screen === 'OrderConfirm' && (
         <View>
           <Counter
             count={count}

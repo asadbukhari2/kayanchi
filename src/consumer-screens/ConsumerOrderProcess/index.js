@@ -5,7 +5,7 @@ import { fonts, useTheme } from '../../utils/theme';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { Button, Header, TextInput } from '../../components';
 import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { showMessage } from 'react-native-flash-message';
 import { saveUserData } from '../../redux/actions';
 import OrderConfirmCard from '../../components/OrderConfirmCard';
@@ -67,7 +67,7 @@ const ConsumerOrderProcess = props => {
   const [selectedRating2, setSelectedRating2] = useState(null);
   const [selectedRating3, setSelectedRating3] = useState(null);
   const [name, setName] = useState('');
-
+  const orderById = useSelector(state => state.common.orderById);
   const handleRating = rating => {
     setSelectedRating(rating);
   };
@@ -101,7 +101,7 @@ const ConsumerOrderProcess = props => {
 
           <Text style={styles.title}>{item.title}</Text>
           <Text style={styles.txt}>{item.text}</Text>
-          {item.key == 1 && (
+          {item.key === 1 && (
             <>
               <View style={styles.indicatorView}>
                 <View style={styles.row}>
@@ -114,7 +114,9 @@ const ConsumerOrderProcess = props => {
                       resizeMode: 'contain',
                     }}
                   />
-                  <Text style={styles.indicatorTxt}>30 min</Text>
+                  <Text style={styles.indicatorTxt}>
+                    {orderById?.order_items && orderById?.order_items[0]?.service_time}min
+                  </Text>
                 </View>
               </View>
 
@@ -127,14 +129,18 @@ const ConsumerOrderProcess = props => {
                   borderRadius: 15,
                   marginTop: 15,
                 }}>
-                {DATA.map((item, index) => {
+                {orderById?.order_items?.map((item, index) => {
                   return (
-                    <View style={{ marginTop: index > 0 ? heightToDp(6.7) : 0 }}>
+                    <View key={item.id} style={{ marginTop: index > 0 ? heightToDp(6.7) : 0 }}>
                       <OrderConfirmCard
-                        serviceName={item.serviceName}
-                        artistName={item.artistName}
-                        serviceCount={item.serviceCount}
+                        serviceName={item.service_name}
+                        artistName={orderById?.artist.name}
+                        serviceCount={item.quantity}
                         distance={item.distance}
+                        bookingSlot={orderById?.booking_slot}
+                        artistAddress={orderById?.artist_address}
+                        hosting={orderById?.is_hosting}
+                        total={orderById?.total_service_charges}
                         screen={'OrderConfirm'}
                       />
                     </View>
@@ -159,7 +165,7 @@ const ConsumerOrderProcess = props => {
               </View>
             </>
           )}
-          {item.key == 2 && (
+          {item.key === 2 && (
             <>
               <View style={styles.indicatorView}>
                 <View style={styles.row}>
@@ -172,7 +178,9 @@ const ConsumerOrderProcess = props => {
                       resizeMode: 'contain',
                     }}
                   />
-                  <Text style={styles.indicatorTxt}>30 min</Text>
+                  <Text style={styles.indicatorTxt}>
+                    {orderById?.order_items && orderById?.order_items[0]?.service_time}min
+                  </Text>
                 </View>
               </View>
 
@@ -189,10 +197,14 @@ const ConsumerOrderProcess = props => {
                   return (
                     <View style={{ marginTop: index > 0 ? heightToDp(6.7) : 0 }}>
                       <OrderConfirmCard
-                        serviceName={item.serviceName}
-                        artistName={item.artistName}
-                        serviceCount={item.serviceCount}
+                        serviceName={item.service_name}
+                        artistName={orderById?.artist.name}
+                        serviceCount={item.quantity}
                         distance={item.distance}
+                        bookingSlot={orderById?.booking_slot}
+                        artistAddress={orderById?.artist_address}
+                        hosting={orderById?.is_hosting}
+                        total={orderById?.total_service_charges}
                         screen={'OrderConfirm'}
                       />
                     </View>
@@ -508,7 +520,7 @@ const ConsumerOrderProcess = props => {
       </ScrollView>
     );
   };
-
+  console.log('orderbyid', orderById);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>

@@ -4,12 +4,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
 import { Button, Header, OrderServiceCard } from '../../components';
-import Octicons from 'react-native-vector-icons/Octicons';
 import hostBrown from '../../assets/hostborwn.png';
 import travelBrown from '../../assets/travel_brown.png';
 import { Fetch } from '../../utils/APIservice';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import { getConsumerOrder } from '../../redux/actions/commonActions';
 const theme = useTheme();
 
 const DATA = [
@@ -24,22 +24,11 @@ const DATA = [
 const ConsumerOrderConfirm = props => {
   const id = props.route.params.orderId;
   const token = useSelector(state => state.auth.token);
-  const [orderById, setOrderById] = useState(null);
-  console.log('orderById.createdAt', orderById?.createdAt);
-  const getOrderById = async (orderId, authToken) => {
-    try {
-      let res = await Fetch.get(`/api/orders/${orderId}`, authToken);
-      if (res.status === 200) {
-        res = await res.json();
-        console.log('getorderbyid', res);
-        setOrderById(res);
-      }
-    } catch (error) {
-      console.log('error in the get order by id', token, id);
-    }
-  };
+  const orderById = useSelector(state => state.common.orderById);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    getOrderById(id, token);
+    dispatch(getConsumerOrder(token, id));
   }, [id]);
   return (
     <SafeAreaView style={styles.container}>
@@ -52,7 +41,10 @@ const ConsumerOrderConfirm = props => {
               {moment(orderById?.createdAt).format('DD MMMM,YYYY')}
             </Text>
           )}
-          <Text style={styles.titleTxt}>{'7:30 - 8:30 AM'}</Text>
+          <Text
+            style={
+              styles.titleTxt
+            }>{`${orderById?.booking_slot?.start_time} - ${orderById?.booking_slot?.end_time}`}</Text>
           <Text
             style={{
               color: '#84668C',
@@ -62,7 +54,7 @@ const ConsumerOrderConfirm = props => {
               fontSize: 16,
               marginLeft: widthToDp(6.7),
             }}>
-            Narmeen is hosting you.
+            {orderById?.artist?.name} is {orderById?.is_hosting ? 'hosting' : 'traveling'} you.
           </Text>
           <View
             style={{
@@ -76,7 +68,7 @@ const ConsumerOrderConfirm = props => {
                 color: '#50A2E1',
                 width: widthToDp(60),
               }}>
-              House A9, Lane 14-C, Main Mina Bazaar Commercial, Block 6, Karachi
+              {orderById.artist_address && orderById?.artist_address.text}
             </Text>
             {orderById?.isHosting ? (
               <Image source={hostBrown} style={{ height: 35, width: 35, objectFit: 'contain' }} />
@@ -114,10 +106,10 @@ const ConsumerOrderConfirm = props => {
               return (
                 <View style={{ marginTop: index > 0 ? heightToDp(6.7) : 0 }}>
                   <OrderServiceCard
-                    serviceName={orderById.order_items}
-                    artistName={item.artistName}
+                    serviceName={orderById?.order_items}
+                    artistName={orderById?.artist?.name}
                     serviceCount={item.quantity}
-                    distance={item.distance}
+                    distance={orderById.time_to_reach}
                     screen={'OrderConfirm'}
                     total={orderById.total_service_charges}
                   />
