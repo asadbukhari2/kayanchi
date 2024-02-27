@@ -1093,3 +1093,31 @@ export const getConsumerOrder = (token, id) => async dispatch => {
     console.log('error in the get order by id', token, id);
   }
 };
+
+export const artistRating = (data, token) => async dispatch => {
+  try {
+    let res = await Fetch.post('/api/rating/artist/', data, token);
+    console.log('res from artist rating', artistRating);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      showMessage({
+        message: 'Rate the artist successfully',
+        type: 'success',
+      });
+
+      return res;
+    } else {
+      const { message } = await res.json();
+      showMessage({
+        message: message,
+        type: 'danger',
+      });
+      throw new Error(message ?? 'Something went wrong');
+    }
+  } catch (error) {
+    showMessage({
+      message: 'Something went wrong',
+      type: 'danger',
+    });
+  }
+};

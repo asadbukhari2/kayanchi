@@ -8,6 +8,7 @@ import { useTheme, fonts } from '../../utils/theme';
 import back from '../../assets/back.png';
 // import { OrderCard } from '../../components';
 import OrderCard from '../../components/OrderCard';
+import { useSelector } from 'react-redux';
 const carBrown = require('../../assets/car_brown.png');
 const host_green = require('../../assets/host_green.png');
 const information = require('../../assets/information.png');
@@ -79,14 +80,14 @@ const ConsumerOrders = props => {
   const [completedOrders, setCompletedOrders] = useState([]);
   const [displayedOrders, setDisplayedOrders] = useState([]);
   console.log('display', displayedOrders);
-
+  let order = useSelector(state => state.common.order);
   useEffect(() => {
     let isMounted = true;
 
-    const active = orders.filter(order => order.statusOrder === 'Active');
-    const newOrder = orders.filter(order => order.statusOrder === 'New');
-    const completed = orders.filter(order => order.statusOrder === 'Completed');
-    const cancelled = orders.filter(order => order.statusOrder === 'Cancelled');
+    const active = order?.Accepted;
+    const newOrder = [].concat(order?.Accepted, order?.Completed, order?.Cancelled);
+    const completed = order?.Completed;
+    const cancelled = order?.Cancelled;
 
     setActiveOrders(active);
     setCompletedOrders(completed);
@@ -176,8 +177,8 @@ const ConsumerOrders = props => {
           </TouchableOpacity>
         </View>
         <View>
-          {displayedOrders.map((order, index) => (
-            <OrderCard key={index} order={orders} navigation={props.navigation} />
+          {displayedOrders?.map((data, index) => (
+            <OrderCard key={index} order={data} navigation={props.navigation} />
           ))}
         </View>
       </ScrollView>

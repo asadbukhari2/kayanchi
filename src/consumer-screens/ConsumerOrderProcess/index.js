@@ -7,11 +7,12 @@ import { Button, Header, TextInput } from '../../components';
 import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { useDispatch, useSelector } from 'react-redux';
 import { showMessage } from 'react-native-flash-message';
-import { saveUserData } from '../../redux/actions';
+import { artistRating, saveUserData } from '../../redux/actions';
 import OrderConfirmCard from '../../components/OrderConfirmCard';
 import MultiButton from '../../components/MultiButton';
 import clockcolor from '../../assets/clockcolor.png';
-const carBrown = require('../../assets/car_brown.png');
+import carBrown from '../../assets/car_brown.png';
+import travelBrown from '../../assets/travel_brown.png';
 const location = require('../../assets/Path.png');
 const panic = require('../../assets/panic.png');
 const contact = require('../../assets/contact.png');
@@ -68,6 +69,8 @@ const ConsumerOrderProcess = props => {
   const [selectedRating3, setSelectedRating3] = useState(null);
   const [name, setName] = useState('');
   const orderById = useSelector(state => state.common.orderById);
+  const auth = useSelector(state => state.auth);
+  console.log('auth data', auth);
   const handleRating = rating => {
     setSelectedRating(rating);
   };
@@ -76,8 +79,29 @@ const ConsumerOrderProcess = props => {
   const myFlatList = useRef(null);
 
   const addData = async () => {
-    console.log('props.navigation.navigate', props.navigation.replace);
-    navigation.navigate('ConsumerHome', { showFeedbackModal: true });
+    console.log(
+      'selectedRating, selectedRating2, selectedRating3, name',
+      selectedRating,
+      selectedRating2,
+      selectedRating3,
+      name,
+    );
+    //     "artist_id":"42b3e10b-a42e-4779-bd6e-81de274ebab6",
+    // "order_id": "be427d1f-54ae-42df-a711-85312e76dbf8",
+    // "hygiene_and_cleanliness": 5,
+    // "service_as_description": 4,
+    // "would_recommend": 4,
+    // "experience":"This was a great experience overall, will recommmend to all my associates"
+    const confirmData = {
+      artist_id: orderById?.artist_id,
+      order_id: orderById?.id,
+      hygiene_and_cleanliness: selectedRating,
+      service_as_description: selectedRating2,
+      would_recommend: selectedRating3,
+      experience: name,
+    };
+    dispatch(artistRating(confirmData, auth?.token));
+    // navigation.navigate('ConsumerHome', { showFeedbackModal: true });
     // navigation.replace("ConsumerHomeStack", { showFeedbackModal: true })
     // try {
     //   // setLoading(true);
@@ -197,7 +221,7 @@ const ConsumerOrderProcess = props => {
                   return (
                     <View style={{ marginTop: index > 0 ? heightToDp(6.7) : 0 }}>
                       <OrderConfirmCard
-                        serviceName={item.service_name}
+                        serviceName={item?.service_name}
                         artistName={orderById?.artist.name}
                         serviceCount={item.quantity}
                         distance={item.distance}
@@ -229,7 +253,7 @@ const ConsumerOrderProcess = props => {
               </View>
             </>
           )}
-          {item.key == 3 && (
+          {item.key === 3 && (
             <>
               <View>
                 {orders.map((order, index) => (
@@ -260,11 +284,11 @@ const ConsumerOrderProcess = props => {
                               }}>
                               SERVICES:
                             </Text>
-                            {order.services.map((service, serviceIndex) => {
+                            {orderById?.order_items.map((service, serviceIndex) => {
                               const maxServicesToShow = 1;
 
                               if (serviceIndex < maxServicesToShow) {
-                                return <Text key={serviceIndex}>{service}</Text>;
+                                return <Text key={serviceIndex}>{`${service.quantity}x ${service.service_name}`}</Text>;
                               } else if (serviceIndex === maxServicesToShow) {
                                 const remainingServices = order.services.length - maxServicesToShow;
                                 return (
@@ -290,7 +314,7 @@ const ConsumerOrderProcess = props => {
                                 fontFamily: fonts.hk_bold,
                                 marginTop: 5,
                               }}>
-                              Rs {order.serviceCost}
+                              Rs {orderById?.total_service_charges > 0 ? orderById?.total_service_charges : 0}
                             </Text>
                           </View>
                         </View>
@@ -305,11 +329,14 @@ const ConsumerOrderProcess = props => {
                                   fontFamily: fonts.robo_med,
                                 }}>
                                 {' '}
-                                HOSTED
+                                {orderById?.is_hosting ? 'Hosted' : 'Travelling'}
                               </Text>
                             </Text>
-
-                            <Image source={order.imageLink} style={styles.OrderImage} />
+                            {orderById?.is_hosting ? (
+                              <Image source={travelBrown} style={styles.OrderImage} />
+                            ) : (
+                              <Image source={carBrown} style={styles.OrderImage} />
+                            )}
                           </View>
                           <Text
                             style={{
@@ -317,7 +344,7 @@ const ConsumerOrderProcess = props => {
                               color: '#193356',
                               fontFamily: fonts.robo_reg,
                             }}>
-                            {order.name}
+                            {orderById?.artist?.name}
                           </Text>
                           <Text
                             style={{
@@ -358,7 +385,9 @@ const ConsumerOrderProcess = props => {
                                 fontSize: 14,
                                 marginTop: 3,
                               }}>
-                              {order.salonAddress}
+                              {`${orderById?.artist_address?.text} ${
+                                orderById?.artist_address?.city ? orderById?.artist_address?.city : ''
+                              } ${orderById?.artist_address?.country ? orderById?.artist_address?.country : ''}`}
                             </Text>
                           </View>
                         </View>
@@ -382,7 +411,7 @@ const ConsumerOrderProcess = props => {
                       fontFamily: fonts.robo_reg,
                       color: '#67718C',
                     }}>
-                    3400
+                    {orderById?.total_service_charges > 0 ? orderById?.total_service_charges : 0}
                   </Text>
                   <Text
                     style={{
@@ -503,14 +532,14 @@ const ConsumerOrderProcess = props => {
               </View>
 
               <View style={{ marginVertical: 20 }}>
-                <Button
+                {/* <Button
                   title={'Go to Home'}
                   onPress={() =>
                     props.navigation.navigate('ConsumerHomeStack', {
                       screen: 'ConsumerDisocver',
                     })
                   }
-                />
+                /> */}
               </View>
             </>
           )}
@@ -530,8 +559,8 @@ const ConsumerOrderProcess = props => {
           renderItem={_renderItem}
           activeDotStyle={{ width: 0, height: 0 }}
           dotStyle={{ height: 0, width: 0 }}
-          // renderNextButton={() => <Button title={'Next'} disable />}
-          renderDoneButton={() => <Button title={'Go to home'} onPress={addData} disable />}
+          renderNextButton={() => <Button title={'Next'} disable />}
+          renderDoneButton={() => <Button title={'Go to home'} onPress={addData} />}
           data={slides}
           onDone={addData}
           onSkip={() => navigation.replace('AuthStack')}

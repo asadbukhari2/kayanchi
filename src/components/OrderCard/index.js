@@ -19,9 +19,11 @@ const OrderCard = ({ order, navigation }) => {
     });
   };
   const viewTimelineHandler = () => {
-    navigation.navigate('ArtistOrderStack', {
-      screen: 'ArtistTimeline',
-      params: { ...order, timlineType: 'active' },
+    navigation.navigate('ConsumerHomeStack', {
+      screen: 'ConsumerOrderConfirm',
+      params: {
+        orderId: order.id,
+      },
     });
   };
 
@@ -51,10 +53,10 @@ const OrderCard = ({ order, navigation }) => {
           justifyContent: 'space-between',
         }}>
         <View>
-          <Text style={styles.headingName}>{order?.order?.consumer?.name}</Text>
+          <Text style={styles.headingName}>{order?.consumer?.name}</Text>
 
           <Text style={[styles.textBold, { marginVertical: 3 }]}>SERVICES:</Text>
-          {order?.order?.order_items.map((service, serviceIndex) => {
+          {order?.order_items?.map((service, serviceIndex) => {
             const maxServicesToShow = 2;
 
             if (serviceIndex < maxServicesToShow) {
@@ -88,17 +90,17 @@ const OrderCard = ({ order, navigation }) => {
               fontFamily: fonts.hk_bold,
               marginTop: 4,
             }}>
-            Rs {order?.order?.total_service_charges}
+            Rs {order?.total_service_charges}
           </Text>
         </View>
 
-        {order?.order?.order_status !== 'Cancelled' && (
+        {order?.order_status !== 'Cancelled' && (
           <View>
-            {order?.order?.is_hosting ? (
+            {order?.is_hosting ? (
               <View style={styles.orderDetails}>
-                <Text style={{ color: '#0F2851' }}>wants to</Text>
+                <Text style={{ color: '#0F2851' }}>Wants to </Text>
                 <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>HOST</Text>
-                {order?.order?.order_availibity_status === 'On-Demand' ? (
+                {order?.order_availibity_status === 'On-Demand' ? (
                   <Image source={car_brown} style={styles.OrderImage} />
                 ) : (
                   <Image source={host_green} style={styles.OrderImage} />
@@ -106,22 +108,22 @@ const OrderCard = ({ order, navigation }) => {
               </View>
             ) : (
               <View style={styles.orderDetails}>
-                <Text style={{ color: '#0F2851' }}>wants to</Text>
+                <Text style={{ color: '#0F2851' }}>Wants to </Text>
                 <Text style={{ color: '#84668C', fontFamily: fonts.robo_med }}>TRAVEL</Text>
-                  {order?.order?.order_availibity_status === 'On-Demand' ? (
+                {order?.order?.order_availibity_status === 'On-Demand' ? (
                   <Image source={car_brown} style={styles.OrderImage} />
                 ) : (
                   <Image source={host_green} style={styles.OrderImage} />
                 )}
               </View>
             )}
-            {order?.order?.is_hosting && (
+            {order?.is_hosting && (
               <Text style={{ color: '#29AAE2', fontFamily: fonts.robo_reg }}>
                 {order.distance} kms <Text style={{ color: '#0F2851' }}>away for you </Text>{' '}
               </Text>
             )}
             <Text style={[styles.textBold, { marginTop: 5 }]}>
-              {order?.order?.is_hosting ? 'HOSTING AT:' : 'TRVELLING TO:'}
+              {order?.is_hosting ? 'HOSTING AT:' : 'TRVELLING TO:'}
             </Text>
             <View
               style={{
@@ -136,11 +138,11 @@ const OrderCard = ({ order, navigation }) => {
                   fontSize: 14,
                   fontFamily: fonts.robo_reg,
                 }}>
-                {order?.salonAddress}
+                {order?.address?.text ? order?.address?.text : ''}
               </Text>
             </View>
 
-            {order?.order?.order_status === 'Accepted' ? (
+            {order?.order_status === 'Accepted' ? (
               <TouchableOpacity
                 onPress={viewTimelineHandler}
                 style={{
@@ -158,7 +160,7 @@ const OrderCard = ({ order, navigation }) => {
                 }}>
                 <Text>View Timeline</Text>
               </TouchableOpacity>
-            ) : order.order_status === 'Waiting' ? (
+            ) : order?.order_status === 'Waiting' ? (
               <View style={styles.indicatorView}>
                 <View style={styles.row}>
                   <MultiButton
@@ -182,7 +184,7 @@ const OrderCard = ({ order, navigation }) => {
                   />
                 </View>
               </View>
-              ) : order.order_status === 'Completed' ? (
+            ) : order?.order_status === 'Completed' ? (
               <View style={styles.indicatorView}>
                 <View style={styles.row}>
                   <MultiButton
@@ -190,6 +192,7 @@ const OrderCard = ({ order, navigation }) => {
                     btnStyle={{
                       backgroundColor: '#67506D',
                       height: heightToDp(10.5),
+                      color: 'white',
                     }}
                     onPress={TimelineHandler}
                   />
@@ -208,7 +211,7 @@ const OrderCard = ({ order, navigation }) => {
           </View>
         )}
 
-        {order.order_status === 'Cancelled' && (
+        {order?.order_status === 'Cancelled' && (
           <>
             <View style={styles.orderDetails}>
               <View>
