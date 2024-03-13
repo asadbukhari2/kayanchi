@@ -24,11 +24,9 @@ const ArtistOrders = () => {
   const [activeOrders, setActiveOrders] = useState([]);
   const [completedOrders, setCompletedOrders] = useState([]);
   const [displayedOrders, setDisplayedOrders] = useState([]);
-
   const dispatch = useDispatch();
 
   const { waiting, accepted, completed, cancelled } = useSelector(state => state.common);
-  console.log(completed, 'this is the states in the artists order');
   useEffect(() => {
     const focusHandler = navigation.addListener('focus', () => {
       dispatch(getMyOrders());

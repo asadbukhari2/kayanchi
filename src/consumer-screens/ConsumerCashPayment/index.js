@@ -106,25 +106,27 @@ const ConsumerCashPayment = props => {
   };
 
   const handleOrder = () => {
-    console.log(consumerOrder.consumerMood === 'traveling');
+    console.log('consumer order', consumerOrder);
     if (consumerOrder.consumerMood === 'traveling') {
       const order = {
         is_hosting: false,
         date: moment(Date.now()).format('YYYY-MM-DD'),
-        booking_slot_id: consumerOrder.artistTimeSLot.id,
+        booking_slot_id: consumerOrder?.artistTimeSLot?.id ? consumerOrder.artistTimeSLot.id : null,
         booking_notes: name,
       };
+      console.log('order', order);
       dispatch(postOrder(order, token));
-      setIsModalVisible(true);
+      // setIsModalVisible(true);
     } else {
       const order = {
         is_hosting: true,
         date: moment(Date.now()).format('YYYY-MM-DD'),
-        booking_slot_id: consumerOrder.artistTimeSLot.id,
+        booking_slot_id: consumerOrder?.artistTimeSLot?.id ? consumerOrder.artistTimeSLot?.id : null,
         booking_notes: name,
       };
+      console.log('order', order);
       dispatch(postOrder(order, token));
-      setIsModalVisible(true);
+      // setIsModalVisible(true);
     }
   };
   return (
@@ -301,7 +303,6 @@ const ConsumerCashPayment = props => {
             title="Place your Order"
             onPress={() => {
               handleOrder();
-              // props.navigation.navigate('ConsumerApplyPromoCode')
             }}
           />
         </View>

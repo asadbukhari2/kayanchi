@@ -39,13 +39,13 @@ const DATA = [
 
 const ModalData = [
   {
-    id: 10,
+    id: 100,
     icon: travel,
     title: 'Travel to their studio',
     status: 'traveling',
   },
   {
-    id: 20,
+    id: 200,
     icon: hosting,
     title: 'Host them at your place',
     status: 'hosting',
@@ -127,7 +127,7 @@ const ConsumerArtistDetails = props => {
           ]}>
           <AvailablityStatus status={artistServices?.availability} name={artistServices?.artist} />
           <Mood
-            name={artistServices.artist}
+            name={artistServices?.artist}
             travel_mood={artistServices?.travel_mood}
             hosting_mood={artistServices?.hosting_mood}
           />

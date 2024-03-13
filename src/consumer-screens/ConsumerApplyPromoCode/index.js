@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import { StyleSheet, Switch, Text, View, ScrollView, Image, Modal } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Modal } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { AddNewBtn, Button, Header, TextInput } from '../../components';
+import { Button, Header } from '../../components';
 import CircularProgressBar from '../../components/CircularProgressBar';
-import CircularProgress from 'react-native-circular-progress-indicator';
 
 import MultiButton from '../../components/MultiButton';
-import { heightToDp, widthToDp, width } from '../../utils/Dimensions';
+import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { GLOBAL_STYLES } from '../../utils/styles';
-import { fonts, useTheme } from '../../utils/theme';
+import { fonts } from '../../utils/theme';
+import { useSelector } from 'react-redux';
 
 const ConsumerApplyPromoCode = props => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const artistServices = useSelector(state => state.common.artistServices);
+
   const closeModal = () => {
     setIsModalVisible(false);
   };
@@ -121,7 +123,7 @@ const ConsumerApplyPromoCode = props => {
               </Text>
               <View style={{ alignItems: 'center', marginVertical: 30 }}>
                 <CircularProgressBar
-                  progress={15}
+                  progress={10}
                   radius={80}
                   strokeWidth={4}
                   color="#84668C"
@@ -139,7 +141,7 @@ const ConsumerApplyPromoCode = props => {
                   width: widthToDp(60),
                   color: '#67718C',
                 }}>
-                Waiting for Narmeen Iqbal to accept your booking.
+                Waiting for {artistServices?.artist} to accept your booking.
               </Text>
               <Text
                 style={{

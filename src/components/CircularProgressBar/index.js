@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { Svg, Text, Circle } from 'react-native-svg';
 import { useTheme } from '../../utils/theme';
@@ -9,7 +9,12 @@ const CircularProgressBar = ({ progress, radius, strokeWidth, color, textStyle, 
   const remainingMinutes = Math.floor(((100 - progress) * 60) / 100);
   const remainingHours = Math.floor(remainingMinutes / 60);
   const formattedTime = `${remainingHours}:${remainingMinutes % 60}`;
-
+  useEffect(() => {
+    // const t = setInterval(() => {
+    //   runTimmer();
+    // }, 5000);
+  }, []);
+  const runTimmer = () => {};
   return (
     <View>
       <Svg width={radius * 2} height={radius * 2}>
@@ -35,9 +40,9 @@ const CircularProgressBar = ({ progress, radius, strokeWidth, color, textStyle, 
           strokeDasharray={circumference}
           strokeDashoffset={circumference - progressOffset}
         />
-        {/* <Text x={radius} y={radius} textAnchor="middle" alignmentBaseline="central" style={textStyle}>
+        <Text x={radius} y={radius} textAnchor="middle" alignmentBaseline="central" style={textStyle}>
           {`${formattedTime}`}
-        </Text> */}
+        </Text>
         {isText && (
           <Text x={radius} y={radius} textAnchor="middle" alignmentBaseline="central" style={textStyle}>
             {isText}

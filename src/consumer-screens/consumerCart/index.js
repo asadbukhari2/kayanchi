@@ -43,7 +43,7 @@ const ConsumerCart = () => {
     console.log('this is the address', address);
   }, []);
   const handleOrderProceed = () => {
-    console.log(artistServices.availability, artistServices.hosting_mood, consumerOrder.consumerMood);
+    console.log('hihihihi', artistServices.availability, artistServices.hosting_mood, consumerOrder.consumerMood);
     if (
       artistServices.availability === 'on_demand' &&
       artistServices.hosting_mood &&

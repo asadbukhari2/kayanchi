@@ -64,7 +64,7 @@ const ConsumerHome = props => {
   let consumerBrowse = useSelector(state => state.common.consumerBrowse);
   let order = useSelector(state => state.common.order);
   let token = useSelector(state => state.auth.token);
-  console.log('this is the order', order);
+  console.log('this is the order wating', order?.Waiting);
   const dispatch = useDispatch();
   const [category, setCategory] = useState('');
 

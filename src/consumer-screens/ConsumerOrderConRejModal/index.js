@@ -4,8 +4,10 @@ import { fonts } from '../../utils/theme';
 import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import CircularProgressBar from '../../components/CircularProgressBar';
 import MultiButton from '../../components/MultiButton';
+import { useSelector } from 'react-redux';
 
 const ConsumerOrderConRejModal = ({ visible, close, navigation }) => {
+  const artistServices = useSelector(state => state.common.artistServices);
   return (
     <Modal visible={visible} animationType="slide" onRequestClose={close}>
       <View style={styles.modalContainer}>
@@ -33,7 +35,7 @@ const ConsumerOrderConRejModal = ({ visible, close, navigation }) => {
             />
           </View>
           <Text style={{ fontSize: 16, marginHorizontal: widthToDp(5) }}>
-            Waiting for Narmeen Iqbal to accept your booking.
+            Waiting for {artistServices?.artist} to accept your booking.
           </Text>
           <Text
             style={{

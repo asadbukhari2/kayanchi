@@ -569,8 +569,8 @@ export const rejectOrder = async (id, token) => {
 export const acceptOrder = async (id, body, token) => {
   try {
     let res = await Fetch.put(`/api/orders/accept/${id}`, body, token);
+    console.log('res in acceptOrder: ', res.order);
     if (res.order) {
-      console.log('res in acceptOrder: ', res.order);
       return res.order;
     } else {
       if (res.status >= 200 && res.status < 300) {
@@ -900,6 +900,7 @@ export const addToCart = (data, token) => async dispatch => {
     let res = await Fetch.post('/api/cartItem/', data, token);
     // console.log('--->', res);
     if (res.status === 200) {
+      console.log('add to the cart', res.status);
       dispatch({
         type: ADD_TO_CART_LOADING,
         payload: false,
@@ -1039,9 +1040,11 @@ export const getOrder = token => async dispatch => {
     });
   }
 };
-export const postOrder = (data, token) => async dispatch => {
+export const postOrder = (body, token) => async dispatch => {
+  console.log('order data', body, body.booking_notes);
   try {
-    let res = await Fetch.post('/api/orders/', data, token);
+    let res = await Fetch.post('/api/orders/', body, token);
+    console.log('post order res', res);
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
       showMessage({
@@ -1049,17 +1052,13 @@ export const postOrder = (data, token) => async dispatch => {
         type: 'success',
       });
       dispatch(getOrder(token));
+      // setIsModalVisible(true);
       return res;
     } else {
-      const { message } = await res.json();
-      showMessage({
-        message: message,
-        type: 'danger',
-      });
-      throw new Error(message ?? 'Something went wrong');
+      throw new Error('Something went wrong');
     }
   } catch (error) {
-    console.log('saveAddress', error);
+    console.log('error while post the order', error);
     showMessage({
       message: 'Something went wrong',
       type: 'danger',
@@ -1113,6 +1112,42 @@ export const artistRating = (data, token) => async dispatch => {
         type: 'danger',
       });
       throw new Error(message ?? 'Something went wrong');
+    }
+  } catch (error) {
+    showMessage({
+      message: 'Something went wrong',
+      type: 'danger',
+    });
+  }
+};
+
+export const updateLatAndLonOrder = (id, body, token) => async dispatch => {
+  try {
+    let res = await Fetch.put(`/api/orderTrack/${id}`, body, token);
+    console.log('updateLatAndLonOrder', res.status);
+    if (res.status === 200) {
+      res = await res.json();
+      return res;
+    } else {
+      const { message } = await res.json();
+      throw new Error(message);
+    }
+  } catch (error) {
+    showMessage({
+      message: 'Something went wrong',
+      type: 'danger',
+    });
+  }
+};
+export const getOrderLonAndLat = (id, token) => async dispatch => {
+  try {
+    let res = await Fetch.get(`/api/orderTrack/distance/${id}`, token);
+    if (res.status === 200) {
+      res = await res.json();
+      return res;
+    } else {
+      const { message } = await res.json();
+      throw new Error(message);
     }
   } catch (error) {
     showMessage({
