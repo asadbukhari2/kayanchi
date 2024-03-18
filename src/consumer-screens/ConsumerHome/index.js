@@ -6,6 +6,8 @@ import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
 import { useDispatch, useSelector } from 'react-redux';
 // import api from '../../utils/APIservice';
+import { showMessage } from 'react-native-flash-message';
+
 import FeedBackModal from '../../components/FeedbackModal';
 
 const feedback = require('../../assets/feedback.png');
@@ -23,13 +25,7 @@ const hosting = require('../../assets/hosting_white.png');
 const moreImages = require('../../assets/moreImages.png');
 import LinearGradient from 'react-native-linear-gradient';
 
-import {
-  getCartItems,
-  getConsumerBrowse,
-  getOrder,
-  getSavedAddresses,
-  getUserDiscoveries,
-} from '../../redux/actions/commonActions';
+import { getCartItems } from '../../redux/actions/commonActions';
 import moment from 'moment';
 const theme = useTheme();
 
@@ -63,6 +59,7 @@ const ConsumerHome = props => {
   const [feedbackModalVisible3, setFeedbackModalVisible3] = useState(false);
   let consumerBrowse = useSelector(state => state.common.consumerBrowse);
   let order = useSelector(state => state.common.order);
+  let orderById = useSelector(state => state.common.orderById);
   let token = useSelector(state => state.auth.token);
   console.log('this is the order wating', order?.Waiting);
   const dispatch = useDispatch();
@@ -157,6 +154,16 @@ const ConsumerHome = props => {
     }
   }, [props.route.params, token]);
 
+  useEffect(() => {
+    console.log('------->', orderById);
+    setTimeout(() => {
+      if (orderById.order_status === 'Accepted' && orderById.order_status !== 'Completed') {
+        props.navigation.navigate('ConsumerHomeStack', {
+          screen: 'ConsumerOrderProcess',
+        });
+      }
+    }, 2000);
+  }, [orderById]);
   const renderOfferingItem = ({ item }) => (
     <TouchableOpacity
       onPress={() =>

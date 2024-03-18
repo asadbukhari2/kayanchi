@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AddNewBtn, Button, Header, TextInput } from '../../components';
 import { heightToDp, widthToDp, width } from '../../utils/Dimensions';
@@ -8,14 +8,14 @@ import { fonts, useTheme } from '../../utils/theme';
 import EasyPaisa from '../../assets/easypaisa.png';
 import JazzCash from '../../assets/jaazzcash.png';
 import ToggleSwitch from 'toggle-switch-react-native';
-import { RadioButton } from 'react-native-paper';
-import CheckBox from '@react-native-community/checkbox';
+
 import { useNavigation } from '@react-navigation/native';
 
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { postOrder } from '../../redux/actions/commonActions';
+import { getConsumerOrder, postOrder } from '../../redux/actions/commonActions';
 import ConsumerOrderConRejModal from '../ConsumerOrderConRejModal';
+import { showMessage } from 'react-native-flash-message';
 const paymentMethod = [
   {
     title: 'pay using ',
@@ -81,6 +81,8 @@ const ConsumerCashPayment = props => {
   const navigation = useNavigation();
 
   const cart = useSelector(state => state.common.cart);
+  const postOrderId = useSelector(state => state.common.postOrderId);
+  const orderById = useSelector(state => state.common.orderById);
   const token = useSelector(state => state.auth.token);
   const dispatch = useDispatch();
   const consumerOrder = useSelector(state => state.common.consumerOrder);
@@ -116,7 +118,8 @@ const ConsumerCashPayment = props => {
       };
       console.log('order', order);
       dispatch(postOrder(order, token));
-      // setIsModalVisible(true);
+      setIsModalVisible(true);
+      dispatch(getConsumerOrder(token, postOrderId));
     } else {
       const order = {
         is_hosting: true,
@@ -124,9 +127,10 @@ const ConsumerCashPayment = props => {
         booking_slot_id: consumerOrder?.artistTimeSLot?.id ? consumerOrder.artistTimeSLot?.id : null,
         booking_notes: name,
       };
-      console.log('order', order);
+      setIsModalVisible(true);
       dispatch(postOrder(order, token));
-      // setIsModalVisible(true);
+
+      dispatch(getConsumerOrder(token, postOrderId));
     }
   };
   return (

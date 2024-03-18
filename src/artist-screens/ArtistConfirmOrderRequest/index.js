@@ -84,7 +84,11 @@ export default function ArtistConfirmOrderRequest(props) {
           getUserLonAndLat();
           //   dispatch(updateLatAndLonOrder(order.order.id, userLocation, auth.token));
           // }, 2000);
-          props.navigation.navigate('ArtistOrders');
+          // props.navigation.navigate('ArtistOrders');
+          props.navigation.navigate('ArtistOrderStack', {
+            screen: 'ArtistTimeline',
+            params: { ...order, timlineType: 'active' },
+          });
         })
         .catch(err => console.log(err));
     }

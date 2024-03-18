@@ -49,6 +49,7 @@ const initialState = {
   orderById: null,
   orderByIdLoading: false,
   orderByIdError: null,
+  postOrderId: '',
 };
 
 import {
@@ -314,6 +315,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         cart: [],
+      };
+    case 'POST_ORDER_ID':
+      return {
+        ...state,
+        postOrderId: action.payload,
       };
     default:
       return state;

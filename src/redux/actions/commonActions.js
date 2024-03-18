@@ -1052,6 +1052,10 @@ export const postOrder = (body, token) => async dispatch => {
         type: 'success',
       });
       dispatch(getOrder(token));
+      dispatch({
+        type: 'POST_ORDER_ID',
+        payload: res.order.id,
+      });
       // setIsModalVisible(true);
       return res;
     } else {
@@ -1096,7 +1100,7 @@ export const getConsumerOrder = (token, id) => async dispatch => {
 export const artistRating = (data, token) => async dispatch => {
   try {
     let res = await Fetch.post('/api/rating/artist/', data, token);
-    console.log('res from artist rating', artistRating);
+    console.log('res from artist rating', res);
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
       showMessage({
@@ -1105,6 +1109,11 @@ export const artistRating = (data, token) => async dispatch => {
       });
 
       return res;
+    } else if (res.status === 401) {
+      showMessage({
+        message: 'Order is already rated',
+        type: 'warning',
+      });
     } else {
       const { message } = await res.json();
       showMessage({

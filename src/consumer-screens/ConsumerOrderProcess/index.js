@@ -100,8 +100,9 @@ const ConsumerOrderProcess = props => {
       would_recommend: selectedRating3,
       experience: name,
     };
+    console.log('confirm order', confirmData);
     dispatch(artistRating(confirmData, auth?.token));
-    // navigation.navigate('ConsumerHome', { showFeedbackModal: true });
+    navigation.navigate('ConsumerHome', { showFeedbackModal: true });
     // navigation.replace("ConsumerHomeStack", { showFeedbackModal: true })
     // try {
     //   // setLoading(true);
