@@ -10,6 +10,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import { useSelector } from 'react-redux';
 import { Fetch } from '../../utils/APIservice';
 import CardSkeleton from './components/CardSkeleton';
+import { showMessage } from 'react-native-flash-message';
 // import CardSkeleton from './components/Skelton';
 // import api from '../../utils/APIservice';
 
@@ -26,8 +27,8 @@ const popular_image = require('../../assets/popular_image.png');
 const ondemandSearch = require('../../assets/ondemandSearch.png');
 const People_flying = require('../../assets/People_flying.png');
 const bookingSearch = require('../../assets/bookingSearch.png');
+const bookingWhiteSearch = require('../../assets/booking.png');
 const theme = useTheme();
-
 
 const DATA = [
   {
@@ -61,33 +62,49 @@ const ConsumerHomeSearch = props => {
   const { searchKeyword: searchText, category } = props.route.params;
   const auth = useSelector(state => state.auth);
   console.log('token', auth);
+  const currentLocation = useSelector(state => state.common.currentLocation);
+  console.log('currentLocation', currentLocation);
+  const [status, setStatus] = useState('On-Demand');
   const [searchKeyword, setSearchKeyword] = useState(searchText);
   const [searchCategory, setSearchCategory] = useState(category);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   // const [clickedIndex, setClickedIndex] = useState(0);
   const [artistData, setArtistData] = useState([]);
   useEffect(() => {
     setSearchKeyword(searchText);
-    setSearchCategory(category)
+    setSearchCategory(category);
     filterdData(auth.userDetails?.token, category.length > 0 ? category.length : 'Top');
-    console.log('auth.userDetails---->', auth.userDetails.token);
-  }, [props.route])
+  }, [props.route]);
 
   useEffect(() => {
     filterdData(auth.userDetails?.token, searchCategory);
-    console.log('this is the seaech category', searchCategory);
-  }, [searchCategory])
-  const filterdData = async (token, cat) => {
+  }, [searchCategory]);
+  const filterdData = async (token, cat, key) => {
     try {
-      setIsLoading(true)
-      let res = await Fetch.get(`/api/search?keyword=&coords={"longitude": 24.823916, "latitude": 67.141875}&filter=${cat}&distance=5516`, token);
+      setIsLoading(true);
+      let res = await Fetch.get(
+        `/api/search?keyword=${key ? key : ''}&coords={"longitude": ${currentLocation.longitude}, "latitude": ${
+          currentLocation.latitude
+        }}&filter=${cat}&distance=5516`,
+        token,
+      );
       let resData = await res.json();
-      setArtistData(resData);
-      setIsLoading(false)
+      if (resData) {
+        setArtistData(resData);
+      } else {
+        setArtistData([]);
+      }
+      setIsLoading(false);
       console.log('this is the resData', resData);
+      if (resData.message) {
+        showMessage({
+          message: resData.message,
+          type: 'error',
+        });
+      }
       return resData;
     } catch (error) {
-      setIsLoading(false)
+      setIsLoading(false);
       console.log('Network request failed. Error:', error);
 
       throw error;
@@ -150,9 +167,11 @@ const ConsumerHomeSearch = props => {
         <Header backBtn title="Serach" />
         <SearchBox
           value={searchKeyword}
-          onChange={txt => setSearchKeyword(txt)}
+          onChange={txt => {
+            filterdData(auth.userDetails?.token, searchCategory, txt);
+          }}
           placeholder={'Haircut'}
-          onSearch={() => props.navigation.navigate('HomeStack', { screen: 'Search' })}
+          // onSearch={() => props.navigation.navigate('HomeStack', { screen: 'Search' })}
         />
 
         <View
@@ -163,11 +182,12 @@ const ConsumerHomeSearch = props => {
             marginHorizontal: widthToDp(5),
             marginTop: 15,
           }}>
-          <View
+          <TouchableOpacity
+            onPress={() => setStatus('On-Demand')}
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-              backgroundColor: '#84668C',
+              backgroundColor: status === 'On-Demand' ? '#84668C' : 'white',
               paddingVertical: heightToDp(5),
               borderWidth: 1,
               paddingHorizontal: widthToDp(7),
@@ -179,32 +199,38 @@ const ConsumerHomeSearch = props => {
               style={{
                 fontSize: 15,
                 fontFamily: fonts.robo_med,
-                color: '#FAE5FF',
+                color: status === 'On-Demand' ? '#FAE5FF' : '#0F2851',
               }}>
               On-Demand
             </Text>
-          </View>
+          </TouchableOpacity>
 
-          <View
+          <TouchableOpacity
+            onPress={() => setStatus('Booking')}
             style={{
               flexDirection: 'row',
               alignItems: 'center',
               paddingVertical: heightToDp(5),
               borderWidth: 1,
+              backgroundColor: status === 'Booking' ? '#84668C' : 'white',
+
               paddingHorizontal: widthToDp(7.4),
               borderColor: '#84668C',
               borderRadius: 25,
             }}>
-            <Image source={bookingSearch} style={{ height: 38, width: 29, marginRight: 10 }} />
+            <Image
+              source={status === 'Booking' ? bookingWhiteSearch : bookingSearch}
+              style={{ height: 38, width: 29, marginRight: 10 }}
+            />
             <Text
               style={{
-                color: '#0F2851',
+                color: status === 'Booking' ? '#FAE5FF' : '#0F2851',
                 fontSize: 15,
                 fontFamily: fonts.robo_med,
               }}>
               Booking
             </Text>
-          </View>
+          </TouchableOpacity>
         </View>
 
         <View style={{ marginLeft: widthToDp(5) }}>
@@ -218,9 +244,11 @@ const ConsumerHomeSearch = props => {
           renderItem={({item}) => <ArtistItem {...item} />}
           keyExtractor={(item, index) => index.toString()}
         /> */}
-        {isLoading ? (<CardSkeleton />) : artistData.length > 0 && artistData?.map(item => (
-          <ArtistItem item={item} />
-        ))}
+        {isLoading ? (
+          <CardSkeleton />
+        ) : (
+          artistData && artistData?.length > 0 && artistData?.map(item => <ArtistItem item={item} />)
+        )}
         <View style={styles.inviteContainer}>
           <View style={styles.InviteFriend}>
             <Text

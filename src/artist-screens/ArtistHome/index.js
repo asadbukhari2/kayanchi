@@ -102,7 +102,7 @@ const ArtistHome = () => {
         <View style={styles.welcome}>
           <View>
             <Text style={styles.welcomeTxt}>Welcome</Text>
-            <Text style={styles.welcomeTxt}>{name?.split(' ')[0]}</Text>
+            <Text style={styles.welcomeTxt}>{name ? name?.split(' ')[0] : ''}</Text>
           </View>
           <View>
             <View style={{ flexDirection: 'row' }}>
@@ -150,7 +150,7 @@ const ArtistHome = () => {
                   color: '#0F2851',
                   fontFamily: fonts.robo_light,
                 }}>
-                {latestData.next_order.consumer.name} is expecting you at {latestData.next_order.date}
+                {latestData.next_order.consumer?.name} is expecting you at {latestData.next_order.date}
               </Text>
             )}
           </View>
@@ -202,8 +202,8 @@ const ArtistHome = () => {
                 alignItems: 'center',
                 justifyContent: 'space-between',
               }}>
-              {[1, 2].map(_ => (
-                <View style={{ marginTop: 15 }} key={_}>
+              {[1, 2].map((_, i) => (
+                <View style={{ marginTop: 15 }} key={i}>
                   <View
                     style={{ width: 170, height: 200, backgroundColor: '#e0e0e0', marginBottom: 10, borderRadius: 10 }}
                   />

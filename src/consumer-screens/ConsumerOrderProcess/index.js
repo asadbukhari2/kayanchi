@@ -102,7 +102,12 @@ const ConsumerOrderProcess = props => {
     };
     console.log('confirm order', confirmData);
     dispatch(artistRating(confirmData, auth?.token));
-    navigation.navigate('ConsumerHome', { showFeedbackModal: true });
+    navigation.navigate(
+      navigation.navigate('ConsumerHomeStack', {
+        screen: 'ConsumerHome',
+      }),
+      { showFeedbackModal: true },
+    );
     // navigation.replace("ConsumerHomeStack", { showFeedbackModal: true })
     // try {
     //   // setLoading(true);
@@ -121,7 +126,16 @@ const ConsumerOrderProcess = props => {
     return (
       <ScrollView>
         <View style={{ flex: 1 }}>
-          <Header title={item.heading} skip backBtn onSkip={() => navigation.replace('ConsumerHome')} />
+          <Header
+            title={item.heading}
+            skip
+            backBtn
+            onSkip={() => {
+              navigation.navigate('ConsumerHomeStack', {
+                screen: 'ConsumerHome',
+              });
+            }}
+          />
           <Image style={styles.img} source={item.image} resizeMode="contain" />
 
           <Text style={styles.title}>{item.title}</Text>

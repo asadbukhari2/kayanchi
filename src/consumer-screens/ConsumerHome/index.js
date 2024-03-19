@@ -25,7 +25,7 @@ const hosting = require('../../assets/hosting_white.png');
 const moreImages = require('../../assets/moreImages.png');
 import LinearGradient from 'react-native-linear-gradient';
 
-import { getCartItems } from '../../redux/actions/commonActions';
+import { getCartItems, getConsumerOrder } from '../../redux/actions/commonActions';
 import moment from 'moment';
 const theme = useTheme();
 
@@ -57,6 +57,8 @@ const ConsumerHome = props => {
   const [modalVisible, setModalVisible] = useState(false);
   const [feedbackModalVisible2, setFeedbackModalVisible2] = useState(false);
   const [feedbackModalVisible3, setFeedbackModalVisible3] = useState(false);
+  const postOrderId = useSelector(state => state.common.postOrderId);
+
   let consumerBrowse = useSelector(state => state.common.consumerBrowse);
   let order = useSelector(state => state.common.order);
   let orderById = useSelector(state => state.common.orderById);
@@ -155,14 +157,21 @@ const ConsumerHome = props => {
   }, [props.route.params, token]);
 
   useEffect(() => {
-    console.log('------->', orderById);
-    setTimeout(() => {
-      if (orderById.order_status === 'Accepted' && orderById.order_status !== 'Completed') {
-        props.navigation.navigate('ConsumerHomeStack', {
-          screen: 'ConsumerOrderProcess',
-        });
-      }
-    }, 2000);
+    if (postOrderId) {
+      var id = setInterval(() => {
+        dispatch(getConsumerOrder(token, postOrderId));
+        if (orderById?.order_status === 'Accepted' && orderById?.order_status !== 'Completed') {
+          clearInterval(id);
+          props.navigation.navigate('ConsumerHomeStack', {
+            screen: 'ConsumerOrderProcess',
+          });
+        }
+      }, 5000);
+    }
+    
+    return () => {
+      clearInterval(id);
+    };
   }, [orderById]);
   const renderOfferingItem = ({ item }) => (
     <TouchableOpacity
@@ -224,7 +233,7 @@ const ConsumerHome = props => {
                   // color: item.is_hosting === false ? theme.background : theme.darkBlack,
                   color: 'white',
                 }}>
-                {item.is_hosting ? 'Hosting' : 'Traveling'}
+                {item?.is_hosting ? 'Hosting' : 'Traveling'}
               </Text>
               {item.is_hosting ? (
                 <Image

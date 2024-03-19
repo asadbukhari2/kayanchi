@@ -179,7 +179,7 @@ export default function VerticalStepIndicator({ data, orderDate, timeToReach, ti
       <View style={styles.stepIndicator}>
         <StepIndicator
           customStyles={stepIndicatorStyles}
-          stepCount={data.length}
+          stepCount={data?.length}
           direction="vertical"
           currentPosition={currentPage}
         />

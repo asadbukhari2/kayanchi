@@ -82,7 +82,6 @@ const ConsumerCashPayment = props => {
 
   const cart = useSelector(state => state.common.cart);
   const postOrderId = useSelector(state => state.common.postOrderId);
-  const orderById = useSelector(state => state.common.orderById);
   const token = useSelector(state => state.auth.token);
   const dispatch = useDispatch();
   const consumerOrder = useSelector(state => state.common.consumerOrder);
