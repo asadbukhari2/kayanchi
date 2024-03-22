@@ -6,7 +6,7 @@ import { heightToDp, width } from '../../../utils/Dimensions';
 const theme = useTheme();
 
 const ConsumerSavedAddressesComp = props => {
-  const { area, address, artistName, artistContact, lastOrder, onEdit } = props;
+  const { area, city, country, lastOrder, onEdit } = props;
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -16,10 +16,12 @@ const ConsumerSavedAddressesComp = props => {
         </TouchableOpacity>
       </View>
       <Text style={styles.heading}>{'Address details'}</Text>
-      <Text style={styles.value}>{address}</Text>
-      <Text style={[styles.value, { color: theme.linkTxt, marginVertical: heightToDp(4.5) }]}>
-        {'Last order ' + lastOrder}
-      </Text>
+      <Text style={styles.value}>{`${area} ${city},${country}`}</Text>
+      {lastOrder && (
+        <Text style={[styles.value, { color: theme.linkTxt, marginVertical: heightToDp(4.5) }]}>
+          {'Last order ' + lastOrder}
+        </Text>
+      )}
     </View>
   );
 };

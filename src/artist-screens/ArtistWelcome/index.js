@@ -32,6 +32,7 @@ const ArtistWelcome = () => {
           btnStyle={[styles.whiteBtn, { marginTop: heightToDp(6.8) }]}
           titleStyle={styles.blackText}
           onPress={() => {
+            console.log('artistsifnup');
             navigation.navigate('ArtistEmailSignUp');
           }}
           image={email}

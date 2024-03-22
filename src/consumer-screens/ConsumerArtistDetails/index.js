@@ -21,7 +21,7 @@ import HostAndTravel from './components/cards/HostAndTravel.js';
 import hosting from '../../assets/hosting_white.png';
 import travel from '../../assets/travel_white.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { getArtistBookingSlot, getServices } from '../../redux/actions/commonActions.js';
+import { getArtistBookingSlot, getServices, handleConsumerOrder } from '../../redux/actions/commonActions.js';
 const DATA = [
   {
     id: '1',
@@ -57,6 +57,8 @@ const ConsumerArtistDetails = props => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const cart = useSelector(state => state.common.cart);
+  const consumerOrder = useSelector(state => state.common.consumerOrder);
+
   const artistServices = useSelector(state => state.common.artistServices);
   const token = useSelector(state => state.auth.token);
   const [openModal, setOpenModal] = useState(false);
@@ -73,7 +75,7 @@ const ConsumerArtistDetails = props => {
     dispatch(getArtistBookingSlot(id, token));
   }, [id]);
   console.log('serviceData', serviceData);
-
+  console.log('This is the artist serveices', artistServices);
   useEffect(() => {
     handleCategoryFilter(artistServices);
   }, [navCategory]);
@@ -175,7 +177,23 @@ const ConsumerArtistDetails = props => {
         <TouchableOpacity style={[styles.marginTop30]}>
           {cart.cart_items.length > 0 ? (
             <Button
-              onPress={() => handleOpenModal()}
+              onPress={() => {
+                if (artistServices?.hosting_mood && artistServices?.travel_mood) {
+                  handleOpenModal();
+                } else if (artistServices?.hosting_mood) {
+                  let orderData = {
+                    ...consumerOrder,
+                    consumerMood: 'hosting',
+                  };
+                  dispatch(handleConsumerOrder(orderData));
+                } else {
+                  let orderData = {
+                    ...consumerOrder,
+                    consumerMood: 'traveling',
+                  };
+                  dispatch(handleConsumerOrder(orderData));
+                }
+              }}
               title={`View your cart Rs ${calculateCartTotal(cart.cart_items)}`}
             />
           ) : (

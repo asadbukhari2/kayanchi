@@ -80,11 +80,14 @@ const ConsumerCashPayment = props => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigation = useNavigation();
 
+  const artistServices = useSelector(state => state.common.artistServices);
+
   const cart = useSelector(state => state.common.cart);
   const postOrderId = useSelector(state => state.common.postOrderId);
   const token = useSelector(state => state.auth.token);
   const dispatch = useDispatch();
   const consumerOrder = useSelector(state => state.common.consumerOrder);
+  const artistBookingSlots = useSelector(state => state.common.artistBookingSlots);
   console.log('consumerdata', consumerOrder);
   const handlePrivate = () => {
     setIsPrivate(previousState => !previousState);
@@ -105,30 +108,33 @@ const ConsumerCashPayment = props => {
       return 0;
     }
   };
+  console.log('artistBookingSlots=', artistBookingSlots);
 
   const handleOrder = () => {
     console.log('consumer order', consumerOrder);
-    if (consumerOrder.consumerMood === 'traveling') {
-      const order = {
-        is_hosting: false,
-        date: moment(Date.now()).format('YYYY-MM-DD'),
-        booking_slot_id: consumerOrder?.artistTimeSLot?.id ? consumerOrder.artistTimeSLot.id : null,
-        booking_notes: name,
-      };
-      console.log('order', order);
-      dispatch(postOrder(order, token));
-      setIsModalVisible(true);
-      dispatch(getConsumerOrder(token, postOrderId));
+    if (!consumerOrder?.artistTimeSLot && artistServices?.availability === 'booking_only') {
+      showMessage({
+        message: 'Please Select the artist slots',
+        type: 'warning',
+      });
     } else {
       const order = {
-        is_hosting: true,
+        is_hosting: consumerOrder.consumerMood === 'traveling' ? false : true,
         date: moment(Date.now()).format('YYYY-MM-DD'),
-        booking_slot_id: consumerOrder?.artistTimeSLot?.id ? consumerOrder.artistTimeSLot?.id : null,
+        booking_slot_id: consumerOrder?.artistTimeSLot?.id,
         booking_notes: name,
+        hostingspot_id: consumerOrder?.hostingspot_id,
       };
-      setIsModalVisible(true);
-      dispatch(postOrder(order, token));
-
+      if (artistServices?.availability === 'on_demand') {
+        if (artistBookingSlots && artistBookingSlots.length > 0) {
+          order.booking_slot_id = artistBookingSlots[0].id;
+        } else {
+          order.booking_slot_id = null;
+        }
+      }
+      console.log('order--->', order);
+      dispatch(postOrder(order, token, setIsModalVisible));
+      // setIsModalVisible(true);
       dispatch(getConsumerOrder(token, postOrderId));
     }
   };
@@ -147,7 +153,7 @@ const ConsumerCashPayment = props => {
           {cart &&
             cart.cart_items.map(data => {
               return (
-                <View style={styles.alignRow}>
+                <View key={data.id} style={styles.alignRow}>
                   <Text style={styles.heading}>
                     {data.quantity}x <Text style={{ color: '#84668C' }}>{data.service_name}</Text>
                   </Text>

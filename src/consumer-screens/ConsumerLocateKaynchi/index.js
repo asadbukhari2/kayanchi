@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import MapView from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -13,9 +13,9 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import { TextInput } from '../../components';
 import googlemap from '../../assets/googlemap.png';
-import Geocoder from 'react-native-geocoding';
 import { saveAddress } from '../../redux/actions';
-
+import { showMessage } from 'react-native-flash-message';
+// import Geolocation from 'react-native-geolocation-service';
 const theme = useTheme();
 
 const STATUS_RADIO = [
@@ -43,16 +43,29 @@ const ConsumerLocateKaynchi = props => {
   const onOpen = () => {
     modalizeRef.current?.open();
   };
-  const handleGeocode = async data => {
-    try {
-      const response = await Geocoder.from(data);
-      const { lat, lng } = response.results[0].geometry.location;
-      console.log('data', data);
-      setUserLocation({ latitude: lat, longitude: lng });
-    } catch (error) {
-      console.error('Error during geocoding:', error);
-    }
-  };
+  // const handleGeocode = async data => {
+  //   try {
+  //     const response = await Geocoder.from(data);
+  //     const { lat, lng } = response.results[0].geometry.location;
+  //     console.log('data', data);
+  //     setUserLocation({ latitude: lat, longitude: lng });
+  //   } catch (error) {
+  //     console.error('Error during geocoding:', error);
+  //   }
+  // };
+  // const getCurrentLocation = () => {
+  //   Geolocation.getCurrentPosition(
+  //     position => {
+  //       const { latitude, longitude } = position.coords;
+  //       console.log('Current Location:', { latitude, longitude });
+  //       setUserLocation({ latitude, longitude });
+  //     },
+  //     error => {
+  //       console.log('Error getting current location: ', error);
+  //     },
+  //     { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+  //   );
+  // };
   const map_style = [
     {
       elementType: 'labels.icon',
@@ -65,14 +78,23 @@ const ConsumerLocateKaynchi = props => {
   ];
   const handleSaveConsumerAddress = () => {
     console.log(floor, name);
-    // handleGeocode(floor + name);
-    const data = {
-      text: name + ' ' + floor,
-      city: 'Lahore',
-      country: 'Pakistan',
-      // ...userLocation,
-    };
-    saveAddress(data);
+    try {
+      // getCurrentLocation();
+      const data = {
+        text: name + ' ' + floor,
+        city: 'Lahore',
+        country: 'Pakistan',
+        // ...userLocation,
+      };
+      console.log('data for address', data);
+      saveAddress(data);
+    } catch (error) {
+      console.log('error', error);
+      showMessage({
+        message: 'something went wrong',
+        type: 'warning',
+      });
+    }
   };
   return (
     <SafeAreaView style={{ flex: 1 }}>

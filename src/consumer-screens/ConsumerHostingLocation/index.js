@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 
@@ -8,8 +8,9 @@ import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { useTheme, fonts } from '../../utils/theme';
 import current_Location from '../../assets/current_Location.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { handleConsumerOrder } from '../../redux/actions';
+import { getHostingSpot, getSavedAddresses, handleConsumerOrder } from '../../redux/actions';
 import { useNavigation } from '@react-navigation/native';
+import { showMessage } from 'react-native-flash-message';
 const theme = useTheme();
 
 const daysOfWeek = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
@@ -18,22 +19,64 @@ const ConsumerHostingLocation = props => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const consumerOrder = useSelector(state => state.common.consumerOrder);
-  const [checked, setChecked] = useState('first');
+  const [checked, setChecked] = useState('');
   const [name, setName] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [addresses, setAddresses] = useState([]);
+  const [hostingSpot, setHostingSpot] = useState([]);
   const token = useSelector(state => state.auth.token);
+  useEffect(() => {
+    setLoading(true);
+    getSavedAddresses(token).then(res => {
+      if (res) {
+        setAddresses(res);
+      }
+      console.log('address res', res);
+      setLoading(false);
+    });
+    getHostingSpot(token).then(res => {
+      if (res) {
+        setHostingSpot(res);
+        console.log('hosting res', res);
+      }
+      setLoading(false);
+    });
+    setLoading(false);
+    return () => {
+      getHostingSpot();
+      getSavedAddresses();
+      setLoading(false);
+    };
+  }, []);
   const handleOrder = () => {
     console.log('consumerOrder.consumerMood', consumerOrder.consumerMood);
-    if (consumerOrder.consumerMood === 'hosting') {
+    // navigation.navigate('ConsumerOrderStack', { screen: 'ConsumerHostingSpot' });
+    if (consumerOrder.consumerMood === 'hosting' && checked.length > 0) {
       let orderData = {
         ...consumerOrder,
         note: name,
+        address_id: checked,
       };
-      dispatch(handleConsumerOrder(orderData));
-      // ConsumerPaymentMethods;
-      props.navigation.navigate('ConsumerOrderStack', {
-        screen: 'ConsumerOrderSummary',
+      if (hostingSpot.length > 0) {
+        orderData.hostingspot_id = hostingSpot[0].id;
+        console.log('orderData.hostingspot_id', orderData);
+        dispatch(handleConsumerOrder(orderData));
+        props.navigation.navigate('ConsumerOrderStack', {
+          screen: 'ConsumerOrderSummary',
+        });
+      } else {
+        showMessage({
+          message: 'Please add the hosting spots',
+          type: 'warning',
+        });
+      }
+    } else {
+      showMessage({
+        message: 'Please add the address',
+        type: 'danger',
       });
     }
+    console.log('checked value', checked);
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -61,17 +104,17 @@ const ConsumerHostingLocation = props => {
           </Text>
         </View>
         {/* <Calendar
-        // Initially visible month. Default = Date()
-        current={'2023-09-15'}
-        // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
-        minDate={'2023-09-01'}
-        // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
-        maxDate={'2023-09-30'}
-        // Handler which gets executed on day press. Default = undefined
-        onDayPress={(day) => {
-          console.log('selected day', day);
-        }}
-      /> */}
+      // Initially visible month. Default = Date()
+      current={'2023-09-15'}
+      // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
+      minDate={'2023-09-01'}
+      // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
+      maxDate={'2023-09-30'}
+      // Handler which gets executed on day press. Default = undefined
+      onDayPress={(day) => {
+        console.log('selected day', day);
+      }}
+    /> */}
 
         <Text
           style={{
@@ -109,28 +152,22 @@ const ConsumerHostingLocation = props => {
           </Text>
           <View style={styles.daysOfWeekContainer}>
             <RadioButton.Group onValueChange={newValue => setChecked(newValue)} value={checked}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <RadioButton value="first" />
-                <Text
-                  style={{
-                    color: '#67718C',
-                    fontSize: 16,
-                    fontFamily: fonts.robo_reg,
-                  }}>
-                  Arbab's house
-                </Text>
-              </View>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <RadioButton value="second" />
-                <Text
-                  style={{
-                    color: '#67718C',
-                    fontSize: 16,
-                    fontFamily: fonts.robo_reg,
-                  }}>
-                  Ami's place
-                </Text>
-              </View>
+              {addresses.length > 0 &&
+                addresses?.map(data => {
+                  return (
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <RadioButton value={data.address?.id} />
+                      <Text
+                        style={{
+                          color: '#67718C',
+                          fontSize: 16,
+                          fontFamily: fonts.robo_reg,
+                        }}>
+                        {data.address?.text}
+                      </Text>
+                    </View>
+                  );
+                })}
             </RadioButton.Group>
           </View>
         </View>
@@ -138,7 +175,7 @@ const ConsumerHostingLocation = props => {
           title={'Add a new address'}
           iconColor={theme.counterGrey}
           titleStyle={{ color: theme.counterGrey }}
-          onPress={() => props.navigation.navigate('ConsumerApplyPromoCode')}
+          onPress={() => props.navigation.navigate('ConsumerProfileStack', { screen: 'ConsumerLocateKaynchi' })}
         />
         <Text style={styles.heading}>
           Would you like to add a <Text style={{ color: '#84668C' }}>note?</Text>

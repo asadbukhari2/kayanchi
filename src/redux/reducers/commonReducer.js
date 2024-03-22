@@ -42,6 +42,7 @@ const initialState = {
     bookingNote: '',
     artistId: '',
     note: '',
+    address_id: '',
   },
   order: null,
   orderLoading: false,
@@ -89,6 +90,7 @@ import {
   ORDER_BY_ID,
   ORDER_BY_ID_LOADING,
   ORDER_BY_ID_ERROR,
+  RESET_ORDER_STATE,
 } from '../constants/constants';
 
 const reducer = (state = initialState, action) => {
@@ -320,6 +322,18 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         postOrderId: action.payload,
+      };
+    case RESET_ORDER_STATE:
+      return {
+        ...state,
+        consumerOrder: {
+          consumerMood: '',
+          artistTimeSLot: null,
+          bookingNote: '',
+          artistId: '',
+          note: '',
+          address_id: '',
+        },
       };
     default:
       return state;

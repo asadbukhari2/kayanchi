@@ -22,7 +22,9 @@ const DATA1 = [
 
 const ConsumerHostingSpot = props => {
   const [image, setImage] = useState(null);
-
+  const handleAddHostingImages = () => {
+    console.log(image);
+  };
   return (
     <SafeAreaView style={styles.container}>
       <Header backBtnGrey />
@@ -69,7 +71,7 @@ const ConsumerHostingSpot = props => {
           );
         }}
       />
-      <Button title={'Continue'} btnStyle={styles.btn} onPress={() => props.navigation.navigate('BookingDate')} />
+      <Button title={'Continue'} btnStyle={styles.btn} onPress={handleAddHostingImages} />
     </SafeAreaView>
   );
 };

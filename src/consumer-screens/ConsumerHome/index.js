@@ -25,7 +25,7 @@ const hosting = require('../../assets/hosting_white.png');
 const moreImages = require('../../assets/moreImages.png');
 import LinearGradient from 'react-native-linear-gradient';
 
-import { getCartItems, getConsumerOrder } from '../../redux/actions/commonActions';
+import { getCartItems, getCategory, getConsumerOrder } from '../../redux/actions/commonActions';
 import moment from 'moment';
 const theme = useTheme();
 
@@ -53,19 +53,20 @@ const DATA = [
 ];
 
 const ConsumerHome = props => {
+  const dispatch = useDispatch();
+
   const [searchKeyword, setSearchKeyword] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [feedbackModalVisible2, setFeedbackModalVisible2] = useState(false);
   const [feedbackModalVisible3, setFeedbackModalVisible3] = useState(false);
-  const postOrderId = useSelector(state => state.common.postOrderId);
+  const [category, setCategory] = useState('');
 
+  const postOrderId = useSelector(state => state.common.postOrderId);
   let consumerBrowse = useSelector(state => state.common.consumerBrowse);
   let order = useSelector(state => state.common.order);
   let orderById = useSelector(state => state.common.orderById);
   let token = useSelector(state => state.auth.token);
-  console.log('this is the order wating', order?.Waiting);
-  const dispatch = useDispatch();
-  const [category, setCategory] = useState('');
+  const categories = useSelector(state => state.common.categories);
 
   // const dispatch = useDispatch();
   // dispatch(removeAllFromCart())
@@ -147,6 +148,7 @@ const ConsumerHome = props => {
   };
   useEffect(() => {
     dispatch(getCartItems(token));
+    dispatch(getCategory());
 
     console.log('props.route.params', props.route.params);
     const shouldShowFeedbackModal = props.route.params?.showFeedbackModal;
@@ -157,22 +159,25 @@ const ConsumerHome = props => {
   }, [props.route.params, token]);
 
   useEffect(() => {
-    if (postOrderId) {
-      var id = setInterval(() => {
+    console.log(postOrderId, 'postOrderId', orderById?.order_status);
+    dispatch(getConsumerOrder(token, postOrderId));
+    let intervalId = '';
+    if (postOrderId && orderById?.order_status !== 'Completed') {
+      intervalId = setInterval(() => {
         dispatch(getConsumerOrder(token, postOrderId));
-        if (orderById?.order_status === 'Accepted' && orderById?.order_status !== 'Completed') {
-          clearInterval(id);
+        if (orderById?.order_status === 'Accepted' || orderById?.order_status === 'InProgess') {
+          clearInterval(intervalId);
           props.navigation.navigate('ConsumerHomeStack', {
             screen: 'ConsumerOrderProcess',
           });
         }
       }, 5000);
     }
-    
+
     return () => {
-      clearInterval(id);
+      clearInterval(intervalId);
     };
-  }, [orderById]);
+  }, [props.route]);
   const renderOfferingItem = ({ item }) => (
     <TouchableOpacity
       onPress={() =>
@@ -316,7 +321,7 @@ const ConsumerHome = props => {
         margin: 10,
         padding: 10,
         borderRadius: 20,
-        backgroundColor: category === item.name ? '#5EAC66' : '#EEEEEE',
+        backgroundColor: category === item.id ? '#5EAC66' : '#EEEEEE',
       }}
       onPress={() => {
         setCategory(item.name);
@@ -324,14 +329,26 @@ const ConsumerHome = props => {
           props.navigation.navigate('ConsumerHomeStack', {
             screen: 'ConsumerSearch',
             params: {
-              category: item.name,
+              category: item.id,
             },
           });
         }, 1000);
       }}>
-      <Image source={item.imageLink} style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 10 }} />
+      {item.name === 'Hair' ? (
+        <Image source={hair} style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 10 }} />
+      ) : item.name === 'Face' ? (
+        <Image source={face} style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 10 }} />
+      ) : item.name === 'Spa' ? (
+        <Image source={Massages} style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 10 }} />
+      ) : item.name === 'Treatment' ? (
+        <Image source={Botox} style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 10 }} />
+      ) : item.name === 'Body' ? (
+        <Image source={waxing} style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 10 }} />
+      ) : (
+        <></>
+      )}
       <TouchableOpacity>
-        <Text style={{ color: category === item.name ? 'white' : '#0F2851', fontFamily: fonts.robo_med }}>
+        <Text style={{ color: category === item.id ? 'white' : '#0F2851', fontFamily: fonts.robo_med }}>
           {item.name}
         </Text>
       </TouchableOpacity>
@@ -385,7 +402,7 @@ const ConsumerHome = props => {
           }
           onChange={txt => setSearchKeyword(txt)}
         />
-        <FlatList data={DATA} renderItem={renderItem} keyExtractor={item => item.name} horizontal />
+        <FlatList data={categories} renderItem={renderItem} keyExtractor={item => item.name} horizontal />
         <Text style={styles.buzzTxt}>Explore who's buzzing</Text>
         <View style={styles.explorContainer}>
           <View style={styles.discover}>

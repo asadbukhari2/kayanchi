@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AddNewBtn, Header } from '../../components';
@@ -6,6 +6,7 @@ import { heightToDp } from '../../utils/Dimensions';
 import { GLOBAL_STYLES } from '../../utils/styles';
 import { useTheme } from '../../utils/theme';
 import Address from './component';
+import { getSavedAddresses } from '../../redux/actions';
 
 const theme = useTheme();
 
@@ -27,6 +28,18 @@ const DATA = [
 ];
 
 const ConsumerSavedAddresses = props => {
+  const [addresses, setAddresses] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    getSavedAddresses().then(res => {
+      setAddresses(res);
+      console.log('address res', res);
+      setLoading(false);
+    });
+    setLoading(false);
+  }, [props.navigation]);
   return (
     <SafeAreaView style={GLOBAL_STYLES.containerHome}>
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: heightToDp(30) }}>
@@ -38,17 +51,17 @@ const ConsumerSavedAddresses = props => {
           titleStyle={{ color: theme.counterGrey }}
           onPress={() => props.navigation.navigate('ConsumerProfileStack', { screen: 'ConsumerLocateKaynchi' })}
         />
-        {DATA.map((item, index) => {
-          return (
-            <Address
-              area={item.area}
-              address={item.address}
-              artistName={item.artistName}
-              artistContact={item.artistContact}
-              lastOrder={item.lastOrder}
-            />
-          );
-        })}
+        {addresses.length > 0 &&
+          addresses?.map((item, index) => {
+            return (
+              <Address
+                area={item.address?.text}
+                city={item.address?.city}
+                country={item.address?.country}
+                lastOrder={item.address.lastOrder}
+              />
+            );
+          })}
       </ScrollView>
     </SafeAreaView>
   );

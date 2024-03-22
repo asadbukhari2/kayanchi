@@ -83,3 +83,5 @@ export const ORDER_Error = 'ORDER_Error';
 export const ORDER_BY_ID = 'ORDER_BY_ID';
 export const ORDER_BY_ID_LOADING = 'ORDER_BY_ID_LOADING';
 export const ORDER_BY_ID_ERROR = 'ORDER_BY_ID_ERROR';
+
+export const RESET_ORDER_STATE = 'RESET_ORDER_STATE';

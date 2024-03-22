@@ -35,6 +35,7 @@ import {
   ORDER_Error,
   ORDER_BY_ID_LOADING,
   ORDER_BY_ID,
+  RESET_ORDER_STATE,
 } from '../constants/constants';
 
 export const getCategory = () => async dispatch => {
@@ -1040,7 +1041,7 @@ export const getOrder = token => async dispatch => {
     });
   }
 };
-export const postOrder = (body, token) => async dispatch => {
+export const postOrder = (body, token, setIsModalVisible) => async dispatch => {
   console.log('order data', body, body.booking_notes);
   try {
     let res = await Fetch.post('/api/orders/', body, token);
@@ -1056,15 +1057,19 @@ export const postOrder = (body, token) => async dispatch => {
         type: 'POST_ORDER_ID',
         payload: res.order.id,
       });
-      // setIsModalVisible(true);
+      dispatch({
+        type: RESET_ORDER_STATE,
+      });
+      setIsModalVisible(true);
       return res;
     } else {
-      throw new Error('Something went wrong');
+      res = await res.json();
+      throw new Error(res);
     }
   } catch (error) {
     console.log('error while post the order', error);
     showMessage({
-      message: 'Something went wrong',
+      message: 'something went wrong',
       type: 'danger',
     });
   }
@@ -1096,7 +1101,27 @@ export const getConsumerOrder = (token, id) => async dispatch => {
     console.log('error in the get order by id', token, id);
   }
 };
-
+export const getHostingSpot = async token => {
+  try {
+    let res = await Fetch.get('/api/hostingSpot/myaddresses/', token);
+    if (res.status >= 200 && res.status < 300) {
+      res = await res.json();
+      return res;
+    } else {
+      const { message } = await res.json();
+      showMessage({
+        message: message,
+        type: 'danger',
+      });
+      throw new Error(message ?? 'Something went wrong');
+    }
+  } catch (error) {
+    showMessage({
+      message: 'Something went wrong',
+      type: 'error',
+    });
+  }
+};
 export const artistRating = (data, token) => async dispatch => {
   try {
     let res = await Fetch.post('/api/rating/artist/', data, token);
@@ -1148,7 +1173,8 @@ export const updateLatAndLonOrder = (id, body, token) => async dispatch => {
     });
   }
 };
-export const getOrderLonAndLat = (id, token) => async dispatch => {
+export const getOrderLonAndLat = async (id, token) => {
+  console.log('get lat long function', token);
   try {
     let res = await Fetch.get(`/api/orderTrack/distance/${id}`, token);
     if (res.status === 200) {

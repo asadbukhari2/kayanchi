@@ -7,10 +7,11 @@ import { fonts, useTheme } from '../../utils/theme';
 import ArtistItem from '../../components/ArtistItem';
 import HorizantalStepIndicator from '../../components/HorizantalStepIndicator';
 import Feather from 'react-native-vector-icons/Feather';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Fetch } from '../../utils/APIservice';
 import CardSkeleton from './components/CardSkeleton';
 import { showMessage } from 'react-native-flash-message';
+import { getCategory } from '../../redux/actions/commonActions';
 // import CardSkeleton from './components/Skelton';
 // import api from '../../utils/APIservice';
 
@@ -59,9 +60,12 @@ const DATA = [
 const data = ['Cart', 'Delivery Address', 'Order Summary', 'Payment Method', 'Track'];
 
 const ConsumerHomeSearch = props => {
+  const dispatch = useDispatch();
   const { searchKeyword: searchText, category } = props.route.params;
   const auth = useSelector(state => state.auth);
   console.log('token', auth);
+  const categories = useSelector(state => state.common.categories);
+  console.log('categories----->', categories);
   const currentLocation = useSelector(state => state.common.currentLocation);
   console.log('currentLocation', currentLocation);
   const [status, setStatus] = useState('On-Demand');
@@ -69,11 +73,13 @@ const ConsumerHomeSearch = props => {
   const [searchCategory, setSearchCategory] = useState(category);
   const [isLoading, setIsLoading] = useState(false);
   // const [clickedIndex, setClickedIndex] = useState(0);
+  const [services, setServices] = useState([]);
   const [artistData, setArtistData] = useState([]);
   useEffect(() => {
     setSearchKeyword(searchText);
     setSearchCategory(category);
     filterdData(auth.userDetails?.token, category.length > 0 ? category.length : 'Top');
+    dispatch(getCategory());
   }, [props.route]);
 
   useEffect(() => {
@@ -85,15 +91,16 @@ const ConsumerHomeSearch = props => {
       let res = await Fetch.get(
         `/api/search?keyword=${key ? key : ''}&coords={"longitude": ${currentLocation.longitude}, "latitude": ${
           currentLocation.latitude
-        }}&filter=${cat}&distance=5516`,
+        }}&filter=${cat}&distance=50000`,
         token,
       );
       let resData = await res.json();
       if (resData) {
+        console.log('resdata', resData);
+        setServices(resData);
         setArtistData(resData);
-      } else {
-        setArtistData([]);
       }
+
       setIsLoading(false);
       console.log('this is the resData', resData);
       if (resData.message) {
@@ -111,12 +118,28 @@ const ConsumerHomeSearch = props => {
     }
   };
 
-  // const getService = async () => {
+  const handleStatusFilter = servStatus => {
+    if (servStatus === 'on_demand') {
+      setStatus(prev => (prev === servStatus ? '' : servStatus));
+      let newArtistSericeData = services.filter(item => item.availability_status === servStatus);
+      if (newArtistSericeData) {
+        setArtistData(newArtistSericeData);
+      }
+    } else if (servStatus === 'booking_only') {
+      setStatus(prev => (prev === servStatus ? '' : servStatus));
+      let newArtistSericeData = services.filter(item => item.availability_status === servStatus);
+      if (newArtistSericeData) {
+        setArtistData(newArtistSericeData);
+      }
+    } else {
+      setArtistData(services);
+    }
+  };
+  // const getCategory = async () => {
   //   try {
-  //     const res = await api.get('/api/service');
-
-  //     console.log(res.data);
-  //     setService(res.data);
+  //     const res = await Fetch.get('/api/category', { token: auth.userDetails?.token });
+  //     console.log('res.data', res.data);
+  //     setNavCategory(res.data);
   //   } catch (error) {
   //     console.log(error);
   //   }
@@ -137,7 +160,7 @@ const ConsumerHomeSearch = props => {
   // }, []);
   const renderItem = ({ item, index }) => (
     <TouchableOpacity
-      onPress={() => setSearchCategory(item.name)}
+      onPress={() => setSearchCategory(item.id)}
       activeOpacity={0.7}
       style={{
         flexDirection: 'row',
@@ -148,12 +171,24 @@ const ConsumerHomeSearch = props => {
         paddingHorizontal: 10,
         paddingVertical: 5,
         borderRadius: 20,
-        backgroundColor: searchCategory === item.name ? '#5EAC66' : '#EEEEEE',
+        backgroundColor: searchCategory === item.id ? '#5EAC66' : '#EEEEEE',
       }}>
-      <Image source={item.imageLink} style={{ width: 12.5, height: 16, resizeMode: 'cover', marginRight: 5 }} />
+      {item.name === 'Hair' ? (
+        <Image source={hair} style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 10 }} />
+      ) : item.name === 'Face' ? (
+        <Image source={face} style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 10 }} />
+      ) : item.name === 'Spa' ? (
+        <Image source={Massages} style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 10 }} />
+      ) : item.name === 'Treatment' ? (
+        <Image source={Botox} style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 10 }} />
+      ) : item.name === 'Body' ? (
+        <Image source={waxing} style={{ width: 20, height: 20, resizeMode: 'contain', marginRight: 10 }} />
+      ) : (
+        <></>
+      )}
       <Text
         style={{
-          color: searchCategory === item.name ? 'white' : '#0F2851',
+          color: searchCategory === item.id ? 'white' : '#0F2851',
           fontFamily: fonts.robo_med,
         }}>
         {item.name}
@@ -183,11 +218,11 @@ const ConsumerHomeSearch = props => {
             marginTop: 15,
           }}>
           <TouchableOpacity
-            onPress={() => setStatus('On-Demand')}
+            onPress={() => handleStatusFilter('on_demand')}
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-              backgroundColor: status === 'On-Demand' ? '#84668C' : 'white',
+              backgroundColor: status === 'on_demand' ? '#84668C' : 'white',
               paddingVertical: heightToDp(5),
               borderWidth: 1,
               paddingHorizontal: widthToDp(7),
@@ -199,32 +234,32 @@ const ConsumerHomeSearch = props => {
               style={{
                 fontSize: 15,
                 fontFamily: fonts.robo_med,
-                color: status === 'On-Demand' ? '#FAE5FF' : '#0F2851',
+                color: status === 'on_demand' ? '#FAE5FF' : '#0F2851',
               }}>
               On-Demand
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => setStatus('Booking')}
+            onPress={() => handleStatusFilter('booking_only')}
             style={{
               flexDirection: 'row',
               alignItems: 'center',
               paddingVertical: heightToDp(5),
               borderWidth: 1,
-              backgroundColor: status === 'Booking' ? '#84668C' : 'white',
+              backgroundColor: status === 'booking_only' ? '#84668C' : 'white',
 
               paddingHorizontal: widthToDp(7.4),
               borderColor: '#84668C',
               borderRadius: 25,
             }}>
             <Image
-              source={status === 'Booking' ? bookingWhiteSearch : bookingSearch}
+              source={status === 'booking_only' ? bookingWhiteSearch : bookingSearch}
               style={{ height: 38, width: 29, marginRight: 10 }}
             />
             <Text
               style={{
-                color: status === 'Booking' ? '#FAE5FF' : '#0F2851',
+                color: status === 'booking_only' ? '#FAE5FF' : '#0F2851',
                 fontSize: 15,
                 fontFamily: fonts.robo_med,
               }}>
@@ -234,7 +269,7 @@ const ConsumerHomeSearch = props => {
         </View>
 
         <View style={{ marginLeft: widthToDp(5) }}>
-          <FlatList data={DATA} renderItem={renderItem} keyExtractor={item => item.name} horizontal />
+          <FlatList data={categories} renderItem={renderItem} keyExtractor={item => item.name} horizontal />
         </View>
 
         {/* <HorizantalStepIndicator data={data} /> */}
@@ -244,11 +279,7 @@ const ConsumerHomeSearch = props => {
           renderItem={({item}) => <ArtistItem {...item} />}
           keyExtractor={(item, index) => index.toString()}
         /> */}
-        {isLoading ? (
-          <CardSkeleton />
-        ) : (
-          artistData && artistData?.length > 0 && artistData?.map(item => <ArtistItem item={item} />)
-        )}
+        {isLoading ? <CardSkeleton /> : artistData?.length > 0 && artistData?.map(item => <ArtistItem item={item} />)}
         <View style={styles.inviteContainer}>
           <View style={styles.InviteFriend}>
             <Text

@@ -4,9 +4,10 @@ import { Button, Header } from '../../components';
 import { fonts, useTheme } from '../../utils/theme';
 import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import Feather from 'react-native-vector-icons/Feather';
+import makeStyle from './artistPromoMainPage.styles.js';
 import LinearGradient from 'react-native-linear-gradient'; // Import the LinearGradient component
 import { useSelector } from 'react-redux';
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList, GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const AddMore = require('../../assets/addMore.png');
 const theme = useTheme();
@@ -29,6 +30,7 @@ export default function ArtistPromoMainPage(props) {
   // const [preferenceStatus, setPreferenceStatus] = useState('');
   // const [name, setName] = useState('');
   const [selectedItemIds, setSelectedItemIds] = useState([]);
+  const styles = makeStyle(theme);
 
   const { gigs } = useSelector(state => state.gig);
 
@@ -67,43 +69,44 @@ export default function ArtistPromoMainPage(props) {
           </Text>
         </View>
         <Text style={styles.description}>Choose the active gigs that you want to continue with this promo deal</Text>
-
-        <FlatList
-          data={activeSimpleGigs}
-          style={{ marginTop: heightToDp(1.5), marginLeft: widthToDp(1.5) }}
-          horizontal
-          keyExtractor={({ item, index }) => index}
-          renderItem={({ item, index }) => {
-            const itemId = item.id;
-            const isSelected = selectedItemIds.includes(itemId);
-            return (
-              <TouchableOpacity onPress={() => handleItemPress(itemId)}>
-                <LinearGradient
-                  colors={isSelected ? ['#668C6A', '#3E5F41'] : ['black', 'black']}
-                  style={[styles.Discount, { opacity: isSelected ? 1 : 0.5 }]}>
-                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    {item.is_discount ? (
-                      <Text style={styles.percentTag}>{item.discount_percentage}% off</Text>
-                    ) : (
-                      <>
-                        <Text> </Text>
-                        {/* <TouchableOpacity onPress={() => console.log(item)}>
+        <GestureHandlerRootView>
+          <FlatList
+            data={activeSimpleGigs}
+            style={{ marginTop: heightToDp(1.5), marginLeft: widthToDp(1.5) }}
+            horizontal
+            keyExtractor={({ item, index }) => index}
+            renderItem={({ item, index }) => {
+              const itemId = item.id;
+              const isSelected = selectedItemIds.includes(itemId);
+              return (
+                <TouchableOpacity onPress={() => handleItemPress(itemId)}>
+                  <LinearGradient
+                    colors={isSelected ? ['#668C6A', '#3E5F41'] : ['black', 'black']}
+                    style={[styles.Discount, { opacity: isSelected ? 1 : 0.5 }]}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                      {item.is_discount ? (
+                        <Text style={styles.percentTag}>{item.discount_percentage}% off</Text>
+                      ) : (
+                        <>
+                          <Text> </Text>
+                          {/* <TouchableOpacity onPress={() => console.log(item)}>
                       <Text style={styles.percentTag}>Add Discount</Text>
                     </TouchableOpacity> */}
-                      </>
-                    )}
-                    <TouchableOpacity onPress={() => console.log(item)}>
-                      <Feather style={{ color: '#193356', fontSize: 18, marginLeft: 0 }} name="edit-2" />
-                    </TouchableOpacity>
-                  </View>
-                  <View>
-                    <Text style={styles.subHeading}>{item.name.replace(/["']/g, '')}</Text>
-                  </View>
-                </LinearGradient>
-              </TouchableOpacity>
-            );
-          }}
-        />
+                        </>
+                      )}
+                      <TouchableOpacity onPress={() => console.log(item)}>
+                        <Feather style={{ color: '#193356', fontSize: 18, marginLeft: 0 }} name="edit-2" />
+                      </TouchableOpacity>
+                    </View>
+                    <View>
+                      <Text style={styles.subHeading}>{item.name.replace(/["']/g, '')}</Text>
+                    </View>
+                  </LinearGradient>
+                </TouchableOpacity>
+              );
+            }}
+          />
+        </GestureHandlerRootView>
 
         <View style={styles.gigContainer}>
           <Text style={[styles.heading, { paddingTop: 15 }]}>Additional Services</Text>

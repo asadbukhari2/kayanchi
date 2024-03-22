@@ -6,11 +6,12 @@ import { heightToDp, widthToDp } from '../../utils/Dimensions';
 import { fonts, useTheme } from '../../utils/theme';
 import MultiButton from '../../components/MultiButton';
 import VerticalStepIndicator from '../../components/VerticalStepIndicator';
+import Geolocation from '@react-native-community/geolocation';
 
-import { getOrderTimeline, startGrooming } from '../../redux/actions';
+import { getOrderLonAndLat, getOrderTimeline, startGrooming, updateLatAndLonOrder } from '../../redux/actions';
 import SimpleOrderCard from '../../components/SimpleOrderCard';
 import RatingModal from '../../components/RatingModal';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Map from '../../components/MapView';
 import makeStyle from './artistTimeline.styles';
 
@@ -21,8 +22,13 @@ const theme = useTheme();
 const ArtistTimeline = props => {
   const [loading, setLoading] = useState(true);
   const [timeline, setTimeline] = useState(null);
+  const [userLocation, setUserLocation] = useState(null);
+  const dispatch = useDispatch();
   const [selectedRating, setSelectedRating] = useState(null);
-const styles = makeStyle(theme)
+  const [consumerLatLon, setConsumerLatLon] = useState(null);
+  const auth = useSelector(state => state.auth);
+  console.log('token', auth);
+  const styles = makeStyle(theme);
   const order = props.route.params;
   const { timlineType } = props.route.params;
 
@@ -43,11 +49,47 @@ const styles = makeStyle(theme)
       })
       .catch(err => console.log(err));
   };
-
+  const getUserLonAndLat = () => {
+    Geolocation.getCurrentPosition(
+      position => {
+        // console.log(position);
+        const { latitude, longitude } = position.coords;
+        console.log('lon and lat ', longitude, latitude);
+        setUserLocation({ latitude, longitude });
+      },
+      error => console.log('Error getting location:', error),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+    );
+  };
   useEffect(() => {
     fetchTimeline(order.order.id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    let intervalId = '';
+    if (!order.order.is_hosting) {
+      intervalId = setInterval(() => {
+        getOrderLonAndLat(order.id, auth.token)
+          .then(res => {
+            console.log('res-->', res);
+            if (res) {
+              setConsumerLatLon(res);
+            }
+          })
+          .catch(err => {
+            console.log(err, 'error');
+          });
+      }, 5000);
+    } else {
+      intervalId = setInterval(() => {
+        getUserLonAndLat();
+        console.log('userlcation', userLocation);
+        dispatch(updateLatAndLonOrder(order.order.id, userLocation, auth.token));
+      }, 5000);
+      // props.navigation.navigate('ArtistOrders');
+    }
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [props.navigation]);
   const handleHelp = () => {
     props.navigation.navigate('ArtistProfileStack', { screen: 'ArtistHelp' });
   };
@@ -127,5 +169,3 @@ const styles = makeStyle(theme)
 };
 
 export default ArtistTimeline;
-
-

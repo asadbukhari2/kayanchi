@@ -17,14 +17,12 @@ import { showMessage } from 'react-native-flash-message';
 import Map from '../../components/MapView';
 import makeStyle from './artistConfirmOrderRequest.style';
 import { useDispatch, useSelector } from 'react-redux';
-import Geolocation from '@react-native-community/geolocation';
 
 const theme = useTheme();
 
 export default function ArtistConfirmOrderRequest(props) {
   const [isPrivate, setIsPrivate] = useState(false);
   const auth = useSelector(state => state.auth);
-  const [userLocation, setUserLocation] = useState(null);
   const dispatch = useDispatch();
   const [selectedTime, setSelectedTime] = useState(null);
   const styles = makeStyle(theme);
@@ -56,18 +54,7 @@ export default function ArtistConfirmOrderRequest(props) {
       color: '#67718C',
     };
   };
-  const getUserLonAndLat = () => {
-    Geolocation.getCurrentPosition(
-      position => {
-        // console.log(position);
-        const { latitude, longitude } = position.coords;
-        console.log('lon and lat ', longitude, latitude);
-        setUserLocation({ latitude, longitude });
-      },
-      error => console.log('Error getting location:', error),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-    );
-  };
+
 
   const handleAcceptOrder = () => {
     const data = { free_travel: isPrivate, timeToReach: selectedTime };
@@ -80,11 +67,7 @@ export default function ArtistConfirmOrderRequest(props) {
           console.log('res', res);
           showMessage({ message: 'Order Accepted', type: 'success' });
           console.log('order.order.id', order.order.id);
-          // setInterval(() => {
-          getUserLonAndLat();
-          //   dispatch(updateLatAndLonOrder(order.order.id, userLocation, auth.token));
-          // }, 2000);
-          // props.navigation.navigate('ArtistOrders');
+          
           props.navigation.navigate('ArtistOrderStack', {
             screen: 'ArtistTimeline',
             params: { ...order, timlineType: 'active' },

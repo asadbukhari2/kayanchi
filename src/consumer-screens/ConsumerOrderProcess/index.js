@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { fonts, useTheme } from '../../utils/theme';
@@ -7,7 +7,9 @@ import { Button, Header, TextInput } from '../../components';
 import { height, heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { useDispatch, useSelector } from 'react-redux';
 import { showMessage } from 'react-native-flash-message';
-import { artistRating, saveUserData } from '../../redux/actions';
+import { artistRating, getOrderLonAndLat, updateLatAndLonOrder } from '../../redux/actions';
+import Geolocation from '@react-native-community/geolocation';
+
 import OrderConfirmCard from '../../components/OrderConfirmCard';
 import MultiButton from '../../components/MultiButton';
 import clockcolor from '../../assets/clockcolor.png';
@@ -67,17 +69,32 @@ const ConsumerOrderProcess = props => {
   const [selectedRating, setSelectedRating] = useState(null);
   const [selectedRating2, setSelectedRating2] = useState(null);
   const [selectedRating3, setSelectedRating3] = useState(null);
+  const [artistLatLon, setArtistLatLon] = useState(null);
   const [name, setName] = useState('');
+  const [userLocation, setUserLocation] = useState(null);
+
   const orderById = useSelector(state => state.common.orderById);
   const auth = useSelector(state => state.auth);
-  console.log('auth data', auth);
+  console.log('auth data', auth.token);
+  console.log('artistLatLon', artistLatLon);
   const handleRating = rating => {
     setSelectedRating(rating);
   };
   // const {data} = route.params;
   const dispatch = useDispatch();
   const myFlatList = useRef(null);
+  useEffect(() => {
+    let intervalId = '';
+    try {
+      intervalId = getArtistLocation();
+    } catch (error) {
+      console.log('error', error);
+    }
 
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
   const addData = async () => {
     console.log(
       'selectedRating, selectedRating2, selectedRating3, name',
@@ -121,7 +138,52 @@ const ConsumerOrderProcess = props => {
     //   console.log(error);
     // }
   };
-
+  const getUserLonAndLat = () => {
+    Geolocation.getCurrentPosition(
+      position => {
+        // console.log(position);
+        const { latitude, longitude } = position.coords;
+        console.log('lon and lat ', longitude, latitude);
+        setUserLocation({ latitude, longitude });
+      },
+      error => console.log('Error getting location:', error),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+    );
+  };
+  const getArtistLocation = () => {
+    let intervalId = '';
+    console.log('order id', orderById.id, orderById.is_hosting, auth.token);
+    if (orderById && orderById?.is_hosting && auth.token) {
+      intervalId = setInterval(async () => {
+        const res = await getOrderLonAndLat(orderById?.id, auth.token);
+        console.log('res lat long', res);
+        if (res) {
+          setArtistLatLon(res);
+        }
+      }, 5000);
+    } else {
+      intervalId = setInterval(() => {
+        getUserLonAndLat();
+        console.log('userlocation', userLocation);
+        dispatch(updateLatAndLonOrder(orderById?.id, userLocation, auth?.token));
+      }, 5000);
+    }
+    return intervalId;
+  };
+  const calculateTimeFromDistance = distance => {
+    if (distance) {
+      const time = distance / 30;
+      let inMinute = Math.round(time) * 60;
+      console.log('inminute', inMinute, time);
+      if (inMinute > 60) {
+        return `${Math.round(time / 24)} hours`;
+      } else {
+        return `${time * 60} min`;
+      }
+    } else {
+      return null;
+    }
+  };
   const _renderItem = ({ item, index }) => {
     return (
       <ScrollView>
@@ -154,7 +216,9 @@ const ConsumerOrderProcess = props => {
                     }}
                   />
                   <Text style={styles.indicatorTxt}>
-                    {orderById?.order_items && orderById?.order_items[0]?.service_time}min
+                    {artistLatLon && calculateTimeFromDistance(artistLatLon?.distance_in_kms)
+                      ? calculateTimeFromDistance(artistLatLon?.distance_in_kms)
+                      : ''}
                   </Text>
                 </View>
               </View>
