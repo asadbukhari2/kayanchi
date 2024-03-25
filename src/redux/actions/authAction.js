@@ -21,7 +21,7 @@ import API, { Fetch } from '../../utils/APIservice';
 import { getBookingSlots, getConsumerBrowse, getMyOrders, getOrder, getUserDiscoveries } from './commonActions';
 
 export const EMAIL_LOGIN =
-  ({ email, password }) =>
+  ({ email, password, lat, long }) =>
   async dispatch => {
     dispatch({
       type: SIGN_IN,
@@ -53,7 +53,6 @@ export const EMAIL_LOGIN =
           });
         } else {
           // const location = useSelector(state => state.common.currentLocation);
-          dispatch(getUserDiscoveries(res.token));
           dispatch(getConsumerBrowse(res.token));
           dispatch(getOrder(res.token));
           dispatch({

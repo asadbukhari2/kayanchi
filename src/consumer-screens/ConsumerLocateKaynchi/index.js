@@ -15,7 +15,7 @@ import { TextInput } from '../../components';
 import googlemap from '../../assets/googlemap.png';
 import { saveAddress } from '../../redux/actions';
 import { showMessage } from 'react-native-flash-message';
-// import Geolocation from 'react-native-geolocation-service';
+import Geolocation from '@react-native-community/geolocation';
 const theme = useTheme();
 
 const STATUS_RADIO = [
@@ -53,19 +53,19 @@ const ConsumerLocateKaynchi = props => {
   //     console.error('Error during geocoding:', error);
   //   }
   // };
-  // const getCurrentLocation = () => {
-  //   Geolocation.getCurrentPosition(
-  //     position => {
-  //       const { latitude, longitude } = position.coords;
-  //       console.log('Current Location:', { latitude, longitude });
-  //       setUserLocation({ latitude, longitude });
-  //     },
-  //     error => {
-  //       console.log('Error getting current location: ', error);
-  //     },
-  //     { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-  //   );
-  // };
+  const getCurrentLocation = () => {
+    Geolocation.getCurrentPosition(
+      position => {
+        const { latitude, longitude } = position.coords;
+        console.log('Current Location:', { latitude, longitude });
+        setUserLocation({ latitude, longitude });
+      },
+      error => {
+        console.log('Error getting current location: ', error);
+      },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+    );
+  };
   const map_style = [
     {
       elementType: 'labels.icon',
@@ -79,15 +79,16 @@ const ConsumerLocateKaynchi = props => {
   const handleSaveConsumerAddress = () => {
     console.log(floor, name);
     try {
-      // getCurrentLocation();
+      getCurrentLocation();
       const data = {
         text: name + ' ' + floor,
-        city: 'Lahore',
+        // city: 'Lahore',
         country: 'Pakistan',
-        // ...userLocation,
+        ...userLocation,
       };
       console.log('data for address', data);
       saveAddress(data);
+      props.navigation.goBack();
     } catch (error) {
       console.log('error', error);
       showMessage({

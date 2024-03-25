@@ -1,17 +1,27 @@
 import React from 'react';
-import { View, Image, StyleSheet, Text } from 'react-native';
+import { View, Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import starYellow from '../../assets/star_yellow.png';
 import hosting from '../../assets/hosting.png';
 import travel from '../../assets/travelling.png';
 import { fonts } from '../../utils/theme';
 const popular_image = require('../../assets/popular_image.png');
+import { useNavigation } from '@react-navigation/native';
 
 const ArtistItem = ({ item }) => {
+  const navigation = useNavigation();
   console.log('this is an item', item);
+  const handleOnPress = id => {
+    navigation.navigate('ConsumerHomeStack', {
+      screen: 'ConsumerArtistDetails',
+      params: {
+        id,
+      },
+    });
+  };
   if (item) {
     return (
-      <View style={styles.containerContent}>
+      <TouchableOpacity onPress={() => handleOnPress(item.id)} style={styles.containerContent}>
         <View>
           <Image source={popular_image} style={styles.images} />
         </View>
@@ -74,7 +84,7 @@ const ArtistItem = ({ item }) => {
                 fontFamily: fonts.robo_reg,
                 marginTop: 8,
               }}>
-              {item?.radius_distance}
+              {item?.radius_distance ? `${Math.round(item?.radius_distance / 1000)}km` : ''}
             </Text>
             <View style={[styles.flex, styles.flexRow, styles.itemsCenter, styles.gap5]}>
               {item.travel_mood && (
@@ -84,7 +94,7 @@ const ArtistItem = ({ item }) => {
             </View>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   } else {
     return <></>;

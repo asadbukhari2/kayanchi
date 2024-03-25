@@ -7,6 +7,7 @@ import { GLOBAL_STYLES } from '../../utils/styles';
 import { useTheme } from '../../utils/theme';
 import Address from './component';
 import { getSavedAddresses } from '../../redux/actions';
+import { useFocusEffect } from '@react-navigation/native';
 
 const theme = useTheme();
 
@@ -31,7 +32,7 @@ const ConsumerSavedAddresses = props => {
   const [addresses, setAddresses] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  useFocusEffect(() => {
     setLoading(true);
     getSavedAddresses().then(res => {
       setAddresses(res);
@@ -39,7 +40,8 @@ const ConsumerSavedAddresses = props => {
       setLoading(false);
     });
     setLoading(false);
-  }, [props.navigation]);
+  }, []);
+
   return (
     <SafeAreaView style={GLOBAL_STYLES.containerHome}>
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: heightToDp(30) }}>

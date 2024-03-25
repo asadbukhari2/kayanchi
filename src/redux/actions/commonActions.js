@@ -630,12 +630,13 @@ export const getOrderTimeline = async (id, token) => {
   }
 };
 export const getUserDiscoveries = (token, latitude, longitude) => async dispatch => {
+  console.log('lat and lon discovreis', latitude, longitude);
   dispatch({
     type: GET_DISCOVERIES,
   });
   try {
     let res = await Fetch.get(
-      `/api/artistview/discover/1/?coords={"longitude": 24.924341, "latitude": 67.254276}`,
+      `/api/artistview/discover/1/?coords={"longitude": ${longitude}, "latitude": ${latitude}}`,
       token,
     );
     if (res.status >= 200 && res.status < 300) {

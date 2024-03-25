@@ -91,7 +91,7 @@ const ConsumerHomeSearch = props => {
       let res = await Fetch.get(
         `/api/search?keyword=${key ? key : ''}&coords={"longitude": ${currentLocation.longitude}, "latitude": ${
           currentLocation.latitude
-        }}&filter=${cat}&distance=50000`,
+        }}&filter=${cat}&distance=5000000`,
         token,
       );
       let resData = await res.json();
@@ -199,7 +199,7 @@ const ConsumerHomeSearch = props => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 90 }}>
-        <Header backBtn title="Serach" />
+        <Header backBtn title="Search" />
         <SearchBox
           value={searchKeyword}
           onChange={txt => {

@@ -25,7 +25,7 @@ const hosting = require('../../assets/hosting_white.png');
 const moreImages = require('../../assets/moreImages.png');
 import LinearGradient from 'react-native-linear-gradient';
 
-import { getCartItems, getCategory, getConsumerOrder } from '../../redux/actions/commonActions';
+import { getCartItems, getCategory, getConsumerOrder, getUserDiscoveries } from '../../redux/actions/commonActions';
 import moment from 'moment';
 const theme = useTheme();
 
@@ -67,6 +67,7 @@ const ConsumerHome = props => {
   let orderById = useSelector(state => state.common.orderById);
   let token = useSelector(state => state.auth.token);
   const categories = useSelector(state => state.common.categories);
+  const currentLocation = useSelector(state => state.common.currentLocation);
 
   // const dispatch = useDispatch();
   // dispatch(removeAllFromCart())
@@ -148,6 +149,8 @@ const ConsumerHome = props => {
   };
   useEffect(() => {
     dispatch(getCartItems(token));
+    dispatch(getUserDiscoveries(token, currentLocation.latitude, currentLocation.longitude));
+
     dispatch(getCategory());
 
     console.log('props.route.params', props.route.params);

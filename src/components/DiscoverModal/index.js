@@ -6,7 +6,6 @@ import { heightToDp, width, widthToDp } from '../../utils/Dimensions';
 import { fonts } from '../../utils/theme';
 const LocationAway = require('../../assets/LocationAway.png');
 const beauty_color = require('../../assets/beauty_color.png');
-import { useNavigation } from '@react-navigation/native';
 const Hair = require('../../assets/hair.png');
 const Face = require('../../assets/face.png');
 const Body = require('../../assets/body.png');

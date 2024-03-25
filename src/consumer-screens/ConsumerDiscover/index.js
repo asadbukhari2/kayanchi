@@ -19,6 +19,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import { useSelector } from 'react-redux';
 import MultiButton from '../../components/MultiButton';
 import DiscoverModal from '../../components/DiscoverModal';
+import CardSkeleton from '../ConsumerHomeSearch/components/CardSkeleton';
 // import api from '../../utils/APIservice';
 
 const waxing = require('../../assets/body.png');
@@ -39,7 +40,9 @@ const ConsumerDisocver = props => {
   const [clickedIndex, setClickedIndex] = useState(0);
   const [filter, setFilter] = useState('artist');
   const [dynamicData, setDynamicData] = useState([]);
+
   const artistDiscovires = useSelector(state => state.common.artistDiscovires);
+  const discoviresLoading = useSelector(state => state.common.discoviresLoading);
   const studiosDiscovires = useSelector(state => state.common.studiosDiscovires);
   console.log('dynamicData[clickedIndex]', dynamicData[clickedIndex]);
   const openModal = (index, artistType) => {
@@ -141,7 +144,7 @@ const ConsumerDisocver = props => {
           }
           data={dynamicData[clickedIndex]?.known_for}
         />
-
+        {discoviresLoading && <CardSkeleton />}
         {dynamicData.map((item, index) => (
           <TouchableOpacity
             key={index}
