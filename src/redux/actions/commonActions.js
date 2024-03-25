@@ -220,11 +220,12 @@ export const getSavedAddresses = async token => {
   }
 };
 
-export const saveAddress = async (data, token) => {
+export const saveAddress = async (data, token, goBack) => {
   try {
     let res = await Fetch.post('/api/address/', data, token);
     if (res.status >= 200 && res.status < 300) {
       res = await res.json();
+      goBack();
       return res;
     } else {
       const { message } = await res.json();

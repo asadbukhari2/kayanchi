@@ -32,7 +32,7 @@ const ConsumerSavedAddresses = props => {
   const [addresses, setAddresses] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  useFocusEffect(() => {
+  useEffect(() => {
     setLoading(true);
     getSavedAddresses().then(res => {
       setAddresses(res);
@@ -40,7 +40,7 @@ const ConsumerSavedAddresses = props => {
       setLoading(false);
     });
     setLoading(false);
-  }, []);
+  }, [props.route]);
 
   return (
     <SafeAreaView style={GLOBAL_STYLES.containerHome}>

@@ -16,6 +16,7 @@ import googlemap from '../../assets/googlemap.png';
 import { saveAddress } from '../../redux/actions';
 import { showMessage } from 'react-native-flash-message';
 import Geolocation from '@react-native-community/geolocation';
+import { useSelector } from 'react-redux';
 const theme = useTheme();
 
 const STATUS_RADIO = [
@@ -35,11 +36,13 @@ const ConsumerLocateKaynchi = props => {
   const [floor, setFloor] = useState('');
   const [userLocation, setUserLocation] = useState(null);
   const [address, setAddress] = useState('');
-
+  const token = useSelector(state => state.auth.token);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [preferenceStatus, setPreferenceStatus] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-
+  useEffect(() => {
+    getCurrentLocation();
+  }, []);
   const onOpen = () => {
     modalizeRef.current?.open();
   };
@@ -53,8 +56,8 @@ const ConsumerLocateKaynchi = props => {
   //     console.error('Error during geocoding:', error);
   //   }
   // };
-  const getCurrentLocation = () => {
-    Geolocation.getCurrentPosition(
+  const getCurrentLocation = async () => {
+    await Geolocation.getCurrentPosition(
       position => {
         const { latitude, longitude } = position.coords;
         console.log('Current Location:', { latitude, longitude });
@@ -76,10 +79,12 @@ const ConsumerLocateKaynchi = props => {
       ],
     },
   ];
+  const goBack = () => {
+    props.navigation.goBack();
+  };
   const handleSaveConsumerAddress = () => {
     console.log(floor, name);
     try {
-      getCurrentLocation();
       const data = {
         text: name + ' ' + floor,
         // city: 'Lahore',
@@ -87,8 +92,7 @@ const ConsumerLocateKaynchi = props => {
         ...userLocation,
       };
       console.log('data for address', data);
-      saveAddress(data);
-      props.navigation.goBack();
+      saveAddress(data, token, goBack);
     } catch (error) {
       console.log('error', error);
       showMessage({
