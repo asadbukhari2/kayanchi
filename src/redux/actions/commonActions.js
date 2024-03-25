@@ -1158,6 +1158,7 @@ export const artistRating = (data, token) => async dispatch => {
 };
 
 export const updateLatAndLonOrder = (id, body, token) => async dispatch => {
+  console.log('update la and lon body', body);
   try {
     let res = await Fetch.put(`/api/orderTrack/${id}`, body, token);
     console.log('updateLatAndLonOrder', res.status);
@@ -1169,10 +1170,11 @@ export const updateLatAndLonOrder = (id, body, token) => async dispatch => {
       throw new Error(message);
     }
   } catch (error) {
-    showMessage({
-      message: 'Something went wrong',
-      type: 'danger',
-    });
+    console.log('error in update lat and long', error);
+    // showMessage({
+    //   message: 'Something went wrong error in update lat and long',
+    //   type: 'danger',
+    // });
   }
 };
 export const getOrderLonAndLat = async (id, token) => {

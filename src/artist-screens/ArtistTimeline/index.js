@@ -35,9 +35,18 @@ const ArtistTimeline = props => {
   const { name } = useSelector(state => state.auth.user);
 
   const GroomingHandler = async () => {
-    const isDone = await startGrooming(order.order.id, '31.5497', '74.3436', '31.5497', '74.3436');
-    if (isDone) {
-      props.navigation.navigate('ArtistOrderStack', { screen: 'ArtistGrooming', params: order });
+    console.log('isDone in artist', consumerLatLon);
+    if (consumerLatLon) {
+      const isDone = await startGrooming(
+        order.order.id,
+        consumerLatLon?.artist_coordinates.latitude,
+        consumerLatLon?.artist_coordinates.longitude,
+        consumerLatLon?.consumer_coordinates.latitude,
+        consumerLatLon?.consumer_coordinates.longitude,
+      );
+      if (isDone) {
+        props.navigation.navigate('ArtistOrderStack', { screen: 'ArtistGrooming', params: order });
+      }
     }
   };
 
@@ -67,7 +76,7 @@ const ArtistTimeline = props => {
     let intervalId = '';
     if (!order.order.is_hosting) {
       intervalId = setInterval(() => {
-        getOrderLonAndLat(order.id, auth.token)
+        getOrderLonAndLat(order.order.id, auth.token)
           .then(res => {
             console.log('res-->', res);
             if (res) {

@@ -43,18 +43,20 @@ const ServiceDetiailCard = ({
     selectActiveBookingSLot(artistBookingSlots, DAYS[today]);
   }, []);
   const selectActiveBookingSLot = (slots, day) => {
-    const keys = Object.keys(slots);
-    if (keys.length > 0) {
-      for (let i = 0; i < keys.length; i++) {
-        const element = keys[i];
-        if (slots[element].length > 0) {
-          // if (element === day) {
-          return slots[element][0];
-          // }
+    if (slots) {
+      const keys = Object.keys(slots);
+      if (keys.length > 0) {
+        for (let i = 0; i < keys.length; i++) {
+          const element = keys[i];
+          if (slots[element].length > 0) {
+            // if (element === day) {
+            return slots[element][0];
+            // }
+          }
         }
       }
+      return [];
     }
-    return [];
   };
   const handleAddToCart = () => {
     const cartData = {

@@ -180,7 +180,7 @@ const ConsumerHome = props => {
     return () => {
       clearInterval(intervalId);
     };
-  }, [props.route]);
+  }, [props.navigation]);
   const renderOfferingItem = ({ item }) => (
     <TouchableOpacity
       onPress={() =>

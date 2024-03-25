@@ -18,7 +18,7 @@ export default function ArtistGrooming(props) {
   const [price, setPrice] = useState(0);
 
   const order = props.route.params;
-  const styles = makeStyle(theme)
+  const styles = makeStyle(theme);
   const GroomingDoneHandler = async () => {
     const res = await doneGrooming(order.order.id);
     if (res) {
@@ -103,7 +103,7 @@ export default function ArtistGrooming(props) {
             title="Grooming Done"
             onPress={GroomingDoneHandler}
             disable={
-              price != order?.order?.total_service_charges ||
+              price !== order?.order?.total_service_charges ||
               isCurrentTimeGreaterThanStartTime(order.order.booking_slot.start_time)
             }
           />
@@ -112,5 +112,3 @@ export default function ArtistGrooming(props) {
     </SafeAreaView>
   );
 }
-
-

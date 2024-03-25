@@ -145,6 +145,7 @@ const ConsumerOrderProcess = props => {
         const { latitude, longitude } = position.coords;
         console.log('lon and lat ', longitude, latitude);
         setUserLocation({ latitude, longitude });
+        dispatch(updateLatAndLonOrder(orderById?.id, { latitude, longitude }, auth?.token));
       },
       error => console.log('Error getting location:', error),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
@@ -162,10 +163,15 @@ const ConsumerOrderProcess = props => {
         }
       }, 5000);
     } else {
-      intervalId = setInterval(() => {
+      intervalId = setInterval(async () => {
         getUserLonAndLat();
         console.log('userlocation', userLocation);
-        dispatch(updateLatAndLonOrder(orderById?.id, userLocation, auth?.token));
+        const res = await getOrderLonAndLat(orderById?.id, auth.token);
+        console.log('res lat long', res);
+        if (res) {
+          setArtistLatLon(res);
+        }
+        // dispatch(updateLatAndLonOrder(orderById?.id, userLocation, auth?.token));
       }, 5000);
     }
     return intervalId;
@@ -201,7 +207,7 @@ const ConsumerOrderProcess = props => {
           <Image style={styles.img} source={item.image} resizeMode="contain" />
 
           <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.txt}>{item.text}</Text>
+          <Text style={styles.txt}>{orderById.is_hosting ? 'Your artist will reach in' : item.text}</Text>
           {item.key === 1 && (
             <>
               <View style={styles.indicatorView}>
@@ -282,7 +288,9 @@ const ConsumerOrderProcess = props => {
                     }}
                   />
                   <Text style={styles.indicatorTxt}>
-                    {orderById?.order_items && orderById?.order_items[0]?.service_time}min
+                    {artistLatLon && calculateTimeFromDistance(artistLatLon?.distance_in_kms)
+                      ? calculateTimeFromDistance(artistLatLon?.distance_in_kms)
+                      : ''}
                   </Text>
                 </View>
               </View>
