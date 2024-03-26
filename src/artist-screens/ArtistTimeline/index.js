@@ -39,11 +39,12 @@ const ArtistTimeline = props => {
     if (consumerLatLon) {
       const isDone = await startGrooming(
         order.order.id,
-        consumerLatLon?.artist_coordinates.latitude,
-        consumerLatLon?.artist_coordinates.longitude,
-        consumerLatLon?.consumer_coordinates.latitude,
-        consumerLatLon?.consumer_coordinates.longitude,
+        consumerLatLon?.track?.artist_coordinates.latitude,
+        consumerLatLon?.track?.artist_coordinates.longitude,
+        consumerLatLon?.track?.consumer_coordinates.latitude,
+        consumerLatLon?.track?.consumer_coordinates.longitude,
       );
+      console.log('iisDone->', isDone);
       if (isDone) {
         props.navigation.navigate('ArtistOrderStack', { screen: 'ArtistGrooming', params: order });
       }

@@ -25,8 +25,8 @@ const ArtistOrders = () => {
   const [completedOrders, setCompletedOrders] = useState([]);
   const [displayedOrders, setDisplayedOrders] = useState([]);
   const dispatch = useDispatch();
-
-  const { waiting, accepted, completed, cancelled } = useSelector(state => state.common);
+  const { waiting, accepted, completed, cancelled, inprogress } = useSelector(state => state.common);
+  console.log('inrpogress--->', inprogress);
   useEffect(() => {
     const focusHandler = navigation.addListener('focus', () => {
       dispatch(getMyOrders());
@@ -38,7 +38,7 @@ const ArtistOrders = () => {
 
   useEffect(() => {
     let isMounted = true;
-
+    console.log('accepted--->', accepted);
     setActiveOrders(accepted);
     setCompletedOrders(completed);
     setCancelledOrders(cancelled);
@@ -58,6 +58,8 @@ const ArtistOrders = () => {
         setDisplayedOrders(activeOrders);
       } else if (activeTab === 'cancelled') {
         setDisplayedOrders(cancelledOrders);
+      } else if (activeTab === 'inprogress') {
+        setDisplayedOrders(inprogress);
       }
     }
 
@@ -116,12 +118,15 @@ const ArtistOrders = () => {
           <Text style={styles.heading}>My Orders </Text>
         </View>
 
-        <View style={styles.btnContainer2}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.btnContainer2}>
           <TouchableOpacity onPress={() => handleTabChange('new')}>
             <Text style={[styles.tabText, activeTab === 'new' && styles.activeTab]}>New</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => handleTabChange('active')}>
             <Text style={[styles.tabText, activeTab === 'active' && styles.activeTab]}>Active</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleTabChange('inprogress')}>
+            <Text style={[styles.tabText, activeTab === 'inprogress' && styles.activeTab]}>In Progress</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => handleTabChange('completed')}>
             <Text style={[styles.tabText, activeTab === 'completed' && styles.activeTab]}>Completed</Text>
@@ -129,7 +134,7 @@ const ArtistOrders = () => {
           <TouchableOpacity onPress={() => handleTabChange('cancelled')}>
             <Text style={[styles.tabText, activeTab === 'cancelled' && styles.activeTab]}>Cancelled</Text>
           </TouchableOpacity>
-        </View>
+        </ScrollView>
 
         <View style={styles.btnContainer}>
           <TouchableOpacity

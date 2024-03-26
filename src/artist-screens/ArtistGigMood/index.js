@@ -38,9 +38,9 @@ const modeData = [
   },
 ];
 const ArtistGigMood = () => {
-  const [image, setImage] = useState();
+  const [image, setImage] = useState(null);
   const [isFree, setIsFree] = useState(false);
-  const [gigMood, setGigMood] = useState([]);
+  const [gigMood, setGigMood] = useState('');
   const [travelFee, setTravelFee] = useState(0);
   const navigation = useNavigation();
   const route = useRoute();
@@ -87,6 +87,7 @@ const ArtistGigMood = () => {
 
     return formData;
   }
+  console.log('this is the image', image);
 
   const gotoArtist = async () => {
     console.log(gigMood, image);
@@ -106,6 +107,7 @@ const ArtistGigMood = () => {
         promo_services: [],
         target_audience: route.params.target_audience.splice(0, 1),
       };
+      console.log('this is the data', data);
 
       const formData = objectToFormData(data);
 
@@ -117,6 +119,8 @@ const ArtistGigMood = () => {
           auth.isAllowedToMain ? 'ArtistHome' : 'ArtistVerification',
         ),
       );
+      // setGigMood('');
+      // setImage();
     } else {
       showMessage({
         type: 'warning',
@@ -157,11 +161,10 @@ const ArtistGigMood = () => {
               return (
                 <TouchableOpacity
                   onPress={() => {
-                    if (gigMood.includes(mood.id)) {
-                      setGigMood(gigMood.filter(mo => mo !== mood.id));
-                    } else {
-                      setGigMood([mood.id]);
-                    }
+                    // if (gigMood.includes(mood.id)) {
+                    setGigMood(mood.id);
+                    // } else {
+                    // }
                   }}
                   key={mood.id}>
                   <LinearGradient
@@ -178,7 +181,7 @@ const ArtistGigMood = () => {
             })}
           </View>
         </View>
-        {gigMood.includes('travel') && (
+        {gigMood.includes('travel') ? (
           <View>
             <View style={styles.serviceDuration}>
               <Text style={styles.title2}>{'Default Travelling cost'}</Text>
@@ -223,44 +226,46 @@ const ArtistGigMood = () => {
               />
             </View>
           </View>
-        )}
-
-        <View style={styles.gigVersion}>
-          <Text style={styles.title}>Upload pictures of your hosting spot</Text>
-        </View>
-        <Text style={styles.warning}>Kaynchi needs to verify your hosting spot before processing your order.</Text>
-
-        <TouchableOpacity
-          onPress={() => {
-            ImageCropPicker.openPicker({
-              cropping: true,
-            }).then(img => {
-              setImage(img);
-            });
-          }}
-          activeOpacity={0.9}
-          style={styles.parentUpload}>
-          {image ? (
-            <Image
-              source={{ uri: image.path }}
-              style={{
-                width: widthToDp(90),
-                height: 160,
-                borderRadius: 10,
-                resizeMode: 'cover',
-              }}
-            />
-          ) : (
-            <View>
-              <View style={styles.upload}>
-                <Image source={galleryBig} />
-                <Text style={styles.uploadText}>Upload</Text>
-              </View>
+        ) : (
+          <View>
+            <View style={styles.gigVersion}>
+              <Text style={styles.title}>Upload pictures of your hosting spot</Text>
             </View>
-          )}
-        </TouchableOpacity>
+            <Text style={styles.warning}>Kaynchi needs to verify your hosting spot before processing your order.</Text>
 
-        <Text style={styles.warning2}>Terms and conditions.</Text>
+            <TouchableOpacity
+              onPress={() => {
+                ImageCropPicker.openPicker({
+                  cropping: true,
+                }).then(img => {
+                  setImage(img);
+                });
+              }}
+              activeOpacity={0.9}
+              style={styles.parentUpload}>
+              {image ? (
+                <Image
+                  source={{ uri: image.path }}
+                  style={{
+                    width: widthToDp(90),
+                    height: 160,
+                    borderRadius: 10,
+                    resizeMode: 'cover',
+                  }}
+                />
+              ) : (
+                <View>
+                  <View style={styles.upload}>
+                    <Image source={galleryBig} />
+                    <Text style={styles.uploadText}>Upload</Text>
+                  </View>
+                </View>
+              )}
+            </TouchableOpacity>
+
+            <Text style={styles.warning2}>Terms and conditions.</Text>
+          </View>
+        )}
 
         <Button
           title={!loading ? 'Publish Gig' : 'Loading...'}

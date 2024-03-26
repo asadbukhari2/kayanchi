@@ -10,7 +10,6 @@ const car_brown = require('../assets/car_brown.png');
 const location = require('../assets/Path.png');
 
 const SimpleOrderCard = ({ order, onPress = () => {}, type, section }) => {
-  console.log('order?.order?.order_items', order?.order?.order_items);
   return (
     <View style={styles.orderContainer}>
       <TouchableOpacity onPress={onPress}>

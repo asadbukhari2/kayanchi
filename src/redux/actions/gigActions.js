@@ -14,9 +14,11 @@ export const publishSimpleGig = (body, token, navigation, screen) => async dispa
     type: PUBLISH_GIG,
     payload: true,
   });
+  console.log('data', body);
 
   try {
     let res = await Fetch.postFormData('/api/service/user', body, token);
+    res = await res.json();
 
     console.log('data challa gaya hai', res);
     if (res.status >= 200 && res.status < 300) {
@@ -34,15 +36,12 @@ export const publishSimpleGig = (body, token, navigation, screen) => async dispa
         screen === 'ArtistHome' && dispatch(getGigsOfUser());
       }, 50);
     } else {
-      const { message } = await res.json();
+      // const { message } = await res.json();
       dispatch({
         type: PUBLISH_GIG_ERROR,
-        payload: res,
+        payload: 'Error while creating the gig',
       });
-      showMessage({
-        message: message,
-        type: 'danger',
-      });
+      throw new Error('Error while creating the gig');
     }
     dispatch({
       type: PUBLISH_GIG,
@@ -51,6 +50,7 @@ export const publishSimpleGig = (body, token, navigation, screen) => async dispa
   } catch (error) {
     dispatch({
       type: PUBLISH_GIG_ERROR,
+      payload: 'Error while creating the gig',
     });
     dispatch({
       type: PUBLISH_GIG,

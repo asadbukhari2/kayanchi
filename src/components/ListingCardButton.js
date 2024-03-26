@@ -12,7 +12,7 @@ const theme = useTheme();
 
 const ListingCardButton = ({ order, onPress, type, navigation }) => {
   const dispatch = useDispatch();
-  console.log('this is the order detail', order);
+
   const activeOrderHandler = () => {
     navigation.navigate('ArtistOrderStack', {
       screen: 'ArtistConfirmOrderRequest',
@@ -96,6 +96,29 @@ const ListingCardButton = ({ order, onPress, type, navigation }) => {
       </View>
     );
   } else if (order.order.order_status !== 'Cancelled' && order.order.order_status === 'Accepted') {
+    section = (
+      <TouchableOpacity
+        onPress={viewTimelineHandler}
+        style={{
+          borderRadius: 30,
+          bottom: -10,
+          paddingVertical: widthToDp(3),
+          paddingHorizontal: widthToDp(10),
+          backgroundColor: '#84668C',
+        }}>
+        <Text
+          style={{
+            color: '#fff',
+            fontSize: 14,
+            textTransform: 'uppercase',
+            fontFamily: fonts.robo_bold,
+            alignSelf: 'center',
+          }}>
+          View Timeline
+        </Text>
+      </TouchableOpacity>
+    );
+  } else if (order.order.order_status !== 'Cancelled' && order.order.order_status === 'InProgess') {
     section = (
       <TouchableOpacity
         onPress={viewTimelineHandler}

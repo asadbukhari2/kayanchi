@@ -175,7 +175,7 @@ const reducer = (state = initialState, action) => {
         orders: action.payload,
         waiting: action.payload.Waiting,
         accepted: action.payload.Accepted,
-        inprogress: action.payload.InProgress,
+        inprogress: action.payload.InProgess,
         completed: action.payload.Completed,
         // cancelled: action.payload.Cancelled,
         cancelled: action.payload.Rejected,

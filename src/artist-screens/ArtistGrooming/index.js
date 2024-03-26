@@ -34,7 +34,7 @@ export default function ArtistGrooming(props) {
       <ScrollView>
         <View style={{ marginLeft: 0 }}>
           <Header
-            backBtn
+            // backBtn
             title="help?"
             titleStyle={{
               position: 'absolute',
